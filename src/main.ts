@@ -4,7 +4,7 @@ import router from "./router";
 import store from "./store";
 import "./components/plugins/element";
 Vue.config.productionTip = false;
-
+import qs from "qs"
 new Vue({
   router,
   store,
