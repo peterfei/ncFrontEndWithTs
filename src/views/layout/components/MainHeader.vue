@@ -16,6 +16,26 @@
                     <router-link tag="a" :to="{ path: `/${item.link}` }">
                         {{ item.name }}
                     </router-link>
+                    <div
+                        class="nav-child-item"
+                        v-if="item.children && item.children.length"
+                    >
+                        <el-collapse-transition>
+                            <div v-show="activeNav === item.link">
+                                <div
+                                    class="transition-box"
+                                    v-for="c_item in item.children"
+                                    :key="c_item.index"
+                                >
+                                    <router-link
+                                        tag="a"
+                                        :to="{ path: c_item.link }"
+                                        >{{ c_item.name }}</router-link
+                                    >
+                                </div>
+                            </div>
+                        </el-collapse-transition>
+                    </div>
                 </div>
             </el-row>
         </el-row>
@@ -46,6 +66,7 @@ export default {
                     index: '3',
                     name: '职业路径',
                     link: 'skill',
+                    children: [],
                 },
                 {
                     index: '4',
