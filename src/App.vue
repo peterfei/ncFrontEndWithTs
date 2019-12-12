@@ -1,47 +1,42 @@
 <template>
   <div id="app">
-    <app-header></app-header>
-    <transition name="router-fade">
-      <router-view></router-view>
-    </transition>
-    <back-to-top></back-to-top>
-    <app-footer></app-footer>
+        <app-header></app-header>
+        <app-footer></app-footer>
+    
+    <router-view/>
   </div>
 </template>
 <script>
-// @ is an alias to /src
-import AppHeader from "@/components/header";
-import AppFooter from "@/components/footer";
-import BackToTop from '@/components/backToTop'
+import AppHeader from "@/components/header/index.vue";
+import AppFooter from "@/components/footer/index.vue";
 
 export default {
   name: "app",
   components: {
     AppHeader,
-    AppFooter,
-    BackToTop
-
+    AppFooter
   }
 };
 </script>
 <style lang="scss">
 #app {
-  padding: 0;
-  margin: 0;
-  overflow: visible;
-  position:relative;
-    min-height:100%;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
 
-/* 页面过渡动画 */
-.router-fade-enter-active, .router-fade-leave-active
-{
-   transition: opacity 0.3s;
+#nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
-  
-.router-fade-enter, .router-fade-leave-active
-{
-  opacity: 0
-}
-  
 </style>

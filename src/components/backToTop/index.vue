@@ -1,4 +1,4 @@
-<template >
+<template>
   <div class="df-backToTop" v-show="b2TVisible" @click="back">
     <i class="fa fa-arrow-up"></i>
   </div>
@@ -6,42 +6,42 @@
 
 <script>
 export default {
-  name: 'backToTop',
+  name: "backToTop",
   data() {
     return {
       b2TVisible: false,
       // 滚动步长
       step: 50
-    }
+    };
   },
   created() {
-    window.addEventListener('scroll', () => {
+    window.addEventListener("scroll", () => {
       if (document.body.scrollTop > window.innerHeight + 100) {
-        this.b2TVisible = true
+        this.b2TVisible = true;
       } else {
-        this.b2TVisible = false
+        this.b2TVisible = false;
       }
-    })
+    });
   },
   methods: {
     back() {
       setTimeout(() => {
         // 当前顶部距离
-        let currentTop = document.body.scrollTop
+        let currentTop = document.body.scrollTop;
         // 滚动距离
-        let dist = Math.floor(-currentTop / this.step)
+        let dist = Math.floor(-currentTop / this.step);
         // 滚动目的地
-        let nextTop = currentTop + dist
+        let nextTop = currentTop + dist;
         if (nextTop > 0) {
-          window.scrollTo(0, nextTop)
-          this.back()
+          window.scrollTo(0, nextTop);
+          this.back();
         } else {
-          document.body.scrollTop = 0
+          document.body.scrollTop = 0;
         }
-      }, 0)
+      }, 0);
     }
   }
-}
+};
 </script>
 
 <style>
@@ -115,5 +115,4 @@ export default {
     transform: rotateZ(180deg);
   }
 }
-
 </style>
