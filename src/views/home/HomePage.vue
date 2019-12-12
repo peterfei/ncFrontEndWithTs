@@ -6,8 +6,7 @@
                     <banner-nav></banner-nav>
                 </div>
                 <div class="banner-carousel">
-                    <!-- <banner-carousel></!-->
-                    -->
+                    <banner-carousel></banner-carousel>
                 </div>
             </div>
         </div>
@@ -21,7 +20,7 @@
             </row-title>
             <!-- 好课推荐  列表 -->
             <!-- v-loading.lock="courseHide" -->
-            <!-- <carousel-more
+            <carousel-more
                 :carouselLists="courseList"
                 :show-num="5"
                 height="170px"
@@ -43,7 +42,7 @@
                         :category="item.row.category.name"
                     ></courser-poster-item>
                 </template>
-            </carousel-more> -->
+            </carousel-more>
             <row-title
                 row-icon="icon-mima2"
                 row-title="职业路径"
@@ -53,7 +52,7 @@
             </row-title>
             <!-- 职业路径  列表 -->
             <div v-if="creersRecomment.length > 0">
-                <!-- <carousel-more
+                <carousel-more
                     :carouselLists="creersRecomment"
                     :show-num="5"
                     height="130px"
@@ -62,7 +61,7 @@
                         :item="item.row"
                         slot-scope="item"
                     ></career-path-item>
-                </carousel-more> -->
+                </carousel-more>
             </div>
             <div v-else class="no-data">
                 暂无数据
@@ -84,7 +83,7 @@
             >
             </row-title>
             <!-- 热门活动  列表 -->
-            <!-- <div v-if="homeAdActive.length > 0">
+            <div v-if="homeAdActive.length > 0">
                 <carousel-more
                     :carouselLists="homeAdActive"
                     :show-num="2"
@@ -98,10 +97,10 @@
                         ></ad-item>
                     </template>
                 </carousel-more>
-            </div> 
+            </div>
             <div v-else class="no-data">
                 暂无数据
-            </div>-->
+            </div>
         </div>
         <div class="sch-inner">
             <div class="content">
@@ -114,7 +113,7 @@
                     打造将高端设计平民化，打造最新、最全、最便捷的一站式学习平台。
                 </div>
                 <div v-if="schInner.length > 0">
-                    <!-- <carousel-more
+                    <carousel-more
                         :carouselLists="schInner"
                         :show-num="1"
                         height="230px"
@@ -127,7 +126,7 @@
                             >
                             </sch-inner>
                         </template>
-                    </carousel-more> -->
+                    </carousel-more>
                 </div>
                 <div v-else class="no-data">
                     暂无数据
@@ -137,8 +136,8 @@
     </div>
 </template>
 <script>
-// import QuillEditor from '@/components/share/QuillEditor/QuillEditor.vue';
-import { mapState, mapActions } from 'vuex'
+// import QuillEditor from '@/components/share/QuillEditor/QuillEditor.vue'
+// import { mapState, mapActions } from 'vuex'
 // import BannerCarousel from './components/BannerCarousel.vue'
 import BannerNav from './components/BannerNav.vue'
 // import CareerPathItem from './components/CareerPathItem.vue'

@@ -4,12 +4,20 @@
             <el-header height="70px">
                 <main-header></main-header>
             </el-header>
+            <el-container class="h-auto-full cus-bg-color">
+                <transition name="fade" mode="out-in">
+                    <router-view></router-view>
+                </transition>
+            </el-container>
+            <el-footer height="120px">
+                <main-footer></main-footer>
+            </el-footer>
         </el-container>
     </div>
 </template>
 <script>
 import MainHeader from './components/MainHeader.vue'
-// import MainFooter from './components/MainFooter.vue'
+import MainFooter from './components/MainFooter.vue'
 
 export default {
     name: 'LayoutPage',
@@ -19,7 +27,7 @@ export default {
     },
     components: {
         MainHeader,
-        // MainFooter,
+        MainFooter,
     },
 }
 </script>

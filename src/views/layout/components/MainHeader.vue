@@ -37,8 +37,67 @@
                         </el-collapse-transition>
                     </div>
                 </div>
+                <!-- FIXME search 样式有待修复 -->
+                <!-- <div class="search">
+                    <el-input></el-input>
+                    <i class="icon iconfont icon-sousuo "></i>
+                </div> -->
             </el-row>
+            <div class="btns">
+                <span class="app-btn">
+                    <i class="icon iconfont icon-saomiaoerweima"></i>
+                    <el-button type="text">
+                        <router-link tag="a" :to="{ path: '/login' }"
+                            >APP</router-link
+                        >
+                    </el-button>
+                </span>
+                <el-button type="text" class="login-register" @click="loginBox">
+                    登录
+                </el-button>
+                <el-button type="text" class="login-register">
+                    <router-link tag="a" :to="{ path: '/register' }"
+                        >注册</router-link
+                    >
+                </el-button>
+            </div>
         </el-row>
+        <el-dialog
+            class="dialog-box"
+            :visible.sync="dialogVisible"
+            width="404px"
+            :show-close="false"
+        >
+            <div class="dialog-header">
+                <span>
+                    账号登录
+                </span>
+            </div>
+            <div class="dialog-content">
+                <el-input placeholder="手机号/邮箱"></el-input>
+                <el-input placeholder="密码"></el-input>
+                <el-button class="login-btn">登录</el-button>
+                <div class="remind-msg">
+                    <span>没有账号？立即注册</span>
+                    <span>忘记密码</span>
+                </div>
+                <div class="text-remmind">第三方账号登录</div>
+                <div class="icons">
+                    <span class="iconbg1"
+                        ><i class="icon iconfont icon-taobao"></i
+                    ></span>
+                    <span class="iconbg2"
+                        ><i class="icon iconfont icon-weixin1"></i
+                    ></span>
+                    <span class="iconbg3"
+                        ><i class="icon iconfont icon-weibo1"></i
+                    ></span>
+                    <span class="iconbg4"
+                        ><i class="icon iconfont icon-qq"></i
+                    ></span>
+                </div>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -133,7 +192,7 @@ export default {
     box-shadow: 0px 5px 10px 0px rgba(230, 230, 230, 1);
     .nav {
         display: flex;
-        // justify-content: space-between;
+        justify-content: space-between;
     }
 }
 .logo {
@@ -158,12 +217,7 @@ export default {
         height: 100%;
         line-height: 70px;
     }
-    // &:hover {
-    //   background-color: sandybrown;
-    //   & > a {
-    //     color: #ffffff;
-    //   }
-    // }
+
     & > div {
         width: 100%;
         // height: auto;
