@@ -1,0 +1,223 @@
+@import './theme.scss';
+//初始化样式 start
+body,
+div,
+a,
+ol,
+ul,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+th,
+td,
+dl,
+dd,
+form,
+fieldset,
+legend,
+input,
+textarea,
+select {
+  box-sizing: border-box;
+}
+
+:focus {
+  outline: none;
+}
+
+a {
+  color: #555;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: none
+}
+
+em {
+  font-style: normal
+}
+
+li {
+  list-style: none
+}
+
+img,
+fieldset {
+  border: 0;
+  vertical-align: middle
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+p {
+  word-wrap: break-word;
+}
+
+html {
+  font-size: $font-size;
+}
+
+body {
+  font: "宋体", "Arial Narrow", HELVETICA, 'Avenir', sans-serif; // width: 1920px;
+  min-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.w-1200 {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.w100 {
+  width: 100%;
+}
+
+/****************宽高的样式 开始 ***********************/
+
+/****************高的样式 开始 ***********************/
+
+.h-auto-full {
+  min-height: calc(100vh - 190px);
+}
+
+/****************高的样式 end ***********************/
+
+/******************* 特殊样式 集合  开始*************************/
+
+//溢出变点
+.word-spot {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.word-spot-2 {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  /** 对象作为伸缩盒子模型显示 **/
+  -webkit-box-orient: vertical;
+  /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+  -webkit-line-clamp: 2;
+  /** 显示的行数 **/
+  overflow: hidden;
+  /** 隐藏超出的内容 **/
+  -webkit-transition: 0.3s;
+}
+.word-spot-4{
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  /** 对象作为伸缩盒子模型显示 **/
+  -webkit-box-orient: vertical;
+  /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+  -webkit-line-clamp: 4;
+  /** 显示的行数 **/
+  overflow: hidden;
+}
+
+/******************* 特殊样式 集合  结束*************************/
+
+.content {
+  width: 1200px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.border {
+  border: 1px solid #ccc;
+}
+
+//导航样式
+.active-link {
+  border-bottom: 2px solid sandybrown; // color: #ffffff;
+}
+
+//导航样式
+// 课程页面的阴影效果
+.course-box-shadow {
+  box-shadow: 0px 0px 11px 5px #E6E6E6;
+}
+
+
+
+.fcolor-4c{
+  color: #4C5258
+}
+.fcolor-8b{
+  color: #8B9199
+}
+
+.bgcolor-e7{
+  background: #E7E7E7;
+}
+
+
+// 布局
+.df {
+  display: flex;
+}
+
+.flex-b {
+  justify-content: space-between;
+}
+
+// 字体大小
+.fs12 {
+  font-size: 12px;
+}
+.fs14 {
+  font-size: 14px;
+}
+.fs16 {
+  font-size: 16px;
+}
+.fbold {
+  font-weight: bold;
+}
+/**
+ * element-ui component Style resets START.
+ */
+.ibd-tabs {
+  & /deep/ .el-tabs__item {
+    font-size: 16px;
+    color: #8B9199;
+    &.is-active {
+      color: black;
+    }
+  }
+  & /deep/ .el-tabs__active-bar {
+    background-color: black;
+  }
+  & /deep/ .el-tabs__nav-wrap::after {
+    background-color: transparent;
+  }
+}
+.ibd-card {
+  border-radius: 10px;
+}
+
+.ibd-collapse-group {
+  /deep/ .el-collapse-item__header {
+    padding: 0 30px;
+    background:rgba(247,249,250,1);
+    border:1px solid rgba(235,239,242,1);
+  }
+}
+
+/**
+ * element-ui component Style resets END.
+ */

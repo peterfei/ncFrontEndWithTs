@@ -1,0 +1,70 @@
+//屏幕分割
+$screen-sm:767px;
+$screen-md:992px;
+$screen-lg:1200px;
+//颜色库
+$primary:#ff783c ; //
+$primary-light:lighten(#428bca, 6.5%);
+$primary-heavy:darken(#428bca, 6.5%);
+$success:#5cb85c; //$success_light:#aeaeae;$success_heavy:#aeaeae;
+$info: #ff783c; //$info_light:#aeaeae;$info_heavy:#aeaeae;
+$warning:#f0ad4e; //$warning_light:#aeaeae;$warning_heavy:#aeaeae;
+$danger:#d9534f; //$danger_light:#aeaeae;$danger_heavy:#aeaeae;
+$active:darken($warning, 6.5%); //$active_light:#aeaeae;$active_heavy:#aeaeae;
+$gray-base:#000;
+
+// 字体颜色
+// 用dark(深1)、deep(深2)、muddy(深3)、dirty(深4)、sombre、saturated表示颜色深
+// 用dusky、soft表示柔和的颜色
+// 用pure、solid表示纯的、纯正的、纯色的，单色的颜色
+// 用light(浅1)、pale(浅2)、fair(浅3)表示颜色浅
+// 用startling、rich 表示极鲜亮的、艳丽的、鲜明的颜色
+
+// 白色和灰色背景下字体颜色
+$dark-black:#0a121a !default;
+$dusky-black:#4c5258 !default;
+$light-black:#8b9199 !default;
+// 黑色背景下字体颜色
+$dark-gray:#818181 !default;
+$dusky-gray:#999999 !default;
+$light-gray:#bfbfbf !default;
+// 彩色字体
+$dusky-orange: #ff783c !default;
+$light-green: #40c78d !default;
+$pure-blue: #00a5e1 !default;
+// 输入框字体
+$pale-gray:#b7bbbf !default;
+// icon色
+$light-white: #e7e7e7 !default;
+// 分割线
+$pale-white: #ebeff3 !default;
+// 输入框底色
+$fair-gray:#f4f4f4 !default;
+// 黑色透明度30%
+$op30-black:rgba(0, 0, 0, 30%);
+// 白色透明度50%
+$op50-white: rgba(225, 225, 225, 50%);
+// 背景色
+$pure-gray: #f7f9fa;
+
+$font-base: 16px;
+$font-size:$font-base;
+$font-size-12:$font-base*0.75;
+$font-size-14:$font-base*0.875;
+$font-size-18:$font-base*1.125;
+$font-size-20:$font-base*1.25;
+$font-size-22:$font-base*1.375;
+$font-size-24:$font-base*1.5;
+$font-size-26:$font-base*1.625;
+$font-size-28:$font-base*1.75;
+$font-size-30:$font-base*1.875;
+$font-size-32:$font-base*2;
+$font-size-40:$font-base*2.5;
+$font-size-50:$font-base*3.125;
+$font-size-60:$font-base*3.75;
+$font-size-70:$font-base*4.375;
+// 主题色
+$color1: #FF783C;
+$color2: #FF5000;
+$color3: #FF9900;
+$color4: #FFC063;
