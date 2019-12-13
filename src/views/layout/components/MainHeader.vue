@@ -102,85 +102,28 @@
 </template>
 
 <script lang="ts">
-export default {
-    name: 'AppHeader',
-    data() {
-        return {
-            show3: true,
-            activeNav: '',
-            navList: [
-                {
-                    index: '1',
-                    name: '首页',
-                    link: 'home',
-                    children: [],
-                },
-                {
-                    index: '2',
-                    name: '精品课',
-                    link: 'course',
-                    children: [],
-                },
-                {
-                    index: '3',
-                    name: '职业路径',
-                    link: 'skill',
-                    children: [],
-                },
-                {
-                    index: '4',
-                    name: '班级',
-                    link: 'classes',
-                    children: [],
-                },
-                {
-                    index: '5',
-                    name: '商学院',
-                    link: 'cloud',
-                    children: [],
-                },
-                {
-                    index: '6',
-                    name: '活动',
-                    link: 'community',
-                    children: [],
-                },
-                {
-                    index: '7',
-                    name: '社区',
-                    link: 'activity',
-                    children: [],
-                },
-                {
-                    index: '8',
-                    name: '教学包',
-                    link: 'resource',
-                    children: [],
-                },
-                {
-                    index: '9',
-                    name: '备课区',
-                    link: 'prepare',
-                    children: [],
-                },
-            ],
-            dialogVisible: false,
+import { Component, Vue } from 'vue-property-decorator'
+import { INavList } from '@/types/index'
+import { mockNavLists } from '@/mocks/index'
+@Component
+export default class MainHeader extends Vue {
+    public show3: boolean = true
+    public activeNav: string = ''
+    public navList: Array<INavList> = mockNavLists
+    public dialogVisible: boolean = false
+
+    navChild(item, isshow) {
+        if (isshow === 'show') {
+            this.activeNav = item.link
+        } else {
+            this.activeNav = null
         }
-    },
-    methods: {
-        navChild(item, isshow) {
-            if (isshow === 'show') {
-                this.activeNav = item.link
-            } else {
-                this.activeNav = null
-            }
-        },
-        loginBox() {
-            console.log(111)
-            this.dialogVisible = true
-        },
-        handleClose() {},
-    },
+    }
+    loginBox() {
+        console.log(111)
+        this.dialogVisible = true
+    }
+    handleClose() {}
 }
 </script>
 
