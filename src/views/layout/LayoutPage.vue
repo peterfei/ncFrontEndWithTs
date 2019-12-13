@@ -25,10 +25,10 @@ import { Component, Vue } from 'vue-property-decorator'
         MainHeader,
         MainFooter,
     },
-    metaInfo: {
-        title: 'i博导',
-        meta: [{ name: '博导在线' }],
-    },
+    // metaInfo: {
+    //     title: 'i博导',
+    //     meta: [{ name: '博导在线' }],
+    // },
 })
 export default class LayoutPage extends Vue {}
 </script>

@@ -29,45 +29,13 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'AppFooter',
-    data() {
-        return {
-            listItem: [
-                {
-                    index: 1,
-                    name: '关于我们',
-                    link: '',
-                },
-                {
-                    index: 2,
-                    name: '联系我们',
-                    link: '',
-                },
-                {
-                    index: 3,
-                    name: '服务条款',
-                    link: '',
-                },
-                {
-                    index: 4,
-                    name: 'i+计划',
-                    link: '',
-                },
-                {
-                    index: 5,
-                    name: '意见反馈',
-                    link: '',
-                },
-                {
-                    index: 6,
-                    name: '合作伙伴',
-                    link: '',
-                },
-            ],
-        }
-    },
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import { IListItemFooter } from '@/types/index'
+import { listItemFooter } from '@/mocks/index'
+@Component
+export default class AppFooter extends Vue {
+    public listItem: Array<IListItemFooter> = listItemFooter
 }
 </script>
 
