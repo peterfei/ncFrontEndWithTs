@@ -15,21 +15,22 @@
         </el-container>
     </div>
 </template>
-<script>
+<script lang="ts">
 import MainHeader from './components/MainHeader.vue'
 import MainFooter from './components/MainFooter.vue'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default {
-    name: 'LayoutPage',
-    metaInfo: {
-        title: 'i博导',
-        meta: [{ name: '博导在线' }],
-    },
+@Component({
     components: {
         MainHeader,
         MainFooter,
     },
-}
+    metaInfo: {
+        title: 'i博导',
+        meta: [{ name: '博导在线' }],
+    },
+})
+export default class LayoutPage extends Vue {}
 </script>
 <style lang="scss" scoped>
 .el-header,
