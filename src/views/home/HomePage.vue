@@ -11,7 +11,6 @@
             </div>
         </div>
         <div class="content">
-            {{ courseList }}
             <row-title
                 row-icon="icon-mima2"
                 row-title="好课推荐"
@@ -143,19 +142,19 @@ import { mapState, mapActions } from 'vuex'
 // import BannerCarousel from './components/BannerCarousel.vue'
 import BannerNav from './components/BannerNav.vue'
 // import CareerPathItem from './components/CareerPathItem.vue'
-// import CarouselMore from './components/CarouselMore.vue'
+import CarouselMore from './components/CarouselMore.vue'
 // import AdItem from './components/AdItem.vue'
 // import SchInner from './components/SchInner.vue'
 // import RowTitle from '../../components/RowTitle/RowTitle.vue'
-// import CourserPosterItem from '../../components/CourserPosterItem/CourserPosterItem.vue'
+import CourserPosterItem from '../../components/CourserPosterItem/CourserPosterItem.vue'
 import { Component, Vue } from 'vue-property-decorator'
 @Component({
     components: {
         // BannerCarousel,
         BannerNav,
         // RowTitle,
-        // CarouselMore,
-        // CourserPosterItem,
+        CarouselMore,
+        CourserPosterItem,
         // CareerPathItem,
         // AdItem,
         // SchInner
@@ -182,39 +181,8 @@ export default class HomePage extends Vue {
     }
     getRecommendCourseList: any | Function
     getList: any
-    //computed:void {
-    // ...mapState('CoursesDetail', {
-    //     courseList: state => state.recommendCourseList,
-    // }),
-    //}
-
-    //mounted() {
-    // document.dispatchEvent(new Event('render-event'))
-    //},
-    //data() {
-    //    return {
-    //        // richText: '<h1>hahahahaha</h1>',
-    //        ,
-    //    }
-    //},
     async created() {
         this.getList = await this.getRecommendCourseList()
-        // const randomColor = `rgba(${Math.round(
-        //     Math.random() * 255
-        // )},${Math.round(Math.random() * 255)},${Math.round(
-        //     Math.random() * 255
-        // )})`
-        // console.log(
-        //     '%c┍------------------------------------------------------------------┑',
-        //     `color:${randomColor};`
-        // )
-        // console.log(`| getList`, JSON.stringify(this.getList))
-
-        // console.log(
-        //     '%c┕------------------------------------------------------------------┙',
-        //     `color:${randomColor};`
-        // )
-        // debugger
     }
 }
 </script>
