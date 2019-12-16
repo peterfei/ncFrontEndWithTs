@@ -11,6 +11,7 @@
             </div>
         </div>
         <div class="content">
+            {{ courseList }}
             <row-title
                 row-icon="icon-mima2"
                 row-title="好课推荐"
@@ -20,6 +21,7 @@
             </row-title>
             <!-- 好课推荐  列表 -->
             <!-- v-loading.lock="courseHide" -->
+
             <carousel-more
                 :carouselLists="courseList"
                 :show-num="5"
@@ -135,9 +137,9 @@
         </div>
     </div>
 </template>
-<script>
+<script lang="ts">
 // import QuillEditor from '@/components/share/QuillEditor/QuillEditor.vue'
-// import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 // import BannerCarousel from './components/BannerCarousel.vue'
 import BannerNav from './components/BannerNav.vue'
 // import CareerPathItem from './components/CareerPathItem.vue'
@@ -146,9 +148,8 @@ import BannerNav from './components/BannerNav.vue'
 // import SchInner from './components/SchInner.vue'
 // import RowTitle from '../../components/RowTitle/RowTitle.vue'
 // import CourserPosterItem from '../../components/CourserPosterItem/CourserPosterItem.vue'
-
-export default {
-    name: 'HomePage',
+import { Component, Vue } from 'vue-property-decorator'
+@Component({
     components: {
         // BannerCarousel,
         BannerNav,
@@ -157,37 +158,64 @@ export default {
         // CourserPosterItem,
         // CareerPathItem,
         // AdItem,
-        // SchInner,
+        // SchInner
     },
     computed: {
-        // ...mapState('CoursesDetail', {
-        //     courseList: state => state.recommendCourseList,
-        // }),
+        ...mapState('CourseDetails', {
+            courseList: (state: any) => state.recommendCourseList,
+        }),
     },
     methods: {
-        // ...mapActions('CoursesDetail', ['getRecommendCourseList']),
+        ...mapActions('CourseDetails', ['getRecommendCourseList']),
     },
-    mounted() {
-        // document.dispatchEvent(new Event('render-event'))
-    },
-    data() {
-        return {
-            // richText: '<h1>hahahahaha</h1>',
-            courseRecomment: [], // 推荐课程数据
-            courseHide: true,
-            creersRecomment: [], // 职业路径数据
-            homeAd: [], // 职业路径 广告位数据
-            homeAdActive: [], // 热门活动数据
-            schInner: [], // 入驻院校
-            bodyStle: {
-                width: '100%',
-                height: '364px',
-            },
-        }
-    },
+})
+export default class HomePage extends Vue {
+    private courseRecomment: Array<any> = [] // 推荐课程数据
+    private courseHide: boolean = true
+    private creersRecomment: Array<any> = [] // 职业路径数据
+    private homeAd: Array<any> = [] // 职业路径 广告位数据
+    private homeAdActive: Array<any> = [] // 热门活动数据
+    private schInner: Array<any> = [] // 入驻院校
+    public bodyStle: any = {
+        width: '100%',
+        height: '364px',
+    }
+    getRecommendCourseList: any | Function
+    getList: any
+    //computed:void {
+    // ...mapState('CoursesDetail', {
+    //     courseList: state => state.recommendCourseList,
+    // }),
+    //}
+
+    //mounted() {
+    // document.dispatchEvent(new Event('render-event'))
+    //},
+    //data() {
+    //    return {
+    //        // richText: '<h1>hahahahaha</h1>',
+    //        ,
+    //    }
+    //},
     async created() {
-        // await this.getRecommendCourseList()
-    },
+        this.getList = await this.getRecommendCourseList()
+        // const randomColor = `rgba(${Math.round(
+        //     Math.random() * 255
+        // )},${Math.round(Math.random() * 255)},${Math.round(
+        //     Math.random() * 255
+        // )})`
+        // console.log(
+        //     '%c┍------------------------------------------------------------------┑',
+        //     `color:${randomColor};`
+        // )
+        // console.log(`| getList`, JSON.stringify(this.getList))
+
+        // console.log(
+        //     '%c┕------------------------------------------------------------------┙',
+        //     `color:${randomColor};`
+        // )
+        // debugger
+    }
 }
 </script>
 
