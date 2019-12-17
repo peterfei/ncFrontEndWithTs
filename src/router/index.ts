@@ -6,17 +6,17 @@ import Home from './modules/HomeModule'
 Vue.use(VueRouter)
 
 const routes = [
-    {
-        path: '/',
-        redirect: '/home',
-    },
-    Home.HomeModule,
+  {
+    path: '/',
+    redirect: '/home'
+  },
+  Home.HomeModule
 ]
 
 const router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes,
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
 })
 
 export default router
