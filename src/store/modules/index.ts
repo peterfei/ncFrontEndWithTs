@@ -1,2 +1,2 @@
-import CourseDetails from "./CourseDetails";
-export default { CourseDetails };
+import CourseDetails from './CourseDetails'
+export default { CourseDetails }

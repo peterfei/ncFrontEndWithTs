@@ -1,15 +1,49 @@
 <template>
-    <div class="banner-nav-box"></div>
+    <div class="banner-nav-box">
+        <banner-nav-item
+            v-for="navitem in sideNavBar"
+            :key="navitem.id"
+            :cate-name="navitem.name"
+            @mouseenter="getMouseenter"
+        >
+            <template
+                slot="bannerNavFilter"
+                v-if="navitem.children && navitem.children.length"
+            >
+                <div
+                    v-for="navitemline in navitem.children"
+                    :key="navitemline.id"
+                >
+                    <template v-if="navitemline.children">
+                        <banner-nav-filter
+                            :title="navitemline.name"
+                            :category-list="navitemline.children"
+                            @change="change"
+                        ></banner-nav-filter>
+                    </template>
+                </div>
+            </template>
+
+            <template slot="bannerNavFilter" v-else>
+                <div>暂无数据</div>
+            </template>
+            <template slot="recommentCourse">
+                <div class="recomment-course">
+                    <recomment-course
+                        :category-courses="categoryCoursesList"
+                    ></recomment-course>
+                </div>
+            </template>
+        </banner-nav-item>
+    </div>
 </template>
 <script lang="ts">
-// import CategoriesApi from '@/api/categories/categories';
-// import { CategoryCourses } from '@/api/courses/courses';
+import { CategoryCourses } from '@/api/course'
 import BannerNavItem from './BannerNavItem.vue'
 import BannerNavFilter from './BannerNavFilter.vue'
 import RecommentCourse from './RecommentCourse.vue'
 import { Component, Vue } from 'vue-property-decorator'
 import { INavItemData, INavSideBar } from '@/types/index'
-import { CategoryCourses } from '@/api/course'
 @Component({
     components: {
         BannerNavItem,
@@ -38,6 +72,22 @@ export default class BannerNav extends Vue {
     }
     // 获取鼠标移入分类的id
     public getMouseenter(name: string): void {
+        const randomColor = `rgba(${Math.round(
+            Math.random() * 255
+        )},${Math.round(Math.random() * 255)},${Math.round(
+            Math.random() * 255
+        )})`
+        console.log(
+            '%c┍------------------------------------------------------------------┑',
+            `color:${randomColor};`
+        )
+        console.log(`| ：获取鼠标移入分类 `)
+
+        console.log(
+            '%c┕------------------------------------------------------------------┙',
+            `color:${randomColor};`
+        )
+
         this.objSideBar = this.sideNavBar.find(
             (rec: INavSideBar) => rec.name === name
         )

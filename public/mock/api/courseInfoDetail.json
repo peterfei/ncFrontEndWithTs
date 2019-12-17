@@ -1,0 +1,28 @@
+{
+  "courseInfoDetail": 
+    {
+      "couseTitle":"Python开发简单爬虫",
+      "chapterNum":28,
+      "courseTime":"3小时23分",
+      "studyStuNum":324,
+      "rateValue":4.5,
+      "description":"Scrapy，Python开发的一个快速,高层次的web抓取框架，用于抓取web站点并从页面中提取结构化的数据。Scrapy用途广泛，可以用于数据挖掘、监测和自动化测试。任何人都可以根据需求方便的修改。它也提供了多种类型爬虫的基类，如BaseSpider、sitemap爬虫等，最新版本又提供了web2.0爬虫的支持。本课程将带你入门并实践Scrapy框架！",
+      "lecturerName":"疯狂的蚂蚁crazyant",
+      "lecturerDes":"百度Java数据产品中间件开发高级工程师，擅长Java/Python/Hadoop技术；喜欢快速阅读技术书籍，不能忍受一天的停滞不前；崇尚快乐编程，想要把代码写的像艺术。",
+      "otherCourse":[
+        {
+          "courseTitle":"Python操作MySQL数据库",
+          "studyStuNum":530,
+          "rateValue":3
+
+        },
+        {
+          "courseTitle":"Python开发简单爬虫",
+          "studyStuNum":2320,
+          "rateValue":5
+
+        }
+      ]
+      
+    }
+}

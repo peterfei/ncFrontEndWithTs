@@ -126,51 +126,51 @@
 </template>
 <script lang="ts">
 // import QuillEditor from '@/components/share/QuillEditor/QuillEditor.vue'
-import { mapState, mapActions } from "vuex";
-// import BannerCarousel from './components/BannerCarousel.vue'
-import BannerNav from "./components/BannerNav.vue";
-// import CareerPathItem from './components/CareerPathItem.vue'
-import CarouselMore from "./components/CarouselMore.vue";
-// import AdItem from './components/AdItem.vue'
-// import SchInner from './components/SchInner.vue'
-// import RowTitle from '../../components/RowTitle/RowTitle.vue'
-import CourserPosterItem from "../../components/CourserPosterItem/CourserPosterItem.vue";
-import { Component, Vue } from "vue-property-decorator";
+import { mapState, mapActions } from 'vuex'
+import BannerCarousel from './components/BannerCarousel.vue'
+import BannerNav from './components/BannerNav.vue'
+import CareerPathItem from './components/CareerPathItem.vue'
+import CarouselMore from './components/CarouselMore.vue'
+import AdItem from './components/AdItem.vue'
+import SchInner from './components/SchInner.vue'
+import RowTitle from '../../components/RowTitle/RowTitle.vue'
+import CourserPosterItem from '../../components/CourserPosterItem/CourserPosterItem.vue'
+import { Component, Vue } from 'vue-property-decorator'
 @Component({
   components: {
-    // BannerCarousel,
+    BannerCarousel,
     BannerNav,
-    // RowTitle,
+    RowTitle,
     CarouselMore,
-    CourserPosterItem
-    // CareerPathItem,
-    // AdItem,
-    // SchInner
+    CourserPosterItem,
+    CareerPathItem,
+    AdItem,
+    SchInner
   },
   computed: {
-    ...mapState("CourseDetails", {
+    ...mapState('CourseDetails', {
       courseList: (state: any) => state.recommendCourseList
     })
   },
   methods: {
-    ...mapActions("CourseDetails", ["getRecommendCourseList"])
+    ...mapActions('CourseDetails', ['getRecommendCourseList'])
   }
 })
 export default class HomePage extends Vue {
-  private courseRecomment: Array<any> = []; // 推荐课程数据
-  private courseHide: boolean = true;
-  private creersRecomment: Array<any> = []; // 职业路径数据
-  private homeAd: Array<any> = []; // 职业路径 广告位数据
-  private homeAdActive: Array<any> = []; // 热门活动数据
-  private schInner: Array<any> = []; // 入驻院校
+  private courseRecomment: Array<any> = [] // 推荐课程数据
+  private courseHide: boolean = true
+  private creersRecomment: Array<any> = [] // 职业路径数据
+  private homeAd: Array<any> = [] // 职业路径 广告位数据
+  private homeAdActive: Array<any> = [] // 热门活动数据
+  private schInner: Array<any> = [] // 入驻院校
   public bodyStle: any = {
-    width: "100%",
-    height: "364px"
-  };
-  getRecommendCourseList: any | Function;
-  getList: any;
+    width: '100%',
+    height: '364px'
+  }
+  getRecommendCourseList: any | Function
+  getList: any
   async created() {
-    this.getList = await this.getRecommendCourseList();
+    this.getList = await this.getRecommendCourseList()
   }
 }
 </script>

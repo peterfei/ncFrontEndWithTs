@@ -1,0 +1,283 @@
+{
+  "_products": [
+    {
+      "id": "1",
+      "imgUrl": "./static/image/fruit/fruit1.png",
+      "fruitsName": "苹果",
+      "fruitsaddr": "西安",
+      "price": "30",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "2",
+      "imgUrl": "./static/image/fruit/fruit2.png",
+      "fruitsName": "香蕉",
+      "fruitsaddr": "北京",
+      "price": "10",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "3",
+      "imgUrl": "./static/image/fruit/fruit3.png",
+      "fruitsName": "橘子",
+      "fruitsaddr": "上海",
+      "price": "112",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "4",
+      "imgUrl": "./static/image/fruit/fruit4.png",
+      "fruitsName": "甘蔗",
+      "fruitsaddr": "深圳",
+      "price": "32",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "5",
+      "imgUrl": "./static/image/fruit/fruit5.png",
+      "fruitsName": "西瓜",
+      "fruitsaddr": "渭南",
+      "price": "12",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "6",
+      "imgUrl": "./static/image/fruit/fruit6.png",
+      "fruitsName": "梅子",
+      "fruitsaddr": "宝鸡",
+      "price": "322",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "11",
+      "imgUrl": "./static/image/fruit/fruit1.png",
+      "fruitsName": "苹果",
+      "fruitsaddr": "广州",
+      "price": "30",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "21",
+      "imgUrl": "./static/image/fruit/fruit2.png",
+      "fruitsName": "香蕉",
+      "fruitsaddr": "台湾",
+      "price": "110",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "31",
+      "imgUrl": "./static/image/fruit/fruit3.png",
+      "fruitsName": "橘子",
+      "fruitsaddr": "甘肃",
+      "price": "12",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "41",
+      "imgUrl": "./static/image/fruit/fruit4.png",
+      "fruitsName": "甘蔗",
+      "fruitsaddr": "新疆",
+      "price": "32",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "51",
+      "imgUrl": "./static/image/fruit/fruit5.png",
+      "fruitsName": "西瓜",
+      "fruitsaddr": "宁夏",
+      "price": "32",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "61",
+      "imgUrl": "./static/image/fruit/fruit6.png",
+      "fruitsName": "梅子",
+      "fruitsaddr": "四川",
+      "price": "32",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "12",
+      "imgUrl": "./static/image/fruit/fruit1.png",
+      "fruitsName": "苹果",
+      "fruitsaddr": "重庆",
+      "price": "50",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "22",
+      "imgUrl": "./static/image/fruit/fruit2.png",
+      "fruitsName": "香蕉",
+      "fruitsaddr": "河南",
+      "price": "60",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "32",
+      "imgUrl": "./static/image/fruit/fruit3.png",
+      "fruitsName": "橘子",
+      "fruitsaddr": "河北",
+      "price": "32",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "42",
+      "imgUrl": "./static/image/fruit/fruit4.png",
+      "fruitsName": "甘蔗",
+      "fruitsaddr": "湖南",
+      "price": "72",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "52",
+      "imgUrl": "./static/image/fruit/fruit5.png",
+      "fruitsName": "西瓜",
+      "fruitsaddr": "湖北",
+      "price": "32",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "62",
+      "imgUrl": "./static/image/fruit/fruit6.png",
+      "fruitsName": "梅子",
+      "fruitsaddr": "苏州",
+      "price": "92",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "13",
+      "imgUrl": "./static/image/fruit/fruit1.png",
+      "fruitsName": "苹果",
+      "fruitsaddr": "杭州",
+      "price": "30",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "23",
+      "imgUrl": "./static/image/fruit/fruit2.png",
+      "fruitsName": "香蕉",
+      "fruitsaddr": "内蒙",
+      "price": "130",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "33",
+      "imgUrl": "./static/image/fruit/fruit3.png",
+      "fruitsName": "橘子",
+      "fruitsaddr": "齐齐哈尔",
+      "price": "112",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "43",
+      "imgUrl": "./static/image/fruit/fruit4.png",
+      "fruitsName": "甘蔗",
+      "fruitsaddr": "赤峰",
+      "price": "332",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "53",
+      "imgUrl": "./static/image/fruit/fruit5.png",
+      "fruitsName": "西瓜",
+      "fruitsaddr": "中卫",
+      "price": "232",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "63",
+      "imgUrl": "./static/image/fruit/fruit6.png",
+      "fruitsName": "梅子",
+      "fruitsaddr": "海南岛",
+      "price": "122",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "14",
+      "imgUrl": "./static/image/fruit/fruit1.png",
+      "fruitsName": "苹果",
+      "fruitsaddr": "福建",
+      "price": "300",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "24",
+      "imgUrl": "./static/image/fruit/fruit2.png",
+      "fruitsName": "香蕉",
+      "fruitsaddr": "贵州",
+      "price": "10",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "34",
+      "imgUrl": "./static/image/fruit/fruit3.png",
+      "fruitsName": "橘子",
+      "fruitsaddr": "广西",
+      "price": "142",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "44",
+      "imgUrl": "./static/image/fruit/fruit4.png",
+      "fruitsName": "甘蔗",
+      "fruitsaddr": "云南",
+      "price": "312",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "74",
+      "imgUrl": "./static/image/fruit/fruit2.png",
+      "fruitsName": "香蕉",
+      "fruitsaddr": "贵州",
+      "price": "100",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "54",
+      "imgUrl": "./static/image/fruit/fruit5.png",
+      "fruitsName": "西瓜",
+      "fruitsaddr": "黑龙江",
+      "price": "124",
+      "nums": "0",
+      "totalPrice": "0"
+    },
+    {
+      "id": "64",
+      "imgUrl": "./static/image/fruit/fruit6.png",
+      "fruitsName": "梅子",
+      "fruitsaddr": "漠河",
+      "price": "532",
+      "nums": "0",
+      "totalPrice": "0"
+    }
+  ]
+}

@@ -7,15 +7,15 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-import { getInfo } from "@/utils/test";
+import HelloWorld from '@/components/HelloWorld.vue';
+import { getInfo } from '@/utils/test';
 export default {
-  name: "home",
+  name: 'home',
   components: {
-    HelloWorld
+    HelloWorld,
   },
   async created() {
     await getInfo();
-  }
+  },
 };
 </script>
