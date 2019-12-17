@@ -143,21 +143,21 @@ import BannerCarousel from './components/BannerCarousel.vue'
 import BannerNav from './components/BannerNav.vue'
 import CareerPathItem from './components/CareerPathItem.vue'
 import CarouselMore from './components/CarouselMore.vue'
-// import AdItem from './components/AdItem.vue'
-// import SchInner from './components/SchInner.vue'
-//import RowTitle from '../../components/RowTitle/RowTitle.vue'
+import AdItem from './components/AdItem.vue'
+import SchInner from './components/SchInner.vue'
+import RowTitle from '../../components/RowTitle/RowTitle.vue'
 import CourserPosterItem from '../../components/CourserPosterItem/CourserPosterItem.vue'
 import { Component, Vue } from 'vue-property-decorator'
 @Component({
     components: {
         BannerCarousel,
         BannerNav,
-        //RowTitle,
+        RowTitle,
         CarouselMore,
         CourserPosterItem,
         CareerPathItem,
-        // AdItem,
-        // SchInner
+        AdItem,
+        SchInner,
     },
     computed: {
         ...mapState('CourseDetails', {
