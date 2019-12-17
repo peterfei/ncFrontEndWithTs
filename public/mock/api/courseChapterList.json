@@ -1,0 +1,56 @@
+{
+  "courseChapterList": [
+    {
+      "id": 1,
+      "name":"第1章 课程介绍",
+      "description":"大数据时代背景下，机器学习在各行各业都有广泛应用。本课对机器学习做入门级介绍，主要介绍机器学习的概念、典型的行业案例，并对比机器学习和传统数据分析的差别，一些经典的算法",
+      "mediaItem":[{
+        "id":1,
+        "mediaItem":"什么是机器学习",
+        "mediaTime":"04:40",
+        "mediaUrl":"www.baidu.com"     
+      },{
+        "id":2,
+        "mediaItem":"从数据中寻找规律",
+        "mediaTime":"07:24",
+        "mediaUrl":"www.baidu.com"
+      },{
+        "id":3,
+        "mediaItem":"机器学习的原动力",
+        "mediaTime":"03:22",
+        "mediaUrl":"www.baidu.com"
+      }]
+    },
+    {
+      "id": 2,
+      "name":"第2章 机器学习的典型应用",
+      "description":"介绍机器学习在实际生活中的典型应用",
+      "mediaItem":[{
+        "id":1,
+        "mediaItem":"数据分析和机器学习的区别",
+        "mediaTime":"05:40",
+        "mediaUrl":"www.baidu.com"
+      },{
+        "id":2,
+        "mediaItem":"朴素贝叶斯决策树",
+        "mediaTime":"15:43",
+        "mediaUrl":"www.baidu.com"
+      }]
+    },{
+      "id": 3,
+      "name":"第3章 机器学习的算法和分类",
+      "description":"概述机器学习的算法和分类概述机器学习的算法和分类概述机器学习的算法和分类概述机器学习的算法和分类",
+      "mediaItem":[{
+        "id":1,
+        "mediaItem":"机器学习的算法和分类（1）",
+        "mediaTime":"05:40",
+        "mediaUrl":"www.baidu.com"
+      },{
+        "id":2,
+        "mediaItem":"机器学习的算法和分类（2）",
+        "mediaTime":"15:43",
+        "mediaUrl":"www.baidu.com"
+      }]
+    }
+  ]
+}

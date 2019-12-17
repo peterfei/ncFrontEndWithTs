@@ -1,0 +1,104 @@
+{
+  "schInner": [
+    [
+      {
+        "id": 1,
+        "schLogo": "http://placehold.it/226x130",
+        "realName": "刘园1",
+        "userImg": "http://placehold.it/80X80",
+        "schoolName": "西安大学家里自学院",
+        "introduction": "K先生，资深设计培训师，站酷十大人气设计师、研习设创始人，资深设计讲师，订阅号「研习设」博主，成立研习设的三年间，研习设团队出品的设计文章与教程被各大网站转载，全网阅读累计超百万次。"
+      },
+      {
+        "id": 2,
+        "schLogo": "http://placehold.it/226x130",
+        "realName": "刘园2",
+        "userImg": "http://placehold.it/80X80",
+        "schoolName": "渭南大学家里自学院",
+        "introduction": "先进工艺、独特设计、先锋科技使捷豹车型拥有出众的商务用车气质。而燃油经济性和低二氧化碳排放也让捷豹成为经济高效之选。保养间隔期长、保值的二手车价格更为您节省用车成本。若企业要选择一款优雅尊贵、振奋人心且在预算之内"
+      },
+      {
+        "id": 3,
+        "schLogo": "http://placehold.it/226x130",
+        "realName": "刘园3",
+        "userImg": "http://placehold.it/80X80",
+        "schoolName": "背景大学家里自学院",
+        "introduction": "捷豹以其出色设培训师，站酷十大人气设计师、研习设创始人，资深设计讲师，订阅号「研习设」博主，成立洲年度风云车”殊荣。"
+      },
+      {
+        "id": 4,
+        "schLogo": "http://placehold.it/226x130",
+        "realName": "刘园4",
+        "userImg": "http://placehold.it/80X80",
+        "schoolName": "背景科技大学",
+        "introduction": "是否使用包含运行时编译器的 Vue 构建版本。设置为 true 后你就可以在 Vue 组件中使用 template 选项了，但是这会让你的应用额外增加 10kb 左右。"
+      },
+      {
+        "id": 5,
+        "schLogo": "http://placehold.it/226x130",
+        "realName": "刘园5",
+        "userImg": "http://placehold.it/80X80",
+        "schoolName": "i博导大学",
+        "introduction": "默认情况下，生成的静态资源在它们的文件名中包含了 hash 以便更好的控制缓存。然而，这也要求 index 的 HTML 是被 Vue CLI 自动生成的。如果你无法使用 Vue CLI 生成的 index HTML，你可以通过将这个选项设为 false 来关闭文件名哈希。"
+      },
+      {
+        "id": 6,
+        "schLogo": "http://placehold.it/226x130",
+        "realName": "刘园6",
+        "userImg": "http://placehold.it/80X80",
+        "schoolName": "西安科技",
+        "introduction": "如果你希望让 lint 错误在开发时直接显示在浏览器中，你可以使用 lintOnSave: 'error'。这会强制 eslint-loader 将 lint 错误输出为编译错误，同时也意味着 lint 错误将会导致编译失败。"
+      }
+    ],
+    [
+      {
+        "id": 7,
+        "schLogo": "http://placehold.it/226x130",
+        "realName": "刘园21",
+        "userImg": "http://placehold.it/80X80",
+        "schoolName": "渭南社会学院",
+        "introduction": "是否使用包含运行时编译器的 Vue 构建版本。设置为 true 后你就可以在 Vue 组件中使用 template 选项了，但是这会让你的应用额外增加 10kb 左右是否使用包含运行时编译器的 Vue 构建版本。设置为 true 后你就可以在 Vue 组件中使用 template 选项了，但是这会让你的应用额外增加 10kb 左右"
+      },
+      {
+        "id": 8,
+        "schLogo": "http://placehold.it/226x130",
+        "realName": "刘园22",
+        "userImg": "http://placehold.it/80X80",
+        "schoolName": "田径理工",
+        "introduction": "如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建"
+      },
+      {
+        "id": 9,
+        "schLogo": "http://placehold.it/226x130",
+        "realName": "刘园23",
+        "userImg": "http://placehold.it/80X80",
+        "schoolName": "背景大学家里自学院",
+        "introduction": "如果这个值是一个函数，则会接收被解析的配置作为参数。该函数及可以修改配置并不返回任何东西，也可以返回一个被克隆或合并过的配置版本如果这个值是一个函数，则会接收被解析的配置作为参数。该函数及可以修改配置并不返回任何东西，也可以返回一个被克隆或合并过的配置版本如果这个值是一个函数，则会接收被解析的配置作为参数。该函数及可以修改配置并不返回任何东西，也可以返回一个被克隆或合并过的配置版本"
+      },
+      {
+        "id": 10,
+        "schLogo": "http://placehold.it/226x130",
+        "realName": "刘园24",
+        "userImg": "http://placehold.it/80X80",
+        "schoolName": "南沟地址的旧爱房间黑",
+        "introduction": "提取 CSS 在开发环境模式下是默认不开启的，因为它和 CSS 热重载不兼容。然而，你仍然可以将这个值显性地设置为 true 在所有情况下都强制提取"
+      },
+      {
+        "id": 11,
+        "schLogo": "http://placehold.it/226x130",
+        "realName": "刘园25",
+        "userImg": "http://placehold.it/80X80",
+        "schoolName": "神舟大学字学家里自学院",
+        "introduction": "相比于使用 chainWebpack 手动指定 loader 更推荐上面这样做，因为这些选项需要应用在使用了相应 loader 的多个地方"
+      },
+      {
+        "id": 12,
+        "schLogo": "http://placehold.it/226x130",
+        "realName": "刘园26",
+        "userImg": "http://placehold.it/80X80",
+        "schoolName": "艺术学院呢",
+        "introduction": "这个值在开发环境下同样生效。如果你想把开发服务器架设在根路径，你可以使用一个条件式的值：研习设的三年间，研习设团队出品的设计文章与教程被各大网站转载，全网阅读累计超百万次。"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "courseComments": [
+    {
+      "id": 1,
+      "realName":"玛法里奥",
+      "userImg":"http://placehold.it/50x50",
+      "CommentContent":"讲的通俗易懂，希望自己能坚持下去",
+      "likeNum":"13",
+      "created_at":"2018-10-25",
+      "rateValue":"3.5",
+      "Already":false,
+      "reply":{
+        "id":1,
+        "replyName":"拉格纳罗斯",
+        "replyImg":"http://placehold.it/40x40",
+        "replyTime":"2018-11-05",
+        "replyContent":"666"     
+      }
+    },
+    {
+      "id": 2,
+      "realName":"泰兰德",
+      "userImg":"http://placehold.it/50x50",
+      "CommentContent":"数据分析，也有海量大数据分析，为什么hadoop这些就成了少量数据处理了？AI就一定是海量数据分析。数据分析也可以是用户行为分析，为什么就一定是交易数据分析……有点片面",
+      "likeNum":"23",
+      "created_at":"2018-11-25",
+      "rateValue":"5",
+      "Already":true,
+      "reply":{
+        "id":1,
+        "replyName":"玛尔甘尼斯",
+        "replyImg":"http://placehold.it/40x40",
+        "replyTime":"2018-11-25",
+        "replyContent":"都快疯了就卡拉设计费拉丝机的莱卡是大吉来扩散法了卡萨丁就来看大神附加费雷克萨建档立卡佳得乐开始懂了跨境的萨利吉拉斯肯德基"     
+      }
+    }
+  ]
+}

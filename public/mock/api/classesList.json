@@ -1,0 +1,13 @@
+{
+  "_products": [
+    {
+      "id": "1",
+      "imgUrl": "./static/image/fruit/fruit1.png",
+      "c_name": "苹果",
+      "c_addr": "西安",
+      "price": "30",
+      "nums": "0",
+      "totalPrice": "0"
+    }
+  ]
+}

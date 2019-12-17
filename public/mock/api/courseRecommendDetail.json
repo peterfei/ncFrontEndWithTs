@@ -1,0 +1,25 @@
+{
+  "courseRecommend": [
+    {
+      "id": "1",
+      "imgUrl": "http://placehold.it/226x170",
+      "title": "ElasticSearch入门",
+      "studyMember": "203",
+      "score": 3
+    },
+    {
+      "id": "2",
+      "imgUrl": "http://placehold.it/226x170",
+      "title": "R语言之数据可视化",
+      "studyMember": "23",
+      "score": 5
+    },
+    {
+      "id": "3",
+      "imgUrl": "http://placehold.it/226x170",
+      "title": "走进大数据之storm流式计算基础",
+      "studyMember": "501",
+      "score": 2
+    }
+  ]
+}
