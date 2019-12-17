@@ -11,20 +11,14 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: 'BannerNavItem',
-  props: {
-    cateName: {
-      type: String,
-      required: true,
-      default: () => '暂无分类'
-    }
-  },
-  methods: {
-    mouseenter() {
-      this.$emit('mouseenter', this.cateName)
-    }
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+@Component
+export default class BannerNavItem extends Vue {
+  @Prop({ default: '暂无分类' }) cateName!: string
+
+  public mouseenter(): void {
+    this.$emit('mouseenter', this.cateName)
   }
 }
 </script>
