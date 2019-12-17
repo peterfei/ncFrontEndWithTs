@@ -26,48 +26,40 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'SchInner',
-  props: {
-    schInner: {
-      type: Array,
-      required: false,
-      default: () => []
-    }
-  },
-  computed: {
-    imgList() {
-      const list = []
-      if (this.schInner.length) {
-        this.schInner.map(res => {
-          const item = {}
-          item.id = res.id
-          item.schLogo = res.schLogo
-          list.push(item)
-          return ''
-        })
-      }
-      return list
-    }
-  },
-  data() {
-    return {
-      intro: {}
-    }
-  },
-  methods: {
-    enterImg(id) {
-      this.schInner.map((res, index) => {
-        const obj = {}
-        if (res.id === id) {
-          this.intro = res
-          this.$refs.triangle.style.left = `${83 + 205 * index}px`
-        }
-        return obj
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import { ISchInner } from '@/types/index'
+@Component
+export default class SchInner extends Vue {
+  @Prop({ default: [] }) schInner!: Array<ISchInner>
+
+  get imgList() {
+    const list: Array<ISchInner> = []
+    if (this.schInner.length) {
+      this.schInner.map(res => {
+        const item = { id: -1, schLogo: '' }
+        item.id = res.id
+        item.schLogo = res.schLogo
+        list.push(item)
+        return []
       })
     }
-  },
+    return list
+  }
+  public intro: any = {}
+  $refs!: {
+    triangle: HTMLFormElement
+  }
+  public enterImg(id: number): any {
+    this.schInner.map((res, index) => {
+      const obj = {}
+      if (res.id === id) {
+        this.intro = res
+        this.$refs.triangle.style.left = `${83 + 205 * index}px`
+      }
+      return obj
+    })
+  }
   mounted() {
     if (this.schInner.length) {
       this.enterImg(this.schInner[0].id)

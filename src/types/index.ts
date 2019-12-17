@@ -18,3 +18,7 @@ export interface INavSideBar {
   id: number
   name: string
 }
+export interface ISchInner {
+  id: number
+  schLogo: string
+}
