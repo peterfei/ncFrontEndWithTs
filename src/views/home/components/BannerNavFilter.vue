@@ -2,13 +2,14 @@
   <div class="banner-nav-filter">
     <div class="banner-nav-filter-box">
       <div class="banner-nav-filter-item">
-        <div class="banner-nav-filter-item-title word-spot">{{title}}</div>
+        <div class="banner-nav-filter-item-title word-spot">{{ title }}</div>
         <div class="banner-nav-filter-item-list">
           <span
             v-for="item in categoryList"
             :key="item.id"
             @click="categoryItem(item)"
-          >{{item.name}}</span>
+            >{{ item.name }}</span
+          >
         </div>
       </div>
     </div>
@@ -16,32 +17,32 @@
 </template>
 <script>
 export default {
-  name: 'BannerNavFilter',
+  name: "BannerNavFilter",
   model: {
-    prop: 'seleced',
-    event: 'change',
+    prop: "seleced",
+    event: "change"
   },
   props: {
     title: {
       type: String,
-      default: 'value',
+      default: "value"
     },
     categoryList: {
       type: Array,
-      default: () => [],
-    },
+      default: () => []
+    }
   },
   data() {
     return {
-      ok: true,
+      ok: true
     };
   },
   mounted() {},
   methods: {
     categoryItem(item) {
-      this.$emit('change', item);
-    },
-  },
+      this.$emit("change", item);
+    }
+  }
 };
 </script>
 

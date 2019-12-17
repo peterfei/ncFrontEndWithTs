@@ -3,14 +3,14 @@
     <el-carousel height="100%">
       <el-carousel-item v-for="item in bannerUrl" :key="item.id">
         <!-- <h3>{{ item }}</h3> -->
-        <img :src='item.url' alt="">
+        <img :src="item.url" alt="" />
       </el-carousel-item>
     </el-carousel>
   </div>
 </template>
 <script>
 export default {
-  name: 'BannerCarousel',
+  name: "BannerCarousel",
   data() {
     return {
       bannerUrl: [
@@ -28,10 +28,10 @@ export default {
           id: 3,
           // eslint-disable-next-line
           url: require("../../../../public/image/bg/3.jpg")
-        },
-      ],
+        }
+      ]
     };
-  },
+  }
 };
 </script>
 
@@ -43,7 +43,7 @@ export default {
 .el-carousel {
   width: 100%;
   background: red;
-  border-radius:0 10px 10px 0;
+  border-radius: 0 10px 10px 0;
 }
 .el-carousel__item h3 {
   color: #475669;
