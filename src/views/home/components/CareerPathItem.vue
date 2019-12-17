@@ -1,34 +1,37 @@
 <template>
   <div class="career-path-item">
-    <poster-img :img-url="item.imgUrl"
-    :poster-title="item.label"
-    :mark="item.mark" :height="itemHeight"></poster-img>
+    <poster-img
+      :img-url="item.imgUrl"
+      :poster-title="item.label"
+      :mark="item.mark"
+      :height="itemHeight"
+    ></poster-img>
     <div class="info-introd-box">
-      <div class="career-title word-spot-2 fs16">{{item.careerTitle}}</div>
-      <div class="career-content word-spot-4 fs12">{{item.content}}</div>
+      <div class="career-title word-spot-2 fs16">{{ item.careerTitle }}</div>
+      <div class="career-content word-spot-4 fs12">{{ item.content }}</div>
     </div>
   </div>
 </template>
 <script>
-import PosterImg from '../../../components/PosterImg/PosterImg.vue';
+import PosterImg from "../../../components/PosterImg/PosterImg.vue";
 
 export default {
-  name: 'CareerPathItem',
+  name: "CareerPathItem",
   props: {
     item: {
       type: Object,
       required: false,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   data() {
     return {
-      itemHeight: '130',
+      itemHeight: "130"
     };
   },
   components: {
-    PosterImg,
-  },
+    PosterImg
+  }
 };
 </script>
 <style lang="scss" scoped>

@@ -2,7 +2,7 @@
   <div>
     <ul>
       <li>1</li>
-      <li v-for="item in list" :key="item.id">{{item.title}}</li>
+      <li v-for="item in list" :key="item.id">{{ item.title }}</li>
       <li>1</li>
     </ul>
   </div>
@@ -12,11 +12,10 @@ export default {
   props: {
     list: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
-  mounted() {},
+  mounted() {}
 };
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -1,22 +1,22 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 // import Home from "../views/Home.vue";
-import Home from './modules/HomeModule'
+import Home from "./modules/HomeModule";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
-    {
-        path: '/',
-        redirect: '/home',
-    },
-    Home.HomeModule,
-]
+  {
+    path: "/",
+    redirect: "/home"
+  },
+  Home.HomeModule
+];
 
 const router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes,
-})
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes
+});
 
-export default router
+export default router;

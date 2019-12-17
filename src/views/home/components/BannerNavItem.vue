@@ -1,37 +1,31 @@
 <template>
-  <div
-    class="banner-nav-hover"
-    @mouseenter="mouseenter"
-  >
+  <div class="banner-nav-hover" @mouseenter="mouseenter">
     <div class="banner-nav-item">
       <i class="icon iconfont icon-shezhi banner-nav-icon"></i>
-      <span class="word-spot">{{cateName}}</span>
+      <span class="word-spot">{{ cateName }}</span>
       <i class="el-icon-arrow-right arrow-right"></i>
     </div>
     <div class="banner-nav-item-content">
-      <slot name='bannerNavFilter'></slot>
-      <slot
-        name='recommentCourse'
-        class="recomment-course"
-      ></slot>
+      <slot name="bannerNavFilter"></slot>
+      <slot name="recommentCourse" class="recomment-course"></slot>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: 'BannerNavItem',
+  name: "BannerNavItem",
   props: {
     cateName: {
       type: String,
       required: true,
-      default: () => '暂无分类',
-    },
+      default: () => "暂无分类"
+    }
   },
   methods: {
     mouseenter() {
-      this.$emit('mouseenter', this.cateName);
-    },
-  },
+      this.$emit("mouseenter", this.cateName);
+    }
+  }
 };
 </script>
 

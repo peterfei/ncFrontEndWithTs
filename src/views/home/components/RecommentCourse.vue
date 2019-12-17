@@ -6,36 +6,33 @@
       :key="item.id"
     >
       <div class="recomment-course-item-img">
-        <img
-          :src="item.cover"
-          alt=""
-        >
+        <img :src="item.cover" alt="" />
       </div>
       <div class="recomment-course-item-text">
-        <div class=" course-title word-spot">{{item.name}}</div>
+        <div class=" course-title word-spot">{{ item.name }}</div>
         <div>
           <span class="recomment-course-item-text-title">
-            <i class="icon iconfont icon-BAI-qian"></i>{{item.is_free?'免费':item.base_price}}
+            <i class="icon iconfont icon-BAI-qian"></i
+            >{{ item.is_free ? "免费" : item.base_price }}
           </span>
           <span class="recomment-course-item-text-people">
-            <i class="icon iconfont icon-touxiang"></i>{{item.learners_count}}
+            <i class="icon iconfont icon-touxiang"></i>{{ item.learners_count }}
           </span>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 <script>
 export default {
-  name: 'RecommentCourse',
+  name: "RecommentCourse",
   props: {
     categoryCourses: {
       type: Array,
       required: true,
-      default: () => [],
-    },
-  },
+      default: () => []
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
