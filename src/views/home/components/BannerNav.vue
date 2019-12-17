@@ -1,67 +1,62 @@
 <template>
     <div class="banner-nav-box"></div>
 </template>
-<script>
+<script lang="ts">
 // import CategoriesApi from '@/api/categories/categories';
 // import { CategoryCourses } from '@/api/courses/courses';
-// import BannerNavItem from './BannerNavItem.vue'
-// import BannerNavFilter from './BannerNavFilter.vue'
-// import RecommentCourse from './RecommentCourse.vue'
-
-export default {
-    name: 'BannerNav',
+import BannerNavItem from './BannerNavItem.vue'
+import BannerNavFilter from './BannerNavFilter.vue'
+import RecommentCourse from './RecommentCourse.vue'
+import { Component, Vue } from 'vue-property-decorator'
+import { INavItemData, INavSideBar } from '@/types/index'
+import { CategoryCourses } from '@/api/course'
+@Component({
     components: {
-        // BannerNavItem,
-        // BannerNavFilter,
-        // RecommentCourse,
+        BannerNavItem,
+        BannerNavFilter,
+        RecommentCourse,
     },
-    data() {
-        return {
-            sideNavBar: [{}, {}, {}, {}],
-            categoryCoursesList: [],
+})
+export default class BannerNav extends Vue {
+    public sideNavBar: Array<INavSideBar> = [{ id: 0, name: '' }]
+    public categoryCoursesList: Array<any> = []
+    public children: Array<any> = []
+    public obj: INavItemData = { id: 0, name: '', children: [] }
+    // 设置子分类
+    public setCateList(itemData: INavItemData | any): INavItemData {
+        if (itemData.children) {
+            itemData.children.forEach((item: any) => {
+                this.children.push(this.setCateList(item))
+            })
         }
-    },
-    created() {},
-    mounted() {
-        // 回去分类列表
-    },
-    methods: {
-        // 设置子分类
-        setCateList(itemData) {
-            const children = []
-            const obj = {
-                id: itemData.id,
-                name: itemData.name,
-            }
-
-            if (itemData.children) {
-                itemData.children.forEach(item => {
-                    children.push(this.setCateList(item))
-                })
-            }
-            obj.children = children || []
-            return obj
-        },
-        // 获取鼠标移入分类的id
-        getMouseenter(name) {
-            const obj = this.sideNavBar.find(rec => rec.name === name)
-            if (!obj.id) return
-            CategoryCourses.getList(obj.id)
-                .then(rec => {
-                    if (rec.length > 0) {
-                        this.categoryCoursesList = []
-                        this.categoryCoursesList = rec
-                    } else {
-                        this.categoryCoursesList = []
-                    }
-                })
-                .catch(() => {
+        this.obj.children = this.children || []
+        return this.obj
+    }
+    private objSideBar: any = {
+        id: 0,
+        name: '',
+    }
+    // 获取鼠标移入分类的id
+    public getMouseenter(name: string): void {
+        this.objSideBar = this.sideNavBar.find(
+            (rec: INavSideBar) => rec.name === name
+        )
+        if (!this.objSideBar.id) return
+        CategoryCourses.getList(this.objSideBar.id)
+            .then((rec: any) => {
+                if (rec.length > 0) {
                     this.categoryCoursesList = []
-                })
-        },
+                    this.categoryCoursesList = rec
+                } else {
+                    this.categoryCoursesList = []
+                }
+            })
+            .catch(() => {
+                this.categoryCoursesList = []
+            })
+    }
 
-        change() {},
-    },
+    //change() {},
 }
 </script>
 

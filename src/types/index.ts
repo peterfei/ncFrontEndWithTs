@@ -9,3 +9,12 @@ export interface IListItemFooter {
     name: string
     link: string
 }
+export interface INavItemData {
+    id: number
+    name: string
+    children: Array<any> | any
+}
+export interface INavSideBar {
+    id: number
+    name: string
+}

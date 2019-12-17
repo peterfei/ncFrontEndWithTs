@@ -7,3 +7,11 @@ export const Course = {
         )
     },
 }
+const CategoryCourses = {
+    getList(id: number) {
+        return Request.xget(
+            `http://dev.nc.com/api/excellent_courses/courses/category_courses_recommend?category_id=${id}`
+        )
+    },
+}
+export { CategoryCourses }
