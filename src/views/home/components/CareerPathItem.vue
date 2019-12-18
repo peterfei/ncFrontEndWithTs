@@ -16,25 +16,20 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import PosterImg from '../../../components/PosterImg/PosterImg.vue'
-
-export default {
-  name: 'CareerPathItem',
-  props: {
-    item: {
-      type: Object,
-      required: false,
-      default: () => {}
-    }
-  },
+@Component({
+  components: {
+    PosterImg
+  }
+})
+export default class CareerPathItem extends Vue {
+  @Prop({ default: {} }) item!: Object
   data() {
     return {
       itemHeight: '130'
     }
-  },
-  components: {
-    PosterImg
   }
 }
 </script>

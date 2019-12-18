@@ -17,33 +17,21 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: 'BannerNavFilter',
-  model: {
-    prop: 'seleced',
-    event: 'change'
-  },
-  props: {
-    title: {
-      type: String,
-      default: 'value'
-    },
-    categoryList: {
-      type: Array,
-      default: () => []
-    }
-  },
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+@Component
+export default class BannerNavFilter extends Vue {
+  public prop: string = 'seleced'
+  public event: string = 'change'
+  @Prop({ default: 'value' }) title!: string
+  @Prop({ default: [] }) categoryList!: Array<object>
   data() {
     return {
       ok: true
     }
-  },
-  mounted() {},
-  methods: {
-    categoryItem(item) {
-      this.$emit('change', item)
-    }
+  }
+  public categoryItem(item: any) {
+    this.$emit('change', item)
   }
 }
 </script>

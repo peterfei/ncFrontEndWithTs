@@ -7,15 +7,11 @@
     </ul>
   </div>
 </template>
-<script>
-export default {
-  props: {
-    list: {
-      type: Array,
-      required: true
-    }
-  },
-  mounted() {}
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+@Component
+export default class ShowList extends Vue {
+  @Prop({ default: true }) list!: boolean
 }
 </script>
 <style lang="scss" scoped></style>

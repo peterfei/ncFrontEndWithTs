@@ -23,16 +23,11 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: 'RecommentCourse',
-  props: {
-    categoryCourses: {
-      type: Array,
-      required: true,
-      default: () => []
-    }
-  }
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+@Component
+export default class RecommentCourse extends Vue {
+  @Prop({ default: [] }) categoryCourses!: Array<object>
 }
 </script>
 <style lang="scss" scoped>
