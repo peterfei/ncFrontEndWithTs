@@ -25,11 +25,6 @@ export default class BannerNavFilter extends Vue {
   public event: string = 'change'
   @Prop({ default: 'value' }) title!: string
   @Prop({ default: [] }) categoryList!: Array<object>
-  data() {
-    return {
-      ok: true
-    }
-  }
   public categoryItem(item: any) {
     this.$emit('change', item)
   }

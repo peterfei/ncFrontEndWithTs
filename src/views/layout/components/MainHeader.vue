@@ -100,7 +100,7 @@ export default class MainHeader extends Vue {
   public navList: Array<INavList> = mockNavLists
   public dialogVisible: boolean = false
 
-  navChild(item: any, isshow: any) {
+  navChild(item: any, isshow: boolean|any) {
     if (isshow === 'show') {
       this.activeNav = item.link
     } else {

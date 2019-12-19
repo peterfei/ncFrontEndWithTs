@@ -323,7 +323,7 @@ export default {
       order: 'created_at', // 排序 创建时间created_at  摘录量bought_num  价格price
       mine: '', // 我发布的
       bought: '', // 我摘录的
-      sortactive: 'createtime', // 根据创建时间
+      sortactive: 'createtime' // 根据创建时间
     }
   },
   components: {
@@ -350,7 +350,7 @@ export default {
         status: this.packstatus === '全部' ? '' : this.packstatus, // 筛选审核状态（0：待审，1：通过，2：未通过）,9为未发布
         is_published: this.is_published === '' ? '' : this.is_published, // 上下架
         mine: this.mine === '' ? '' : this.mine, // 我的发布
-        bought: this.bought === '' ? '' : this.bought, // 我的摘录
+        bought: this.bought === '' ? '' : this.bought // 我的摘录
       }
       // Resource.ResourcePackage.getResourceList(postObj)
       //   .then(rec => {
@@ -542,7 +542,7 @@ export default {
         this.packstatusCN = '全部'
         this.getResourceList()
         const obj = {
-          type: 'release',
+          type: 'release'
         }
         this.$router.push({ query: obj })
       } else if (type === 'all') {
@@ -553,7 +553,7 @@ export default {
         this.is_published = ''
         this.getResourceList()
         const obj = {
-          type: 'all',
+          type: 'all'
         }
         this.$router.push({ query: obj })
       } else if (type === 'myzhai') {
@@ -564,7 +564,7 @@ export default {
 
         this.getResourceList()
         const obj = {
-          type: 'excerpt',
+          type: 'excerpt'
         }
         this.$router.push({ query: obj })
       }
@@ -608,8 +608,8 @@ export default {
       } else if (tab === 'excerptnum') {
         this.sortactive = 'excerptnum'
       }
-    },
-  },
+    }
+  }
 }
 </script>
 
