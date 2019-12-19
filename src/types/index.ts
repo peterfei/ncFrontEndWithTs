@@ -22,3 +22,7 @@ export interface ISchInner {
   id: number
   schLogo: string
 }
+export interface IBannerUrl {
+  id: number
+  url: string
+}

@@ -8,30 +8,13 @@
     </el-carousel>
   </div>
 </template>
-<script>
-export default {
-  name: 'BannerCarousel',
-  data() {
-    return {
-      bannerUrl: [
-        {
-          id: 1,
-          // eslint-disable-next-line
-          url: require('../../../../public/image/bg/1.jpg')
-        },
-        {
-          id: 2,
-          // eslint-disable-next-line
-          url: require('../../../../public/image/bg/2.jpg')
-        },
-        {
-          id: 3,
-          // eslint-disable-next-line
-          url: require('../../../../public/image/bg/3.jpg')
-        }
-      ]
-    }
-  }
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import { IBannerUrl } from '@/types/index'
+import { mockBannerUrl } from '@/mocks'
+@Component
+export default class BannerCarousel extends Vue {
+  public bannerUrl: Array<IBannerUrl> = mockBannerUrl
 }
 </script>
 

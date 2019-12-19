@@ -87,3 +87,20 @@ export const listItemFooter = [
     link: ''
   }
 ]
+export const mockBannerUrl = [
+  {
+    id: 1,
+    // eslint-disable-next-line
+    url: require('../../public/image/bg/1.jpg')
+  },
+  {
+    id: 2,
+    // eslint-disable-next-line
+    url: require('../../public/image/bg/2.jpg')
+  },
+  {
+    id: 3,
+    // eslint-disable-next-line
+    url: require('../../public/image/bg/3.jpg')
+  }
+]
