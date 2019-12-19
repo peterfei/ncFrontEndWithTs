@@ -13,7 +13,7 @@ const ResourceModule = {
     {
       path: '',
       name: 'Resource',
-      component: ResourceList,
+      component: ResourceList
     },
     // {
     //   path: 'resourcedetail/:id',
@@ -23,8 +23,8 @@ const ResourceModule = {
     {
       path: 'addpackage',
       name: 'add',
-      component: ResourceAdd,
-    },
+      component: ResourceAdd
+    }
     // {
     //   path: 'myresource/:id',
     //   name: 'my',
@@ -35,6 +35,6 @@ const ResourceModule = {
     //   name: 'order',
     //   component: ResourceOrder,
     // },
-  ],
+  ]
 }
 export default { ResourceModule }

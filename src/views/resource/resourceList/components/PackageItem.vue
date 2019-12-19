@@ -138,8 +138,8 @@
   </div>
 </template>
 <script>
-import Resource from '@/api/resource/index'
-import Prepare from '@/api/prepare/index'
+// import Resource from '@/api/resource/index'
+// import Prepare from '@/api/prepare/index'
 
 export default {
   data() {
@@ -150,13 +150,13 @@ export default {
         testing: '测验',
         material: '资料',
         homework: '作业',
-        interaction: '互动',
+        interaction: '互动'
       },
       treedata: [],
       defaultProps: {
         children: '_child',
-        label: 'name',
-      },
+        label: 'name'
+      }
     }
   },
   props: {
@@ -170,7 +170,7 @@ export default {
     bought_num: {}, // 摘录数
     status: {}, // 审核状态 0待审核 1通过 2未通过 9未发布
     is_published: {}, // 0下架 1上架
-    typechoose: {}, // 全部 我的发布 我的摘录
+    typechoose: {} // 全部 我的发布 我的摘录
   },
   computed: {},
   methods: {
@@ -185,7 +185,7 @@ export default {
           console.log(rec)
           this.$router.push({
             path: 'resource/addpackage',
-            query: { userid: id },
+            query: { userid: id }
           })
         })
         .catch(rec => {
@@ -197,7 +197,7 @@ export default {
       this.$confirm('确定删除该教学包?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning',
+        type: 'warning'
       })
         .then(() => {
           Resource.ResourcePackage.deletePackage(id)
@@ -206,7 +206,7 @@ export default {
               if (rec === true) {
                 this.$message({
                   message: '删除成功！',
-                  type: 'success',
+                  type: 'success'
                 })
                 window.location.reload()
               }
@@ -237,7 +237,7 @@ export default {
     upshelf(id) {
       const obj = {
         id,
-        is_publish: 1,
+        is_publish: 1
       }
       this.$emit('setPublish', obj)
     },
@@ -245,18 +245,18 @@ export default {
     downshelf(id) {
       const obj = {
         id,
-        is_publish: 0,
+        is_publish: 0
       }
       this.$emit('setPublish', obj)
     },
     // 提交审核
     reviewCheck(id) {
       const obj = {
-        id,
+        id
       }
       this.$emit('setArraignment', obj)
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

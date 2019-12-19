@@ -352,29 +352,29 @@ export default {
         mine: this.mine === '' ? '' : this.mine, // 我的发布
         bought: this.bought === '' ? '' : this.bought, // 我的摘录
       }
-      Resource.ResourcePackage.getResourceList(postObj)
-        .then(rec => {
-          console.log('列表=', rec)
-          this.packagesList = rec
-          if (rec.data.length > 0) {
-            console.log(rec)
-          } else {
-            console.log(rec)
-          }
-        })
-        .catch(rec => {
-          console.log(rec)
-        })
+      // Resource.ResourcePackage.getResourceList(postObj)
+      //   .then(rec => {
+      //     console.log('列表=', rec)
+      //     this.packagesList = rec
+      //     if (rec.data.length > 0) {
+      //       console.log(rec)
+      //     } else {
+      //       console.log(rec)
+      //     }
+      //   })
+      //   .catch(rec => {
+      //     console.log(rec)
+      //   })
     },
 
     // 获取一级分类
     getNavtypes() {
       const url = 'http://dev.nc.com/api/categories'
-      axios.get(url).then(res => {
-        this.navFirstShow = res
-        this.deepfirst = res
-        this.getNavtypesecond()
-      })
+      // axios.get(url).then(res => {
+      //   this.navFirstShow = res
+      //   this.deepfirst = res
+      //   this.getNavtypesecond()
+      // })
     },
 
     // 获取二级分类 学科类别
@@ -572,32 +572,32 @@ export default {
 
     // 上下架
     setPublish(params) {
-      Resource.ResourcePackage.setPublish(params.id, params.is_publish)
-        .then(rec => {
-          this.$message({
-            message: rec,
-            type: 'success',
-          })
-          this.typeChoose('myfa')
-        })
-        .catch(rec => {
-          console.log(rec)
-        })
+      // Resource.ResourcePackage.setPublish(params.id, params.is_publish)
+      //   .then(rec => {
+      //     this.$message({
+      //       message: rec,
+      //       type: 'success',
+      //     })
+      //     this.typeChoose('myfa')
+      //   })
+      //   .catch(rec => {
+      //     console.log(rec)
+      //   })
     },
 
     // 提交审核
     setArraignment(obj) {
-      Resource.ResourcePackage.packageArraignment(obj)
-        .then(rec => {
-          this.$message({
-            message: rec,
-            type: 'success',
-          })
-          this.getResourceList()
-        })
-        .catch(rec => {
-          console.log(rec)
-        })
+      // Resource.ResourcePackage.packageArraignment(obj)
+      //   .then(rec => {
+      //     this.$message({
+      //       message: rec,
+      //       type: 'success',
+      //     })
+      //     this.getResourceList()
+      //   })
+      //   .catch(rec => {
+      //     console.log(rec)
+      //   })
     },
 
     // 根据创建时间或摘录量进行排序

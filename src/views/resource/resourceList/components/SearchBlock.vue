@@ -15,7 +15,6 @@
       </el-input>
     </div>
     <div class="hot_tag">
-
       <span class="title">热门:</span>
       <span
         v-for="item in hottags"
@@ -23,12 +22,10 @@
         class="item"
         @click="choosetag(item)"
       >
-        {{item}}
+        {{ item }}
       </span>
-
     </div>
   </div>
-
 </template>
 
 <script>
@@ -42,30 +39,30 @@ export default {
         '网店营销',
         '移动电商',
         '新媒体',
-        '跨境电商',
-      ],
-    };
+        '跨境电商'
+      ]
+    }
   },
   methods: {
     choosetag(item) {
-      console.log(item);
-      this.input = item;
-      this.searchChild();
+      console.log(item)
+      this.input = item
+      this.searchChild()
     },
     searchChild() {
-      this.$emit('search', this.input);
-    },
-  },
-};
+      this.$emit('search', this.input)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 .search_blcok {
-  /deep/ .el-input-group__append {
-    border: none;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-  }
+  // /deep/ .el-input-group__append {
+  //   border: none;
+  //   border-top-right-radius: 6px;
+  //   border-bottom-right-radius: 6px;
+  // }
   width: 560px;
   .search-btn {
     background: #ffd200;
@@ -74,32 +71,31 @@ export default {
     border: none;
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
-    &:hover{
+    &:hover {
       background: #ffbc00;
       transition: 0.3s;
     }
-    /deep/ .el-icon-search {
-      color: #fff;
-      font-size: 17px;
-      position: relative;
-      right: 2px;
-    }
+    // /deep/ .el-icon-search {
+    //   color: #fff;
+    //   font-size: 17px;
+    //   position: relative;
+    //   right: 2px;
+    // }
   }
 }
-/deep/ .el-input__inner {
-  height: 50px;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
-  & :focus {
-
-  }
-}
-/deep/ .el-input__inner:focus{
-  border-color: #d0d0d0 !important;
-}
-/deep/ .input-with-select .el-input-group__prepend {
-  background-color: #fff;
-}
+// /deep/ .el-input__inner {
+//   height: 50px;
+//   border-top-left-radius: 6px;
+//   border-bottom-left-radius: 6px;
+//   & :focus {
+//   }
+// }
+// /deep/ .el-input__inner:focus {
+//   border-color: #d0d0d0 !important;
+// }
+// /deep/ .input-with-select .el-input-group__prepend {
+//   background-color: #fff;
+// }
 .hot_tag {
   margin-top: 10px;
   .title {
