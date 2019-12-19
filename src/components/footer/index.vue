@@ -1,5 +1,5 @@
 <template>
-    <h3>这是footer</h3>
+  <h3>这是footer</h3>
 </template>
 
 <script>
