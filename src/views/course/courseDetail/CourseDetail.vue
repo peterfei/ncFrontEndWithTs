@@ -127,7 +127,8 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import CourseHead from './components/CourseHead.vue'
 import CourseChapterListItem from './components/CourseChapterListItem.vue'
@@ -136,8 +137,7 @@ import StudyStatus from './components/StudyStatus.vue'
 import RecommendCourse from './components/RecommendCourse.vue'
 import CourseCommentItem from './components/CourseCommentItem.vue'
 import CourseCommentInput from './components/CourseCommentInput.vue'
-
-export default {
+@Component({
   components: {
     //CourseHead,
     //CourseChapterListItem,
@@ -146,150 +146,23 @@ export default {
     //RecommendCourse,
     //CourseCommentItem,
     //CourseCommentInput
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.packageId = parseInt(this.$route.params.id, 10)
-    // 获取课程详情
-    this.getCourseDetail(this.$route.params.id)
-    // 获取该讲师的其他推荐课程
-    this.getLectureCourse({
-      packageId: this.packageId,
-      limit: 4
-    })
-    // 获取右侧推荐课程列表
-    this.getCoursesRecommend({
-      packageId: this.packageId,
-      limit: 4
-    })
-    // // 获取评论列表
-    this.getCommentsList({ id: this.packageId, type: 0 })
-    next()
-  },
-  data() {
-    return {
-      chapterList: [],
-      activeName: 'chapter',
-      commentSort: '',
-      recomdCard: {
-        width: '100%',
-        padding: '30px',
-        borderRadius: '10px'
-      },
-      lectuerCourse: [],
-      packageId: null,
-      activeSort: 0
-    }
-  },
+  }
+})
+export default class CourseDetail extends Vue {
+  public chapterList: Array<any> = []
+  public activeName: string = 'chapter'
+  public commentSort: string = ''
+  public recomdCard: any = {
+    width: '100%',
+    padding: '30px',
+    borderRadius: '10px'
+  }
+  public lectuerCourse: Array<any> = []
+  public packageId: any = null
+  public activeSort: number = 0
 
-  mounted() {},
-  async created() {
-    //this.packageId = parseInt(this.$route.params.id, 10)
-    //this.activeName = this.$route.query.type || 'chapter'
-    //// 获取课程详情
-    //this.getCourseDetail(this.$route.params.id)
-    //// 获取该讲师的其他推荐课程
-    //this.getLectureCourse({
-    //  packageId: this.packageId,
-    //  limit: 4
-    //})
-    //// 获取右侧推荐课程列表
-    //this.getCoursesRecommend({
-    //  packageId: this.packageId,
-    //  limit: 4
-    //})
-    //// // 获取评论列表
-    //this.getCommentsList({ id: this.packageId, type: 0 })
-  },
-  computed: {
-    ...mapState({
-      // 获取右侧推荐课程列表
-      courseRecommedList: state =>
-        state.CoursesDetail.coursesRecommendList || [],
-      // 课程详情
-      courseInfoDetail: state => state.CoursesDetail.courseDetail || {},
-      // 获取该讲师的其他推荐课程
-      lectureCourseList: state => state.CoursesDetail.lectureCourseList || {},
-      // 课程包学习进度
-      chapterProgress: state => state.CoursesDetail.chapterProgress
-      // 评论列表
-      //comments: state => state.CoursesDetail.courseCommentsList
-    })
-    //...mapGetters({
-    //  chaptersLists: 'CoursesDetail/chaptersLists' || []
-    //})
-  },
-  methods: {
-    //...mapActions(
-    //    'CourseDetails', [
-    //  'getCourseDetail', // 课程详情
-    //  'getLectureCourse', // 获取该讲师的其他推荐课程
-    //  'getCoursesRecommend', // 获取右侧推荐课程列表
-    //  'getCommentsList', // 评论列表
-    //  'postCourseComment', // 提交新的评论
-    //  'userReplyTo', // 评论回复
-    //  'userThumbsUp' // 点赞 thumbsUp
-    //]),
-
-    handleClick() {
-      this.$router.push({ query: { type: this.activeName } })
-    },
-    // 提交评论时
-    async commentOwn(postObj) {
-      const obj = {
-        postObj,
-        packageId: this.packageId,
-        type: this.activeSort
-      }
-      try {
-        await this.postCourseComment(obj)
-        this.$notify({
-          title: '评论发布成功',
-          type: 'success'
-        })
-      } catch (err) {
-        this.$message.error(err.data.message)
-      }
-    },
-    // 点赞
-    async thumbsUp(postObj) {
-      const obj = {
-        postObj,
-        packageId: this.packageId,
-        type: this.activeSort
-      }
-      try {
-        await this.userThumbsUp(obj)
-      } catch (err) {
-        this.$message.error('请稍后再点击')
-      }
-    },
-    // 回复
-    async submtReply(postObj) {
-      try {
-        await this.userReplyTo(
-          Object.assign(postObj, { type: this.activeSort })
-        )
-        this.$message({
-          message: '回复成功',
-          type: 'success'
-        })
-      } catch (err) {
-        this.$message.error(err.data.message)
-      }
-    },
-
-    // 最热/最新
-    async changeStatus(data) {
-      this.activeSort = data
-      try {
-        await this.getCommentsList({
-          id: this.packageId,
-          type: this.activeSort
-        })
-      } catch (err) {
-        this.$message.error(err.data.message)
-      }
-    }
+  public handleClick() {
+    this.$router.push({ query: { type: this.activeName } })
   }
 }
 </script>
