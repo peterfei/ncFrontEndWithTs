@@ -23,3 +23,7 @@ export interface IRecommendCourse {
   mark: string
   stars: number | any
 }
+export interface ICoursePostURL {
+  url: string
+  mutations: string
+}

@@ -10,7 +10,7 @@ import qs from 'qs'
 // import { UserModule } from '@/store/modules/user'
 
 class Request {
-  protected baseURL: any = process.env.VUE_APP_BASE_API
+  protected baseURL: any = process.env.baseURL
   protected service: any = axios
   protected pending: Array<{
     url: string
@@ -47,6 +47,7 @@ class Request {
           return data
         }
       ],
+
       paramsSerializer: function(params: any) {
         return JSON.stringify(params)
       },
@@ -150,7 +151,7 @@ class Request {
 
   public async post(url: string, data: any = {}, config: object = {}) {
     try {
-      const result = await this.service.post(url, qs.stringify(data), config)
+      const result = await this.service.post(url, data, config)
       return result.data
     } catch (error) {
       console.error(error)
@@ -173,14 +174,21 @@ class Request {
     }
   }
 
-  public async get(url: string, parmas: any = {}, config: object = {}) {
+  //public async get(url: string, parmas: any = {}, config: object = {}) {
+  //  try {
+  //    await this.service.get(url, parmas, config)
+  //  } catch (error) {
+  //    console.error(error)
+  //  }
+  //}
+
+  public get(url: string, parmas: any = {}, config: object = {}) {
     try {
-      await this.service.get(url, parmas, config)
+      return this.service.get(url, parmas, config)
     } catch (error) {
       console.error(error)
     }
   }
-
   public xget(url: string, parmas: any = {}, config: object = {}) {
     try {
       return this.service.get(url, parmas, config)

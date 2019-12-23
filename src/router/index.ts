@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 // import Home from "../views/Home.vue";
 import Home from './modules/HomeModule'
 import Resource from './modules/ResourceModule'
-import Cloud from './modules/CloudModule';
+import Course from './modules/CoursesModule'
+//import Cloud from './modules/CloudModule'
 Vue.use(VueRouter)
 
 const routes = [
@@ -13,7 +14,8 @@ const routes = [
   },
   Home.HomeModule,
   Resource.ResourceModule,
-  Cloud.CloudModule
+  Course.CoursesModule
+  //Cloud.CloudModule
 ]
 
 const router = new VueRouter({
