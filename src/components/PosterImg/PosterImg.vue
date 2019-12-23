@@ -22,7 +22,7 @@ export default class PosterImg extends Vue {
   @Prop({ default: '' }) posterTitle!: string
   @Prop({ default: '' }) mark!: string | number
   @Prop({ default: '168' }) height!: string | any
-
+  @Prop({}) id!: number
   get setHeight() {
     // eslint-disable-next-line
       if (parseFloat(this.height) == this.height) {
