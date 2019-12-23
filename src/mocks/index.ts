@@ -87,6 +87,7 @@ export const listItemFooter = [
     link: ''
   }
 ]
+<<<<<<< .merge_file_a02964
 
 export const mokHotSearchTag = [
   {
@@ -116,5 +117,22 @@ export const mokHotSearchTag = [
   {
     index: 8,
     name: '跨境电商'
+  }
+]
+export const mockBannerUrl = [
+  {
+    id: 1,
+    // eslint-disable-next-line
+    url: require('../../public/image/bg/1.jpg')
+  },
+  {
+    id: 2,
+    // eslint-disable-next-line
+    url: require('../../public/image/bg/2.jpg')
+  },
+  {
+    id: 3,
+    // eslint-disable-next-line
+    url: require('../../public/image/bg/3.jpg')
   }
 ]

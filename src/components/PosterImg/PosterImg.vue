@@ -14,50 +14,22 @@
     </router-link>
   </div>
 </template>
-<script>
-export default {
-  name: 'PosterImg',
-  props: {
-    id: {},
-    imgUrl: {
-      type: String,
-      required: true,
-      defaultL: () => ''
-    },
-    posterTitle: {
-      type: String,
-      required: true,
-      default: () => 'fdafadfa'
-    },
-    mark: {
-      type: [Number, String],
-      required: false,
-      default: () => ''
-    },
-    height: {
-      type: [String, Number],
-      required: '',
-      default: () => '168'
-    }
-  },
-  methods: {
-    // getHeight() {
-    //   return this.setHeight();
-    // },
-  },
-  computed: {
-    setHeight() {
-      // eslint-disable-next-line
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+@Component
+export default class PosterImg extends Vue {
+  @Prop({ default: '' }) imgUrl!: string
+  @Prop({ default: '' }) posterTitle!: string
+  @Prop({ default: '' }) mark!: string | number
+  @Prop({ default: '168' }) height!: string | any
+  @Prop({}) id!: number
+  get setHeight() {
+    // eslint-disable-next-line
       if (parseFloat(this.height) == this.height) {
-        return `${this.height}px`
-      }
-      return this.height
+      return `${this.height}px`
     }
-  },
-  data() {
-    return {}
-  },
-  mounted() {}
+    return this.height
+  }
 }
 </script>
 <style lang="scss" scoped>

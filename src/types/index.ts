@@ -27,3 +27,7 @@ export interface ISearchHotTags {
   index: number
   name: string
 }
+export interface IBannerUrl {
+  id: number
+  url: string
+}

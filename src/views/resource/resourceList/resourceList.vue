@@ -375,12 +375,28 @@ export default class ResourceList extends Vue {
   // mounted() {
   //   // 调用分类
   //   this.getNavtypes()
+  // methods: {
+  //   getResourceList() {
+  //     const postObj = {
+  //       name: this.name, // 关键字搜索
+  //       is_free: this.is_free === 'all' ? '' : this.is_free, // 1免费 0收费
+  //       role_id: this.role_id === 'all' ? '' : this.role_id, // 发布方
+  //       education: this.education === 'all' ? '' : this.education, // 适用层次
+  //       order: this.order, // 排序
+  //       category_id: this.category_id === -1 ? '' : this.category_id, // 三级筛选
+  //       status: this.packstatus === '全部' ? '' : this.packstatus, // 筛选审核状态（0：待审，1：通过，2：未通过）,9为未发布
+  //       is_published: this.is_published === '' ? '' : this.is_published, // 上下架
+  //       mine: this.mine === '' ? '' : this.mine, // 我的发布
+  //       bought: this.bought === '' ? '' : this.bought // 我的摘录
+  //     }
+
+  //   },
 
   //   // 获取列表数据
   //   this.getResourceList()
   // },
 
-  methods: {
+  // methods: {
     // getResourceList() {
     //   const postObj = {
     //     name: this.name, // 关键字搜索
@@ -601,6 +617,47 @@ export default class ResourceList extends Vue {
     //     this.$router.push({ query: obj })
     //   }
     // },
+    // typeChoose(type) {
+    //   this.typechoose = type
+    //   console.log('type=', type)
+    //   if (type === 'myfa') {
+    //     // 我的发布
+    //     this.mine = 1
+    //     this.sortactive = 'createtime'
+    //     this.bought = ''
+    //     this.packstatus = ''
+    //     this.is_published = ''
+    //     this.packstatusCN = '全部'
+    //     this.getResourceList()
+    //     const obj = {
+    //       type: 'release'
+    //     }
+    //     this.$router.push({ query: obj })
+    //   } else if (type === 'all') {
+    //     // 选择全部
+    //     this.mine = ''
+    //     this.bought = ''
+    //     this.packstatus = ''
+    //     this.is_published = ''
+    //     this.getResourceList()
+    //     const obj = {
+    //       type: 'all'
+    //     }
+    //     this.$router.push({ query: obj })
+    //   } else if (type === 'myzhai') {
+    //     // 我的摘录
+    //     this.mine = ''
+    //     this.bought = 1
+    //     this.packstatus = ''
+
+    //     this.getResourceList()
+    //     const obj = {
+    //       type: 'excerpt'
+    //     }
+    //     this.$router.push({ query: obj })
+    //   }
+    // },
+
     // 上下架
     // setPublish(params) {
     //   Resource.ResourcePackage.setPublish(params.id, params.is_publish)
@@ -638,7 +695,15 @@ export default class ResourceList extends Vue {
     //     this.sortactive = 'excerptnum'
     //   }
     // }
-  }
+  //   setSorttype(tab) {
+  //     if (tab === 'createtime') {
+  //       this.sortactive = 'createtime'
+  //       console.log('创建时间')
+  //     } else if (tab === 'excerptnum') {
+  //       this.sortactive = 'excerptnum'
+  //     }
+  //   }
+  // }
 }
 </script>
 
