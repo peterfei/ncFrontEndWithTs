@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 // import Home from "../views/Home.vue";
 import Home from './modules/HomeModule'
 import Resource from './modules/ResourceModule'
-
+import Cloud from './modules/CloudModule';
 Vue.use(VueRouter)
 
 const routes = [
@@ -12,7 +12,8 @@ const routes = [
     redirect: '/home'
   },
   Home.HomeModule,
-  Resource.ResourceModule
+  Resource.ResourceModule,
+  Cloud.CloudModule
 ]
 
 const router = new VueRouter({
