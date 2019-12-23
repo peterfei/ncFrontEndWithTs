@@ -87,3 +87,34 @@ export const listItemFooter = [
     link: ''
   }
 ]
+
+export const mokHotSearchTag = [
+  {
+    index: 1,
+    name: '电商概论'
+  },
+  {
+    index: 3,
+    name: '网络营销'
+  },
+  {
+    index: 4,
+    name: '网络营销'
+  },
+  {
+    index: 5,
+    name: '网店营销'
+  },
+  {
+    index: 6,
+    name: '移动电商'
+  },
+  {
+    index: 7,
+    name: '新媒体'
+  },
+  {
+    index: 8,
+    name: '跨境电商'
+  }
+]

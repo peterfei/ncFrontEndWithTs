@@ -173,7 +173,7 @@ class Request {
     }
   }
 
-  public async get(url: string, parmas: any = {}, config: object = {}) {
+  public async xget(url: string, parmas: any = {}, config: object = {}) {
     try {
       await this.service.get(url, parmas, config)
     } catch (error) {
@@ -181,7 +181,7 @@ class Request {
     }
   }
 
-  public xget(url: string, parmas: any = {}, config: object = {}) {
+  public get(url: string, parmas: any = {}, config: object = {}) {
     try {
       return this.service.get(url, parmas, config)
     } catch (error) {
