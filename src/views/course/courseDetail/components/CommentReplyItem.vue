@@ -1,52 +1,43 @@
 <template>
   <div class="comment-reply-item">
     <div class="head-img">
-      <img :src="item.replie_author?item.replie_author.avatar:''" />
+      <img :src="item.replie_author ? item.replie_author.avatar : ''" />
     </div>
     <div class="center">
-      <div class="title fs14 fcolor-4c">{{replyName?replyName:'没有用户名'}}
-        <span class="fcolor-8b">&nbsp;回复&nbsp;</span></div>
+      <div class="title fs14 fcolor-4c">
+        {{ replyName ? replyName : '没有用户名' }}
+        <span class="fcolor-8b">&nbsp;回复&nbsp;</span>
+      </div>
       <div class="container fs14 fcolor-4c reply-content">
-        {{replyContent}}
+        {{ replyContent }}
       </div>
     </div>
     <div class="right fs12 fcolor-8b">
-      {{replyTime|dateFormat('YYYY-MM-DD')}}
+      {{ replyTime | dateFormat('YYYY-MM-DD') }}
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'CommentReplyItem',
   props: {
     item: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
-    commentUser: {
-
-    },
-    replyName: {
-
-    },
-    replyContent: {
-
-    },
-    replyTime: {
-
-    },
-    replyTo: {
-
-    },
-  },
+    commentUser: {},
+    replyName: {},
+    replyContent: {},
+    replyTime: {},
+    replyTo: {}
+  }
   // filters: {
   //   dateForm(el) {
   //     return moment(el).format('YYYY-MM-DD');
   //   },
   // },
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -65,11 +56,11 @@ export default {
   }
   .center {
     flex: 1;
-    .title{
+    .title {
       margin-bottom: 15px;
     }
-    .reply-content{
-      color: #4C5258;
+    .reply-content {
+      color: #4c5258;
     }
   }
   .right {

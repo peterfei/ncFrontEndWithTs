@@ -15,15 +15,15 @@ export default {
   name: 'SnapShotedSwitch',
   data() {
     return {
-      value: false,
-    };
+      value: false
+    }
   },
   methods: {
     changeSwitch() {
-      this.$emit('snapShotedSwitch', this.value);
-    },
-  },
-};
+      this.$emit('snapShotedSwitch', this.value)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -35,7 +35,7 @@ export default {
   }
 
   & /deep/ .el-switch__core:after {
-    content: "截图";
+    content: '截图';
     width: 40px !important;
     height: 20px !important;
     border-radius: 20px;

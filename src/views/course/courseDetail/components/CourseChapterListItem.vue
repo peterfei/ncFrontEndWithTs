@@ -1,47 +1,38 @@
 <template>
   <div class="course-chapter-list-item">
-  <el-card class="box-card" :body-style="boxStyle">
-    <div class="course-list-content">
-      <div slot="header" class="clearfix">
-        <div class="chapter-title">{{chapterName}}</div>
-        <div class="chapter-text">{{chapterDescription}}
+    <el-card class="box-card" :body-style="boxStyle">
+      <div class="course-list-content">
+        <div slot="header" class="clearfix">
+          <div class="chapter-title">{{ chapterName }}</div>
+          <div class="chapter-text">{{ chapterDescription }}</div>
         </div>
-      </div>
         <slot></slot>
-    </div>
-  </el-card>
+      </div>
+    </el-card>
   </div>
 </template>
-
 
 <script>
 export default {
   props: {
     listItem: {},
-    chapterName: {
-
-    },
-    chapterDescription: {
-
-    },
-    listindex: {
-
-    },
+    chapterName: {},
+    chapterDescription: {},
+    listindex: {}
   },
   data() {
     return {
       boxStyle: {
-        padding: '0',
-      },
-    };
+        padding: '0'
+      }
+    }
   },
-  components: {},
-};
+  components: {}
+}
 </script>
 
-
 <style lang="scss" scoped>
-.course-chapter-list-item{
+.course-chapter-list-item {
   margin-bottom: 10px;
 }
 .course-list-content {
@@ -64,11 +55,11 @@ export default {
 }
 
 // 重写覆盖样式
-.el-card__body{
+.el-card__body {
   padding: 0;
   width: 840px;
 }
-.box-card{
+.box-card {
   width: 840px;
   border-radius: 10px;
 }

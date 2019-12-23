@@ -22,7 +22,17 @@ export interface ISchInner {
   id: number
   schLogo: string
 }
+// 热门tag搜索
+export interface ISearchHotTags {
+  index: number
+  name: string
+}
 export interface IBannerUrl {
   id: number
   url: string
+}
+export interface IBoxCardStyle {
+  display: string
+  padding: string
+  width: string
 }

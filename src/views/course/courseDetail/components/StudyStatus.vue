@@ -2,12 +2,16 @@
   <div class="course-stu-content course-box-shadow">
     <div>
       <div class="df flex-b fcolor-4c">
-        <span class="already-study  fbold">已学:
-          {{studyStatus.percentage|getTimer('percent')}}%
+        <span class="already-study  fbold"
+          >已学: {{ studyStatus.percentage | getTimer('percent') }}%
         </span>
-          <!-- {{studyStatus.percentage?studyStatus.percentage:0}}% -->
-        <span class="spend-time fs14">学习耗时:
-          {{(studyStatus.watch_time?studyStatus.watch_time:0)|getTimer('characters')}}
+        <!-- {{studyStatus.percentage?studyStatus.percentage:0}}% -->
+        <span class="spend-time fs14"
+          >学习耗时:
+          {{
+            (studyStatus.watch_time ? studyStatus.watch_time : 0)
+              | getTimer('characters')
+          }}
         </span>
       </div>
       <!-- 进度条 -->
@@ -15,7 +19,9 @@
         <el-progress
           :text-inside="true"
           :stroke-width="18"
-          :percentage="parseInt(studyStatus.percentage?studyStatus.percentage:0, 10)"
+          :percentage="
+            parseInt(studyStatus.percentage ? studyStatus.percentage : 0, 10)
+          "
           status="exception"
           color="#FF783CFF"
         >
@@ -24,15 +30,20 @@
     </div>
 
     <div class="fs14 fcolor-4c">
-      上次学到：{{studyStatus.last_watch?studyStatus.last_watch.title:''}}
+      上次学到：{{ studyStatus.last_watch ? studyStatus.last_watch.title : '' }}
     </div>
     <!-- 继续学习 -->
     <div class="continue-btn-box">
       <router-link
         tag="button"
         class="continue-btn"
-        :to="{path:`/video/${packageId}/${studyStatus.last_watch?studyStatus.last_watch.id:''}`}"
-      >继续学习</router-link>
+        :to="{
+          path: `/video/${packageId}/${
+            studyStatus.last_watch ? studyStatus.last_watch.id : ''
+          }`
+        }"
+        >继续学习</router-link
+      >
       <!-- <el-button class="continue-btn">继续学习</el-button> -->
     </div>
     <!-- 讲师部分 -->
@@ -45,12 +56,12 @@
           src="../../../../../public/image/test/aa.jpg"
           alt=""
           class="head-img"
-        >
-        <span class="lecturer-name">{{lectuerName}}</span>
+        />
+        <span class="lecturer-name">{{ lectuerName }}</span>
         <i></i>
       </div>
       <div class="lecturer-detail">
-        {{lectuerIntro}}
+        {{ lectuerIntro }}
       </div>
     </div>
     <div>
@@ -69,39 +80,24 @@
   </div>
 </template>
 
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
-<script>
-import RecommendCourse from './RecommendCourse.vue';
-
-export default {
+import RecommendCourse from './RecommendCourse.vue'
+@Component({
   components: {
-    RecommendCourse,
-  },
-  props: {
-    studyStatus: {
-      type: Object,
-      required: true,
-    },
-    packageId: {
-      type: [Number, String],
-      required: true,
-    },
-    lectuerName: {},
-    lectuerIntro: {},
-    courses: {
-      type: Array,
-      default: () => [],
-    },
-    // 该讲师其他课程包推荐
-    lectureCourseList: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  mounted() {
-  },
-
-};
+    RecommendCourse
+  }
+})
+export default class StudyStatus extends Vue {
+  @Prop({ type: Object, required: true, default: () => {} })
+  studyStatus!: object
+  @Prop({ type: [Number, String], required: true }) packageId: string | number
+  @Prop({ default: '' }) lectuerName!: string
+  @Prop({ default: '' }) lectuerIntro!: string
+  @Prop({ type: Array, default: [] }) courses!: []
+  @Prop({ type: Array, default: [] }) lectureCourseList: []
+}
 </script>
 
 <style lang="scss" scoped>
@@ -131,7 +127,7 @@ export default {
     cursor: pointer;
     transition: 0.3s;
     border-radius: 5px;
-    &:hover{
+    &:hover {
       background: #ffb21f;
     }
   }

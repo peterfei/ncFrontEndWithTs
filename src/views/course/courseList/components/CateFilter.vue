@@ -1,37 +1,36 @@
 <template>
   <div class="cate-filter">
-    <div :class="{'cate-box': needClass}">
-      <span class="title">{{title}}:</span>
+    <div :class="{ 'cate-box': needClass }">
+      <span class="title">{{ title }}:</span>
       <span
         v-if="allOption"
         class="all-option"
-        :class="{actived: (selfValue === '0') }"
+        :class="{ actived: selfValue === '0' }"
       >
         <router-link
           tag="button"
           type="text"
           class="cate-button"
-          :to="{path:`/course`, query:{ type: `${title}` }}"
-        >{{allText}}</router-link>
+          :to="{ path: `/course`, query: { type: `${title}` } }"
+          >{{ allText }}</router-link
+        >
         <!-- :to="{path:`/course/${title}`}" -->
       </span>
-      <span
-        class="bd"
-        ref="spanEl"
-      >
+      <span class="bd" ref="spanEl">
         <ul ref="cateUl">
           <li
-            v-for="(item) in options"
+            v-for="item in options"
             :key="item.id"
-            :class="{actived: selfValue === item.id.toString()}"
+            :class="{ actived: selfValue === item.id.toString() }"
           >
             <router-link
               tag="button"
               type="text"
               class="cate-button"
-              :to="{path:`/course`, query:{ type: `${item.id}` }}"
-            >{{item[optionLabel]}}</router-link>
-                         <!-- :to="{path:`/course/${item.id}`}" -->
+              :to="{ path: `/course`, query: { type: `${item.id}` } }"
+              >{{ item[optionLabel] }}</router-link
+            >
+            <!-- :to="{path:`/course/${item.id}`}" -->
           </li>
         </ul>
       </span>
@@ -44,47 +43,48 @@ export default {
   name: 'CateFilter',
   model: {
     prop: 'selected',
-    event: 'change',
+    event: 'change'
   },
   props: {
     optionKey: {
       type: String,
-      default: 'value',
+      default: 'value'
     },
     optionLabel: {
       type: String,
-      default: 'label',
+      default: 'label'
     },
     selected: {
-      type: [String, Number],
+      type: [String, Number]
     },
     title: {
       type: String,
-      required: true,
+      required: true
     },
     options: {
       type: Array,
       default() {
-        return [];
-      },
+        return []
+      }
     },
     allOption: {
       type: Boolean,
-      default: true,
+      default: true
     },
     allText: {
       type: String,
-      default: '全部',
+      default: '全部'
     },
     allValue: {
       type: [String, Number],
-      default: 0,
-    },
+      default: 0
+    }
   },
   watch: {
     selected() {
-      this.selfValue = typeof this.selected === 'undefined' ? this.selfValue : this.selected;
-    },
+      this.selfValue =
+        typeof this.selected === 'undefined' ? this.selfValue : this.selected
+    }
   },
   methods: {
     // selectOption(val) {
@@ -96,26 +96,26 @@ export default {
     return {
       maxHeight: 80,
       needClass: false,
-      selfValue: 0, // 内置的状态保存, 用户在没有配合v-model的情况下依然可用
-    };
+      selfValue: 0 // 内置的状态保存, 用户在没有配合v-model的情况下依然可用
+    }
   },
   created() {
     // 初始化this.selfValue的值
     if (typeof this.selected !== 'undefined') {
-      this.selfValue = this.selected;
+      this.selfValue = this.selected
     } else if (this.allOption) {
-      this.selfValue = this.allValue;
+      this.selfValue = this.allValue
     } else if (this.options.length) {
-      this.selfValue = this.options[0].value;
+      this.selfValue = this.options[0].value
     } else {
-      throw Error('options not given.');
+      throw Error('options not given.')
     }
   },
   mounted() {
-    this.needClass = this.$refs.cateUl.clientHeight > this.maxHeight;
-    this.$refs.spanEl.style.maxHeight = `${this.maxHeight}px`;
-  },
-};
+    this.needClass = this.$refs.cateUl.clientHeight > this.maxHeight
+    this.$refs.spanEl.style.maxHeight = `${this.maxHeight}px`
+  }
+}
 </script>
 
 <style lang="scss" scoped>

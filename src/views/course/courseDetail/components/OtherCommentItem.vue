@@ -1,22 +1,31 @@
 <template>
   <div class="other-comment-content">
-    <div v-for="(comments,index) in usercomments" :key="index" class="comment-item-box">
+    <div
+      v-for="(comments, index) in usercomments"
+      :key="index"
+      class="comment-item-box"
+    >
       <el-card class="box-card">
         <div class="left">
-          <slot name="touxiang"><img src="" alt=""></slot>
-
+          <slot name="touxiang"><img src="" alt=""/></slot>
         </div>
         <div class="right">
           <div class="up df flex-b">
             <div class="left">
               <div class="text-content">
-                <span class="visitor-name fs14 fcolor-4c">{{comments.userName}}</span>
+                <span class="visitor-name fs14 fcolor-4c">{{
+                  comments.userName
+                }}</span>
                 <p class="fs14 fcolor-4c" v-html="comments.replyContent"></p>
               </div>
             </div>
             <div class="right">
-              <el-rate v-model="comments.rateValue" disabled
-              text-color="#ff9900" score-template="{value}">
+              <el-rate
+                v-model="comments.rateValue"
+                disabled
+                text-color="#ff9900"
+                score-template="{value}"
+              >
               </el-rate>
             </div>
           </div>
@@ -24,18 +33,20 @@
             <div class="left">
               <span class="bgcolor-e7 dianzan" @click="dianzan">
                 <i class="icon el-icon-phone-outline fs14"></i>
-                <span class="fs14">{{comments.likeNum}}</span>
+                <span class="fs14">{{ comments.likeNum }}</span>
               </span>
-              <el-button type="text" @click="reply(index, comments)">回复</el-button>
+              <el-button type="text" @click="reply(index, comments)"
+                >回复</el-button
+              >
             </div>
             <div class="right fs12 fcolor-8b reply-time">
-              {{comments.replyTime}}
+              {{ comments.replyTime }}
             </div>
           </div>
           <div class="replyBox">
             <div class="reply-in">
               <div class="left">
-                <img src="" alt="">
+                <img src="" alt="" />
               </div>
               <div class="right">
                 <div class="top">
@@ -51,72 +62,59 @@
                   66666666 牛逼！
                 </div>
                 <el-button type="text">回复</el-button>
-
               </div>
             </div>
-            <el-input :placeholder="defaultText" v-if="index
-        === replyTo" type="textarea"></el-input>
+            <el-input
+              :placeholder="defaultText"
+              v-if="index === replyTo"
+              type="textarea"
+            ></el-input>
           </div>
         </div>
         <!-- <el-input :placeholder="defaultText" v-if="index
         === replyTo" type="textarea"></el-input> -->
       </el-card>
     </div>
-
   </div>
 </template>
 
-
-<script>
-export default {
-  data() {
-    return {
-      replyTo: -1,
-      defaultText: '',
-      // value5: 5,
-    };
-  },
-  props: {
-    usercomments: {
-      type: Array,
-      required: true,
-    },
-  },
-  components: {
-    // A,
-  },
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+@Component({
   filters: {
-    filesize(filesize) {
-      let size = filesize;
-      let unit = 'KB';
+    filesize(filesize: any) {
+      let size = filesize
+      let unit = 'KB'
       if (size > 1024) {
-        size = (size / 1024).toFixed(1);
-        unit = 'MB';
-      }
-      if (size > 1024) {
-        size = (size / 1024).toFixed(1);
-        unit = 'GB';
+        size = (size / 1024).toFixed(1)
+        unit = 'MB'
       }
       if (size > 1024) {
-        size = (size / 1024).toFixed(1);
-        unit = 'TB';
+        size = (size / 1024).toFixed(1)
+        unit = 'GB'
       }
-      return size + unit;
-    },
-  },
-  mounted() {
-  },
-  methods: {
-    reply(index, item) {
-      this.defaultText = `回复@${item.user_name}`;
-      if (this.replyTo === index) {
-        this.replyTo = -1;
-      } else {
-        this.replyTo = index;
+      if (size > 1024) {
+        size = (size / 1024).toFixed(1)
+        unit = 'TB'
       }
-    },
-  },
-};
+      return size + unit
+    }
+  }
+})
+export default class OtherCommentItem extends Vue {
+  public replyTo: Number = -1
+  public defaultText: String = ''
+  @Prop({ type: Array, required: true }) usercomments!: []
+
+  reply(index: any, item: any) {
+    this.defaultText = `回复@${item.user_name}`
+    if (this.replyTo === index) {
+      this.replyTo = -1
+    } else {
+      this.replyTo = index
+    }
+  }
+}
 </script>
 
 <style lang="scss">
