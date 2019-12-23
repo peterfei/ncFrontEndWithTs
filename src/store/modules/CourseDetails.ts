@@ -35,15 +35,15 @@ const actions: ActionTree<ICourseDetailsState, any> = {
     const now = new Date().valueOf()
     if (now > state.expireTime) {
       const ret = await Course.getGoodCourse()
-
-      commit('setRecommendCourseList', ret.data)
+      // debugger
+      commit('setRecommendCourseList', ret)
     }
   },
 
   async getCourseDetail({ commit }, packageId) {
     const postUrl: Array<ICoursePostURL> = []
     const data = await Course.getDetail(
-      `http://dev.nc.com/api${moduleName}/courses/${packageId}/chapters`
+      `/api${moduleName}/courses/${packageId}/chapters`
     )
     //const postUrl: Array<{ url: string; mutations: string }> = [
     //  {
