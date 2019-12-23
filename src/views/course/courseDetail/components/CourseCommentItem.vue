@@ -1,40 +1,44 @@
 <template>
   <div class="course-comment-item">
-    <el-card
-      class="box-card comment-box"
-      :body-style="boxCardStyle"
-    >
+    <el-card class="box-card comment-box" :body-style="boxCardStyle">
       <div class="head-img">
-        <img :src="item.author.avatar">
+        <img :src="item.author.avatar" />
       </div>
       <div class="right">
         <div class="title">
-          <span class="real-name fs14 fcolor-4c">{{commentName}}</span>
+          <span class="real-name fs14 fcolor-4c">{{ commentName }}</span>
           <span class="rate-value">
-            <ele-rate :starts="rateValue">
-            </ele-rate>
+            <ele-rate :starts="rateValue"> </ele-rate>
           </span>
         </div>
-        <div class="comment-content fs14 fcolor-4c" v-html='commentContent'>
-        </div>
+        <div
+          class="comment-content fs14 fcolor-4c"
+          v-html="commentContent"
+        ></div>
         <div class="ctrl-panel">
           <el-button
             size="mini"
-            :style="{color: item.is_favorite === 0 ? '#8B9199FF': '#4C5258FF' ,
-            backgroundColor: item.is_favorite === 0 ? '#E7E7E7FF': '#B7BBBFFF'}"
+            :style="{
+              color: item.is_favorite === 0 ? '#8B9199FF' : '#4C5258FF',
+              backgroundColor:
+                item.is_favorite === 0 ? '#E7E7E7FF' : '#B7BBBFFF'
+            }"
             @click="thumbsUp(item)"
             class=""
-          ><i class="icon iconfont icon-zan"
+            ><i class="icon iconfont icon-zan"> </i>&nbsp;
+            {{ likeNum }}</el-button
           >
-          </i>&nbsp; {{likeNum}}</el-button>
           <el-button
             type="text"
             size="mini"
             @click="showReplyForm(item)"
             v-if="!ReplyItem"
-          >回复</el-button>
+            >回复</el-button
+          >
           <div class="space"></div>
-          <span class="fs12 fcolor-8b comment-time">{{created_at|dateFormat}}</span>
+          <span class="fs12 fcolor-8b comment-time">{{
+            created_at | dateFormat
+          }}</span>
         </div>
         <!-- {{item.comment_reply.created_at}} -->
         <comment-reply-item
@@ -43,7 +47,6 @@
           :replyTime="item.comment_reply.created_at"
           :replyContent="item.comment_reply.content"
           :replyName="item.comment_reply.replie_author"
-
         >
         </comment-reply-item>
         <br />
@@ -53,92 +56,78 @@
           @onSubmit="submtReply"
           :commentId="commentId"
           :packageId="packageId"
-          :reply-to="item.author?item.author.name:'没有'"
+          :reply-to="item.author ? item.author.name : '没有'"
         ></comment-reply-form>
       </div>
     </el-card>
   </div>
 </template>
 
-<script>
-import EleRate from '@/components/element/EleRate.vue';
-import CommentReplyItem from './CommentReplyItem.vue';
-import CommentReplyForm from './CommentReplyForm.vue';
-
-export default {
-  name: 'CourseCommentItem',
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import EleRate from '@/components/element/EleRate.vue'
+import CommentReplyItem from './CommentReplyItem.vue'
+import CommentReplyForm from './CommentReplyForm.vue'
+import { IBoxCardStyle } from '@/types'
+@Component({
   components: {
     CommentReplyItem,
     CommentReplyForm,
-    EleRate,
-  },
+    EleRate
+  }
+})
+export default class CourseCommentItem extends Vue {
   // props: ['item'], // TODO: 类型定义
-  props: {
-    packageId: {
-      type: [Number, String],
-      default: null,
-    },
-    commentReply: {
-      type: Object,
-      default: () => {},
-    },
-    // 评论用户名
-    commentName: {},
-    // 评论内容
-    commentContent: {},
-    // 点赞数
-    likeNum: {},
-    // 是否点过赞
-    isFavorite: {},
-    // 创建时间
-    created_at: {},
-    rateValue: {},
-    replyName: {},
-    replyImg: {},
-    item: {
-      type: Object,
-      default: () => {},
-    },
-
-    ReplyItem: {},
-  },
-  data() {
-    return {
-      value5: 5,
-      boxCardStyle: {
-        display: 'flex',
-        padding: '30px 30px 10px 30px',
-        width: '840px;',
-      },
-      showReply: false,
-      commentId: null, // 回复id
-    };
-  },
-  mounted() {
-  },
-  methods: {
-    submtReply(obj) {
-      this.showReply = false;
-      this.$emit('submtReply', obj);
-    },
-    canleReply() {
-      this.showReply = false;
-    },
-    showReplyForm(item) {
-      this.commentId = item.id;
-      this.showReply = true;
-    },
-    // 点赞方法
-    thumbsUp(item) {
-      const postObj = {
-        id: this.packageId,
-        comment_id: item.id,
-        type: item.is_favorite === 0 ? 1 : 2,
-      };
-      this.$emit('thumbsUp', postObj);
-    },
-  },
-};
+  @Prop({ type: [Number, String], default: null }) packageId!: string
+  @Prop({
+    type: Object,
+    default: () => {}
+  })
+  commentReply!: object
+  // 评论用户名
+  @Prop({ default: '' }) commentName!: string
+  // 评论内容
+  @Prop({ default: '' }) commentContent!: string
+  // 点赞数
+  @Prop({ default: '' }) likeNum!: string
+  // 是否点过赞
+  @Prop({ default: '' }) isFavorite!: string
+  // 创建时间
+  @Prop({ default: '' }) created_at!: string
+  @Prop({ default: '' }) rateValue!: string
+  @Prop({ default: '' }) replyName!: string
+  @Prop({ default: '' }) replyImg!: string
+  @Prop({ type: Object, default: () => {} }) item!: object
+  @Prop({ default: '' }) ReplyItem!: string
+  public value5: Number = 5
+  public boxCardStyle: IBoxCardStyle = {
+    display: 'flex',
+    padding: '30px 30px 10px 30px',
+    width: '840px;'
+  }
+  public showReply: Boolean = false
+  public commentId: String | any = null // 回复id
+  public submtReply(obj: any) {
+    this.showReply = false
+    this.$emit('submtReply', obj)
+  }
+  canleReply() {
+    this.showReply = false
+  }
+  showReplyForm(item: any) {
+    this.commentId = item.id
+    this.showReply = true
+  }
+  // 点赞方法
+  thumbsUp(item: any) {
+    const postObj = {
+      id: this.packageId,
+      comment_id: item.id,
+      type: item.is_favorite === 0 ? 1 : 2
+    }
+    this.$emit('thumbsUp', postObj)
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -199,7 +188,6 @@ export default {
       .space {
         flex: 1;
       }
-
     }
   }
 }

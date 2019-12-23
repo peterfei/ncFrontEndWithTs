@@ -3,30 +3,23 @@
     <div class="content">
       <div class="left">
         <div>
-          <img
-            :src="cover"
-            alt=""
-            class="seat"
-          >
+          <img :src="cover" alt="" class="seat" />
         </div>
       </div>
       <div class="right">
         <router-link
           tag="div"
           class="subtitle"
-          :to="{path:`/course/courseDetail/${id}`}"
-        >{{title}}</router-link>
+          :to="{ path: `/course/courseDetail/${id}` }"
+          >{{ title }}</router-link
+        >
         <div class="num_rate">
           <span>
             <i class="icon iconfont icon-guankanshu"></i>
-            <span class="p_num fs12">{{viewsCount}}</span>
+            <span class="p_num fs12">{{ viewsCount }}</span>
           </span>
           <span class="rate">
-            <ele-rate
-              :value="rateScore"
-              disabled
-              text-color="#ff9900"
-            >
+            <ele-rate :value="rateScore" disabled text-color="#ff9900">
             </ele-rate>
           </span>
         </div>
@@ -35,30 +28,22 @@
   </div>
 </template>
 
-<script>
-import EleRate from '@/components/element/EleRate.vue';
-
-export default {
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import EleRate from '@/components/element/EleRate.vue'
+@Component({
   components: {
-    EleRate,
-  },
-  data() {
-    return {};
-  },
-  props: {
-    img: {},
-    title: {},
-    rateScore: {},
-    // 封面
-    cover: {},
-    id: {
-      type: [Number, String],
-      default: () => null,
-    },
-    viewsCount: {},
-  },
-  mounted() {},
-};
+    EleRate
+  }
+})
+export default class RecommendCourse extends Vue {
+  @Prop({}) img!: string
+  @Prop({}) title!: string
+  @Prop({}) rateScore!: string
+  @Prop({}) cover!: string
+  @Prop({ type: [Number, String], default: null }) id: string | number
+  @Prop({}) viewsCount!: string
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,9 +1,10 @@
 <template>
-
   <router-link
-    :class="['couseitem', item.is_active?'couseitem-active':'']"
+    :class="['couseitem', item.is_active ? 'couseitem-active' : '']"
     tag="div"
-    :to="{path: `/video/${item.course_package_id}/${item.course_resources_id}`}"
+    :to="{
+      path: `/video/${item.course_package_id}/${item.course_resources_id}`
+    }"
   >
     <div>
       <!-- 播放图标  视频-->
@@ -21,14 +22,14 @@
         v-else-if="item.type === 3"
         class="icon iconfont icon-dazuoye course-type"
       ></i>
-      <span class="index-span">{{listindex+1}}-{{keyindex+1}}</span>
-      <span>{{title}}（{{courseTime  | getTimer('xx:xx')}}）</span>
+      <span class="index-span">{{ listindex + 1 }}-{{ keyindex + 1 }}</span>
+      <span>{{ title }}（{{ courseTime | getTimer('xx:xx') }}）</span>
     </div>
 
     <div class="studystatus">
       <span>
         <span class="status_text">
-          {{item.statusText}}
+          {{ item.statusText }}
         </span>
         <span v-if="item.is_active">最近学习</span>
       </span>
@@ -56,22 +57,21 @@ export default {
     packageId: {
       type: Number,
       required: true,
-      default: () => 0,
+      default: () => 0
     },
     item: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     title: {},
     courseTime: {},
     courseType: {},
     keyindex: {},
-    listindex: {},
+    listindex: {}
   },
-  mounted() {},
-};
+  mounted() {}
+}
 </script>
-
 
 <style lang="scss" scoped>
 .couseitem {
@@ -83,8 +83,8 @@ export default {
   padding: 0 11px;
   line-height: 48px;
   transition: all 0.3s;
-  .index-span{
-      margin-right: 5px;
+  .index-span {
+    margin-right: 5px;
   }
   .course-type {
     margin-right: 10px;
@@ -101,10 +101,9 @@ export default {
       margin-left: 10px;
       vertical-align: middle;
     }
-    .icon-weixuexi{
+    .icon-weixuexi {
       color: #e7e7e7;
     }
-
 
     .status_text {
       margin-right: 13px;
@@ -117,7 +116,7 @@ export default {
   cursor: pointer;
   color: #ff783c;
   // position: relative;
-  i{
+  i {
     color: #ff783c;
   }
 }

@@ -1,21 +1,17 @@
 <template>
-  <div
-    class="cate-filter-item"
-    @mouseover="handleEnter"
-    @mouseout="handleOut"
-  >
+  <div class="cate-filter-item" @mouseover="handleEnter" @mouseout="handleOut">
     <div
       class="cate-list"
-      :class="[isEnter ? 'cate-list cate-list-hover':'cate-list']"
-      :style="{height: cateListHeight}"
+      :class="[isEnter ? 'cate-list cate-list-hover' : 'cate-list']"
+      :style="{ height: cateListHeight }"
       ref="ele"
     >
       <!--  -->
-      <div class="cate-name">{{cataData.title}} :</div>
+      <div class="cate-name">{{ cataData.title }} :</div>
       <div class="cate-sub">
         <div class="cate-sub-all">
           <span
-            :class="cataData.activeId === 0 ? 'cate-sub-title-active':''"
+            :class="cataData.activeId === 0 ? 'cate-sub-title-active' : ''"
             @click="routerLinkTitleTo(cataData)"
           >
             全部
@@ -27,11 +23,14 @@
           v-if="cataData.options.length"
         >
           <span
-            :class="item.id === cataData.activeId? 'cate-sub-title-active':''"
+            :class="
+              item.id === cataData.activeId ? 'cate-sub-title-active' : ''
+            "
             v-for="item in cataData.options"
             :key="item.id"
             @click="routerLinkTo(item)"
-          > {{item.name}}-{{item.id}}
+          >
+            {{ item.name }}-{{ item.id }}
           </span>
         </div>
       </div>
@@ -44,55 +43,55 @@ export default {
   props: {
     cataData: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   data() {
     return {
       cateListHeight: null,
-      isEnter: false,
-    };
+      isEnter: false
+    }
   },
   methods: {
     routerLinkTo(item) {
-      const obj = this.$route.query;
+      const obj = this.$route.query
       const query = {
         ...obj,
-        id: item.id,
-      };
+        id: item.id
+      }
       if (item.title) {
-        query.title = item.title;
+        query.title = item.title
       } else {
-        delete query.title;
+        delete query.title
       }
       this.$router.push({
-        query,
-      });
+        query
+      })
     },
     routerLinkTitleTo(item) {
-      const pId = item.options[0] ? item.options[0].parent_id : 0;
-      const obj = this.$route.query;
+      const pId = item.options[0] ? item.options[0].parent_id : 0
+      const obj = this.$route.query
       const query = {
         ...obj,
         id: pId,
-        title: item.title,
-      };
+        title: item.title
+      }
 
       this.$router.push({
-        query,
-      });
+        query
+      })
     },
     handleEnter() {
-      const height = this.$refs.ele.offsetHeight;
-      this.cateListHeight = height;
-      this.isEnter = true;
+      const height = this.$refs.ele.offsetHeight
+      this.cateListHeight = height
+      this.isEnter = true
     },
     handleOut() {
-      this.isEnter = false;
-      this.cateListHeight = 'auto';
-    },
-  },
-};
+      this.isEnter = false
+      this.cateListHeight = 'auto'
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -168,7 +167,7 @@ export default {
 .cate-filter-item:after {
   position: absolute;
   z-index: 10;
-  content: "";
+  content: '';
   top: 63px;
   width: 100%;
   height: 1px;

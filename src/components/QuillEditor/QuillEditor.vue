@@ -1,11 +1,6 @@
 <template>
-  <div
-    class="quill-editor"
-  >
-    <images-uploader
-      ref="imgUploader"
-      @selected="addImages"
-    ></images-uploader>
+  <div class="quill-editor">
+    <images-uploader ref="imgUploader" @selected="addImages"></images-uploader>
     <quill-editor
       :content="content"
       @change="onContentChange"
@@ -17,22 +12,22 @@
 </template>
 
 <script>
-import 'quill/dist/quill.core.css';
-import 'quill/dist/quill.snow.css';
-import 'quill/dist/quill.bubble.css';
-import 'quill-emoji/dist/quill-emoji.css';
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import 'quill-emoji/dist/quill-emoji.css'
 // 引入Emoji表情插件
-import Emoji from 'quill-emoji/dist/quill-emoji';
-import { quillEditor, Quill } from 'vue-quill-editor';
-import ImageResize from 'quill-image-resize-module'; // 图片resize插件
-import ImagesUploader from './ImagesUploader.vue'; // 图片上传组件
+import Emoji from 'quill-emoji/dist/quill-emoji'
+import { quillEditor, Quill } from 'vue-quill-editor'
+import ImageResize from 'quill-image-resize-module' // 图片resize插件
+import ImagesUploader from './ImagesUploader.vue' // 图片上传组件
 // import { ImageExtend, QuillWatch } from 'quill-image-extend-module';
 // import { ImageDrop } from 'quill-image-drop-module';
-import { ImageDrop } from './ImageDropExt'; // 图片粘贴，拖拽组件
+import { ImageDrop } from './ImageDropExt' // 图片粘贴，拖拽组件
 
-Quill.register('modules/quill-emoji', Emoji);
-Quill.register('modules/ImageResize', ImageResize);
-Quill.register('modules/ImageDrop', ImageDrop);
+Quill.register('modules/quill-emoji', Emoji)
+Quill.register('modules/ImageResize', ImageResize)
+Quill.register('modules/ImageDrop', ImageDrop)
 // Quill.register('modules/ImageExtend', ImageExtend);
 
 export default {
@@ -40,33 +35,33 @@ export default {
   props: {
     placeholder: {
       type: String,
-      default: '',
+      default: ''
     },
     content: {
       type: String,
-      default: '',
+      default: ''
     },
 
     height: {
       type: String,
-      default: '300px',
+      default: '300px'
     },
     type: {
       type: String,
-      default: 'full',
-    },
+      default: 'full'
+    }
   },
   components: {
     quillEditor,
-    ImagesUploader,
+    ImagesUploader
   },
   computed: {
     editorHeight() {
       if (this.type !== 'none') {
-        return `${parseInt(this.height, 10) + 42}px`;
+        return `${parseInt(this.height, 10) + 42}px`
       }
-      return this.height;
-    },
+      return this.height
+    }
   },
   data() {
     return {
@@ -78,7 +73,7 @@ export default {
           'emoji-textarea': true,
           'emoji-shortname': true,
           ImageResize: {},
-          ImageDrop: true,
+          ImageDrop: true
           // container: '#q-toolbar',
           // handlers: {
           //   image() {
@@ -94,24 +89,24 @@ export default {
           //     return res.imgUrl;
           //   },
           // },
-        },
+        }
         // theme: 'bubble',
-      },
-    };
+      }
+    }
   },
   methods: {
     toolbarOptions() {
-      let ret;
+      let ret
       switch (this.type) {
         case 'mini':
           ret = [
             ['bold', 'italic', 'underline', 'strike'],
-            ['link', 'image', 'video'],
-          ];
-          break;
+            ['link', 'image', 'video']
+          ]
+          break
         case 'none':
-          ret = null;
-          break;
+          ret = null
+          break
         default:
           ret = [
             ['bold', 'italic', 'underline', 'strike'],
@@ -127,54 +122,55 @@ export default {
             [{ color: [] }, { background: [] }],
             [{ align: [] }],
             ['clean'],
-            ['link', 'image', 'video'],
-          ];
+            ['link', 'image', 'video']
+          ]
       }
-      return ret;
+      return ret
     },
     // testing() {
     //   console.log(this.content);
     // },
     // 当文档内容发生变化
     onContentChange({ html }) {
-      this.$emit('update:content', html);
+      this.$emit('update:content', html)
     },
     openImageDailog() {
-      this.$refs.imgUploader.open();
+      this.$refs.imgUploader.open()
     },
     addImages(imgUrls) {
       if (imgUrls.length > 0) {
-        imgUrls.forEach((rec) => {
-          this.addImageToEditor(rec.href);
-        });
+        imgUrls.forEach(rec => {
+          this.addImageToEditor(rec.href)
+        })
       }
     },
     // 打开图片上传组价
     callImageUp() {
-      this.$refs.imgUploader.open();
+      this.$refs.imgUploader.open()
     },
     addImageToEditor(imageUrl) {
-      const range = this.$refs.editor.quill.getSelection() || {};
-      this.$refs.editor.quill.insertEmbed(range.index || 0, 'image', imageUrl);
+      const range = this.$refs.editor.quill.getSelection() || {}
+      this.$refs.editor.quill.insertEmbed(range.index || 0, 'image', imageUrl)
     },
     getContent() {
-      return this.content;
-    },
-  },
-  mounted() {
-    this.$refs.editor.$el.querySelector('.ql-container').style.height = this.height;
-    if (this.type === 'full' || this.type === 'mini') {
-      const qe = this.$refs.editor.quill;
-      const tb = qe.getModule('toolbar');
-      tb.addHandler('image', () => {
-        this.callImageUp();
-        // QuillWatch.emit(this.quill.id);
-      });
-      tb.addHandler('emoji', () => {});
+      return this.content
     }
   },
-};
+  mounted() {
+    this.$refs.editor.$el.querySelector(
+      '.ql-container'
+    ).style.height = this.height
+    if (this.type === 'full' || this.type === 'mini') {
+      const qe = this.$refs.editor.quill
+      const tb = qe.getModule('toolbar')
+      tb.addHandler('image', () => {
+        this.callImageUp()
+        // QuillWatch.emit(this.quill.id);
+      })
+      tb.addHandler('emoji', () => {})
+    }
+  }
+}
 </script>
 
-<style>
-</style>
+<style></style>

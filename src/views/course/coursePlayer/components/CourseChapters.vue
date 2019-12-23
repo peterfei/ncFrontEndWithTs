@@ -1,32 +1,31 @@
 <template>
   <div class="course-chapters">
-    <div
-      class="scroll-box"
-    >
+    <div class="scroll-box">
       <div
         class="course-chapters-item"
         v-for="item in chaptersLists"
         :key="item.id"
       >
-        <h5>{{item.title}}</h5>
+        <h5>{{ item.title }}</h5>
         <router-link
           tag="div"
           class="chapters-item"
           v-for="itemCh in item.children"
           :key="itemCh.id"
           @click="chaptersItem(itemCh.id)"
-          :style="{color: itemCh.id === parseInt(resourceId, 10) ? '#F5C032': '#999999'}"
-          :to="{path:`/video/${packageId}/${itemCh.id}`}"
+          :style="{
+            color:
+              itemCh.id === parseInt(resourceId, 10) ? '#F5C032' : '#999999'
+          }"
+          :to="{ path: `/video/${packageId}/${itemCh.id}` }"
         >
-          <div
-            class="chapters-item-flag"
-          >
-          <!-- 播放图标  视频-->
-            <span v-if='itemCh.type === 1'>
+          <div class="chapters-item-flag">
+            <!-- 播放图标  视频-->
+            <span v-if="itemCh.type === 1">
               <i class="icon iconfont icon-shipin"></i>
             </span>
             <!-- 播放图标  文档-->
-            <span v-else-if='itemCh.type === 2'>
+            <span v-else-if="itemCh.type === 2">
               <i class="icon iconfont icon-erji"></i>
             </span>
             <!-- 播放图标  文档-->
@@ -34,11 +33,11 @@
               <i class="icon iconfont icon-bofang"></i>
             </span>
           </div>
-          <div
-            class="chapters-item-conent"
-          >
-            <span class="chapters-item-conent-span word-spot ">{{itemCh.title}}</span>
-            <span>({{itemCh.length_of_time | getTimer('xx:xx')}})</span>
+          <div class="chapters-item-conent">
+            <span class="chapters-item-conent-span word-spot ">{{
+              itemCh.title
+            }}</span>
+            <span>({{ itemCh.length_of_time | getTimer('xx:xx') }})</span>
           </div>
           <div class="chapters-flag-active">
             <span v-if="itemCh.id === parseInt(resourceId, 10)">学习中</span>
@@ -69,25 +68,24 @@ export default {
     chaptersLists: {
       type: Array,
       required: false,
-      default: () => [],
+      default: () => []
     },
     resourceId: {
       type: String,
-      required: false,
+      required: false
     },
     packageId: {
       type: String,
-      required: false,
-    },
+      required: false
+    }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     chaptersItem(itemId) {
-      this.$emit('chaptersItem', itemId);
-    },
-  },
-};
+      this.$emit('chaptersItem', itemId)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

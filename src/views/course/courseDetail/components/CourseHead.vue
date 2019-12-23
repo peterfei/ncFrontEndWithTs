@@ -70,26 +70,23 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import EleRate from '@/components/element/EleRate.vue'
-
-export default {
-  name: 'courseHead',
+import { Component, Vue, Prop } from 'vue-property-decorator'
+@Component({
   components: {
     EleRate
-  },
-  props: {
-    courseName: {},
-    courseTime: {},
-    start: {},
-    introduce: {},
-    studyStuNum: {},
-    chapterNum: {},
-    couseTitle: {}
-  },
-  data() {
-    return {}
   }
+})
+export default class courseHead extends Vue {
+  @Prop({ default: '' }) courseName!: string
+  @Prop({ default: '' }) courseTime!: string
+
+  @Prop({ default: '' }) start!: string
+  @Prop({ default: '' }) introduce!: string
+  @Prop({ default: '' }) studyStuNum!: string
+  @Prop({ default: '' }) chapterNum!: string
+  @Prop({ default: '' }) couseTitle!: string
 }
 </script>
 

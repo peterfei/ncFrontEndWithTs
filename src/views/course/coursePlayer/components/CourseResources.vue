@@ -1,34 +1,28 @@
 <template>
-  <div
-    class="course-resources"
-    data-show='showBarBox'
-  >
-    <div
-      class="resources-box"
-      data-show='showBarBox'
-    >
+  <div class="course-resources" data-show="showBarBox">
+    <div class="resources-box" data-show="showBarBox">
       <h5>配套资源</h5>
-      <div
-        data-show='showBarBox'
-        v-for="item in resourcesList"
-        :key="item.id"
-      >
+      <div data-show="showBarBox" v-for="item in resourcesList" :key="item.id">
         <span v-if="item.ext === 'ppt'">
-          <i class="icon iconfont icon-gongju"></i>{{item.attachment?item.attachment.title:'无名'}}
+          <i class="icon iconfont icon-gongju"></i
+          >{{ item.attachment ? item.attachment.title : '无名' }}
         </span>
         <span v-else-if="item.ext === 'doc'">
-          <i class="icon iconfont icon-gongju"></i>{{item.attachment?item.attachment.title:'无名'}}
-          </span>
+          <i class="icon iconfont icon-gongju"></i
+          >{{ item.attachment ? item.attachment.title : '无名' }}
+        </span>
         <span v-else-if="item.ext === 'arr'">
-          <i class="icon iconfont icon-gongju"></i>{{item.attachment?item.attachment.title:'无名'}}
+          <i class="icon iconfont icon-gongju"></i
+          >{{ item.attachment ? item.attachment.title : '无名' }}
         </span>
         <el-button
           type="primary"
           round
           size="mini"
-          data-show='showBarBox'
+          data-show="showBarBox"
           @click="downloadResource(item)"
-        >下载</el-button>
+          >下载</el-button
+        >
       </div>
       <h6 v-if="resourcesList.length === 0">暂无资源</h6>
     </div>
@@ -42,20 +36,20 @@ export default {
     resourcesList: {
       type: Array,
       required: false,
-      default: () => [],
-    },
+      default: () => []
+    }
   },
   methods: {
     async downloadResource(item) {
       // 获取下载地址
       const postObj = {
         packageId: 1,
-        id: item.attachment.id,
-      };
-      this.$emit('downloadResource', postObj);
-    },
-  },
-};
+        id: item.attachment.id
+      }
+      this.$emit('downloadResource', postObj)
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .course-resources {

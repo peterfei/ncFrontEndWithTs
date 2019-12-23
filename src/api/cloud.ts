@@ -1,11 +1,8 @@
 import Request from '@/utils/request'
 
 export const Cloud = {
-  getList(params:any) {
-    return Request.xget(
-      '/api/mooc/packages',
-      params
-    )
+  getList(params: any) {
+    return Request.xget('/api/mooc/packages', params)
   }
 }
 // const CategoryCourses = {
@@ -15,7 +12,6 @@ export const Cloud = {
 //     )
 //   }
 // }
-export { }
-
+export {}
 
 // const moocPackageUrl = `${moocModuleBasedUrl}/packages`;// 课程包列表
