@@ -190,11 +190,7 @@ class Request {
     }
   }
   public xget(url: string, parmas: any = {}, config: object = {}) {
-    try {
-      return this.service.get(url, parmas, config)
-    } catch (error) {
-      console.error(error)
-    }
+    return this.service.get(url, parmas, config)
   }
 
   protected requestLog(request: any): void {}
