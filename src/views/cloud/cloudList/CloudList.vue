@@ -26,24 +26,36 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 // import TabpsHeader from './components/TabpsHeader.vue';
-// import GraphicList from './components/GraphicList.vue'
+import GraphicList from './components/GraphicList.vue'
 // import ExtraordinaryPopularity from './components/ExtraordinaryPopularity.vue';
 // import UpRecommended from './components/UpRecommended.vue';
 import MoocIsuueStatus from './components/MoocIsuueStatus.vue'
 import { Component, Vue } from 'vue-property-decorator'
 // import MoocPaymentStatus from './components/MoocPaymentStatus.vue';
-// import Cloud from '@/api/cloud/cloud';
+import Cloud from '@/api/cloud'
+import { DirectiveOptions } from 'vue'
+import { Direction } from 'element-ui/types/drawer'
+import { Dictionary } from 'vue-router/types/router'
 @Component({
   components: {
-    MoocIsuueStatus
+    MoocIsuueStatus,
+    GraphicList
   }
 })
 export default class CourseList extends Vue {
-  //
+  moocStatus: null = null
+  paymentType: Number = 0
+  moocList: Array<any> = []
+  recommendList: Array<any> = []
+  pageMeta: Array<any> = []
+  popularityList: Array<any> = []
+  page: Number = 1
+
+  // 切换状态（全部，进行时，未开始，已结束）
   search() {
-    const params = {
+    const params: Dictionary<any> = {
       status: this.moocStatus,
       is_free: this.paymentType
     }
@@ -57,7 +69,7 @@ export default class CourseList extends Vue {
       status: this.moocStatus,
       is_free: this.paymentType
     }
-    Cloud.MoocList.getList(params).then(res => {
+    Cloud.MoocList.getList(params).then((res: any) => {
       this.moocList = res.data
       this.pageMeta = res.meta
     })

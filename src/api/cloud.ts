@@ -1,21 +1,26 @@
 import Request from '@/utils/request'
+const moocModuleBasedUrl = 'mooc';
 
-export const Cloud = {
-  getList(params:any) {
-    return Request.xget(
-      '/api/mooc/packages',
-      params
-    )
-  }
-}
-// const CategoryCourses = {
-//   getList(id: number) {
+const moocPackageUrl = `${moocModuleBasedUrl}/packages`;// 课程包列表
+// export const Cloud = {
+//   getList(params:any) {
 //     return Request.xget(
-//       `http://dev.nc.com/api/excellent_courses/courses/category_courses_recommend?category_id=${id}`
+//       '/api/mooc/packages',
+//       params
 //     )
 //   }
 // }
-export { }
+export const MoocList = {
+  // 课程包列表
+  getList(params:any) {
+    const url = `${moocPackageUrl}`;
+    return Request.get(url,params)
+  },
+};
+
+export default {
+  MoocList,
+};
 
 
 // const moocPackageUrl = `${moocModuleBasedUrl}/packages`;// 课程包列表

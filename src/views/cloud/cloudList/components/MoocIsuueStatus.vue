@@ -1,42 +1,71 @@
 <template>
   <div class="mooc-issue-status">
     <ul>
-      <li :class="{'active': item.value === value}"
+      <li
+        :class="{ active: item.value === value }"
         v-for="(item, index) in options"
-        :key="index" @click="onClick(item.value)"> {{item.label}}</li>
+        :key="index"
+        @click="onClick(item.value)"
+      >
+        {{ item.label }}
+      </li>
     </ul>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'MoocIsuueStatus',
-  model: {
-    prop: 'value',
-    event: 'change',
-  },
-  props: {
-    value: {
-      type: Number,
-      default: 0,
-    },
-  },
-  data() {
-    return {
-      options: [
-        { value: null, label: '全部' },
-        { value: 1, label: '进行中' },
-        { value: 0, label: '未开始' },
-        { value: -1, label: '已结束' },
-      ],
-    };
-  },
-  methods: {
-    onClick(val) {
-      this.$emit('change', val);
-    },
-  },
-};
+<script lang="ts">
+import { Component, Vue, Prop, Model } from 'vue-property-decorator'
+export interface IMoocOptions {
+  value: number | null
+  label: string
+}
+@Component({})
+export default class MoocIsuueStatus extends Vue {
+  // model: {
+  //   prop: 'value'
+  //   event: 'change'
+  // }
+  @Prop({ default: 0, type: Number }) value!: number
+  public options: Array<IMoocOptions> = [
+    { value: null, label: '全部' },
+    { value: 1, label: '进行中' },
+    { value: 0, label: '未开始' },
+    { value: -1, label: '已结束' }
+  ]
+  onClick(val: any) {
+    this.$emit('change', val)
+  }
+  //  @Model ('change', {type: Boolean})  checked!: boolean;
+  @Model('prop', { type: String }) change!: string
+}
+// export default {
+//   name: 'MoocIsuueStatus',
+//   model: {
+//     prop: 'value',
+//     event: 'change'
+//   },
+//   props: {
+//     value: {
+//       type: Number,
+//       default: 0
+//     }
+//   },
+//   data() {
+//     return {
+//       options: [
+//         { value: null, label: '全部' },
+//         { value: 1, label: '进行中' },
+//         { value: 0, label: '未开始' },
+//         { value: -1, label: '已结束' }
+//       ]
+//     }
+//   },
+//   methods: {
+//     onClick(val) {
+//       this.$emit('change', val)
+//     }
+//   }
+// }
 </script>
 
 <style lang="scss" scoped>
@@ -49,9 +78,9 @@ export default {
       font-size: 14px;
       padding: 3px 12px;
       cursor: pointer;
-      color: #4C5258;
+      color: #4c5258;
       &.active {
-        background-color:#FF783C;
+        background-color: #ff783c;
         color: #fff;
         border-radius: 12px;
       }
