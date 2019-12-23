@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <!-- 多级选项卡 -->
+    <!-- 1多级选项卡 -->
     <div class="head-nav">
       <div class="switch_type">
         <div class="content">
@@ -397,304 +397,304 @@ export default class ResourceList extends Vue {
   // },
 
   // methods: {
-    // getResourceList() {
-    //   const postObj = {
-    //     name: this.name, // 关键字搜索
-    //     is_free: this.is_free === 'all' ? '' : this.is_free, // 1免费 0收费
-    //     role_id: this.role_id === 'all' ? '' : this.role_id, // 发布方
-    //     education: this.education === 'all' ? '' : this.education, // 适用层次
-    //     order: this.order, // 排序
-    //     category_id: this.category_id === -1 ? '' : this.category_id, // 三级筛选
-    //     status: this.packstatus === '全部' ? '' : this.packstatus, // 筛选审核状态（0：待审，1：通过，2：未通过）,9为未发布
-    //     is_published: this.is_published === '' ? '' : this.is_published, // 上下架
-    //     mine: this.mine === '' ? '' : this.mine, // 我的发布
-    //     bought: this.bought === '' ? '' : this.bought // 我的摘录
-    //   }
-    //   Resource.ResourcePackage.getResourceList(postObj)
-    //     .then(rec => {
-    //       console.log('列表=', rec)
-    //       this.packagesList = rec
-    //       if (rec.data.length > 0) {
-    //         console.log(rec)
-    //       } else {
-    //         console.log(rec)
-    //       }
-    //     })
-    //     .catch(rec => {
-    //       console.log(rec)
-    //     })
-    // },
-    // 获取一级分类
-    // getNavtypes() {
-    //   const url = 'http://dev.nc.com/api/categories'
-    //   axios.get(url).then(res => {
-    //     this.navFirstShow = res
-    //     this.deepfirst = res
-    //     this.getNavtypesecond()
-    //   })
-    // }
-    // 获取二级分类 学科类别
-    // getNavtypesecond() {
-    //   const arrdep2 = []
-    //   const arr = []
-    //   const secondList = this.navFirstShow
-    //   secondList.forEach(row => {
-    //     if (row.children) {
-    //       arrdep2.push(row.children)
-    //     }
-    //   })
-    //   arrdep2.forEach(row => {
-    //     row.forEach(item => {
-    //       arr.push(item)
-    //     })
-    //   })
-    //   this.navSecondShow = arr
-    //   this.deepsecond = arr
-    //   this.getNavtypethird()
-    // },
-    // 获取三级分类 课程类别
-    // getNavtypethird() {
-    //   const arrdep3 = []
-    //   const arr = []
-    //   const thirdList = this.navSecondShow
-    //   console.log('thirdList', thirdList)
-    //   thirdList.forEach(row => {
-    //     if (row.children) {
-    //       arrdep3.push(row.children)
-    //     }
-    //   })
-    //   arrdep3.forEach(row => {
-    //     row.forEach(item => {
-    //       arr.push(item)
-    //     })
-    //   })
-    //   this.deepthird = arr
-    //   this.navtypethird = arr
-    //   this.navThirdShow = arr
-    // },
-    // 一级分类选中
-    // setNavActive(index) {
-    //   console.log('this.deepsecond', this.deepsecond)
-    //   this.navActiveSecond = -1 // 确保学科类别 全部 选中
-    //   const arr = []
-    //   // 当选择全部时
-    //   if (index === -1) {
-    //     this.navSecondShow = this.deepsecond
-    //   } else {
-    //     // 没有选择全部时
-    //     this.deepsecond.forEach(item => {
-    //       if (item.parent_id === index) {
-    //         arr.push(item)
-    //       }
-    //     })
-    //     this.navSecondShow = arr
-    //   }
-    //   // 获取三级分类
-    //   this.getNavtypethird()
-    //   // 如果该一级分类下不存在二级分类 则二级分类不用展示
-    //   if (this.navSecondShow.length === 0) {
-    //     this.navSecondShow = ''
-    //     this.category_id = index
-    //     console.log('没有二级分类时category_id=', this.category_id)
-    //   } else {
-    //     this.navSecondShow = arr
-    //   }
-    //   this.category_id = index
-    //   this.getResourceList()
-    //   this.navFirstCurrent = index
-    // },
-    // 二级分类选中
-    // setNavSecond(index) {
-    //   const arr = []
-    //   // 当选择全部时
-    //   if (index === -1) {
-    //     this.navThirdShow = this.deepthird
-    //   } else {
-    //     this.deepthird.forEach(item => {
-    //       if (item.parent_id === index) {
-    //         arr.push(item)
-    //       }
-    //     })
-    //     this.navThirdShow = arr
-    //   }
-    //   this.category_id = index
-    //   this.getResourceList()
-    //   console.log('课程类别=', this.navThirdShow)
-    //   this.navActiveSecond = index
-    // },
-    // 第三行选中
-    // setNavThird(index) {
-    //   this.navThirdActive = index
-    //   this.category_id = index
-    //   this.getResourceList()
-    // },
-    // 收费类型
-    // setChargeActive(name) {
-    //   this.is_free = name
-    //   this.getResourceList()
-    // },
-    // 发布方 role_id
-    // setPublishActive(name) {
-    //   this.role_id = name
-    //   this.getResourceList()
-    // },
-    // 适合层次
-    // setScopeActive(name) {
-    //   this.education = name
-    //   this.getResourceList()
-    // },
-    // 排序 order
-    // setSortActive(name) {
-    //   this.order = name
-    //   this.getResourceList()
-    // },
-    // 搜索关键字
-    // searchName(data) {
-    //   console.log('关键字', data)
-    //   this.name = data
-    //   this.getResourceList()
-    // },
-    // 最右侧审核状态筛选
-    // setPackstatus(status) {
-    //   console.log('筛选状态', status)
-    //   this.packstatusCN = status
-    //   if (this.packstatusCN === '全部') {
-    //     this.packstatus = ''
-    //     this.is_published = ''
-    //   }
-    //   if (this.packstatusCN === '待审核') {
-    //     this.packstatus = 0
-    //     this.is_published = 0
-    //   }
-    //   if (this.packstatusCN === '已通过') {
-    //     this.packstatus = 1
-    //   }
-    //   if (this.packstatusCN === '未通过') {
-    //     this.packstatus = 2
-    //   }
-    //   if (this.packstatusCN === '待发布') {
-    //     this.packstatus = 9
-    //   }
-    //   this.getResourceList()
-    // },
-    // 左侧三个筛选
-    // typeChoose(type) {
-    //   this.typechoose = type
-    //   console.log('type=', type)
-    //   if (type === 'myfa') {
-    //     // 我的发布
-    //     this.mine = 1
-    //     this.sortactive = 'createtime'
-    //     this.bought = ''
-    //     this.packstatus = ''
-    //     this.is_published = ''
-    //     this.packstatusCN = '全部'
-    //     this.getResourceList()
-    //     const obj = {
-    //       type: 'release'
-    //     }
-    //     this.$router.push({ query: obj })
-    //   } else if (type === 'all') {
-    //     // 选择全部
-    //     this.mine = ''
-    //     this.bought = ''
-    //     this.packstatus = ''
-    //     this.is_published = ''
-    //     this.getResourceList()
-    //     const obj = {
-    //       type: 'all'
-    //     }
-    //     this.$router.push({ query: obj })
-    //   } else if (type === 'myzhai') {
-    //     // 我的摘录
-    //     this.mine = ''
-    //     this.bought = 1
-    //     this.packstatus = ''
-    //     this.getResourceList()
-    //     const obj = {
-    //       type: 'excerpt'
-    //     }
-    //     this.$router.push({ query: obj })
-    //   }
-    // },
-    // typeChoose(type) {
-    //   this.typechoose = type
-    //   console.log('type=', type)
-    //   if (type === 'myfa') {
-    //     // 我的发布
-    //     this.mine = 1
-    //     this.sortactive = 'createtime'
-    //     this.bought = ''
-    //     this.packstatus = ''
-    //     this.is_published = ''
-    //     this.packstatusCN = '全部'
-    //     this.getResourceList()
-    //     const obj = {
-    //       type: 'release'
-    //     }
-    //     this.$router.push({ query: obj })
-    //   } else if (type === 'all') {
-    //     // 选择全部
-    //     this.mine = ''
-    //     this.bought = ''
-    //     this.packstatus = ''
-    //     this.is_published = ''
-    //     this.getResourceList()
-    //     const obj = {
-    //       type: 'all'
-    //     }
-    //     this.$router.push({ query: obj })
-    //   } else if (type === 'myzhai') {
-    //     // 我的摘录
-    //     this.mine = ''
-    //     this.bought = 1
-    //     this.packstatus = ''
+  // getResourceList() {
+  //   const postObj = {
+  //     name: this.name, // 关键字搜索
+  //     is_free: this.is_free === 'all' ? '' : this.is_free, // 1免费 0收费
+  //     role_id: this.role_id === 'all' ? '' : this.role_id, // 发布方
+  //     education: this.education === 'all' ? '' : this.education, // 适用层次
+  //     order: this.order, // 排序
+  //     category_id: this.category_id === -1 ? '' : this.category_id, // 三级筛选
+  //     status: this.packstatus === '全部' ? '' : this.packstatus, // 筛选审核状态（0：待审，1：通过，2：未通过）,9为未发布
+  //     is_published: this.is_published === '' ? '' : this.is_published, // 上下架
+  //     mine: this.mine === '' ? '' : this.mine, // 我的发布
+  //     bought: this.bought === '' ? '' : this.bought // 我的摘录
+  //   }
+  //   Resource.ResourcePackage.getResourceList(postObj)
+  //     .then(rec => {
+  //       console.log('列表=', rec)
+  //       this.packagesList = rec
+  //       if (rec.data.length > 0) {
+  //         console.log(rec)
+  //       } else {
+  //         console.log(rec)
+  //       }
+  //     })
+  //     .catch(rec => {
+  //       console.log(rec)
+  //     })
+  // },
+  // 获取一级分类
+  // getNavtypes() {
+  //   const url = 'http://dev.nc.com/api/categories'
+  //   axios.get(url).then(res => {
+  //     this.navFirstShow = res
+  //     this.deepfirst = res
+  //     this.getNavtypesecond()
+  //   })
+  // }
+  // 获取二级分类 学科类别
+  // getNavtypesecond() {
+  //   const arrdep2 = []
+  //   const arr = []
+  //   const secondList = this.navFirstShow
+  //   secondList.forEach(row => {
+  //     if (row.children) {
+  //       arrdep2.push(row.children)
+  //     }
+  //   })
+  //   arrdep2.forEach(row => {
+  //     row.forEach(item => {
+  //       arr.push(item)
+  //     })
+  //   })
+  //   this.navSecondShow = arr
+  //   this.deepsecond = arr
+  //   this.getNavtypethird()
+  // },
+  // 获取三级分类 课程类别
+  // getNavtypethird() {
+  //   const arrdep3 = []
+  //   const arr = []
+  //   const thirdList = this.navSecondShow
+  //   console.log('thirdList', thirdList)
+  //   thirdList.forEach(row => {
+  //     if (row.children) {
+  //       arrdep3.push(row.children)
+  //     }
+  //   })
+  //   arrdep3.forEach(row => {
+  //     row.forEach(item => {
+  //       arr.push(item)
+  //     })
+  //   })
+  //   this.deepthird = arr
+  //   this.navtypethird = arr
+  //   this.navThirdShow = arr
+  // },
+  // 一级分类选中
+  // setNavActive(index) {
+  //   console.log('this.deepsecond', this.deepsecond)
+  //   this.navActiveSecond = -1 // 确保学科类别 全部 选中
+  //   const arr = []
+  //   // 当选择全部时
+  //   if (index === -1) {
+  //     this.navSecondShow = this.deepsecond
+  //   } else {
+  //     // 没有选择全部时
+  //     this.deepsecond.forEach(item => {
+  //       if (item.parent_id === index) {
+  //         arr.push(item)
+  //       }
+  //     })
+  //     this.navSecondShow = arr
+  //   }
+  //   // 获取三级分类
+  //   this.getNavtypethird()
+  //   // 如果该一级分类下不存在二级分类 则二级分类不用展示
+  //   if (this.navSecondShow.length === 0) {
+  //     this.navSecondShow = ''
+  //     this.category_id = index
+  //     console.log('没有二级分类时category_id=', this.category_id)
+  //   } else {
+  //     this.navSecondShow = arr
+  //   }
+  //   this.category_id = index
+  //   this.getResourceList()
+  //   this.navFirstCurrent = index
+  // },
+  // 二级分类选中
+  // setNavSecond(index) {
+  //   const arr = []
+  //   // 当选择全部时
+  //   if (index === -1) {
+  //     this.navThirdShow = this.deepthird
+  //   } else {
+  //     this.deepthird.forEach(item => {
+  //       if (item.parent_id === index) {
+  //         arr.push(item)
+  //       }
+  //     })
+  //     this.navThirdShow = arr
+  //   }
+  //   this.category_id = index
+  //   this.getResourceList()
+  //   console.log('课程类别=', this.navThirdShow)
+  //   this.navActiveSecond = index
+  // },
+  // 第三行选中
+  // setNavThird(index) {
+  //   this.navThirdActive = index
+  //   this.category_id = index
+  //   this.getResourceList()
+  // },
+  // 收费类型
+  // setChargeActive(name) {
+  //   this.is_free = name
+  //   this.getResourceList()
+  // },
+  // 发布方 role_id
+  // setPublishActive(name) {
+  //   this.role_id = name
+  //   this.getResourceList()
+  // },
+  // 适合层次
+  // setScopeActive(name) {
+  //   this.education = name
+  //   this.getResourceList()
+  // },
+  // 排序 order
+  // setSortActive(name) {
+  //   this.order = name
+  //   this.getResourceList()
+  // },
+  // 搜索关键字
+  // searchName(data) {
+  //   console.log('关键字', data)
+  //   this.name = data
+  //   this.getResourceList()
+  // },
+  // 最右侧审核状态筛选
+  // setPackstatus(status) {
+  //   console.log('筛选状态', status)
+  //   this.packstatusCN = status
+  //   if (this.packstatusCN === '全部') {
+  //     this.packstatus = ''
+  //     this.is_published = ''
+  //   }
+  //   if (this.packstatusCN === '待审核') {
+  //     this.packstatus = 0
+  //     this.is_published = 0
+  //   }
+  //   if (this.packstatusCN === '已通过') {
+  //     this.packstatus = 1
+  //   }
+  //   if (this.packstatusCN === '未通过') {
+  //     this.packstatus = 2
+  //   }
+  //   if (this.packstatusCN === '待发布') {
+  //     this.packstatus = 9
+  //   }
+  //   this.getResourceList()
+  // },
+  // 左侧三个筛选
+  // typeChoose(type) {
+  //   this.typechoose = type
+  //   console.log('type=', type)
+  //   if (type === 'myfa') {
+  //     // 我的发布
+  //     this.mine = 1
+  //     this.sortactive = 'createtime'
+  //     this.bought = ''
+  //     this.packstatus = ''
+  //     this.is_published = ''
+  //     this.packstatusCN = '全部'
+  //     this.getResourceList()
+  //     const obj = {
+  //       type: 'release'
+  //     }
+  //     this.$router.push({ query: obj })
+  //   } else if (type === 'all') {
+  //     // 选择全部
+  //     this.mine = ''
+  //     this.bought = ''
+  //     this.packstatus = ''
+  //     this.is_published = ''
+  //     this.getResourceList()
+  //     const obj = {
+  //       type: 'all'
+  //     }
+  //     this.$router.push({ query: obj })
+  //   } else if (type === 'myzhai') {
+  //     // 我的摘录
+  //     this.mine = ''
+  //     this.bought = 1
+  //     this.packstatus = ''
+  //     this.getResourceList()
+  //     const obj = {
+  //       type: 'excerpt'
+  //     }
+  //     this.$router.push({ query: obj })
+  //   }
+  // },
+  // typeChoose(type) {
+  //   this.typechoose = type
+  //   console.log('type=', type)
+  //   if (type === 'myfa') {
+  //     // 我的发布
+  //     this.mine = 1
+  //     this.sortactive = 'createtime'
+  //     this.bought = ''
+  //     this.packstatus = ''
+  //     this.is_published = ''
+  //     this.packstatusCN = '全部'
+  //     this.getResourceList()
+  //     const obj = {
+  //       type: 'release'
+  //     }
+  //     this.$router.push({ query: obj })
+  //   } else if (type === 'all') {
+  //     // 选择全部
+  //     this.mine = ''
+  //     this.bought = ''
+  //     this.packstatus = ''
+  //     this.is_published = ''
+  //     this.getResourceList()
+  //     const obj = {
+  //       type: 'all'
+  //     }
+  //     this.$router.push({ query: obj })
+  //   } else if (type === 'myzhai') {
+  //     // 我的摘录
+  //     this.mine = ''
+  //     this.bought = 1
+  //     this.packstatus = ''
 
-    //     this.getResourceList()
-    //     const obj = {
-    //       type: 'excerpt'
-    //     }
-    //     this.$router.push({ query: obj })
-    //   }
-    // },
+  //     this.getResourceList()
+  //     const obj = {
+  //       type: 'excerpt'
+  //     }
+  //     this.$router.push({ query: obj })
+  //   }
+  // },
 
-    // 上下架
-    // setPublish(params) {
-    //   Resource.ResourcePackage.setPublish(params.id, params.is_publish)
-    //     .then(rec => {
-    //       this.$message({
-    //         message: rec,
-    //         type: 'success',
-    //       })
-    //       this.typeChoose('myfa')
-    //     })
-    //     .catch(rec => {
-    //       console.log(rec)
-    //     })
-    // },
-    // 提交审核
-    // setArraignment(obj) {
-    //   Resource.ResourcePackage.packageArraignment(obj)
-    //     .then(rec => {
-    //       this.$message({
-    //         message: rec,
-    //         type: 'success',
-    //       })
-    //       this.getResourceList()
-    //     })
-    //     .catch(rec => {
-    //       console.log(rec)
-    //     })
-    // },
-    // 根据创建时间或摘录量进行排序
-    // setSorttype(tab) {
-    //   if (tab === 'createtime') {
-    //     this.sortactive = 'createtime'
-    //     console.log('创建时间')
-    //   } else if (tab === 'excerptnum') {
-    //     this.sortactive = 'excerptnum'
-    //   }
-    // }
+  // 上下架
+  // setPublish(params) {
+  //   Resource.ResourcePackage.setPublish(params.id, params.is_publish)
+  //     .then(rec => {
+  //       this.$message({
+  //         message: rec,
+  //         type: 'success',
+  //       })
+  //       this.typeChoose('myfa')
+  //     })
+  //     .catch(rec => {
+  //       console.log(rec)
+  //     })
+  // },
+  // 提交审核
+  // setArraignment(obj) {
+  //   Resource.ResourcePackage.packageArraignment(obj)
+  //     .then(rec => {
+  //       this.$message({
+  //         message: rec,
+  //         type: 'success',
+  //       })
+  //       this.getResourceList()
+  //     })
+  //     .catch(rec => {
+  //       console.log(rec)
+  //     })
+  // },
+  // 根据创建时间或摘录量进行排序
+  // setSorttype(tab) {
+  //   if (tab === 'createtime') {
+  //     this.sortactive = 'createtime'
+  //     console.log('创建时间')
+  //   } else if (tab === 'excerptnum') {
+  //     this.sortactive = 'excerptnum'
+  //   }
+  // }
   //   setSorttype(tab) {
   //     if (tab === 'createtime') {
   //       this.sortactive = 'createtime'
