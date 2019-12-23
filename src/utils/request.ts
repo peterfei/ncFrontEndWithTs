@@ -10,7 +10,7 @@ import qs from 'qs'
 // import { UserModule } from '@/store/modules/user'
 
 class Request {
-  protected baseURL: any = process.env.VUE_APP_BASE_API
+  protected baseURL: any = process.env.baseURL
   protected service: any = axios
   protected pending: Array<{
     url: string

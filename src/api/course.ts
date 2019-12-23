@@ -14,9 +14,7 @@ const vodPlayAuthUel = '/vod_play_auth' // 获取视频播放授权
 const categoryCoursesUrl = `${courseUrl}/category_courses_recommend?category_id=` // 一级分类下的课程列表接口
 export const Course = {
   getGoodCourse() {
-    return Request.xget(
-      'http://dev.nc.com/api/excellent_courses/courses/good_courses'
-    )
+    return Request.xget('/api/excellent_courses/courses/good_courses')
   },
   getDetail(postUrl: string) {
     return Request.post(postUrl)
@@ -45,7 +43,7 @@ export const Course = {
 const CategoryCourses = {
   getList(id: number) {
     return Request.xget(
-      `http://dev.nc.com/api/excellent_courses/courses/category_courses_recommend?category_id=${id}`
+      `/api/excellent_courses/courses/category_courses_recommend?category_id=${id}`
     )
   }
 }
