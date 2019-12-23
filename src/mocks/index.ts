@@ -87,7 +87,6 @@ export const listItemFooter = [
     link: ''
   }
 ]
-<<<<<<< .merge_file_a02964
 
 export const mokHotSearchTag = [
   {
