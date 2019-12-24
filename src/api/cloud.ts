@@ -29,10 +29,10 @@ export const MoocList = {
     return Request.get(moocMogulUrl);
   },
   // 单个期刊的详情接口{{host}}/api/mooc/issues/{id}
-  // getPeriodical(id: number) {
+  getPeriodical(id: number) {
     // console.log(1111111111111111111111, id);
-    // const url = `${moocIssues}/${id}`;
-    // return Request.get(url);
+    const url = `${moocIssues}/${id}`;
+    return Request.get(url);
   },
  
 }
