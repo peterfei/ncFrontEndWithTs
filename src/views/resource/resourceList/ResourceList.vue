@@ -48,15 +48,13 @@
       </div>
       <div class="queryBlcok">
         <div class="content">
-          <query-item
-            v-for="item in queryItems"
-            :value="item.value"
-            :key="item.key"
-            :label="item.label"
-            :options="item.options"
-            :query_isAll="item.query_isAll"
-            @change="changeHandler(item, $event)"
-          >
+          <query-item v-for="item in queryItems"
+                      :value="item.value"
+                      :key="item.key"
+                      :label="item.label"
+                      :options="item.options"
+                      :query_isAll="item.query_isAll"
+                      @change="changeHandler(item, $event)">
           </query-item>
         </div>
       </div>
@@ -112,15 +110,14 @@
       <div class="package_list">
         <!-- 优选教学包 -->
         <section>
-          <div class="list_box" v-if="packagesList">
-            <package-item
-              v-for="item in packagesList"
-              :key="item.id"
-              :id="item.id"
-              :title="item.name"
-              :price="item.price"
-              :typechoose="typechoose"
-            >
+          <div class="list_box"
+               v-if="packagesList">
+            <package-item v-for="item in packagesList"
+                          :key="item.id"
+                          :id="item.id"
+                          :title="item.name"
+                          :price="item.price"
+                          :typechoose="typechoose">
             </package-item>
 
             <!-- <package-item
@@ -237,9 +234,10 @@ export default class ResourceList extends Vue {
       // mine: this.mine === '' ? '' : this.mine, // 我的发布
       // bought: this.bought === '' ? '' : this.bought // 我的摘录
     }
-    let res = await ResourcePackageList.getPackageList(postObj)
-    this.packagesList = res.data.data || []
+    let res = await  ResourcePackageList.getPackageList(postObj)
 
+    this.packagesList = res.data 
+    // this.packagesList = [...this.packagesList, ...res.data]
     console.log('packagesList=', this.packagesList)
   }
 
