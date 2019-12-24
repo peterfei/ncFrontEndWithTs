@@ -193,13 +193,13 @@ export default class cloudDetal extends Vue {
   }
   // 期刊
   getPeriodical(issueId: any) {
-    Cloud.MoocList.getPeriodical(this.id).then((rec: any) => {
-      this.periodical = rec
-      if (!issueId) {
-        this.issuesId = rec.last_issue_id
-        // this.getIssueInfo(this.issuesId)
-      }
-    })
+    //Cloud.MoocList.getPeriodical(this.id).then((rec: any) => {
+    //  this.periodical = rec
+    //  if (!issueId) {
+    //    this.issuesId = rec.last_issue_id
+    //    // this.getIssueInfo(this.issuesId)
+    //  }
+    //})
   }
 }
 // export default {

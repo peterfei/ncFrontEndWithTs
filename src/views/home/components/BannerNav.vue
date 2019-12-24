@@ -70,7 +70,7 @@ export default class BannerNav extends Vue {
   }
   async mounted() {
     const _list = await Categories.getCategoriesList()
-    this.sideNavBar = [this.sideNavBar, ..._list]
+    this.sideNavBar = _list
     console.log(`sideNavBar list is ${JSON.stringify(this.sideNavBar)}`)
   }
   // 获取鼠标移入分类的id
@@ -94,7 +94,7 @@ export default class BannerNav extends Vue {
     )
     if (this.objSideBar === undefined) return
     const _getLists = await CategoryCourses.getList(this.objSideBar.id)
-    this.categoryCoursesList = [this.categoryCoursesList, ..._getLists]
+    this.categoryCoursesList = _getLists
     console.log(
       `categoryCoursesList is ${JSON.stringify(this.categoryCoursesList)}`
     )
