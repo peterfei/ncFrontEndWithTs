@@ -18,13 +18,13 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Model } from 'vue-property-decorator'
 @Component
 export default class BannerNavFilter extends Vue {
-  public prop: string = 'seleced'
-  public event: string = 'change'
   @Prop({ default: 'value' }) title!: string
   @Prop({ default: [] }) categoryList!: Array<object>
+
+  @Model('change', { type: Boolean }) readonly seleced!: boolean
   public categoryItem(item: any) {
     this.$emit('change', item)
   }
