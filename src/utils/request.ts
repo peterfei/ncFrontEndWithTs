@@ -24,8 +24,8 @@ class Request {
   constructor() {
     this.requestConfig()
     this.service = axios.create(this.axiosRequestConfig)
-    //this.interceptorsRequest()
-    //this.interceptorsResponse()
+    this.interceptorsRequest()
+    this.interceptorsResponse()
   }
 
   public static getInstance(): Request {
