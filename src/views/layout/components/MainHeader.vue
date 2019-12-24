@@ -134,6 +134,7 @@ export default class MainHeader extends Vue {
 }
 .navs {
   margin-left: 30px;
+  height: 70px;
 }
 .nav-item {
   width: auto;
@@ -182,18 +183,18 @@ export default class MainHeader extends Vue {
 }
 .btns {
   line-height: 70px;
-  flex: 1;
+  //flex: 1;
   color: #737980;
   text-align: right;
   .app-btn {
-    margin-right: 52px;
+    //margin-right: 52px;
     i {
       color: #737980;
       margin-right: 6px;
     }
   }
   .login-register {
-    margin-right: 38px;
+    //margin-right: 38px;
   }
   span a {
     color: #737980;
