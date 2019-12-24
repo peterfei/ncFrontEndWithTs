@@ -47,10 +47,6 @@ class Request {
           return data
         }
       ],
-
-      paramsSerializer: function(params: any) {
-        return JSON.stringify(params)
-      },
       timeout: 30000,
       withCredentials: false,
       responseType: 'json',
@@ -184,13 +180,13 @@ class Request {
 
   public get(url: string, parmas: any = {}, config: object = {}) {
     try {
-      return this.service.get(url, parmas, config)
+      return this.service.get(url, { ...config, params: parmas })
     } catch (error) {
       console.error(error)
     }
   }
   public xget(url: string, parmas: any = {}, config: object = {}) {
-    return this.service.get(url, parmas, config)
+    return this.service.get(url, { ...config, params: parmas })
   }
 
   protected requestLog(request: any): void {}

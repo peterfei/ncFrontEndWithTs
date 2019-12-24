@@ -82,7 +82,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
   filters: {
-    filesize(filesize: number) {
+    filesize(filesize: any) {
       let size = filesize
       let unit = 'KB'
       if (size > 1024) {
