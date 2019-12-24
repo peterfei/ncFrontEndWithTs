@@ -28,31 +28,31 @@ const CloudModule = {
     //       name: 'CourseIntroduction',
     //       component: CourseIntroduction,
     //     },
-    //     {
-    //       path: 'introduction',
-    //       name: 'CourseIntroduction',
-    //       component: CourseIntroduction,
-    //     },
-    //     {
-    //       path: 'syllabus',
-    //       name: 'LearningSyllabus',
-    //       component: LearningSyllabus,
-    //     },
-    //     {
-    //       path: 'notice',
-    //       name: 'CourseNotice',
-    //       component: CourseNotice,
-    //     },
-    //     {
-    //       path: 'rules',
-    //       name: 'ScoringRules',
-    //       component: ScoringRules,
-    //     },
-    //     {
-    //       path: 'evaluate',
-    //       name: 'CourseEvaluation',
-    //       component: CourseEvaluation,
-    //     },
+        // {
+        //   path: 'introduction',
+        //   name: 'CourseIntroduction',
+        //   component: CourseIntroduction,
+        // },
+        // {
+        //   path: 'syllabus',
+        //   name: 'LearningSyllabus',
+        //   component: LearningSyllabus,
+        // },
+        // {
+        //   path: 'notice',
+        //   name: 'CourseNotice',
+        //   component: CourseNotice,
+        // },
+        // {
+        //   path: 'rules',
+        //   name: 'ScoringRules',
+        //   component: ScoringRules,
+        // },
+        // {
+        //   path: 'evaluate',
+        //   name: 'CourseEvaluation',
+        //   component: CourseEvaluation,
+        // },
     //   ],
     // },
   ]

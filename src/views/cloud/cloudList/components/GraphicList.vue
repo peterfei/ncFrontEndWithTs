@@ -224,11 +224,11 @@ export default class GraphicList extends Vue {
   justify-content: center;
   align-items: center;
   margin: 50px auto 100px;
-  button {
+  &::v-deep button {
     background: rgba(244, 244, 244, 1);
     background-color: rgba(244, 244, 244, 1) !important;
   }
-  li {
+  &::v-deep li {
     background: rgba(244, 244, 244, 1);
   }
 }
