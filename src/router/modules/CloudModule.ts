@@ -17,7 +17,7 @@ const CloudModule = {
       path: '',
       name: 'cloud',
       component: CloudList
-    }
+    },
     // {
     //   path: 'clouddetail/:id/packages/:course_id',
     //   name: 'CloudDetail',
