@@ -36,6 +36,7 @@
 </template>
 <script lang="ts">
 import { CategoryCourses } from '@/api/course'
+import { Categories } from '@/api/categories'
 import BannerNavItem from './BannerNavItem.vue'
 import BannerNavFilter from './BannerNavFilter.vue'
 import RecommentCourse from './RecommentCourse.vue'
@@ -67,8 +68,13 @@ export default class BannerNav extends Vue {
     id: 0,
     name: ''
   }
+  async mounted() {
+    const _list = await Categories.getCategoriesList()
+    this.sideNavBar = [this.sideNavBar, ..._list]
+    console.log(`sideNavBar list is ${JSON.stringify(this.sideNavBar)}`)
+  }
   // 获取鼠标移入分类的id
-  public getMouseenter(name: string): void {
+  public async getMouseenter(name: string): Promise<any> {
     const randomColor = `rgba(${Math.round(Math.random() * 255)},${Math.round(
       Math.random() * 255
     )},${Math.round(Math.random() * 255)})`
@@ -86,22 +92,15 @@ export default class BannerNav extends Vue {
     this.objSideBar = this.sideNavBar.find(
       (rec: INavSideBar) => rec.name === name
     )
-    if (!this.objSideBar.id) return
-    CategoryCourses.getList(this.objSideBar.id)
-      .then((rec: any) => {
-        if (rec.length > 0) {
-          this.categoryCoursesList = []
-          this.categoryCoursesList = rec
-        } else {
-          this.categoryCoursesList = []
-        }
-      })
-      .catch(() => {
-        this.categoryCoursesList = []
-      })
+    if (this.objSideBar === undefined) return
+    const _getLists = await CategoryCourses.getList(this.objSideBar.id)
+    this.categoryCoursesList = [this.categoryCoursesList, ..._getLists]
+    console.log(
+      `categoryCoursesList is ${JSON.stringify(this.categoryCoursesList)}`
+    )
   }
 
-  //change() {},
+  change() {}
 }
 </script>
 

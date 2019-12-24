@@ -17,44 +17,44 @@ const CloudModule = {
       path: '',
       name: 'cloud',
       component: CloudList
-    },
-    {
-      path: 'clouddetail/:id/packages/:course_id',
-      name: 'CloudDetail',
-      component: CloudDetail
-      // children: [
-      //   {
-      //     path: '',
-      //     name: 'CourseIntroduction',
-      //     component: CourseIntroduction,
-      //   },
-      // {
-      //   path: 'introduction',
-      //   name: 'CourseIntroduction',
-      //   component: CourseIntroduction,
-      // },
-      // {
-      //   path: 'syllabus',
-      //   name: 'LearningSyllabus',
-      //   component: LearningSyllabus,
-      // },
-      // {
-      //   path: 'notice',
-      //   name: 'CourseNotice',
-      //   component: CourseNotice,
-      // },
-      // {
-      //   path: 'rules',
-      //   name: 'ScoringRules',
-      //   component: ScoringRules,
-      // },
-      // {
-      //   path: 'evaluate',
-      //   name: 'CourseEvaluation',
-      //   component: CourseEvaluation,
-      // },
-      // ],
     }
+    //{
+    //  path: 'clouddetail/:id/packages/:course_id',
+    //  name: 'CloudDetail',
+    //  component: CloudDetail
+    //  // children: [
+    //  //   {
+    //  //     path: '',
+    //  //     name: 'CourseIntroduction',
+    //  //     component: CourseIntroduction,
+    //  //   },
+    //  // {
+    //  //   path: 'introduction',
+    //  //   name: 'CourseIntroduction',
+    //  //   component: CourseIntroduction,
+    //  // },
+    //  // {
+    //  //   path: 'syllabus',
+    //  //   name: 'LearningSyllabus',
+    //  //   component: LearningSyllabus,
+    //  // },
+    //  // {
+    //  //   path: 'notice',
+    //  //   name: 'CourseNotice',
+    //  //   component: CourseNotice,
+    //  // },
+    //  // {
+    //  //   path: 'rules',
+    //  //   name: 'ScoringRules',
+    //  //   component: ScoringRules,
+    //  // },
+    //  // {
+    //  //   path: 'evaluate',
+    //  //   name: 'CourseEvaluation',
+    //  //   component: CourseEvaluation,
+    //  // },
+    //  // ],
+    //}
   ]
 }
 export default { CloudModule }

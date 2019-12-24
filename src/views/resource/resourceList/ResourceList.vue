@@ -237,10 +237,9 @@ export default class ResourceList extends Vue {
       // bought: this.bought === '' ? '' : this.bought // 我的摘录
     }
     let res = await ResourcePackageList.getPackageList(postObj)
-    this.packagesList = res.data.data || []
 
-    console.log('res.data.data', res.data)
-
+    this.packagesList = res.data
+    // this.packagesList = [...this.packagesList, ...res.data]
     console.log('packagesList=', this.packagesList)
   }
 
