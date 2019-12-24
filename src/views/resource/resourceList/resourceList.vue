@@ -20,196 +20,56 @@
     </div>
     <!-- 多级选项卡 -->
     <div class="head-nav">
-      <div class="switch_type">
+      <div class="fistQuery">
         <div class="content">
-          <div
-            class="item"
-            @click="setNavActive(-1)"
-            :class="{ active: navFirstCurrent == -1 }"
-          >
-            <span class="type">全部</span>
-            <span class="line"></span>
-          </div>
-          <div
-            class="item"
-            v-for="item in navFirstShow"
-            :key="item.id"
-            @click="setNavActive(item.id)"
-            :class="{ active: item.id == navFirstCurrent }"
-          >
-            <span class="type">{{ item.name }}</span>
-            <span class="line"></span>
-          </div>
+          <ul>
+            <li class="item active">
+              <span class="label">全部</span>
+              <span class="line"></span>
+            </li>
+            <li class="item">
+              <span class="label">卡里姆多</span>
+              <span class="line"></span>
+            </li>
+            <li class="item">
+              <span class="label">丹莫罗</span>
+              <span class="line"></span>
+            </li>
+            <li class="item">
+              <span class="label">希利苏斯</span>
+              <span class="line"></span>
+            </li>
+            <li class="item">
+              <span class="label">菲拉斯</span>
+              <span class="line"></span>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="other_type w-1200">
+      <div class="queryBlcok">
         <div class="content">
-          <!-- 学科类别 -->
-          <div class="subject type_div" v-if="navSecondShow.length">
-            <span class="title">学科类别:</span>
-            <span
-              class="item"
-              :class="{ active: navActiveSecond == -1 }"
-              @click="setNavSecond(-1)"
-              :index="-1"
-              >全部{{ index }}</span
-            >
-            <div class="items">
-              <span
-                class="item"
-                v-for="item in navSecondShow"
-                :index="item.id"
-                :key="item.id"
-                :class="{ active: item.id == navActiveSecond }"
-                @click="setNavSecond(item.id)"
-              >
-                {{ item.name }}
-              </span>
-            </div>
-          </div>
-          <!-- 课程类别 -->
-          <div class="course type_div" v-if="navThirdShow.length">
-            <span class="title">课程类别:</span>
-            <span
-              class="item"
-              @click="setNavThird(-1)"
-              :class="{ active: navThirdActive == -1 }"
-              >全部</span
-            >
-            <span
-              class="item"
-              v-for="item in navThirdShow"
-              :index="item.id"
-              :class="{ active: item.id == navThirdActive }"
-              :key="item.id"
-              @click="setNavThird(item.id)"
-            >
-              {{ item.name }}
-            </span>
-          </div>
-
-          <!-- 收费类型 -->
-          <div class="charge type_div">
-            <span class="title">收费类型:</span>
-            <span
-              class="item"
-              @click="setChargeActive('all')"
-              :class="{ active: is_free == 'all' }"
-              >全部</span
-            >
-            <span
-              class="item"
-              @click="setChargeActive(0)"
-              :class="{ active: is_free == 0 }"
-              >收费</span
-            >
-            <span
-              class="item"
-              @click="setChargeActive(1)"
-              :class="{ active: is_free == 1 }"
-              >免费</span
-            >
-          </div>
-
-          <!-- 发布方role_id -->
-          <div class="publish type_div">
-            <span class="title">发布方:</span>
-            <span
-              class="item"
-              @click="setPublishActive('all')"
-              :class="{ active: role_id == 'all' }"
-              >全部</span
-            >
-            <span
-              class="item"
-              @click="setPublishActive(3)"
-              :class="{ active: role_id == 3 }"
-              >教师</span
-            >
-            <span
-              class="item"
-              @click="setPublishActive(4)"
-              :class="{ active: role_id == 4 }"
-              >企业</span
-            >
-            <span
-              class="item"
-              @click="setPublishActive(5)"
-              :class="{ active: role_id == 5 }"
-              >专家</span
-            >
-            <span
-              class="item"
-              @click="setPublishActive(2)"
-              :class="{ active: role_id == 2 }"
-              >学生</span
-            >
-          </div>
-
-          <!-- 适合层次 -->
-          <div class="scope type_div">
-            <span class="title">适合层次:</span>
-            <span
-              class="item"
-              @click="setScopeActive('all')"
-              :class="{ active: education == 'all' }"
-              >全部</span
-            >
-            <span
-              class="item"
-              @click="setScopeActive(1)"
-              :class="{ active: education == 1 }"
-              >中职</span
-            >
-            <span
-              class="item"
-              @click="setScopeActive(2)"
-              :class="{ active: education == 2 }"
-              >高职</span
-            >
-            <span
-              class="item"
-              @click="setScopeActive(3)"
-              :class="{ active: education == 3 }"
-              >本科及以上</span
-            >
-            <span
-              class="item"
-              @click="setScopeActive(0)"
-              :class="{ active: education == 0 }"
-              >其他</span
-            >
-          </div>
-          <!-- 排序order -->
-          <div class="sort type_div">
-            <span class="title">排序:</span>
-            <span
-              class="item"
-              @click="setSortActive('created_at')"
-              :class="{ active: order == 'created_at' }"
-              >创建时间</span
-            >
-            <span
-              class="item"
-              @click="setSortActive('bought_num')"
-              :class="{ active: order == 'bought_num' }"
-              >摘录量</span
-            >
-            <span
-              class="item"
-              @click="setSortActive('price')"
-              :class="{ active: order == 'price' }"
-              >价格</span
-            >
-          </div>
+          <query-item
+            v-for="item in queryItems"
+            :value="item.value"
+            :key="item.key"
+            :label="item.label"
+            :options="item.options"
+            :query_isAll="item.query_isAll"
+            @change="changeHandler(item, $event)"
+          >
+          </query-item>
         </div>
+      </div>
+
+      <div class="other_type w-1200">
+        <div class="content"></div>
       </div>
     </div>
     <!-- 多级选项卡结束 -->
     <!-- 发布 -->
     <div class="w-1200">
       <div class="publish_block">
-        <div class="type_choose">
+        <!-- <div class="type_choose">
           <span
             class="item"
             :class="{ active: typechoose == 'all' }"
@@ -228,12 +88,12 @@
             @click="typeChoose('myzhai')"
             >我的摘录</span
           >
-        </div>
-        <div class="sort_type">
+        </div> -->
+        <!-- <div class="sort_type">
           <el-dropdown @command="setPackstatus" v-if="typechoose == 'myfa'">
             <span class="el-dropdown-link">
               {{ packstatusCN
-              }}<i class="el-icon-arrow-down el-icon--right"></i>
+              }}<i class="el-icon-arrow-down el-icon--right"></i>`
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="全部" v-if="packstatusCN != '全部'"
@@ -245,15 +105,24 @@
               <el-dropdown-item command="待发布">待发布</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        </div>
+        </div> -->
       </div>
       <!-- 发布按钮结束 -->
       <!-- 教学包列表 -->
       <div class="package_list">
         <!-- 优选教学包 -->
         <section>
-          <div class="list_box" v-if="noList == false">
-            {{ packagesList.data }}
+          <div class="list_box" v-if="packagesList">
+            <package-item
+              v-for="item in packagesList"
+              :key="item.id"
+              :id="item.id"
+              :title="item.name"
+              :price="item.price"
+              :typechoose="typechoose"
+            >
+            </package-item>
+
             <!-- <package-item
               v-for="item in packagesList.data"
               :key="item.id"
@@ -273,12 +142,12 @@
             >
             </package-item> -->
           </div>
-          <div class="no_excerpt no_data" v-if="noList == true">
+          <!-- <div class="no_excerpt no_data" v-if="packagesList == ''">
             <div class="content">
               <p>您还没有摘录的教学包~</p>
               <span>前往摘录</span>
             </div>
-          </div>
+          </div> -->
         </section>
       </div>
     </div>
@@ -286,62 +155,73 @@
 </template>
 
 <script lang="ts">
-// import axios from 'axios';
-// import Resource from '@/api/resource/index';
 import SearchBlock from './components/SearchBlock.vue'
-// import Component from 'vue-class-component'
-// import PackageItem from './components/PackageItem.vue';
+import QueryItem from './components/QueryItem.vue'
+import { mockQueryParams } from '@/mocks/index'
+
+import PackageItem from './components/PackageItem.vue'
 import { Component, Vue } from 'vue-property-decorator'
 import { ResourcePackageList } from '@/api/resource'
-
+declare module 'vue/types/vue' {
+  interface Vue {
+    [key: string]: any
+  }
+}
 @Component({
   components: {
-    SearchBlock
+    SearchBlock,
+    PackageItem,
+    QueryItem
   }
 })
 export default class ResourceList extends Vue {
   // name: 'ResourceList',
-  data() {
-    return {
-      current: -1,
-      index: null,
-      deepfirst: '', // 一级分类总数据
-      navFirstShow: '', // 一级分类实际显示数据
-      navFirstCurrent: -1,
-      deepsecond: '', // 二级学科类别总数据
-      navSecondShow: '', // 二级学科类别显示数据
-      navActiveSecond: -1,
-      deepthird: '', // 三级课程类别总数据
-      navThirdShow: '', // 三级课程类别展示数据
-      navThirdActive: -1,
-      name: '', // 关键字搜搜
-      publishCurrent: 'all', // 发布方筛选
-      packagesList: [],
-      noList: false, // 是否有数据
-      selected: null,
-      packstatusCN: '全部', // 审核状态 中文
-      packstatus: '', // 审核状态
-      typechoose: 'all',
-      status: '', // 审核状态
-      is_published: '', // 是否上架
-      category_id: '', // 类别ID
-      is_free: 'all', // 1免费 0不免费
-      role_id: 'all', // 发布方
-      education: 'all', // 适用层次 0 其他 1：中职 2：高职 3本科及以上
-      order: 'created_at', // 排序 创建时间created_at  摘录量bought_num  价格price
-      mine: '', // 我发布的
-      bought: '', // 我摘录的
-      sortactive: 'createtime' // 根据创建时间
-    }
-  }
+  // data() {
+  //   return {
+  //     current: -1,
+  //     index: null,
+  //     deepfirst: '', // 一级分类总数据
+  //     navFirstShow: '', // 一级分类实际显示数据
+  //     navFirstCurrent: -1,
+  //     deepsecond: '', // 二级学科类别总数据
+  //     navSecondShow: '', // 二级学科类别显示数据
+  //     navActiveSecond: -1,
+  //     deepthird: '', // 三级课程类别总数据
+  //     navThirdShow: '', // 三级课程类别展示数据
+  //     navThirdActive: -1,
+  //     name: '', // 关键字搜搜
+  //     publishCurrent: 'all', // 发布方筛选
+  //     noList: false, // 是否有数据
+  //     selected: null,
+  //     packstatusCN: '全部', // 审核状态 中文
+  //     packstatus: '', // 审核状态
+  //     typechoose: 'all',
+  //     status: '', // 审核状态
+  //     is_published: '', // 是否上架
+  //     category_id: '', // 类别ID
+  //     is_free: 'all', // 1免费 0不免费
+  //     role_id: 'all', // 发布方
+  //     education: 'all', // 适用层次 0 其他 1：中职 2：高职 3本科及以上
+  //     order: 'created_at', // 排序 创建时间created_at  摘录量bought_num  价格price
+  //     mine: '', // 我发布的
+  //     bought: '', // 我摘录的
+  //     sortactive: 'createtime' // 根据创建时间
+  //   }
+  // }
   name: string
-  packagesList: any
+  // noList: boolean
+  public typechoose: string = 'all'
+  public packagesList: Array<any> = []
+  public queryItems: Array<object> = mockQueryParams
   getPackageList: any | Function
   public searchName(data: string) {
     console.log('父组件data=', data)
   }
   mounted() {
     this.getResourceList()
+  }
+  changeHandler(obj: any, data: any) {
+    this[obj.eventName] && this[obj.eventName](data)
   }
   async getResourceList() {
     const obj: Object = {}
@@ -357,13 +237,14 @@ export default class ResourceList extends Vue {
       // mine: this.mine === '' ? '' : this.mine, // 我的发布
       // bought: this.bought === '' ? '' : this.bought // 我的摘录
     }
-    this.packagesList = await ResourcePackageList.getPackageList(postObj)
-    // console.log('初始化getlist')
-    console.log(this.packagesList)
-    // awatic ResourcePackageList.getPackageList().then((rec: any) => {
-    //   console.log('！！！!')
-    // })
-    //  this.data  = awatic ResourcePackageList.getPackageList(obj)
+    let res = await ResourcePackageList.getPackageList(postObj)
+    this.packagesList = res.data.data || []
+
+    console.log('packagesList=', this.packagesList)
+  }
+
+  hander() {
+    console.log('handler方法')
   }
 
   // this.data = await
@@ -397,304 +278,304 @@ export default class ResourceList extends Vue {
   // },
 
   // methods: {
-    // getResourceList() {
-    //   const postObj = {
-    //     name: this.name, // 关键字搜索
-    //     is_free: this.is_free === 'all' ? '' : this.is_free, // 1免费 0收费
-    //     role_id: this.role_id === 'all' ? '' : this.role_id, // 发布方
-    //     education: this.education === 'all' ? '' : this.education, // 适用层次
-    //     order: this.order, // 排序
-    //     category_id: this.category_id === -1 ? '' : this.category_id, // 三级筛选
-    //     status: this.packstatus === '全部' ? '' : this.packstatus, // 筛选审核状态（0：待审，1：通过，2：未通过）,9为未发布
-    //     is_published: this.is_published === '' ? '' : this.is_published, // 上下架
-    //     mine: this.mine === '' ? '' : this.mine, // 我的发布
-    //     bought: this.bought === '' ? '' : this.bought // 我的摘录
-    //   }
-    //   Resource.ResourcePackage.getResourceList(postObj)
-    //     .then(rec => {
-    //       console.log('列表=', rec)
-    //       this.packagesList = rec
-    //       if (rec.data.length > 0) {
-    //         console.log(rec)
-    //       } else {
-    //         console.log(rec)
-    //       }
-    //     })
-    //     .catch(rec => {
-    //       console.log(rec)
-    //     })
-    // },
-    // 获取一级分类
-    // getNavtypes() {
-    //   const url = 'http://dev.nc.com/api/categories'
-    //   axios.get(url).then(res => {
-    //     this.navFirstShow = res
-    //     this.deepfirst = res
-    //     this.getNavtypesecond()
-    //   })
-    // }
-    // 获取二级分类 学科类别
-    // getNavtypesecond() {
-    //   const arrdep2 = []
-    //   const arr = []
-    //   const secondList = this.navFirstShow
-    //   secondList.forEach(row => {
-    //     if (row.children) {
-    //       arrdep2.push(row.children)
-    //     }
-    //   })
-    //   arrdep2.forEach(row => {
-    //     row.forEach(item => {
-    //       arr.push(item)
-    //     })
-    //   })
-    //   this.navSecondShow = arr
-    //   this.deepsecond = arr
-    //   this.getNavtypethird()
-    // },
-    // 获取三级分类 课程类别
-    // getNavtypethird() {
-    //   const arrdep3 = []
-    //   const arr = []
-    //   const thirdList = this.navSecondShow
-    //   console.log('thirdList', thirdList)
-    //   thirdList.forEach(row => {
-    //     if (row.children) {
-    //       arrdep3.push(row.children)
-    //     }
-    //   })
-    //   arrdep3.forEach(row => {
-    //     row.forEach(item => {
-    //       arr.push(item)
-    //     })
-    //   })
-    //   this.deepthird = arr
-    //   this.navtypethird = arr
-    //   this.navThirdShow = arr
-    // },
-    // 一级分类选中
-    // setNavActive(index) {
-    //   console.log('this.deepsecond', this.deepsecond)
-    //   this.navActiveSecond = -1 // 确保学科类别 全部 选中
-    //   const arr = []
-    //   // 当选择全部时
-    //   if (index === -1) {
-    //     this.navSecondShow = this.deepsecond
-    //   } else {
-    //     // 没有选择全部时
-    //     this.deepsecond.forEach(item => {
-    //       if (item.parent_id === index) {
-    //         arr.push(item)
-    //       }
-    //     })
-    //     this.navSecondShow = arr
-    //   }
-    //   // 获取三级分类
-    //   this.getNavtypethird()
-    //   // 如果该一级分类下不存在二级分类 则二级分类不用展示
-    //   if (this.navSecondShow.length === 0) {
-    //     this.navSecondShow = ''
-    //     this.category_id = index
-    //     console.log('没有二级分类时category_id=', this.category_id)
-    //   } else {
-    //     this.navSecondShow = arr
-    //   }
-    //   this.category_id = index
-    //   this.getResourceList()
-    //   this.navFirstCurrent = index
-    // },
-    // 二级分类选中
-    // setNavSecond(index) {
-    //   const arr = []
-    //   // 当选择全部时
-    //   if (index === -1) {
-    //     this.navThirdShow = this.deepthird
-    //   } else {
-    //     this.deepthird.forEach(item => {
-    //       if (item.parent_id === index) {
-    //         arr.push(item)
-    //       }
-    //     })
-    //     this.navThirdShow = arr
-    //   }
-    //   this.category_id = index
-    //   this.getResourceList()
-    //   console.log('课程类别=', this.navThirdShow)
-    //   this.navActiveSecond = index
-    // },
-    // 第三行选中
-    // setNavThird(index) {
-    //   this.navThirdActive = index
-    //   this.category_id = index
-    //   this.getResourceList()
-    // },
-    // 收费类型
-    // setChargeActive(name) {
-    //   this.is_free = name
-    //   this.getResourceList()
-    // },
-    // 发布方 role_id
-    // setPublishActive(name) {
-    //   this.role_id = name
-    //   this.getResourceList()
-    // },
-    // 适合层次
-    // setScopeActive(name) {
-    //   this.education = name
-    //   this.getResourceList()
-    // },
-    // 排序 order
-    // setSortActive(name) {
-    //   this.order = name
-    //   this.getResourceList()
-    // },
-    // 搜索关键字
-    // searchName(data) {
-    //   console.log('关键字', data)
-    //   this.name = data
-    //   this.getResourceList()
-    // },
-    // 最右侧审核状态筛选
-    // setPackstatus(status) {
-    //   console.log('筛选状态', status)
-    //   this.packstatusCN = status
-    //   if (this.packstatusCN === '全部') {
-    //     this.packstatus = ''
-    //     this.is_published = ''
-    //   }
-    //   if (this.packstatusCN === '待审核') {
-    //     this.packstatus = 0
-    //     this.is_published = 0
-    //   }
-    //   if (this.packstatusCN === '已通过') {
-    //     this.packstatus = 1
-    //   }
-    //   if (this.packstatusCN === '未通过') {
-    //     this.packstatus = 2
-    //   }
-    //   if (this.packstatusCN === '待发布') {
-    //     this.packstatus = 9
-    //   }
-    //   this.getResourceList()
-    // },
-    // 左侧三个筛选
-    // typeChoose(type) {
-    //   this.typechoose = type
-    //   console.log('type=', type)
-    //   if (type === 'myfa') {
-    //     // 我的发布
-    //     this.mine = 1
-    //     this.sortactive = 'createtime'
-    //     this.bought = ''
-    //     this.packstatus = ''
-    //     this.is_published = ''
-    //     this.packstatusCN = '全部'
-    //     this.getResourceList()
-    //     const obj = {
-    //       type: 'release'
-    //     }
-    //     this.$router.push({ query: obj })
-    //   } else if (type === 'all') {
-    //     // 选择全部
-    //     this.mine = ''
-    //     this.bought = ''
-    //     this.packstatus = ''
-    //     this.is_published = ''
-    //     this.getResourceList()
-    //     const obj = {
-    //       type: 'all'
-    //     }
-    //     this.$router.push({ query: obj })
-    //   } else if (type === 'myzhai') {
-    //     // 我的摘录
-    //     this.mine = ''
-    //     this.bought = 1
-    //     this.packstatus = ''
-    //     this.getResourceList()
-    //     const obj = {
-    //       type: 'excerpt'
-    //     }
-    //     this.$router.push({ query: obj })
-    //   }
-    // },
-    // typeChoose(type) {
-    //   this.typechoose = type
-    //   console.log('type=', type)
-    //   if (type === 'myfa') {
-    //     // 我的发布
-    //     this.mine = 1
-    //     this.sortactive = 'createtime'
-    //     this.bought = ''
-    //     this.packstatus = ''
-    //     this.is_published = ''
-    //     this.packstatusCN = '全部'
-    //     this.getResourceList()
-    //     const obj = {
-    //       type: 'release'
-    //     }
-    //     this.$router.push({ query: obj })
-    //   } else if (type === 'all') {
-    //     // 选择全部
-    //     this.mine = ''
-    //     this.bought = ''
-    //     this.packstatus = ''
-    //     this.is_published = ''
-    //     this.getResourceList()
-    //     const obj = {
-    //       type: 'all'
-    //     }
-    //     this.$router.push({ query: obj })
-    //   } else if (type === 'myzhai') {
-    //     // 我的摘录
-    //     this.mine = ''
-    //     this.bought = 1
-    //     this.packstatus = ''
+  // getResourceList() {
+  //   const postObj = {
+  //     name: this.name, // 关键字搜索
+  //     is_free: this.is_free === 'all' ? '' : this.is_free, // 1免费 0收费
+  //     role_id: this.role_id === 'all' ? '' : this.role_id, // 发布方
+  //     education: this.education === 'all' ? '' : this.education, // 适用层次
+  //     order: this.order, // 排序
+  //     category_id: this.category_id === -1 ? '' : this.category_id, // 三级筛选
+  //     status: this.packstatus === '全部' ? '' : this.packstatus, // 筛选审核状态（0：待审，1：通过，2：未通过）,9为未发布
+  //     is_published: this.is_published === '' ? '' : this.is_published, // 上下架
+  //     mine: this.mine === '' ? '' : this.mine, // 我的发布
+  //     bought: this.bought === '' ? '' : this.bought // 我的摘录
+  //   }
+  //   Resource.ResourcePackage.getResourceList(postObj)
+  //     .then(rec => {
+  //       console.log('列表=', rec)
+  //       this.packagesList = rec
+  //       if (rec.data.length > 0) {
+  //         console.log(rec)
+  //       } else {
+  //         console.log(rec)
+  //       }
+  //     })
+  //     .catch(rec => {
+  //       console.log(rec)
+  //     })
+  // },
+  // 获取一级分类
+  // getNavtypes() {
+  //   const url = 'http://dev.nc.com/api/categories'
+  //   axios.get(url).then(res => {
+  //     this.navFirstShow = res
+  //     this.deepfirst = res
+  //     this.getNavtypesecond()
+  //   })
+  // }
+  // 获取二级分类 学科类别
+  // getNavtypesecond() {
+  //   const arrdep2 = []
+  //   const arr = []
+  //   const secondList = this.navFirstShow
+  //   secondList.forEach(row => {
+  //     if (row.children) {
+  //       arrdep2.push(row.children)
+  //     }
+  //   })
+  //   arrdep2.forEach(row => {
+  //     row.forEach(item => {
+  //       arr.push(item)
+  //     })
+  //   })
+  //   this.navSecondShow = arr
+  //   this.deepsecond = arr
+  //   this.getNavtypethird()
+  // },
+  // 获取三级分类 课程类别
+  // getNavtypethird() {
+  //   const arrdep3 = []
+  //   const arr = []
+  //   const thirdList = this.navSecondShow
+  //   console.log('thirdList', thirdList)
+  //   thirdList.forEach(row => {
+  //     if (row.children) {
+  //       arrdep3.push(row.children)
+  //     }
+  //   })
+  //   arrdep3.forEach(row => {
+  //     row.forEach(item => {
+  //       arr.push(item)
+  //     })
+  //   })
+  //   this.deepthird = arr
+  //   this.navtypethird = arr
+  //   this.navThirdShow = arr
+  // },
+  // 一级分类选中
+  // setNavActive(index) {
+  //   console.log('this.deepsecond', this.deepsecond)
+  //   this.navActiveSecond = -1 // 确保学科类别 全部 选中
+  //   const arr = []
+  //   // 当选择全部时
+  //   if (index === -1) {
+  //     this.navSecondShow = this.deepsecond
+  //   } else {
+  //     // 没有选择全部时
+  //     this.deepsecond.forEach(item => {
+  //       if (item.parent_id === index) {
+  //         arr.push(item)
+  //       }
+  //     })
+  //     this.navSecondShow = arr
+  //   }
+  //   // 获取三级分类
+  //   this.getNavtypethird()
+  //   // 如果该一级分类下不存在二级分类 则二级分类不用展示
+  //   if (this.navSecondShow.length === 0) {
+  //     this.navSecondShow = ''
+  //     this.category_id = index
+  //     console.log('没有二级分类时category_id=', this.category_id)
+  //   } else {
+  //     this.navSecondShow = arr
+  //   }
+  //   this.category_id = index
+  //   this.getResourceList()
+  //   this.navFirstCurrent = index
+  // },
+  // 二级分类选中
+  // setNavSecond(index) {
+  //   const arr = []
+  //   // 当选择全部时
+  //   if (index === -1) {
+  //     this.navThirdShow = this.deepthird
+  //   } else {
+  //     this.deepthird.forEach(item => {
+  //       if (item.parent_id === index) {
+  //         arr.push(item)
+  //       }
+  //     })
+  //     this.navThirdShow = arr
+  //   }
+  //   this.category_id = index
+  //   this.getResourceList()
+  //   console.log('课程类别=', this.navThirdShow)
+  //   this.navActiveSecond = index
+  // },
+  // 第三行选中
+  // setNavThird(index) {
+  //   this.navThirdActive = index
+  //   this.category_id = index
+  //   this.getResourceList()
+  // },
+  // 收费类型
+  // setChargeActive(name) {
+  //   this.is_free = name
+  //   this.getResourceList()
+  // },
+  // 发布方 role_id
+  // setPublishActive(name) {
+  //   this.role_id = name
+  //   this.getResourceList()
+  // },
+  // 适合层次
+  // setScopeActive(name) {
+  //   this.education = name
+  //   this.getResourceList()
+  // },
+  // 排序 order
+  // setSortActive(name) {
+  //   this.order = name
+  //   this.getResourceList()
+  // },
+  // 搜索关键字
+  // searchName(data) {
+  //   console.log('关键字', data)
+  //   this.name = data
+  //   this.getResourceList()
+  // },
+  // 最右侧审核状态筛选
+  // setPackstatus(status) {
+  //   console.log('筛选状态', status)
+  //   this.packstatusCN = status
+  //   if (this.packstatusCN === '全部') {
+  //     this.packstatus = ''
+  //     this.is_published = ''
+  //   }
+  //   if (this.packstatusCN === '待审核') {
+  //     this.packstatus = 0
+  //     this.is_published = 0
+  //   }
+  //   if (this.packstatusCN === '已通过') {
+  //     this.packstatus = 1
+  //   }
+  //   if (this.packstatusCN === '未通过') {
+  //     this.packstatus = 2
+  //   }
+  //   if (this.packstatusCN === '待发布') {
+  //     this.packstatus = 9
+  //   }
+  //   this.getResourceList()
+  // },
+  // 左侧三个筛选
+  // typeChoose(type) {
+  //   this.typechoose = type
+  //   console.log('type=', type)
+  //   if (type === 'myfa') {
+  //     // 我的发布
+  //     this.mine = 1
+  //     this.sortactive = 'createtime'
+  //     this.bought = ''
+  //     this.packstatus = ''
+  //     this.is_published = ''
+  //     this.packstatusCN = '全部'
+  //     this.getResourceList()
+  //     const obj = {
+  //       type: 'release'
+  //     }
+  //     this.$router.push({ query: obj })
+  //   } else if (type === 'all') {
+  //     // 选择全部
+  //     this.mine = ''
+  //     this.bought = ''
+  //     this.packstatus = ''
+  //     this.is_published = ''
+  //     this.getResourceList()
+  //     const obj = {
+  //       type: 'all'
+  //     }
+  //     this.$router.push({ query: obj })
+  //   } else if (type === 'myzhai') {
+  //     // 我的摘录
+  //     this.mine = ''
+  //     this.bought = 1
+  //     this.packstatus = ''
+  //     this.getResourceList()
+  //     const obj = {
+  //       type: 'excerpt'
+  //     }
+  //     this.$router.push({ query: obj })
+  //   }
+  // },
+  // typeChoose(type) {
+  //   this.typechoose = type
+  //   console.log('type=', type)
+  //   if (type === 'myfa') {
+  //     // 我的发布
+  //     this.mine = 1
+  //     this.sortactive = 'createtime'
+  //     this.bought = ''
+  //     this.packstatus = ''
+  //     this.is_published = ''
+  //     this.packstatusCN = '全部'
+  //     this.getResourceList()
+  //     const obj = {
+  //       type: 'release'
+  //     }
+  //     this.$router.push({ query: obj })
+  //   } else if (type === 'all') {
+  //     // 选择全部
+  //     this.mine = ''
+  //     this.bought = ''
+  //     this.packstatus = ''
+  //     this.is_published = ''
+  //     this.getResourceList()
+  //     const obj = {
+  //       type: 'all'
+  //     }
+  //     this.$router.push({ query: obj })
+  //   } else if (type === 'myzhai') {
+  //     // 我的摘录
+  //     this.mine = ''
+  //     this.bought = 1
+  //     this.packstatus = ''
 
-    //     this.getResourceList()
-    //     const obj = {
-    //       type: 'excerpt'
-    //     }
-    //     this.$router.push({ query: obj })
-    //   }
-    // },
+  //     this.getResourceList()
+  //     const obj = {
+  //       type: 'excerpt'
+  //     }
+  //     this.$router.push({ query: obj })
+  //   }
+  // },
 
-    // 上下架
-    // setPublish(params) {
-    //   Resource.ResourcePackage.setPublish(params.id, params.is_publish)
-    //     .then(rec => {
-    //       this.$message({
-    //         message: rec,
-    //         type: 'success',
-    //       })
-    //       this.typeChoose('myfa')
-    //     })
-    //     .catch(rec => {
-    //       console.log(rec)
-    //     })
-    // },
-    // 提交审核
-    // setArraignment(obj) {
-    //   Resource.ResourcePackage.packageArraignment(obj)
-    //     .then(rec => {
-    //       this.$message({
-    //         message: rec,
-    //         type: 'success',
-    //       })
-    //       this.getResourceList()
-    //     })
-    //     .catch(rec => {
-    //       console.log(rec)
-    //     })
-    // },
-    // 根据创建时间或摘录量进行排序
-    // setSorttype(tab) {
-    //   if (tab === 'createtime') {
-    //     this.sortactive = 'createtime'
-    //     console.log('创建时间')
-    //   } else if (tab === 'excerptnum') {
-    //     this.sortactive = 'excerptnum'
-    //   }
-    // }
+  // 上下架
+  // setPublish(params) {
+  //   Resource.ResourcePackage.setPublish(params.id, params.is_publish)
+  //     .then(rec => {
+  //       this.$message({
+  //         message: rec,
+  //         type: 'success',
+  //       })
+  //       this.typeChoose('myfa')
+  //     })
+  //     .catch(rec => {
+  //       console.log(rec)
+  //     })
+  // },
+  // 提交审核
+  // setArraignment(obj) {
+  //   Resource.ResourcePackage.packageArraignment(obj)
+  //     .then(rec => {
+  //       this.$message({
+  //         message: rec,
+  //         type: 'success',
+  //       })
+  //       this.getResourceList()
+  //     })
+  //     .catch(rec => {
+  //       console.log(rec)
+  //     })
+  // },
+  // 根据创建时间或摘录量进行排序
+  // setSorttype(tab) {
+  //   if (tab === 'createtime') {
+  //     this.sortactive = 'createtime'
+  //     console.log('创建时间')
+  //   } else if (tab === 'excerptnum') {
+  //     this.sortactive = 'excerptnum'
+  //   }
+  // }
   //   setSorttype(tab) {
   //     if (tab === 'createtime') {
   //       this.sortactive = 'createtime'
@@ -754,6 +635,42 @@ export default class ResourceList extends Vue {
 }
 .head-nav {
   margin-bottom: 20px;
+  .fistQuery {
+    -webkit-box-shadow: 0px 5px 10px 0px #e6e6e6;
+    box-shadow: 0px 5px 10px 0px #e6e6e6;
+    background: #fff;
+    height: 70px;
+    ul {
+      margin-top: 0;
+      display: flex;
+      padding-left: 0;
+      li {
+        margin-right: 40px;
+        .label {
+          display: block;
+          line-height: 70px;
+          font-weight: 400;
+          color: #4c5258;
+          cursor: pointer;
+          text-align: center;
+        }
+        .line {
+          width: 20px;
+          height: 2px;
+          background: #ff783c;
+          display: none;
+          position: relative;
+          top: -15px;
+          margin: 0 auto;
+        }
+      }
+      li.active {
+        .line {
+          display: block;
+        }
+      }
+    }
+  }
 }
 .switch_type {
   height: 70px;

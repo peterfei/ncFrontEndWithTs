@@ -1,7 +1,6 @@
 <template>
   <div class="item-box">
     <div class="img"><img src="" alt="" /></div>
-
     <div class="detail">
       <div class="top">
         <el-dropdown :hide-on-click="false" v-if="typechoose != 'all'">
@@ -67,7 +66,7 @@
           :to="{ path: `/resource/myResource/${id}` }"
           v-if="typechoose == 'myfa'"
         >
-          <p class="package-title word-spot">{{ title }}</p>
+          <p class="package-title word-spot">这里是标题</p>
           <span
             class="status-tag success"
             v-if="(status == 1) & (typechoose == 'myfa')"
@@ -99,7 +98,7 @@
       </div>
       <div class="down">
         <div class="price-extract">
-          <span class="bodou" v-if="bodou != 0">博豆:{{ bodou }}</span>
+          <!-- <span class="bodou" v-if="bodou != 0">博豆:{{ bodou }}</span> -->
           <span class="price" v-if="price != 0">￥{{ price }}</span>
           <span class="free" v-else>免费</span>
           <span class="extract">摘录:&nbsp;{{ bought_num }}</span>
@@ -115,7 +114,7 @@
     </div>
 
     <!-- 解压到备课区弹框 -->
-    <el-dialog
+    <!-- <el-dialog
       class="unzipDialog"
       title="选择目录"
       :visible.sync="prepareDialogVisible"
@@ -134,140 +133,149 @@
           >确 定</el-button
         >
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
-<script>
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+@Component
+export default class PackageItem extends Vue {
+  @Prop({ default: '1111111' }) title: string
+  @Prop({ default: '' }) id: number
+  @Prop({ default: '' }) price: string
+  @Prop({ default: 0 }) bodou: number // 博豆
+  @Prop({ default: 0 }) bought_num: number
+  @Prop({ default: 0 }) is_published: number
+  @Prop({ default: 0 }) status: number // 审核状态 0待审核 1通过 2未通过 9未发布
+  @Prop({ default: '' }) school: string
+  @Prop({ default: 'all' }) typechoose: string // 全部 我的发布 我的摘录
+  @Prop({ default: '' }) tags: string
+}
+// this.name:String = 'aaaaaaaa'
 // import Resource from '@/api/resource/index'
 // import Prepare from '@/api/prepare/index'
 
-export default {
-  data() {
-    return {
-      prepareDialogVisible: false,
-      obj: {
-        course: '课程',
-        testing: '测验',
-        material: '资料',
-        homework: '作业',
-        interaction: '互动'
-      },
-      treedata: [],
-      defaultProps: {
-        children: '_child',
-        label: 'name'
-      }
-    }
-  },
-  props: {
-    id: {},
-    title: {},
-    school: {},
-    tags: {},
-    price: {},
-    bodou: {}, // 博豆
-    paymentType: {}, // 付费类型
-    bought_num: {}, // 摘录数
-    status: {}, // 审核状态 0待审核 1通过 2未通过 9未发布
-    is_published: {}, // 0下架 1上架
-    typechoose: {} // 全部 我的发布 我的摘录
-  },
-  computed: {},
-  methods: {
-    handleNodeClick(data) {
-      console.log(data)
-    },
+// export default {
+//   data() {
+//     return {
+//       prepareDialogVisible: false,
+//       obj: {
+//         course: '课程',
+//         testing: '测验',
+//         material: '资料',
+//         homework: '作业',
+//         interaction: '互动'
+//       },
+//       treedata: [],
+//       defaultProps: {
+//         children: '_child',
+//         label: 'name'
+//       }
+//     }
+//   },
+//   props: {
 
-    // 编辑资源包
-    editPackage(id) {
-      Resource.ResourcePackage.editResource(id)
-        .then(rec => {
-          console.log(rec)
-          this.$router.push({
-            path: 'resource/addpackage',
-            query: { userid: id }
-          })
-        })
-        .catch(rec => {
-          console.log(rec)
-        })
-    },
-    // 删除资源包
-    deletePackage(id) {
-      this.$confirm('确定删除该教学包?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          Resource.ResourcePackage.deletePackage(id)
-            .then(rec => {
-              console.log('删除', rec)
-              if (rec === true) {
-                this.$message({
-                  message: '删除成功！',
-                  type: 'success'
-                })
-                window.location.reload()
-              }
-            })
-            .catch(rec => {
-              console.log(rec)
-            })
-        })
-        .catch(() => {
-          // 取消删除
-        })
-    },
-    // 解压到备课区
-    unzip() {
-      this.prepareDialogVisible = true
-      Prepare.Prepare.getPrepareTree().then(rec => {
-        this.treedata = rec
-        console.log('树形图获取方法请求结束')
-        console.log(this.treedata)
-      })
-    },
-    handleClose(done) {
-      this.prepareDialogVisible = false
-      console.log(done)
-    },
+//     paymentType: {}, // 付费类型
+//     status: {},
+//     is_published: {}, // 0下架 1上架
+//
+//   },
+//   computed: {},
+//   methods: {
+//     handleNodeClick(data) {
+//       console.log(data)
+//     },
 
-    // 资源包上架
-    upshelf(id) {
-      const obj = {
-        id,
-        is_publish: 1
-      }
-      this.$emit('setPublish', obj)
-    },
-    // 资源包下架
-    downshelf(id) {
-      const obj = {
-        id,
-        is_publish: 0
-      }
-      this.$emit('setPublish', obj)
-    },
-    // 提交审核
-    reviewCheck(id) {
-      const obj = {
-        id
-      }
-      this.$emit('setArraignment', obj)
-    }
-  }
-}
+//     // 编辑资源包
+//     editPackage(id) {
+//       Resource.ResourcePackage.editResource(id)
+//         .then(rec => {
+//           console.log(rec)
+//           this.$router.push({
+//             path: 'resource/addpackage',
+//             query: { userid: id }
+//           })
+//         })
+//         .catch(rec => {
+//           console.log(rec)
+//         })
+//     },
+//     // 删除资源包
+//     deletePackage(id) {
+//       this.$confirm('确定删除该教学包?', '提示', {
+//         confirmButtonText: '确定',
+//         cancelButtonText: '取消',
+//         type: 'warning'
+//       })
+//         .then(() => {
+//           Resource.ResourcePackage.deletePackage(id)
+//             .then(rec => {
+//               console.log('删除', rec)
+//               if (rec === true) {
+//                 this.$message({
+//                   message: '删除成功！',
+//                   type: 'success'
+//                 })
+//                 window.location.reload()
+//               }
+//             })
+//             .catch(rec => {
+//               console.log(rec)
+//             })
+//         })
+//         .catch(() => {
+//           // 取消删除
+//         })
+//     },
+//     // 解压到备课区
+//     unzip() {
+//       this.prepareDialogVisible = true
+//       Prepare.Prepare.getPrepareTree().then(rec => {
+//         this.treedata = rec
+//         console.log('树形图获取方法请求结束')
+//         console.log(this.treedata)
+//       })
+//     },
+//     handleClose(done) {
+//       this.prepareDialogVisible = false
+//       console.log(done)
+//     },
+
+//     // 资源包上架
+//     upshelf(id) {
+//       const obj = {
+//         id,
+//         is_publish: 1
+//       }
+//       this.$emit('setPublish', obj)
+//     },
+//     // 资源包下架
+//     downshelf(id) {
+//       const obj = {
+//         id,
+//         is_publish: 0
+//       }
+//       this.$emit('setPublish', obj)
+//     },
+//     // 提交审核
+//     reviewCheck(id) {
+//       const obj = {
+//         id
+//       }
+//       this.$emit('setArraignment', obj)
+//     }
+//   }
+// }
 </script>
 <style lang="scss" scoped>
-/deep/ .el-dropdown-menu__item {
+::v-deep .el-dropdown-menu__item {
   color: #8a9199;
   &:hover {
     background: #ebeff3 !important;
     color: #575e66 !important;
   }
 }
-/deep/ .el-dropdown-menu__item:hover {
+::v-deep .el-dropdown-menu__item:hover {
 }
 
 .item-box {
@@ -308,7 +316,7 @@ export default {
     .top {
       position: relative;
       top: -3px;
-      /deep/ .el-dropdown {
+      ::v-deep .el-dropdown {
         cursor: pointer;
         position: absolute;
         right: 0;
@@ -377,12 +385,12 @@ export default {
     }
   }
   .unzipDialog {
-    /deep/ .el-dialog__header {
+    ::v-deep .el-dialog__header {
       border-bottom: 1px solid #e7e7e7;
       padding: 20px 0 15px 0;
       margin: 0 20px;
     }
-    /deep/ .el-dialog__body {
+    ::v-deep .el-dialog__body {
       margin-bottom: 100px;
       .el-tree-node__label {
         overflow: hidden;
@@ -392,12 +400,12 @@ export default {
         background-color: #f2f2f2 !important;
       }
     }
-    /deep/ .el-dialog__title {
+    ::v-deep .el-dialog__title {
       font-weight: bold;
       font-size: 14px;
       color: #4c5258;
     }
-    /deep/ .el-dialog__headerbtn {
+    ::v-deep .el-dialog__headerbtn {
       i {
         color: #4c5258;
         width: 15px;
@@ -405,16 +413,16 @@ export default {
         font-weight: bold;
       }
     }
-    /deep/ .el-dialog__footer {
+    ::v-deep .el-dialog__footer {
       text-align: center;
-      /deep/ .el-button--default {
+      .el-button--default {
         background: #dcdee0;
         color: #4c5258;
         &:hover {
           border-color: #dcdee0;
         }
       }
-      /deep/ .el-button {
+      ::v-deep .el-button {
         width: 90px;
         padding: 0;
         line-height: 36px;
@@ -490,7 +498,7 @@ export default {
     }
   }
 }
-/deep/ .el-dropdown-menu el-popper:hover {
+::v-deep .el-dropdown-menu el-popper:hover {
   .handle-i {
     display: inline-block !important;
   }

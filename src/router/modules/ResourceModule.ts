@@ -1,9 +1,8 @@
 import Layout from '@/views/layout/LayoutPage.vue'
 import ResourceList from '@/views/resource/resourceList/ResourceList.vue'
 // import ResourceDetail from '@/views/resource/resourceDetail/resourceDetail.vue'
-import ResourceAdd from '@/views/resource/resourceAdd/resourceAdd.vue'
+import ResourceAdd from '@/views/resource/resourceAdd/ResourceAdd.vue'
 // import MyResource from '@/views/resource/myResource/myResource.vue'
-// import ResourceOrder from '@/views/resource/resourceOrder/resourceOrder.vue'
 
 const ResourceModule = {
   path: '/resource',

@@ -37,31 +37,15 @@ import { ISearchHotTags } from '@/types/index'
 export default class SearchBlock extends Vue {
   searchInput: string = '' // 输入框内容
   public hotTags: Array<ISearchHotTags> = mokHotSearchTag
-  data() {
-    return {}
-  }
 
   // 点击选择热门tag
   public choosetag(item: string) {
     this.searchInput = item
-    console.log(this.searchInput)
     this.$emit('change', item)
   }
   public searchChild() {
-    // console.log(this.searchInput)
     this.$emit('search', this.searchInput)
   }
-
-  // methods: {
-  //   choosetag(item) {
-  //     console.log(item)
-  //     this.input = item
-  //     this.searchChild()
-  //   },
-  //   searchChild() {
-  //     this.$emit('search', this.input)
-  //   }
-  // }
 }
 </script>
 
