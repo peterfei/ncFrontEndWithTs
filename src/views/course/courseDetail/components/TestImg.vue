@@ -2,7 +2,7 @@
   <div class="img-introd-box">
     <div>
       <a href="" class="img-content">
-        <img :src="infoImg" alt="" class="">
+        <img :src="infoImg" alt="" class="" />
         <span class="type-tag fs12">
           NEW
         </span>
@@ -14,16 +14,12 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    infoImg: {
-      type: String,
-      required: true,
-      defaultL: () => '',
-    },
-  },
-};
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+@Component
+export default class TestImg extends Vue {
+  @Prop({ default: '' }) infoImg!: string
+}
 </script>
 
 <style lang="scss">

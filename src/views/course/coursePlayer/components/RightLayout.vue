@@ -1,27 +1,18 @@
 <template>
   <div class="right-layout">
-    <div
-      v-show="rightbar"
-      class="show-triangle"
-    >
+    <div v-show="rightbar" class="show-triangle">
       <span @click="triangleBtn">
         <i class="icon iconfont icon-zuojiantouD"></i>
       </span>
     </div>
     <div class="slot-item-box">
       <div class="slot-item">
-        <slot name='lecturer'></slot>
+        <slot name="lecturer"></slot>
       </div>
-      <div
-        class="slot-item slot-item-befort"
-        v-show="showName"
-      >
+      <div class="slot-item slot-item-befort" v-show="showName">
         <slot></slot>
       </div>
-      <span
-        class="slot-item-close"
-        @click="colseBtn"
-      >
+      <span class="slot-item-close" @click="colseBtn">
         <i class="el-icon-close"></i>
       </span>
     </div>
@@ -35,24 +26,24 @@ export default {
     rightbar: {
       type: Boolean,
       required: false,
-      default: () => '',
+      default: () => ''
     },
     showName: {
       type: String,
       required: false,
-      default: () => '',
-    },
+      default: () => ''
+    }
   },
-  mounted() { },
+  mounted() {},
   methods: {
     triangleBtn() {
-      this.$emit('triangleBtn');
+      this.$emit('triangleBtn')
     },
     colseBtn() {
-      this.$emit('colseBtn');
-    },
-  },
-};
+      this.$emit('colseBtn')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

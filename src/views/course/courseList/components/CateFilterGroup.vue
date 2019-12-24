@@ -8,8 +8,8 @@
 <script>
 export default {
   props: ['lineColor'],
-  mounted() {},
-};
+  mounted() {}
+}
 </script>
 
 <style lang="scss" scoped>

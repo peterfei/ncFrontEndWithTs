@@ -4,20 +4,29 @@
       <div class="lecturer-info">
         <div class="lecturer-info-img">
           <img
-            :src="courseInfoDetail.cover?courseInfoDetail.cover:'http://placehold.it/80x60'"
+            :src="
+              courseInfoDetail.cover
+                ? courseInfoDetail.cover
+                : 'http://placehold.it/80x60'
+            "
             alt=""
-          >
+          />
         </div>
         <div>
           <a class="lecturer-info-text word-spot-2">
-            {{courseInfoDetail.name?courseInfoDetail.name:''}}
+            {{ courseInfoDetail.name ? courseInfoDetail.name : '' }}
           </a>
           <div class="lecturer-info-detail">
-            <span><i class="icon iconfont icon-guankanshu"></i>
-              {{courseInfoDetail.comments_count?courseInfoDetail.comments_count:''}}
+            <span
+              ><i class="icon iconfont icon-guankanshu"></i>
+              {{
+                courseInfoDetail.comments_count
+                  ? courseInfoDetail.comments_count
+                  : ''
+              }}
             </span>
             <span>
-              <ele-rate :starts='courseInfoDetail.stars'></ele-rate>
+              <ele-rate :starts="courseInfoDetail.stars"></ele-rate>
             </span>
           </div>
         </div>
@@ -25,60 +34,64 @@
       <div class="lecturer-title"><span>|</span>讲师介绍</div>
       <div class="lecturer-teacher">
         <img
-          :src="courseInfoDetail.author?courseInfoDetail.author.avatar:''"
+          :src="courseInfoDetail.author ? courseInfoDetail.author.avatar : ''"
           alt=""
-        >
+        />
         <div>
           <div class="lecturer-teacher-name">
-            {{courseInfoDetail.author?courseInfoDetail.author.name:''}}
+            {{ courseInfoDetail.author ? courseInfoDetail.author.name : '' }}
           </div>
           <div class="lecturer-teacher-info">
-            {{courseInfoDetail.author?courseInfoDetail.author.intro:'暂无信息'}}
+            {{
+              courseInfoDetail.author
+                ? courseInfoDetail.author.intro
+                : '暂无信息'
+            }}
           </div>
         </div>
       </div>
       <div class="lecturer-title">讲师课程</div>
       <div>
-        <course-right-item :dataList='lectureCourseList'></course-right-item>
+        <course-right-item :dataList="lectureCourseList"></course-right-item>
       </div>
       <div class="lecturer-title">相关课程</div>
       <div>
-        <course-right-item :dataList='courseRecommedList'></course-right-item>
+        <course-right-item :dataList="courseRecommedList"></course-right-item>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import EleRate from '../../../../components/element/EleRate.vue';
-import CourseRightItem from './CourseRightItem.vue';
+import EleRate from '../../../../components/element/EleRate.vue'
+import CourseRightItem from './CourseRightItem.vue'
 
 export default {
   name: 'CourseLecturer',
   props: {
     courseInfoDetail: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     lectureCourseList: {
       type: Array,
-      default: () => [],
+      default: () => []
     },
     courseRecommedList: {
       type: Array,
-      default: () => [],
-    },
+      default: () => []
+    }
   },
   components: {
     EleRate,
-    CourseRightItem,
+    CourseRightItem
   },
   data() {
     return {
-      starts: 4,
-    };
-  },
-};
+      starts: 4
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -171,7 +184,7 @@ export default {
 
 *::-webkit-scrollbar-thumb {
   border-radius: 3px;
-  background-color: rgba(87,93,102,1);; // $gray-light;
+  background-color: rgba(87, 93, 102, 1); // $gray-light;
 }
 
 *::-webkit-scrollbar-track {

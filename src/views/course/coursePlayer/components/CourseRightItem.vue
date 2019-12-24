@@ -1,26 +1,25 @@
 <template>
   <div>
-    <div
-      class="lecturer-info"
-      v-for="item in dataList"
-      :key="item.id"
-    >
+    <div class="lecturer-info" v-for="item in dataList" :key="item.id">
       <div class="lecturer-info-img">
         <img
-          :src="item.cover?item.cover:'http://placehold.it/80x60'"
+          :src="item.cover ? item.cover : 'http://placehold.it/80x60'"
           alt=""
-        >
+        />
       </div>
       <div>
         <router-link
           tag="a"
           class="lecturer-info-text word-spot-2"
-          :to="{path:`/course/courseDetail/${item.id}`}"
+          :to="{ path: `/course/courseDetail/${item.id}` }"
         >
-          {{item.name}}
+          {{ item.name }}
         </router-link>
         <div class="lecturer-info-detail">
-          <span><i class="icon iconfont icon-guankanshu"></i>{{item.learners_count}}</span>
+          <span
+            ><i class="icon iconfont icon-guankanshu"></i
+            >{{ item.learners_count }}</span
+          >
         </div>
       </div>
     </div>
@@ -32,10 +31,10 @@ export default {
   props: {
     dataList: {
       type: Array,
-      default: () => [],
-    },
-  },
-};
+      default: () => []
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

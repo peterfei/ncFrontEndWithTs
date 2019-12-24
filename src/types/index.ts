@@ -31,3 +31,8 @@ export interface IBannerUrl {
   id: number
   url: string
 }
+export interface IBoxCardStyle {
+  display: string
+  padding: string
+  width: string
+}

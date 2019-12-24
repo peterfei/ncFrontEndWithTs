@@ -2,9 +2,9 @@
   <div class="video-sidebar">
     <div class="video-sidebar-nav">
       <span
-        data-show='showBarBox'
+        data-show="showBarBox"
         @click="sideBarLeftbtn('chapters')"
-        :class="{'active-style': activeItem === 'chapters'}"
+        :class="{ 'active-style': activeItem === 'chapters' }"
       >
         <i class="icon iconfont icon-mulu"></i>
         章节
@@ -18,9 +18,9 @@
         笔记
       </span>
       <span
-        data-show='showBarBox'
+        data-show="showBarBox"
         @click="sideBarLeftbtn('resources')"
-        :class="{'active-style': activeItem === 'resources'}"
+        :class="{ 'active-style': activeItem === 'resources' }"
       >
         <i class="icon iconfont icon-ziyuan"></i>
         资源
@@ -30,9 +30,9 @@
       :class="{'active-style': activeItem === 'resources'}" -->
 
     <div
-      :class="{'slot-item-box':true,'left-active': leftShow}"
-      data-show='showBarBox'
-      ref='leftbar'
+      :class="{ 'slot-item-box': true, 'left-active': leftShow }"
+      data-show="showBarBox"
+      ref="leftbar"
     >
       <slot></slot>
     </div>
@@ -46,59 +46,59 @@ export default {
     return {
       activeItem: '',
       leftActive: '',
-      leftShow: false, // 关闭
-    };
+      leftShow: false // 关闭
+    }
   },
   mounted() {
-    document.addEventListener('click', (d) => {
+    document.addEventListener('click', d => {
       if (
-        d.toElement.parentNode.dataset.show === 'showBarBox'
-        || d.toElement.dataset.show === 'showBarBox'
+        d.toElement.parentNode.dataset.show === 'showBarBox' ||
+        d.toElement.dataset.show === 'showBarBox'
       ) {
-        return '';
+        return ''
       }
-      this.handleClose();
-      return '';
-    });
+      this.handleClose()
+      return ''
+    })
   },
   methods: {
     showSlotBox() {
       if (!this.leftShow) {
-        this.leftShow = true;
+        this.leftShow = true
       } else {
-        this.leftShow = false;
+        this.leftShow = false
       }
     },
     handleClose() {
       if (this.$refs.leftbar) {
-        this.leftShow = false;
+        this.leftShow = false
       }
     },
     sideBarbtn(text) {
-      this.activeItem = text;
-      this.$emit('sideBarbtn', text);
+      this.activeItem = text
+      this.$emit('sideBarbtn', text)
     },
     // 开合控制
     sideBarLeftbtn(text) {
       if (!this.leftActive) {
-        this.leftActive = text;
-        this.$emit('sideBarbtn', this.leftActive);
-        this.showSlotBox();
+        this.leftActive = text
+        this.$emit('sideBarbtn', this.leftActive)
+        this.showSlotBox()
         // 点击相同的时候
       } else if (this.leftActive === text) {
-        this.showSlotBox();
+        this.showSlotBox()
       } else {
         // 点击不相同的时候
-        this.leftActive = text;
+        this.leftActive = text
         // 不相等  开合
         if (!this.leftShow) {
-          this.showSlotBox();
+          this.showSlotBox()
         }
-        this.$emit('sideBarbtn', this.leftActive);
+        this.$emit('sideBarbtn', this.leftActive)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

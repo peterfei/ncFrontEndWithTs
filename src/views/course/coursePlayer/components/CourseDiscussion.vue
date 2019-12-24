@@ -1,46 +1,42 @@
 <template>
   <div class="course-discussion">
     <div class="dcs-box">
-      <div
-        class="dcs-scroll-box"
-        id="dcs-scroll-box"
-      >
-        <div
-          v-for="itemlist in discussionList"
-          :key="itemlist.id"
-        >
-          <div
-            class="dec-item"
-            v-if="itemlist.user.id === userId"
-          >
+      <div class="dcs-scroll-box" id="dcs-scroll-box">
+        <div v-for="itemlist in discussionList" :key="itemlist.id">
+          <div class="dec-item" v-if="itemlist.user.id === userId">
             <img
-              :src="itemlist.user?itemlist.user.avatar:'http://placehold.it/40x40'"
+              :src="
+                itemlist.user
+                  ? itemlist.user.avatar
+                  : 'http://placehold.it/40x40'
+              "
               alt=""
-            >
+            />
             <div>
               <div>
-                <span>{{itemlist.user?itemlist.user.name:''}}</span>
-                <span>{{itemlist.updated_at}}</span>
+                <span>{{ itemlist.user ? itemlist.user.name : '' }}</span>
+                <span>{{ itemlist.updated_at }}</span>
                 <!-- | getTimer('before') -->
               </div>
-              <div class="dec-text-item">{{itemlist.content}}</div>
+              <div class="dec-text-item">{{ itemlist.content }}</div>
             </div>
           </div>
-          <div
-            v-else
-            class="dec-item dec-item-right"
-          >
+          <div v-else class="dec-item dec-item-right">
             <div>
               <div>
-                <span>{{itemlist.updated_at  | timePeriod()}}</span>
-                <span>{{itemlist.user?itemlist.user.name:''}}</span>
+                <span>{{ itemlist.updated_at | timePeriod() }}</span>
+                <span>{{ itemlist.user ? itemlist.user.name : '' }}</span>
               </div>
-              <div class="dec-text-item">{{itemlist.content}}</div>
+              <div class="dec-text-item">{{ itemlist.content }}</div>
             </div>
             <img
-              :src="itemlist.user?itemlist.user.avatar:'http://placehold.it/40x40'"
+              :src="
+                itemlist.user
+                  ? itemlist.user.avatar
+                  : 'http://placehold.it/40x40'
+              "
               alt=""
-            >
+            />
           </div>
         </div>
       </div>
@@ -63,18 +59,17 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button
-            size="mini"
-            round
-            @click="resetForm('ruleForm')"
-          >取消</el-button>
+          <el-button size="mini" round @click="resetForm('ruleForm')"
+            >取消</el-button
+          >
           <el-button
             type="primary"
             size="mini"
             round
-            :disabled='disabled'
+            :disabled="disabled"
             @click="onSubmit('ruleForm')"
-          >发送</el-button>
+            >发送</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -88,77 +83,77 @@ export default {
     discussionList: {
       type: Array,
       required: false,
-      default: () => [],
-    },
+      default: () => []
+    }
   },
   computed: {
     formDesc() {
-      return this.ruleForm.desc;
-    },
+      return this.ruleForm.desc
+    }
   },
   data() {
     return {
       userId: 2,
       disabled: true,
       ruleForm: {
-        desc: '',
+        desc: ''
       },
       rules: {
         desc: [
           { required: true, message: '请填写讨论内容', trigger: 'blur' },
-          { max: 25, message: '25个字符以内', trigger: 'blur' },
-        ],
-      },
-    };
+          { max: 25, message: '25个字符以内', trigger: 'blur' }
+        ]
+      }
+    }
   },
   mounted() {},
   methods: {
     resetForm(formName) {
       // 取消讨论
-      this.ruleForm.desc = '';
-      this.disabled = true;
-      this.$refs[formName].resetFields();
+      this.ruleForm.desc = ''
+      this.disabled = true
+      this.$refs[formName].resetFields()
     },
     // 回车键提交讨论
     submit() {
-      this.onSubmit();
+      this.onSubmit()
     },
     // 提交讨论
     onSubmit(ruleForm) {
-      this.$refs[ruleForm].validate((valid) => {
+      this.$refs[ruleForm].validate(valid => {
         if (valid) {
           const postdata = {
             content: this.ruleForm.desc,
-            time_point: '12',
-          };
-          this.$emit('submitDiscussion', postdata);
+            time_point: '12'
+          }
+          this.$emit('submitDiscussion', postdata)
         } else {
-          return false;
+          return false
         }
-        return '';
-      });
+        return ''
+      })
     },
     // 滚动条回到底部
     scrollBottom() {
       this.$nextTick(() => {
-        const div = document.getElementById('dcs-scroll-box');
-        div.scrollTop = div.scrollHeight;
-      });
+        const div = document.getElementById('dcs-scroll-box')
+        div.scrollTop = div.scrollHeight
+      })
     },
     contentWatch() {
       if (this.ruleForm.desc) {
-        this.disabled = false;
+        this.disabled = false
       }
-    },
+    }
   },
   watch: {
     // 监控滚动条
     discussionList: 'scrollBottom',
     formDesc() {
-      this.contentWatch();
-    },
-  },
-};
+      this.contentWatch()
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -170,7 +165,7 @@ export default {
 
 *::-webkit-scrollbar-thumb {
   border-radius: 3px;
-  background-color: rgba(87,93,102,1); // $primary; // $gray-light;
+  background-color: rgba(87, 93, 102, 1); // $primary; // $gray-light;
 }
 
 *::-webkit-scrollbar-track {

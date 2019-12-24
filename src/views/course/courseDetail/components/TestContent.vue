@@ -1,31 +1,21 @@
 <template>
   <div class="info-introd-box">
     <div class="info-title fs16">
-      {{infoTitle}}
+      {{ infoTitle }}
     </div>
     <div class="info-content fs12">
-      {{infoContent}}
+      {{ infoContent }}
     </div>
   </div>
 </template>
 
-
-<script>
-export default {
-  props: {
-    infoTitle: {
-      type: String,
-      required: true,
-      defaultL: () => '',
-    },
-    infoContent: {
-      type: String,
-      required: true,
-      defaultL: () => '',
-    },
-
-  },
-};
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+@Component
+export default class TestContent extends Vue {
+  @Prop({ default: '', type: String }) infoTitle!: string
+  @Prop({ default: '', type: String }) infoContent!: string
+}
 </script>
 
 <style lang="scss">

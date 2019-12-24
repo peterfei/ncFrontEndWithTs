@@ -1,5 +1,5 @@
 <template>
-  <div class="mooc-issue-status">
+  <div class="mooc-payment-status">
     <ul>
       <li
         :class="{ active: item.value === value }"
@@ -15,31 +15,25 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Model } from 'vue-property-decorator'
-export interface IMoocOptions {
+export interface IMoocPayOptions {
   value: number | null
   label: string
 }
 @Component({})
 export default class MoocIsuueStatus extends Vue {
-  // model: {
-  //   prop: 'value'
-  //   event: 'change'
-  // }
   @Prop({ default: 0, type: Number }) value!: number
-  public options: Array<IMoocOptions> = [
-    { value: null, label: '全部' },
-    { value: 1, label: '进行中' },
-    { value: 0, label: '未开始' },
-    { value: -1, label: '已结束' }
+  public options: Array<IMoocPayOptions> = [
+    { value: 2, label: '全部' },
+    { value: 0, label: '免费' },
+    { value: 1, label: '付费' }
   ]
   onClick(val: any) {
     this.$emit('change', val)
   }
-  //  @Model ('change', {type: Boolean})  checked!: boolean;
   @Model('prop', { type: Number }) change!: number | null
 }
 // export default {
-//   name: 'MoocIsuueStatus',
+//   name: 'MoocPaymentStatus',
 //   model: {
 //     prop: 'value',
 //     event: 'change'
@@ -53,10 +47,9 @@ export default class MoocIsuueStatus extends Vue {
 //   data() {
 //     return {
 //       options: [
-//         { value: null, label: '全部' },
-//         { value: 1, label: '进行中' },
-//         { value: 0, label: '未开始' },
-//         { value: -1, label: '已结束' }
+//         { value: 2, label: '全部' },
+//         { value: 0, label: '免费' },
+//         { value: 1, label: '付费' }
 //       ]
 //     }
 //   },
@@ -69,7 +62,7 @@ export default class MoocIsuueStatus extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.mooc-issue-status {
+.mooc-payment-status {
   ul {
     padding: 0;
     li {
@@ -80,7 +73,7 @@ export default class MoocIsuueStatus extends Vue {
       cursor: pointer;
       color: #4c5258;
       &.active {
-        background-color: #ff783c;
+        background-color: #40c78d;
         color: #fff;
         border-radius: 12px;
       }

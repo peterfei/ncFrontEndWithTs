@@ -3,12 +3,12 @@
     <div class="cloud-left">
       <div class="filter-panel">
         <mooc-isuue-status
-          v-model="moocStatus"
-          @change="search"
+          :value="moocStatus"
+          @change="searchMooc"
         ></mooc-isuue-status>
         <mooc-payment-status
-          v-model="paymentType"
-          @change="search"
+          :value="paymentType"
+          @change="searchPayment"
         ></mooc-payment-status>
       </div>
       <graphic-list
@@ -26,30 +26,73 @@
     </div>
   </div>
 </template>
-<script>
-// import TabpsHeader from './components/TabpsHeader.vue';
-// import GraphicList from './components/GraphicList.vue'
-// import ExtraordinaryPopularity from './components/ExtraordinaryPopularity.vue';
-// import UpRecommended from './components/UpRecommended.vue';
+<script lang="ts">
+import GraphicList from './components/GraphicList.vue'
+import ExtraordinaryPopularity from './components/ExtraordinaryPopularity.vue'
+import UpRecommended from './components/UpRecommended.vue'
 import MoocIsuueStatus from './components/MoocIsuueStatus.vue'
-import { Component, Vue } from 'vue-property-decorator'
-// import MoocPaymentStatus from './components/MoocPaymentStatus.vue';
-// import Cloud from '@/api/cloud/cloud';
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import MoocPaymentStatus from './components/MoocPaymentStatus.vue'
+import Cloud from '@/api/cloud'
+import { DirectiveOptions } from 'vue'
+import { Direction } from 'element-ui/types/drawer'
+import { Dictionary, Location } from 'vue-router/types/router'
 @Component({
   components: {
-    MoocIsuueStatus
+    MoocIsuueStatus,
+    GraphicList,
+    MoocPaymentStatus,
+    ExtraordinaryPopularity,
+    UpRecommended
   }
 })
 export default class CourseList extends Vue {
-  //
-  search() {
-    const params = {
-      status: this.moocStatus,
-      is_free: this.paymentType
+  moocStatus: any = 1
+  paymentType: number = 0
+  moocList: Array<any> = []
+  recommendList: Array<any> = []
+  pageMeta: Array<any> = []
+  popularityList: Array<any> = []
+  page: Number = 1
+
+  @Watch('$route', { immediate: true, deep: true })
+  handler() {
+    this.getList()
+  }
+  mounted() {
+    const q = this.$route.query
+    const queryinfo = Object.keys(q).length // xin
+    // console.log('1212:', queryinfo);// xin
+    if (queryinfo) {
+      // xin
+      // console.log('999:', this.moocStatus);// xxin
+      this.moocStatus = q.status ? +q.status : 0 // xin
+    } else {
+      //
+      this.moocStatus = null // x
     }
-    this.$router.push({
-      query: params
-    })
+    // this.moocStatus = q.status ? +q.status : 0;
+    this.paymentType = q.is_free ? +q.is_free : 0
+    this.getList() // 课程包列表
+    this.getRecommendList() // 大咖推荐
+    this.getPopularity()
+  }
+  searchMooc(val: any) {
+    this.moocStatus = val
+    this.search()
+  }
+  searchPayment(val: any) {
+    this.paymentType = val
+    this.search()
+  }
+  // 切换状态（全部，进行时，未开始，已结束）
+  search() {
+    const query: Dictionary<string> = {
+      status: this.moocStatus,
+      is_free: this.paymentType.toString()
+    }
+    console.log(query)
+    this.$router.push({ query })
   }
   // 检索
   getList() {
@@ -57,30 +100,34 @@ export default class CourseList extends Vue {
       status: this.moocStatus,
       is_free: this.paymentType
     }
-    Cloud.MoocList.getList(params).then(res => {
+    Cloud.MoocList.getList(params).then((res: any) => {
+      console.log(res)
+      // debugger
       this.moocList = res.data
       this.pageMeta = res.meta
     })
   }
-  headletabClick(item) {
-    // 根据传值调用列表函数
-    this.getList(`?status=${item.status}`)
+  // headletabClick(item) {
+  //   // 根据传值调用列表函数
+  //   this.getList(`?status=${item.status}`)
+  // }
+  // 人气爆棚
+  getPopularity() {
+    console.log('人气爆棚')
+    Cloud.MoocList.getPopularity().then((rec: any) => {
+      this.popularityList = rec
+      console.log('popularityList人气=', this.popularityList)
+    })
   }
   // 大咖推荐
   getRecommendList() {
     console.log('大咖推荐==', 22)
-    Cloud.MoocList.getRecommendList().then(rec => {
+    Cloud.MoocList.getRecommendList().then((rec: any) => {
       this.recommendList = rec
+      console.log('rec=======', rec)
     })
   }
-  // 人气爆棚
-  getPopularity() {
-    // console.log('人气爆棚');
-    Cloud.MoocList.getPopularity().then(rec => {
-      this.popularityList = rec
-      // console.log('popularityList人气=', this.popularityList);
-    })
-  }
+
   // 分页
   handleCurrentChange() {}
 }

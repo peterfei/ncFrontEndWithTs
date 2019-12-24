@@ -1,37 +1,35 @@
 <template>
-  <div
-    class="cate-filter-item"
-    @mouseover="handleEnter"
-    @mouseout="handleOut"
-  >
+  <div class="cate-filter-item" @mouseover="handleEnter" @mouseout="handleOut">
     <div
-      :class="[isEnter ? 'cate-list cate-list-hover':'cate-list']"
+      :class="[isEnter ? 'cate-list cate-list-hover' : 'cate-list']"
       ref="ele"
-      :style="{height: cateListHeight}"
+      :style="{ height: cateListHeight }"
     >
-      <div class="cate-name">{{cataData.title}} :</div>
+      <div class="cate-name">{{ cataData.title }} :</div>
       <div class="cate-sub">
         <div class="cate-sub-all">
           <span
-            :class="cataData.activeId === 0 || cataData.activeId === '0' ?
-             'cate-sub-title-active':''"
+            :class="
+              cataData.activeId === 0 || cataData.activeId === '0'
+                ? 'cate-sub-title-active'
+                : ''
+            "
             @click="routerLinkTo(cataData)"
           >
             全部
           </span>
         </div>
-        <div
-          class="cate-sub-title"
-          v-if="cataData.options.length"
-        >
+        <div class="cate-sub-title" v-if="cataData.options.length">
           <span
-            :class="item.id === cataData.activeId? 'cate-sub-title-active':''"
+            :class="
+              item.id === cataData.activeId ? 'cate-sub-title-active' : ''
+            "
             v-for="item in cataData.options"
             :key="item.id"
             @click="routerLinkTo(item)"
-          > {{item.name}}
+          >
+            {{ item.name }}
           </span>
-
         </div>
       </div>
     </div>
@@ -43,42 +41,42 @@ export default {
   props: {
     cataData: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   data() {
     return {
       cateListHeight: '63px',
-      isEnter: false,
-    };
+      isEnter: false
+    }
   },
   methods: {
     routerLinkTo(item) {
-      const obj = this.$route.query;
+      const obj = this.$route.query
       const query = {
-        ...obj,
-      };
+        ...obj
+      }
 
       if (!item.activeId) {
-        query[item.type] = item.id;
+        query[item.type] = item.id
       } else {
-        query[item.type] = 0;
+        query[item.type] = 0
       }
       this.$router.push({
-        query,
-      });
+        query
+      })
     },
     handleEnter() {
-      const height = this.$refs.ele.offsetHeight;
-      this.cateListHeight = height;
-      this.isEnter = true;
+      const height = this.$refs.ele.offsetHeight
+      this.cateListHeight = height
+      this.isEnter = true
     },
     handleOut() {
-      this.isEnter = false;
-      this.cateListHeight = '63px';
-    },
-  },
-};
+      this.isEnter = false
+      this.cateListHeight = '63px'
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
