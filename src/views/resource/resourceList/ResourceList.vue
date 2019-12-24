@@ -6,7 +6,6 @@
         <div class="top">
           <div class="left">
             <search-block @search="searchName"></search-block>
-            <!-- <search-block @search="searchName"></search-block> -->
           </div>
           <div class="right">
             <router-link :to="{ path: `/resource/addpackage` }">
@@ -239,6 +238,8 @@ export default class ResourceList extends Vue {
     }
     let res = await ResourcePackageList.getPackageList(postObj)
     this.packagesList = res.data.data || []
+
+    console.log('res.data.data', res.data)
 
     console.log('packagesList=', this.packagesList)
   }
