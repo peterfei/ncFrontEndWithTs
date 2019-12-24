@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { Course } from '@/api/courses/courses'
+import { Course } from '@/api/course'
 import CateFilterCourse from './components/CateFilterCourse.vue'
 import CourseItem from '../../../components/CourserPosterItem/CourserPosterItem.vue'
 import MiniPagination from '../../../components/MiniPagination/MiniPagination.vue'
