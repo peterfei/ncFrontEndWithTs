@@ -1,29 +1,35 @@
 <template>
-  <div class="cate-filter-item"
-       @mouseover="handleEnter"
-       @mouseout="handleOut">
-    <div class="cate-list"
-         :class="[isEnter ? 'cate-list cate-list-hover' : 'cate-list']"
-         :style="{ height: cateListHeight }"
-         ref="ele">
+  <div class="cate-filter-item" @mouseover="handleEnter" @mouseout="handleOut">
+    <div
+      class="cate-list"
+      :class="[isEnter ? 'cate-list cate-list-hover' : 'cate-list']"
+      :style="{ height: cateListHeight }"
+      ref="ele"
+    >
       <!--  -->
       <div class="cate-name">{{ cataData.title }} :</div>
       <div class="cate-sub">
         <div class="cate-sub-all">
-          <span :class="cataData.activeId === 0 ? 'cate-sub-title-active' : ''"
-                @click="routerLinkTitleTo(cataData)">
+          <span
+            :class="cataData.activeId === 0 ? 'cate-sub-title-active' : ''"
+            @click="routerLinkTitleTo(cataData)"
+          >
             全部
           </span>
         </div>
-        <div class="
+        <div
+          class="
             cate-sub-title"
-             v-if="cataData.children.length">
-          <span :class="
+          v-if="cataData.children.length"
+        >
+          <span
+            :class="
               item.id === cataData.activeId ? 'cate-sub-title-active' : ''
             "
-                v-for="item in cataData.children"
-                :key="item.id"
-                @click="routerLinkTo(item)">
+            v-for="item in cataData.children"
+            :key="item.id"
+            @click="routerLinkTo(item)"
+          >
             {{ item.name }}-{{ item.id }}
           </span>
         </div>
@@ -37,17 +43,17 @@ export default {
   props: {
     cataData: {
       type: Object,
-      default: () => { }
+      default: () => {}
     }
   },
-  data () {
+  data() {
     return {
       cateListHeight: null,
       isEnter: false
     }
   },
   methods: {
-    routerLinkTo (item) {
+    routerLinkTo(item) {
       const obj = this.$route.query
       const query = {
         ...obj,
@@ -62,7 +68,7 @@ export default {
         query
       })
     },
-    routerLinkTitleTo (item) {
+    routerLinkTitleTo(item) {
       const pId = item.children[0] ? item.children[0].parent_id : 0
       const obj = this.$route.query
       const query = {
@@ -75,12 +81,12 @@ export default {
         query
       })
     },
-    handleEnter () {
+    handleEnter() {
       const height = this.$refs.ele.offsetHeight
       this.cateListHeight = height
       this.isEnter = true
     },
-    handleOut () {
+    handleOut() {
       this.isEnter = false
       this.cateListHeight = 'auto'
     }

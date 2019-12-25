@@ -34,7 +34,6 @@ import { mockCateLists, mockCateFixedList } from '@/mocks'
 })
 export default class CateFilterCourse extends Vue {
   @Prop({ default: '' }) cateId!: string
-  //props: ['cateId'],
   id: any = null // 根据路由获取的cateID
   cateListSpread: Array<any> = [] // 将分类递归，变成一维数组
   cateList: Array<ICateList> = mockCateLists
@@ -112,7 +111,7 @@ export default class CateFilterCourse extends Vue {
       const item = cateAll[i]
       if (item.id === this.id) {
         for (let d = 0; d < 3; d += 1) {
-          const n = parseInt(item.parent_id_list[d], 10)
+          const n = +item.parent_id_list[d]
           // 设置当前activeID 等级
           this.cateList[d].activeId = n || 0
           // 设置children 清空记录
@@ -157,7 +156,7 @@ export default class CateFilterCourse extends Vue {
           })
 
           // 设置当前级
-          const d: Array<any> = []
+          const d: Array<ICategories> = []
           cateAll.forEach((c: any) => {
             if (c.parent_id === item.parent_id) {
               d.push(c)
@@ -166,7 +165,6 @@ export default class CateFilterCourse extends Vue {
           this.cateList[item.depth - 1].children = d || []
         }
         // 找到每个等级的 activeID
-        return
       }
       if (i + 1 === len) {
         for (let d = 0; d < 3; d += 1) {
@@ -174,7 +172,7 @@ export default class CateFilterCourse extends Vue {
           this.cateList[d].children = []
           //  this.cateList[d].children.push(cateAll)
           this.cateList[d].children = cateAll.filter(
-            (j: any) => j.depth === d + 1
+            (j: ICategories) => j.depth === d + 1
           )
         }
       }
