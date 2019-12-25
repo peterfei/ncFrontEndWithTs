@@ -173,7 +173,7 @@ export default class CateFilterCourse extends Vue {
   setCateFixedList(arr: any, url: any) {
     arr.forEach((item: any) => {
       const a = item
-      a.activeId = url[item.type]
+      a.activeId = url[item.types]
     })
   }
   handleOut() {}
