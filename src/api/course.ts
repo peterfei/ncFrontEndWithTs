@@ -1,7 +1,7 @@
 import Request from '@/utils/request'
 const moduleName = '/excellent_courses' // 模块名
 
-const courseUrl = `${moduleName}/courses` // 课程
+const courseUrl = `/api/${moduleName}/courses` // 课程
 const apisUrl = '/apis' // 通用接口
 const goodCoursesUrl = `${courseUrl}/good_courses` // 好课推荐
 const courseNoteUrl = `${moduleName}/course_notes` // 笔记
@@ -13,6 +13,14 @@ const discussionUrl = `${moduleName}/discussions` // 发布讨论接口
 const vodPlayAuthUel = '/vod_play_auth' // 获取视频播放授权
 const categoryCoursesUrl = `${courseUrl}/category_courses_recommend?category_id=` // 一级分类下的课程列表接口
 export const Course = {
+  getList(obj: object) {
+    //return axios({
+    //  url: `${courseUrl}`,
+    //  method: 'get',
+    //  params: obj
+    //})
+    return Request.get(`${courseUrl}`, obj)
+  },
   getGoodCourse() {
     return Request.xget('/api/excellent_courses/courses/good_courses')
   },

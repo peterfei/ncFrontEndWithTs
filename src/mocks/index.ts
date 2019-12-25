@@ -135,3 +135,153 @@ export const mockBannerUrl = [
     url: require('../../public/image/bg/3.jpg')
   }
 ]
+export const mockCourseCategory = [
+  {
+    id: 1,
+    name: '课程类别'
+  },
+  {
+    id: 2,
+    name: '网络营销'
+  },
+  {
+    id: 3,
+    name: '跨境电商'
+  },
+  {
+    id: 4,
+    name: '电商运营'
+  }
+]
+export const mockQueryParams = [
+  {
+    label: '学科类别',
+    key: 'subject',
+    options: [
+      {
+        id: 1,
+        name: '网络营销'
+      },
+      {
+        id: 2,
+        name: '跨境电商'
+      },
+      {
+        id: 3,
+        name: '跨境物流'
+      }
+    ],
+    query_isAll: true,
+    value: null,
+    eventName: 'hander'
+  },
+  {
+    label: '课程类别',
+    key: 'course',
+    options: [
+      {
+        id: 11,
+        name: '电商基础概念'
+      },
+      {
+        id: 12,
+        name: '跨境电商物流'
+      },
+      {
+        id: 13,
+        name: '跨境电子商务'
+      }
+    ],
+    query_isAll: true,
+    value: null,
+    eventName: 'hander'
+  },
+  {
+    label: '收费类型',
+    key: 'payment',
+    options: [
+      {
+        id: 21,
+        name: '收费'
+      },
+      {
+        id: 22,
+        name: '免费'
+      }
+    ],
+    query_isAll: true,
+    value: null,
+    eventName: 'hander'
+  },
+  {
+    label: '发布方',
+    key: 'publisher',
+    options: [
+      {
+        id: 31,
+        name: '教师'
+      },
+      {
+        id: 32,
+        name: '企业'
+      },
+      {
+        id: 33,
+        name: '专家'
+      },
+      {
+        id: 34,
+        name: '学生'
+      }
+    ],
+    query_isAll: true,
+    value: null,
+    eventName: 'hander'
+  },
+  {
+    label: '适合层次',
+    key: 'scope',
+    options: [
+      {
+        id: 41,
+        name: '中职'
+      },
+      {
+        id: 42,
+        name: '高职'
+      },
+      {
+        id: 43,
+        name: '本科及以上'
+      },
+      {
+        id: 44,
+        name: '其他'
+      }
+    ],
+    query_isAll: true,
+    value: null,
+    eventName: 'hander'
+  },
+  {
+    label: '排序',
+    key: 'sort',
+    options: [
+      {
+        id: 51,
+        name: '创建时间'
+      },
+      {
+        id: 52,
+        name: '摘录量'
+      },
+      {
+        id: 53,
+        name: '价格'
+      }
+    ],
+    query_isAll: false,
+    value: null,
+    eventName: 'hander'
+  }
+]

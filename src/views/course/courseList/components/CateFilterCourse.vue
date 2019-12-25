@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import CategoriesApi from '@/api/categories/categories'
+import { Categories } from '@/api/categories'
 import CateFilterGroup from './CateFilterGroup.vue'
 import CateFilterItem from './CateFilterItem.vue'
 import CateFixedFilter from './CateFixedFilter.vue'
@@ -87,7 +87,7 @@ export default {
   mounted() {
     const obj = JSON.stringify(this.$route.query)
     //  获取数据
-    CategoriesApi.getCategoriesList()
+    Categories.getCategoriesList()
       .then(async rec => {
         if (rec.length > 0) {
           rec.forEach(item => {
