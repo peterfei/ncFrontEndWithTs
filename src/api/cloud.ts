@@ -34,6 +34,11 @@ export const MoocList = {
     const url = `${moocIssues}/${id}`;
     return Request.get(url);
   },
+  // 学习大纲
+  getSyllabuses(id:number) {
+    const url = `${moocIssues}/${id}/syllabuses`;
+    return Request.get(url);
+  }
  
 }
 

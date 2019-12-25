@@ -3,8 +3,8 @@ import Layout from '@/views/layout/LayoutPage.vue'
 import CloudList from '@/views/cloud/cloudList/CloudList.vue'
 import CloudDetail from '@/views/cloud/cloudDetail/index.vue';
 
-// import CourseIntroduction from '@/views/cloud/cloudDetail/CourseIntroduction.vue';
-// import LearningSyllabus from '@/views/cloud/cloudDetail/LearningSyllabus.vue';
+import CourseIntroduction from '@/views/cloud/cloudDetail/CourseIntroduction.vue';
+import LearningSyllabus from '@/views/cloud/cloudDetail/LearningSyllabus.vue';
 // import CourseNotice from '@/views/cloud/cloudDetail/CourseNotice.vue';
 // import ScoringRules from '@/views/cloud/cloudDetail/ScoringRules.vue';
 
@@ -22,22 +22,22 @@ const CloudModule = {
       path: 'clouddetail/:id/packages/:course_id',
       name: 'CloudDetail',
       component: CloudDetail,
-      // children: [
-      //   {
-      //     path: '',
-      //     name: 'CourseIntroduction',
-      //     component: CourseIntroduction,
-      //   },
+      children: [
+        {
+          path: '',
+          name: 'CourseIntroduction',
+          component: CourseIntroduction,
+        },
         // {
         //   path: 'introduction',
         //   name: 'CourseIntroduction',
         //   component: CourseIntroduction,
         // },
-        // {
-        //   path: 'syllabus',
-        //   name: 'LearningSyllabus',
-        //   component: LearningSyllabus,
-        // },
+        {
+          path: 'syllabus',
+          name: 'LearningSyllabus',
+          component: LearningSyllabus,
+        },
         // {
         //   path: 'notice',
         //   name: 'CourseNotice',
@@ -53,7 +53,7 @@ const CloudModule = {
         //   name: 'CourseEvaluation',
         //   component: CourseEvaluation,
         // },
-      // ],
+      ],
     },
   ]
 }

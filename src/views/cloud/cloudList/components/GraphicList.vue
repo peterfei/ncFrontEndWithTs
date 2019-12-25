@@ -70,12 +70,11 @@
   </div>
 </template>
 <script lang="ts">
-// @Prop({ default: [] }) carouselLists!: Array<object>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({})
 export default class GraphicList extends Vue {
-  @Prop({ default: [] }) moocList!: Array<object>
-  @Prop({ default: [] }) pageMeta!: Array<object>
+  @Prop({ default: () => [] }) moocList!: Array<object> //子组件接收到父组件传过来的数组
+  @Prop({ default: () => [] }) pageMeta!: Array<object>
   numl(val: any) {
     return `${val}`
   }

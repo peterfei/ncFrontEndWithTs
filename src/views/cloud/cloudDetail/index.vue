@@ -60,21 +60,21 @@
             </template>
 
             <!-- 公告 -->
-            <template v-if="tab.type === 'notice'">
+            <!-- <template v-if="tab.type === 'notice'">
               <course-notice :notices="notices"></course-notice>
-            </template>
+            </template> -->
 
             <!-- 评分规则 -->
-            <template v-if="tab.type === 'rule'">
+            <!-- <template v-if="tab.type === 'rule'">
               <scoring-rules
                 :periodical="periodical"
                 :scoring_rules="periodical.scoring_rules"
               >
               </scoring-rules>
-            </template>
+            </template> -->
 
             <!-- 课程评价 -->
-            <template v-if="tab.type === 'comment'">
+            <!-- <template v-if="tab.type === 'comment'">
               <course-evaluation
                 :evaluations="evaluations"
                 @submitComment="submitComment"
@@ -82,7 +82,7 @@
                 :supports="supports"
                 :operation="supports.operation"
               ></course-evaluation>
-            </template>
+            </template> -->
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -110,8 +110,8 @@ import DetailBanner from './components/DetailBanner.vue'
 // import CourseLecturer from './components/CourseLecturer.vue'
 // import TeachingTeam from './components/TeachingTeam.vue'
 // import RelevantCourses from './components/RelevantCourses.vue'
-// import CourseIntroduction from './CourseIntroduction.vue'
-// import LearningSyllabus from './LearningSyllabus.vue'
+import CourseIntroduction from './CourseIntroduction.vue'
+import LearningSyllabus from './LearningSyllabus.vue'
 // import CourseNotice from './CourseNotice.vue'
 // import ScoringRules from './ScoringRules.vue'
 // import CourseEvaluation from './CourseEvaluation.vue'
@@ -124,11 +124,13 @@ export interface DetileTabs {
 }
 @Component({
   components: {
-    DetailBanner
+    DetailBanner,
+    CourseIntroduction,
+    LearningSyllabus
   }
 })
 export default class cloudDetal extends Vue {
-  id: any
+  id: number
   activeName: string = 'first'
   getIntroduct: Array<any> = []
   relatedCourse: Array<any> = []
@@ -140,7 +142,7 @@ export default class cloudDetal extends Vue {
   supports: Array<any> = []
   issuesId: any
   last_issue_id: string
-  course_id: any
+  course_id: number
   public tabs: Array<DetileTabs> = [
     {
       label: '课程介绍',
@@ -174,10 +176,10 @@ export default class cloudDetal extends Vue {
     }
   ]
   mounted() {
-    this.id = this.$route.params.id // 从路由中获取期id
-    this.course_id = this.$route.params.course_id // 从路由中获取课程包id
+    this.id = +this.$route.params.id // 从路由中获取期id     +表示强制转换成number类型；this.$route.params.id中是字符串，因为初始化id为mubmer类型,所以这里需要把字符串强制转换成nunber类型
+    this.course_id = +this.$route.params.course_id // 从路由中获取课程包id    +表示强制转换成number类型；this.$route.params.id中是字符串，因为初始化id为mubmer类型,所以这里需要把字符串强制转换成nunber类型
     const issueId = this.$route.query.issue_id
-    this.getPeriodical(issueId) // 课程包详情-期数展示
+    this.getPeriodical() // 课程包详情-期数展示
     if (issueId) {
       this.issuesId = issueId
       // this.getIssueInfo(issueId)
@@ -192,13 +194,54 @@ export default class cloudDetal extends Vue {
     })
   }
   // 期刊
-  getPeriodical(issueId: any) {
+  getPeriodical(issueId?: any) {
     Cloud.MoocList.getPeriodical(this.id).then((rec: any) => {
       this.periodical = rec
       if (!issueId) {
         this.issuesId = rec.last_issue_id
         // this.getIssueInfo(this.issuesId)
       }
+    })
+  }
+  // 改变期数
+  getIssueChange(currentIssue: number) {
+    // console.log('接收参数', currentIssue);
+    // （接收子组件传的参数(当前期数选中id参数)）
+    this.issuesId = currentIssue
+    Cloud.MoocList.getPeriodical(currentIssue).then((rec: any) => {
+      console.log('期数改变了哦===============', rec)
+      this.periodical = rec
+      this.notices = rec
+      // this.getNotice(); // 公告
+      // this.getSyllabuses(); // 大纲
+      this.Syllabuses = rec
+      this.evaluations = rec
+      this.getIntroduct = rec
+    })
+  }
+  handleClick(tab: any) {
+    // console.log('aiaiai', tab, event);
+    if (tab.label === '评分规则') {
+      this.getPeriodical(this.issuesId)
+    }
+    // if (tab.label === '公告') {
+    //   this.getNotice()
+    // }
+    // if (tab.label === '课程介绍') {
+    //   this.getPeriodical()
+    // }
+    if (tab.label === '学习大纲') {
+      this.getSyllabuses()
+    }
+    // if (tab.label === '课程评价') {
+    //   this.getComment()
+    // }
+  }
+  // 学习大纲
+  getSyllabuses() {
+    Cloud.MoocList.getSyllabuses(this.id).then((res: any) => {
+      this.Syllabuses = res
+      console.log('学习大纲=======', this.Syllabuses)
     })
   }
 }
