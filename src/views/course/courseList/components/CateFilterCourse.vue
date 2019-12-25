@@ -2,12 +2,14 @@
   <div class="cate-filter-course">
     <cate-filter-group>
       <template slot="cate">
-        <div v-for="item in cateList" :key="item.id">
+        <div v-for="item in cateList"
+             :key="item.id">
           <cate-filter-item :cata-data="item"></cate-filter-item>
         </div>
       </template>
       <template slot="cateFixed">
-        <div v-for="item in cateFixedList" :key="item.id">
+        <div v-for="item in cateFixedList"
+             :key="item.id">
           <cate-fixed-filter :cata-data="item"></cate-fixed-filter>
         </div>
       </template>
@@ -93,7 +95,7 @@ export default class CateFilterCourse extends Vue {
   // 将分类递归，变成一维数组
   handleSpread(items: ICategories) {
     if (items.children) {
-      items.children.forEach(child => this.handleSpread(child))
+      items.children.forEach((child: any) => this.handleSpread(child))
     }
     const item = '' + items.parent_id_list
     items.parent_id_list = item
@@ -103,7 +105,7 @@ export default class CateFilterCourse extends Vue {
 
     this.cateListSpread.push(items)
   }
-  setCateList(cateAll: any) {
+  setCateList(cateAll: ICategories[]) {
     const len = cateAll.length
     // depth 当前分类等级1，2，3
     for (let i = 0; i < len; i += 1) {
@@ -113,43 +115,44 @@ export default class CateFilterCourse extends Vue {
           const n = parseInt(item.parent_id_list[d], 10)
           // 设置当前activeID 等级
           this.cateList[d].activeId = n || 0
-          // 设置options 清空记录
-          this.cateList[d].options = []
+          // 设置children 清空记录
+          this.cateList[d].children = []
         }
-        // 设置 一级options
-        cateAll.forEach((r: any) => {
-          if (r.depth === 1) this.cateList[0].options.push(r)
+        // 设置 一级children
+        cateAll.forEach(r => {
+          const _cate_children = this.cateList[0].children
+          if (r.depth === 1) _cate_children.push(r)
         })
 
         if (item.depth === 1) {
           // 设置二级分类
-          this.cateList[item.depth].options = item.children || []
+          this.cateList[item.depth].children = item.children || []
           // 设置三级分类
           if (item.children) {
             item.children.forEach((s: any) => {
               if (s.children) {
                 s.children.forEach((t: any) => {
-                  this.cateList[item.depth + 1].options.push(t)
+                  this.cateList[item.depth + 1].children.push(t)
                 })
               }
             })
           } else {
-            this.cateList[item.depth + 1].options = []
+            this.cateList[item.depth + 1].children = []
           }
         }
         if (item.depth === 2) {
           cateAll.forEach((c: any) => {
             if (c.id === parseInt(item.parent_id_list[0], 10)) {
-              this.cateList[item.depth - 1].options = c.children || []
+              this.cateList[item.depth - 1].children = c.children || []
             }
           }) // 设置三级分类
-          this.cateList[item.depth].options = item.children || []
+          this.cateList[item.depth].children = item.children || []
         }
         if (item.depth === 3) {
           // 设置上一级
           cateAll.forEach((c: any) => {
             if (c.id === parseInt(item.parent_id_list[0], 10)) {
-              this.cateList[item.depth - 2].options = c.children || []
+              this.cateList[item.depth - 2].children = c.children || []
             }
           })
 
@@ -160,7 +163,7 @@ export default class CateFilterCourse extends Vue {
               d.push(c)
             }
           })
-          this.cateList[item.depth - 1].options = d || []
+          this.cateList[item.depth - 1].children = d || []
         }
         // 找到每个等级的 activeID
         return
@@ -168,15 +171,15 @@ export default class CateFilterCourse extends Vue {
       if (i + 1 === len) {
         for (let d = 0; d < 3; d += 1) {
           this.cateList[d].activeId = 0
-          this.cateList[d].options = []
-          //  this.cateList[d].options.push(cateAll)
-          this.cateList[d].options = cateAll.filter(
+          this.cateList[d].children = []
+          //  this.cateList[d].children.push(cateAll)
+          this.cateList[d].children = cateAll.filter(
             (j: any) => j.depth === d + 1
           )
         }
       }
 
-      // this.cateList[item.depth - 1].options.push(item);
+      // this.cateList[item.depth - 1].children.push(item);
     }
   }
   setCateFixedList(arr: any, url: any) {

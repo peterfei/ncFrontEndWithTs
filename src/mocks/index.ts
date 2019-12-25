@@ -291,19 +291,19 @@ export const mockCateLists = [
     id: 'cate1',
     activeId: 1,
     title: '学科类别',
-    options: []
+    children: []
   },
   {
     id: 'cate2',
     activeId: 1,
     title: '学习方向',
-    options: []
+    children: []
   },
   {
     id: 'cate3',
     activeId: 1,
     title: '课程类别',
-    options: []
+    children: []
   }
 ]
 
@@ -313,7 +313,7 @@ export const mockCateFixedList = [
     activeId: 0,
     title: '学习资料',
     types: 'isPrice',
-    options: [
+    children: [
       {
         name: '免费',
         value: 'free',

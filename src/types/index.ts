@@ -41,30 +41,32 @@ export interface ICateList {
   id: string
   activeId: number
   title: string
-  options: string[]
+  children: ICategories[] | ICateOption[]
 }
 export interface ICateFixedList {
   id: string
   activeId: number
   title: string
   types: string
-  options: ICateOption[]
+  children: ICategories[] | ICateOption[]
 }
 export interface ICateOption {
   name: string
-  value: string
+  value?: string
   id: string
-  types: string
+  types?: string
 }
 
 export interface ICategories {
-  children: ICategories[]
+  children: ICategories[] | ICateOption[]
   depth: number
-  id: number
+  id: number | any
   is_leaf: number
   name: string
   ordering: number
   parent_id: number
   parent_id_list: string | string[]
   status: number
+  value?: string | any
+  types?: string | any
 }
