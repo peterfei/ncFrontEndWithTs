@@ -164,6 +164,7 @@ export default class CateFilterCourse extends Vue {
           })
           this.cateList[item.depth - 1].children = d || []
         }
+        return
         // 找到每个等级的 activeID
       }
       if (i + 1 === len) {
