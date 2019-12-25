@@ -56,3 +56,15 @@ export interface ICateOption {
   id: string
   types: string
 }
+
+export interface ICategories {
+  children: ICategories[]
+  depth: number
+  id: number
+  is_leaf: number
+  name: string
+  ordering: number
+  parent_id: number
+  parent_id_list: string | string[]
+  status: number
+}

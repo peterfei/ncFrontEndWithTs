@@ -21,7 +21,7 @@ import { Categories } from '@/api/categories'
 import CateFilterGroup from './CateFilterGroup.vue'
 import CateFilterItem from './CateFilterItem.vue'
 import CateFixedFilter from './CateFixedFilter.vue'
-import { ICateList, ICateFixedList, ICateOption } from '@/types'
+import { ICateList, ICateFixedList, ICateOption, ICategories } from '@/types'
 import { mockCateLists, mockCateFixedList } from '@/mocks'
 @Component({
   components: {
@@ -37,30 +37,39 @@ export default class CateFilterCourse extends Vue {
   cateListSpread: Array<any> = [] // 将分类递归，变成一维数组
   cateList: Array<ICateList> = mockCateLists
   cateFixedList: Array<ICateFixedList> = mockCateFixedList
-
+  categories: Array<ICategories> = []
   @Watch('$route', { immediate: true, deep: true })
-  onUrlChange(to: any) {
+  onUrlChange(to: { id: number; query: { id: number } }) {
     const url = to.query
-    this.id = url.id ? parseInt(url.id, 10) : -1
+    this.id = url.id ? +url.id : -1
     this.handleUrl(url)
   }
+
   async mounted() {
     const obj = JSON.stringify(this.$route.query)
-    //  获取数据
-    Categories.getCategoriesList()
-      .then(async (rec: any) => {
-        if (rec.length > 0) {
-          rec.forEach((item: any) => {
-            this.handleSpread(item)
-          })
-          this.cateListSpread.sort((a, b) => a.depth - b.depth)
-          await this.setCateList(
-            this.cateListSpread.map(item => JSON.parse(item))
-          )
-        }
-      })
-      .catch(() => {})
 
+    //  获取数据
+    //Categories.getCategoriesList()
+    //  .then(async (rec: any) => {
+    //    if (rec.length > 0) {
+    //      console.log(`当前分类数据`, rec)
+    //      rec.forEach((item: any) => {
+    //        this.handleSpread(item)
+    //      })
+    //      await this.setCateList(
+    //        this.cateListSpread.map(item => JSON.parse(item))
+    //      )
+    //    }
+    //  })
+    //  .catch(() => {})
+    //this.cateListSpread.sort((a, b) => a.depth - b.depth)
+    this.categories = await Categories.getCategoriesList()
+    console.log(`categories dicts is `, this.categories)
+    this.categories.forEach(cate => {
+      this.handleSpread(cate)
+    })
+
+    console.log(`cateListSpread`, this.cateListSpread)
     if (obj !== '{}') {
       this.handleUrl(this.$route.query)
     }
@@ -75,24 +84,24 @@ export default class CateFilterCourse extends Vue {
     if (arr.length > 0) {
       this.id = parseInt(url.id, 10) || null
       this.setCateFixedList(arr, url)
-      this.setCateList(this.cateListSpread.map(item => JSON.parse(item)))
+      this.setCateList(this.cateListSpread.map(item => item))
     } else {
       this.id = parseInt(url.id, 10) || null
-      this.setCateList(this.cateListSpread.map(item => JSON.parse(item)))
+      this.setCateList(this.cateListSpread.map(item => item))
     }
   }
   // 将分类递归，变成一维数组
-  handleSpread(item: any) {
-    if (item.children) {
-      item.children.forEach((a: any) => this.handleSpread(a))
+  handleSpread(items: ICategories) {
+    if (items.children) {
+      items.children.forEach(child => this.handleSpread(child))
     }
-    const a = item
-    a.parent_id_list = item.parent_id_list
-      .substring(0, item.parent_id_list.length - 1)
+    const item = '' + items.parent_id_list
+    items.parent_id_list = item
+      .substring(0, item.length - 1)
       .substr(1)
       .split(',')
-    const b = JSON.stringify(a)
-    this.cateListSpread.push(b)
+
+    this.cateListSpread.push(items)
   }
   setCateList(cateAll: any) {
     const len = cateAll.length
