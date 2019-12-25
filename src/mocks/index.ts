@@ -285,3 +285,47 @@ export const mockQueryParams = [
     eventName: 'hander'
   }
 ]
+
+export const mockCateLists = [
+  {
+    id: 'cate1',
+    activeId: 1,
+    title: '学科类别',
+    options: []
+  },
+  {
+    id: 'cate2',
+    activeId: 1,
+    title: '学习方向',
+    options: []
+  },
+  {
+    id: 'cate3',
+    activeId: 1,
+    title: '课程类别',
+    options: []
+  }
+]
+
+export const mockCateFixedList = [
+  {
+    id: 'cate4',
+    activeId: 0,
+    title: '学习资料',
+    types: 'isPrice',
+    options: [
+      {
+        name: '免费',
+        value: 'free',
+        id: 'free',
+        types: 'isPrice'
+      },
+      {
+        name: '收费',
+        value: 'charge',
+        id: 'charge',
+        types: 'isPrice'
+      }
+    ]
+  }
+]

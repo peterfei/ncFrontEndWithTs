@@ -14,11 +14,6 @@ const vodPlayAuthUel = '/vod_play_auth' // 获取视频播放授权
 const categoryCoursesUrl = `${courseUrl}/category_courses_recommend?category_id=` // 一级分类下的课程列表接口
 export const Course = {
   getList(obj: object) {
-    //return axios({
-    //  url: `${courseUrl}`,
-    //  method: 'get',
-    //  params: obj
-    //})
     return Request.get(`${courseUrl}`, obj)
   },
   getGoodCourse() {
