@@ -39,29 +39,29 @@
 </template>
 
 <script lang="ts">
-
-import { Component, Vue, Prop,Model,Watch } from 'vue-property-decorator'
-export interface IOptions{
-      value:string
-  }
+import { Component, Vue, Prop, Model, Watch } from 'vue-property-decorator'
+export interface IOptions {
+  value: string
+}
 @Component
 export default class CateFilter extends Vue {
-  @Model("change",{type:[String,Number]}) selected!:number
-  @Prop({type:String,default:"value"}) optionKey!:string
-  @Prop({type:String,default:"label"}) optionLabel!:string
-  @Prop({type:String,required:true}) title!:string
-  @Prop({type:Array,default=>[{value:""}]}) options:string[]
-  @Prop({type:Array,default=>[]}) allOption!:string[]
-  @Prop({type:String,default=>"全部"}) allText!:string
-  @Prop({type: [String, Number],default=>0}) allValue!:string|number
+  @Model('change', { type: [String, Number] }) selected!: number
+  @Prop({ type: String, default: 'value' }) optionKey!: string
+  @Prop({ type: String, default: 'label' }) optionLabel!: string
+  @Prop({ type: String, required: true }) title!: string
+  @Prop({ type: Array, default: () => [{ value: '' }] }) options!: IOptions[]
+  @Prop({ type: Array, default: () => [] }) allOption!: string[]
+  @Prop({ type: String, default: '全部' }) allText!: string
+  @Prop({ type: [String, Number], default: 0 }) allValue!: string | number
   @Watch('selected', { immediate: true, deep: true })
   onSelectdChanged(val: string, oldVal: string) {
-        this.selfValue = typeof +this.selected === 'undefined' ? this.selfValue :(+this.selected)
+    this.selfValue =
+      typeof +this.selected === 'undefined' ? this.selfValue : +this.selected
   }
 
-  maxHeight:Number =  80
-  needClass:Boolean =  false
-  selfValue:Number =  0 // 内置的状态保存, 用户在没有配合v-model的情况下依然可用
+  maxHeight: number = 80
+  needClass: boolean = false
+  selfValue: Number = 0 // 内置的状态保存, 用户在没有配合v-model的情况下依然可用
   created() {
     // 初始化this.selfValue的值
     if (typeof this.selected !== 'undefined') {
@@ -75,7 +75,7 @@ export default class CateFilter extends Vue {
     }
   }
   $refs!: {
-    cateUI: HTMLFrameElement,
+    cateUI: HTMLFrameElement
     spanEl: HTMLFrameElement
   }
   mounted() {

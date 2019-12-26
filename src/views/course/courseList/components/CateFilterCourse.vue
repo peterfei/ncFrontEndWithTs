@@ -2,14 +2,12 @@
   <div class="cate-filter-course">
     <cate-filter-group>
       <template slot="cate">
-        <div v-for="item in cateList"
-             :key="item.id">
+        <div v-for="item in cateList" :key="item.id">
           <cate-filter-item :cata-data="item"></cate-filter-item>
         </div>
       </template>
       <template slot="cateFixed">
-        <div v-for="item in cateFixedList"
-             :key="item.id">
+        <div v-for="item in cateFixedList" :key="item.id">
           <cate-fixed-filter :cata-data="item"></cate-fixed-filter>
         </div>
       </template>
