@@ -16,6 +16,7 @@
 </template>
 
 <script lang="ts">
+import Course from '@/views/course/course' //抽离部分方法在这个类里,目的是更好的融合使用OOP思想在项目
 import { Component, Vue, Prop, Model, Watch } from 'vue-property-decorator'
 import { Categories } from '@/api/categories'
 import CateFilterGroup from './CateFilterGroup.vue'
@@ -37,6 +38,7 @@ export default class CateFilterCourse extends Vue {
   cateList: Array<ICateList> = mockCateLists
   cateFixedList: Array<ICateFixedList> = mockCateFixedList
   categories: Array<ICategories> = []
+
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: { id: number; query: { id: number } }) {
     const url = to.query
@@ -65,7 +67,8 @@ export default class CateFilterCourse extends Vue {
     this.categories = await Categories.getCategoriesList()
     console.log(`categories dicts is `, this.categories)
     this.categories.forEach(cate => {
-      this.handleSpread(cate)
+      const _course = new Course()
+      _course.handleSpread(cate, this.cateListSpread)
     })
 
     console.log(`cateListSpread`, this.cateListSpread)
@@ -89,19 +92,7 @@ export default class CateFilterCourse extends Vue {
       this.setCateList(this.cateListSpread.map(item => item))
     }
   }
-  // 将分类递归，变成一维数组
-  handleSpread(items: ICategories) {
-    if (items.children) {
-      items.children.forEach((child: any) => this.handleSpread(child))
-    }
-    const item = '' + items.parent_id_list
-    items.parent_id_list = item
-      .substring(0, item.length - 1)
-      .substr(1)
-      .split(',')
 
-    this.cateListSpread.push(items)
-  }
   setCateList(cateAll: ICategories[]) {
     const len = cateAll.length
     // depth 当前分类等级1，2，3
