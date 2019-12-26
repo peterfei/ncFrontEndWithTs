@@ -50,24 +50,11 @@ export default class CateFilterCourse extends Vue {
     const obj = JSON.stringify(this.$route.query)
 
     //  获取数据
-    //Categories.getCategoriesList()
-    //  .then(async (rec: any) => {
-    //    if (rec.length > 0) {
-    //      console.log(`当前分类数据`, rec)
-    //      rec.forEach((item: any) => {
-    //        this.handleSpread(item)
-    //      })
-    //      await this.setCateList(
-    //        this.cateListSpread.map(item => JSON.parse(item))
-    //      )
-    //    }
-    //  })
-    //  .catch(() => {})
-    //this.cateListSpread.sort((a, b) => a.depth - b.depth)
+
     this.categories = await Categories.getCategoriesList()
     console.log(`categories dicts is `, this.categories)
     this.categories.forEach(cate => {
-      const _course = new Course()
+      let _course = new Course()
       _course.handleSpread(cate, this.cateListSpread)
     })
 
@@ -78,6 +65,7 @@ export default class CateFilterCourse extends Vue {
   }
   // 解析url
   handleUrl(url: any) {
+    let _course = new Course()
     const arr = this.cateFixedList.filter(item => {
       const a = Object.keys(url).includes(item.types)
       return a
@@ -86,90 +74,21 @@ export default class CateFilterCourse extends Vue {
     if (arr.length > 0) {
       this.id = parseInt(url.id, 10) || null
       this.setCateFixedList(arr, url)
-      this.setCateList(this.cateListSpread.map(item => item))
+      _course.setCateList(
+        this.cateListSpread.map(item => item),
+        this.id,
+        this.cateList
+      )
     } else {
       this.id = parseInt(url.id, 10) || null
-      this.setCateList(this.cateListSpread.map(item => item))
+      _course.setCateList(
+        this.cateListSpread.map(item => item),
+        this.id,
+        this.cateList
+      )
     }
   }
 
-  setCateList(cateAll: ICategories[]) {
-    const len = cateAll.length
-    // depth 当前分类等级1，2，3
-    for (let i = 0; i < len; i += 1) {
-      const item = cateAll[i]
-      if (item.id === this.id) {
-        for (let d = 0; d < 3; d += 1) {
-          const n = +item.parent_id_list[d]
-          // 设置当前activeID 等级
-          this.cateList[d].activeId = n || 0
-          // 设置children 清空记录
-          this.cateList[d].children = []
-        }
-        // 设置 一级children
-        cateAll.forEach(r => {
-          const _cate_children = this.cateList[0].children
-          if (r.depth === 1) _cate_children.push(r)
-        })
-
-        if (item.depth === 1) {
-          // 设置二级分类
-          this.cateList[item.depth].children = item.children || []
-          // 设置三级分类
-          if (item.children) {
-            item.children.forEach((s: any) => {
-              if (s.children) {
-                s.children.forEach((t: any) => {
-                  this.cateList[item.depth + 1].children.push(t)
-                })
-              }
-            })
-          } else {
-            this.cateList[item.depth + 1].children = []
-          }
-        }
-        if (item.depth === 2) {
-          cateAll.forEach((c: any) => {
-            if (c.id === parseInt(item.parent_id_list[0], 10)) {
-              this.cateList[item.depth - 1].children = c.children || []
-            }
-          }) // 设置三级分类
-          this.cateList[item.depth].children = item.children || []
-        }
-        if (item.depth === 3) {
-          // 设置上一级
-          cateAll.forEach((c: any) => {
-            if (c.id === parseInt(item.parent_id_list[0], 10)) {
-              this.cateList[item.depth - 2].children = c.children || []
-            }
-          })
-
-          // 设置当前级
-          const d: Array<ICategories> = []
-          cateAll.forEach((c: any) => {
-            if (c.parent_id === item.parent_id) {
-              d.push(c)
-            }
-          })
-          this.cateList[item.depth - 1].children = d || []
-        }
-        return
-        // 找到每个等级的 activeID
-      }
-      if (i + 1 === len) {
-        for (let d = 0; d < 3; d += 1) {
-          this.cateList[d].activeId = 0
-          this.cateList[d].children = []
-          //  this.cateList[d].children.push(cateAll)
-          this.cateList[d].children = cateAll.filter(
-            (j: ICategories) => j.depth === d + 1
-          )
-        }
-      }
-
-      // this.cateList[item.depth - 1].children.push(item);
-    }
-  }
   setCateFixedList(arr: any, url: any) {
     arr.forEach((item: any) => {
       const a = item
