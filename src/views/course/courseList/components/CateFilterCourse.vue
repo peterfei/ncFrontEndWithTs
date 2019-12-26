@@ -72,7 +72,7 @@ export default class CateFilterCourse extends Vue {
     })
 
     if (arr.length > 0) {
-      this.id = parseInt(url.id, 10) || null
+      this.id = +url.id
       this.setCateFixedList(arr, url)
       _course.setCateList(
         this.cateListSpread.map(item => item),
@@ -80,7 +80,7 @@ export default class CateFilterCourse extends Vue {
         this.cateList
       )
     } else {
-      this.id = parseInt(url.id, 10) || null
+      this.id = +url.id
       _course.setCateList(
         this.cateListSpread.map(item => item),
         this.id,
