@@ -19,12 +19,12 @@
             全部
           </span>
         </div>
-        <div class="cate-sub-title" v-if="cataData.options.length">
+        <div class="cate-sub-title" v-if="cataData.children.length">
           <span
             :class="
               item.id === cataData.activeId ? 'cate-sub-title-active' : ''
             "
-            v-for="item in cataData.options"
+            v-for="item in cataData.children"
             :key="item.id"
             @click="routerLinkTo(item)"
           >
@@ -58,9 +58,9 @@ export default {
       }
 
       if (!item.activeId) {
-        query[item.type] = item.id
+        query[item.types] = item.id
       } else {
-        query[item.type] = 0
+        query[item.types] = 0
       }
       this.$router.push({
         query

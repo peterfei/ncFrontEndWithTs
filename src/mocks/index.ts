@@ -171,7 +171,7 @@ export const mockQueryParams = [
         name: '跨境物流'
       }
     ],
-    queryIsAll: true,
+    query_isAll: true,
     value: null,
     eventName: 'hander'
   },
@@ -192,7 +192,7 @@ export const mockQueryParams = [
         name: '跨境电子商务'
       }
     ],
-    queryIsAll: true,
+    query_isAll: true,
     value: null,
     eventName: 'hander'
   },
@@ -209,7 +209,7 @@ export const mockQueryParams = [
         name: '免费'
       }
     ],
-    queryIsAll: true,
+    query_isAll: true,
     value: null,
     eventName: 'hander'
   },
@@ -234,7 +234,7 @@ export const mockQueryParams = [
         name: '学生'
       }
     ],
-    queryIsAll: true,
+    query_isAll: true,
     value: null,
     eventName: 'hander'
   },
@@ -259,7 +259,7 @@ export const mockQueryParams = [
         name: '其他'
       }
     ],
-    queryIsAll: true,
+    query_isAll: true,
     value: null,
     eventName: 'hander'
   },
@@ -280,147 +280,52 @@ export const mockQueryParams = [
         name: '价格'
       }
     ],
-    queryIsAll: false,
+    query_isAll: false,
     value: null,
     eventName: 'hander'
   }
 ]
 
-export const mokCateList = [
+export const mockCateLists = [
   {
     id: 'cate1',
     activeId: 1,
     title: '学科类别',
-    options: []
+    children: []
   },
   {
     id: 'cate2',
     activeId: 1,
     title: '学习方向',
-    options: []
+    children: []
   },
   {
     id: 'cate3',
     activeId: 1,
     title: '课程类别',
-    options: []
+    children: []
   }
 ]
-export const mokCateFixedList = [
+
+export const mockCateFixedList = [
   {
     id: 'cate4',
     activeId: 0,
-    title: '收费类型',
-    type: 'isCharge',
-    options: [
+    title: '学习资料',
+    types: 'isPrice',
+    children: [
       {
         name: '免费',
         value: 'free',
         id: 'free',
-        type: 'isCharge'
+        types: 'isPrice'
       },
       {
         name: '收费',
         value: 'charge',
         id: 'charge',
-        type: 'isCharge'
-      }
-    ]
-  },
-  {
-    id: 'cate5',
-    activeId: 0,
-    title: '发布方',
-    type: 'publisher',
-    options: [
-      {
-        name: '教师',
-        value: 'tec',
-        id: 'tec',
-        type: 'publisher'
-      },
-      {
-        name: '企业',
-        value: 'co',
-        id: 'co',
-        type: 'publisher'
-      },
-      {
-        name: '专家',
-        value: 'expert',
-        id: 'expert',
-        type: 'publisher'
-      },
-      {
-        name: '学生',
-        value: 'stu',
-        id: 'stu',
-        type: 'publisher'
-      }
-    ]
-  },
-  {
-    id: 'cate6',
-    activeId: 0,
-    title: '适合层次',
-    type: 'level',
-    options: [
-      {
-        name: '中职',
-        value: 'sv',
-        id: 'sv',
-        type: 'level'
-      },
-      {
-        name: '高职',
-        value: 'hv',
-        id: 'hv',
-        type: 'level'
-      },
-      {
-        name: '本科及以上',
-        value: 'bs',
-        id: 'bs',
-        type: 'level'
-      },
-      {
-        name: '其他',
-        value: 'other',
-        id: 'other',
-        type: 'level'
+        types: 'isPrice'
       }
     ]
   }
-  // {
-  //   id: 'cate7',
-  //   activeId: 0,
-  //   title: '排序',
-  //   type: 'sort',
-  //   options: [
-  //     {
-  //       name: '创建时间',
-  //       value: 'ct',
-  //       id: 'ct',
-  //       type: 'sort'
-  //     },
-  //     {
-  //       name: '摘录量',
-  //       value: 'excer',
-  //       id: 'excer',
-  //       type: 'level'
-  //     },
-  //     {
-  //       name: '价格',
-  //       value: 'price',
-  //       id: 'price',
-  //       type: 'level'
-  //     },
-  //     {
-  //       name: '其他',
-  //       value: 'other',
-  //       id: 'other',
-  //       type: 'level'
-  //     }
-  //   ]
-  // }
 ]
