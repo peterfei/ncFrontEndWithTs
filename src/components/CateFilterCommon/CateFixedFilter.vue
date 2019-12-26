@@ -19,12 +19,12 @@
             全部
           </span>
         </div>
-        <div class="cate-sub-title" v-if="cataData.options.length">
+        <div class="cate-sub-title" v-if="cataData.children.length">
           <span
             :class="
               item.id === cataData.activeId ? 'cate-sub-title-active' : ''
             "
-            v-for="item in cataData.options"
+            v-for="item in cataData.children"
             :key="item.id"
             @click="routerLinkTo(item)"
           >

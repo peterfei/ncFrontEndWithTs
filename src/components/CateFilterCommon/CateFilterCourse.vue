@@ -17,8 +17,10 @@
 <script lang="ts">
 import { Categories } from '@/api/categories'
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { mokCateList } from '@/mocks/index'
-import { mokCateFixedList } from '@/mocks/index'
+import { mockCateLists } from '@/mocks/index'
+import { mockCateFixedList } from '@/mocks/index'
+import { ICateList, ICateFixedList, ICateOption, ICategories } from '@/types'
+
 import CateFilterGroup from './CateFilterGroup.vue'
 import CateFilterItem from './CateFilterItem.vue'
 import CateFixedFilter from './CateFixedFilter.vue'
@@ -32,22 +34,30 @@ import CateFixedFilter from './CateFixedFilter.vue'
 })
 export default class CateFilterCourse extends Vue {
   public cateListSpread: Array<any> = [] // 将分类递归，变成一维数组
-  public cateList: Array<any> = mokCateList //三级后端接口分类
-  public cateFixedList: Array<any> = mokCateFixedList //自定义数据配置
+  public cateList: Array<any> = mockCateLists //三级后端接口分类
+  public cateFixedList: Array<any> = mockCateFixedList //自定义数据配置
   async mounted() {
-    console.log('this.cateList=', this.cateList)
-    console.log('this.cateFixedList=', this.cateFixedList)
     const obj = JSON.stringify(this.$route.query)
     // 获取课程分类
-    const res = await Categories.getCategoriesList()
-    if (res.length > 0) {
-      res.forEach((item: any) => {
-        this.handleSpread(item)
-      })
-      // 排序
-      this.cateListSpread.sort((a, b) => a.depth - b.depth)
-      await this.setCateList(this.cateListSpread.map(item => JSON.parse(item)))
-    }
+    // const res = await Categories.getCategoriesList()
+    // if (res.length > 0) {
+    //   res.forEach((item: any) => {
+    //     this.handleSpread(item)
+    //   })
+    //   // 排序
+    //   this.cateListSpread.sort((a, b) => a.depth - b.depth)
+    //   await this.setCateList(this.cateListSpread.map(item => JSON.parse(item)))
+    // }
+    // if (obj !== '{}') {
+    //   this.handleUrl(this.$route.query)
+    // }
+    this.categories = await Categories.getCategoriesList()
+    console.log(`categories dicts is `, this.categories)
+    this.categories.forEach((cate: any) => {
+      this.handleSpread(cate)
+    })
+
+    console.log(`cateListSpread`, this.cateListSpread)
     if (obj !== '{}') {
       this.handleUrl(this.$route.query)
     }

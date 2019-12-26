@@ -3,9 +3,9 @@
     <div
       class="cate-list"
       :class="[isEnter ? 'cate-list cate-list-hover' : 'cate-list']"
-      :style="{ height: cateListHeight }"
       ref="ele"
     >
+      <!-- :style="{ height: cateListHeight }"  这一段放到上面div中-->
       <!--  -->
       <div class="cate-name">{{ cataData.title }} :</div>
       <div class="cate-sub">
@@ -20,7 +20,7 @@
         <div
           class="
             cate-sub-title"
-          v-if="cataData.options.length"
+          v-if="cataData.children.length"
         >
           <span
             :class="
@@ -93,13 +93,13 @@ export default {
       })
     },
     handleEnter() {
-      const height = this.$refs.ele.offsetHeight
-      this.cateListHeight = height
+      // const height = this.$refs.ele.offsetHeight
+      // this.cateListHeight = height
       this.isEnter = true
     },
     handleOut() {
       this.isEnter = false
-      this.cateListHeight = 'auto'
+      // this.cateListHeight = 'auto'
     }
   }
 }

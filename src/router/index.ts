@@ -5,6 +5,7 @@ import Home from './modules/HomeModule'
 import Resource from './modules/ResourceModule'
 import Course from './modules/CoursesModule'
 import Cloud from './modules/CloudModule'
+import Login from './modules/LoginSignModule'
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,7 +16,8 @@ const routes = [
   Home.HomeModule,
   Resource.ResourceModule,
   Course.CoursesModule,
-  Cloud.CloudModule
+  Cloud.CloudModule,
+  Login.LoginSignModule
 ]
 
 const router = new VueRouter({
