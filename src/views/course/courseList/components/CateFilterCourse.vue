@@ -43,7 +43,14 @@ export default class CateFilterCourse extends Vue {
   onUrlChange(to: { id: number; query: { id: number } }) {
     const url = to.query
     this.id = url.id ? +url.id : -1
-    this.handleUrl(url)
+    let _course = new Course()
+    _course.handleUrl(
+      url,
+      this.id,
+      this.cateListSpread,
+      this.cateList,
+      this.cateFixedList
+    )
   }
 
   async mounted() {
@@ -60,41 +67,17 @@ export default class CateFilterCourse extends Vue {
 
     console.log(`cateListSpread`, this.cateListSpread)
     if (obj !== '{}') {
-      this.handleUrl(this.$route.query)
-    }
-  }
-  // 解析url
-  handleUrl(url: any) {
-    let _course = new Course()
-    const arr = this.cateFixedList.filter(item => {
-      const a = Object.keys(url).includes(item.types)
-      return a
-    })
-
-    if (arr.length > 0) {
-      this.id = +url.id
-      this.setCateFixedList(arr, url)
-      _course.setCateList(
-        this.cateListSpread.map(item => item),
+      let _course = new Course()
+      _course.handleUrl(
+        this.$route.query,
         this.id,
-        this.cateList
-      )
-    } else {
-      this.id = +url.id
-      _course.setCateList(
-        this.cateListSpread.map(item => item),
-        this.id,
-        this.cateList
+        this.cateListSpread,
+        this.cateList,
+        this.cateFixedList
       )
     }
   }
 
-  setCateFixedList(arr: any, url: any) {
-    arr.forEach((item: any) => {
-      const a = item
-      a.activeId = url[item.types]
-    })
-  }
   handleOut() {}
 }
 </script>

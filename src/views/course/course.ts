@@ -6,7 +6,7 @@ export abstract class CourseBase implements courseBase.Util {
     cateList: Array<any>
   ): void
 }
-import { ICategories, ICateList } from '@/types'
+import { ICategories, ICateList, ICateFixedList } from '@/types'
 class Course extends CourseBase {
   // 将分类递归，变成一维数组
   handleSpread(items: ICategories, lists: Array<any>) {
@@ -95,6 +95,44 @@ class Course extends CourseBase {
         }
       }
     }
+  }
+  // 解析url
+  handleUrl(
+    url: any,
+    id: number,
+    cateListSpread: Array<any>,
+    cateList: Array<ICateList>,
+    cateFixedList: Array<ICateFixedList>
+  ) {
+    //let _course = new Course()
+    const arr = cateFixedList.filter(item => {
+      const a = Object.keys(url).includes(item.types)
+      return a
+    })
+
+    if (arr.length > 0) {
+      id = +url.id
+      this.setCateFixedList(arr, url)
+      this.setCateList(
+        cateListSpread.map(item => item),
+        id,
+        cateList
+      )
+    } else {
+      id = +url.id
+      this.setCateList(
+        cateListSpread.map(item => item),
+        id,
+        cateList
+      )
+    }
+  }
+
+  setCateFixedList(arr: any, url: any) {
+    arr.forEach((item: any) => {
+      const a = item
+      a.activeId = url[item.types]
+    })
   }
 }
 
