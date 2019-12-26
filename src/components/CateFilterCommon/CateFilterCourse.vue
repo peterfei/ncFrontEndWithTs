@@ -36,6 +36,8 @@ export default class CateFilterCourse extends Vue {
   public cateListSpread: Array<any> = [] // 将分类递归，变成一维数组
   public cateList: Array<any> = mockCateLists //三级后端接口分类
   public cateFixedList: Array<any> = mockCateFixedList //自定义数据配置
+  public categories: Array<any> = []
+  public id: any = ''
   async mounted() {
     const obj = JSON.stringify(this.$route.query)
     // 获取课程分类
