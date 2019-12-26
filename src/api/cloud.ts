@@ -1,4 +1,5 @@
 import Request from '@/utils/request'
+
 const moocModuleBasedUrl = '/api/mooc'
 
 const moocPackageUrl = `${moocModuleBasedUrl}/packages` // 课程包列表

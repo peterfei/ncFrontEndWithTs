@@ -19,7 +19,7 @@
     </div>
     <!-- 1多级选项卡 -->
     <div class="head-nav">
-      <div class="fistQuery">
+      <div class="fist-query">
         <div class="content">
           <ul>
             <li class="item active">
@@ -47,16 +47,17 @@
       </div>
       <div class="queryBlcok">
         <div class="content">
-          <query-item
+          <!-- <query-item
             v-for="item in queryItems"
             :value="item.value"
             :key="item.key"
             :label="item.label"
             :options="item.options"
-            :query_isAll="item.query_isAll"
+            :queryIsAll="item.queryIsAll"
             @change="changeHandler(item, $event)"
           >
-          </query-item>
+          </query-item> -->
+          <cate-filter-course></cate-filter-course>
         </div>
       </div>
 
@@ -68,26 +69,26 @@
     <!-- 发布 -->
     <div class="w-1200">
       <div class="publish_block">
-        <!-- <div class="type_choose">
+        <div class="type_choose">
           <span
             class="item"
-            :class="{ active: typechoose == 'all' }"
-            @click="typeChoose('all')"
+            :class="{ active: typeChoose == 'all' }"
+            @click="typeChooseClick('all')"
             >全部</span
           >
           <span
             class="item"
-            :class="{ active: typechoose == 'myfa' }"
-            @click="typeChoose('myfa')"
+            :class="{ active: typeChoose == 'myfa' }"
+            @click="typeChooseClick('myfa')"
             >我的发布</span
           >
           <span
             class="item"
-            :class="{ active: typechoose == 'myzhai' }"
-            @click="typeChoose('myzhai')"
+            :class="{ active: typeChoose == 'myzhai' }"
+            @click="typeChooseClick('myzhai')"
             >我的摘录</span
           >
-        </div> -->
+        </div>
         <!-- <div class="sort_type">
           <el-dropdown @command="setPackstatus" v-if="typechoose == 'myfa'">
             <span class="el-dropdown-link">
@@ -118,7 +119,7 @@
               :id="item.id"
               :title="item.name"
               :price="item.price"
-              :typechoose="typechoose"
+              :typeChoose="typeChoose"
             >
             </package-item>
 
@@ -154,10 +155,10 @@
 </template>
 
 <script lang="ts">
+import CateFilterCourse from '@/components/CateFilterCommon/CateFilterCourse.vue'
 import SearchBlock from './components/SearchBlock.vue'
 import QueryItem from './components/QueryItem.vue'
 import { mockQueryParams } from '@/mocks/index'
-
 import PackageItem from './components/PackageItem.vue'
 import { Component, Vue } from 'vue-property-decorator'
 import { ResourcePackageList } from '@/api/resource'
@@ -170,7 +171,8 @@ declare module 'vue/types/vue' {
   components: {
     SearchBlock,
     PackageItem,
-    QueryItem
+    QueryItem,
+    CateFilterCourse
   }
 })
 export default class ResourceList extends Vue {
@@ -194,7 +196,6 @@ export default class ResourceList extends Vue {
   //     selected: null,
   //     packstatusCN: '全部', // 审核状态 中文
   //     packstatus: '', // 审核状态
-  //     typechoose: 'all',
   //     status: '', // 审核状态
   //     is_published: '', // 是否上架
   //     category_id: '', // 类别ID
@@ -209,15 +210,23 @@ export default class ResourceList extends Vue {
   // }
   name: string
   // noList: boolean
-  public typechoose: string = 'all'
+  public typeChoose: string = 'all' //我的发布，我的摘录，全部
+  public mine: string = '' //我的发布
   public packagesList: Array<any> = []
   public queryItems: Array<object> = mockQueryParams
-  getPackageList: any | Function
+
   public searchName(data: string) {
     console.log('父组件data=', data)
   }
   mounted() {
     this.getResourceList()
+    // this.$router.push({ query: obj })
+    this.routerPushParams() //初始化URL方法调用
+  }
+  //初始化URL方法
+  routerPushParams() {
+    const obj = { type: this.typeChoose, keyword: 'haha' }
+    this.$router.push({ query: obj })
   }
   changeHandler(obj: any, data: any) {
     this[obj.eventName] && this[obj.eventName](data)
@@ -236,7 +245,7 @@ export default class ResourceList extends Vue {
       // mine: this.mine === '' ? '' : this.mine, // 我的发布
       // bought: this.bought === '' ? '' : this.bought // 我的摘录
     }
-    let res = await ResourcePackageList.getPackageList(postObj)
+    const res = await ResourcePackageList.getPackageList(postObj)
 
     this.packagesList = res.data
     // this.packagesList = [...this.packagesList, ...res.data]
@@ -245,6 +254,16 @@ export default class ResourceList extends Vue {
 
   hander() {
     console.log('handler方法')
+  }
+
+  // 选择全部、我的发布、我的摘录
+  typeChooseClick(type: string) {
+    this.typeChoose = type
+    const obj = {
+      type: this.typeChoose
+    }
+    this.$router.push({ query: obj })
+    this.getResourceList()
   }
 
   // this.data = await
@@ -510,9 +529,7 @@ export default class ResourceList extends Vue {
   //     this.is_published = ''
   //     this.packstatusCN = '全部'
   //     this.getResourceList()
-  //     const obj = {
-  //       type: 'release'
-  //     }
+  //
   //     this.$router.push({ query: obj })
   //   } else if (type === 'all') {
   //     // 选择全部
@@ -521,10 +538,7 @@ export default class ResourceList extends Vue {
   //     this.packstatus = ''
   //     this.is_published = ''
   //     this.getResourceList()
-  //     const obj = {
-  //       type: 'all'
-  //     }
-  //     this.$router.push({ query: obj })
+  //
   //   } else if (type === 'myzhai') {
   //     // 我的摘录
   //     this.mine = ''
@@ -532,10 +546,7 @@ export default class ResourceList extends Vue {
   //     this.packstatus = ''
 
   //     this.getResourceList()
-  //     const obj = {
-  //       type: 'excerpt'
-  //     }
-  //     this.$router.push({ query: obj })
+  //
   //   }
   // },
 
@@ -635,7 +646,7 @@ export default class ResourceList extends Vue {
 }
 .head-nav {
   margin-bottom: 20px;
-  .fistQuery {
+  .fist-query {
     -webkit-box-shadow: 0px 5px 10px 0px #e6e6e6;
     box-shadow: 0px 5px 10px 0px #e6e6e6;
     background: #fff;
