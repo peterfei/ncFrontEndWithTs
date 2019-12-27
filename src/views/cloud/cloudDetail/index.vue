@@ -109,7 +109,7 @@ import CourseIntroduction from './CourseIntroduction.vue'
 import LearningSyllabus from './LearningSyllabus.vue'
 import CourseNotice from './CourseNotice.vue'
 import ScoringRules from './ScoringRules.vue'
-import CourseEvaluation from './CourseEvaluation.vue'
+// import CourseEvaluation from './CourseEvaluation.vue'
 import Cloud from '@/api/cloud'
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { ElNotificationOptions } from 'element-ui/types/notification'
@@ -131,7 +131,7 @@ export interface IIssuesOptions {
     LearningSyllabus,
     CourseNotice,
     ScoringRules,
-    CourseEvaluation
+    // CourseEvaluation
   }
 })
 export default class cloudDetal extends Vue {
