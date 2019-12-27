@@ -5,11 +5,7 @@
         class="tab_content"
         v-for="item in moocList"
         :key="item.id"
-        :to="{
-          path: `/cloud/cloudDetail/${
-            item.last_issue ? item.last_issue.id : ''
-          }/packages/${item.id}`
-        }"
+        :to="{ path: `/cloud/cloudDetail/packages/${item.id}` }"
         tag="div"
       >
         <img
@@ -75,9 +71,6 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 export default class GraphicList extends Vue {
   @Prop({ default: () => [] }) moocList!: Array<object> //子组件接收到父组件传过来的数组
   @Prop({ default: () => [] }) pageMeta!: Array<object>
-  numl(val: any) {
-    return `${val}`
-  }
   handleCurrentChange(val: any) {
     console.log(val)
     this.$emit('handleCurrentChange', val)
