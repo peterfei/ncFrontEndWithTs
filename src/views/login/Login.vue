@@ -80,6 +80,7 @@ $orange-color: #ff783c;
   margin-top: 100px;
   padding: 26px 30px 30px 30px;
   background: #fff;
+  position: relative;
 
   .login-form {
     margin-top: 50px;
