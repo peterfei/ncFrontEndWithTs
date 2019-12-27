@@ -19,7 +19,7 @@
     </div>
     <!-- 1多级选项卡 -->
     <div class="head-nav">
-      <div class="fistQuery">
+      <div class="fist-query">
         <div class="content">
           <ul>
             <li class="item active">
@@ -47,16 +47,17 @@
       </div>
       <div class="queryBlcok">
         <div class="content">
-          <query-item
+          <!-- <query-item
             v-for="item in queryItems"
             :value="item.value"
             :key="item.key"
             :label="item.label"
             :options="item.options"
-            :query_isAll="item.query_isAll"
+            :queryIsAll="item.queryIsAll"
             @change="changeHandler(item, $event)"
           >
-          </query-item>
+          </query-item> -->
+          <cate-filter-course></cate-filter-course>
         </div>
       </div>
 
@@ -68,26 +69,26 @@
     <!-- 发布 -->
     <div class="w-1200">
       <div class="publish_block">
-        <!-- <div class="type_choose">
+        <div class="type_choose">
           <span
             class="item"
-            :class="{ active: typechoose == 'all' }"
-            @click="typeChoose('all')"
+            :class="{ active: typeChoose == 'all' }"
+            @click="typeChooseClick('all')"
             >全部</span
           >
           <span
             class="item"
-            :class="{ active: typechoose == 'myfa' }"
-            @click="typeChoose('myfa')"
+            :class="{ active: typeChoose == 'myfa' }"
+            @click="typeChooseClick('myfa')"
             >我的发布</span
           >
           <span
             class="item"
-            :class="{ active: typechoose == 'myzhai' }"
-            @click="typeChoose('myzhai')"
+            :class="{ active: typeChoose == 'myzhai' }"
+            @click="typeChooseClick('myzhai')"
             >我的摘录</span
           >
-        </div> -->
+        </div>
         <!-- <div class="sort_type">
           <el-dropdown @command="setPackstatus" v-if="typechoose == 'myfa'">
             <span class="el-dropdown-link">
@@ -118,7 +119,7 @@
               :id="item.id"
               :title="item.name"
               :price="item.price"
-              :typechoose="typechoose"
+              :typeChoose="typeChoose"
             >
             </package-item>
 
@@ -154,12 +155,12 @@
 </template>
 
 <script lang="ts">
+import CateFilterCourse from '@/components/CateFilterCommon/CateFilterCourse.vue'
 import SearchBlock from './components/SearchBlock.vue'
 import QueryItem from './components/QueryItem.vue'
 import { mockQueryParams } from '@/mocks/index'
-
 import PackageItem from './components/PackageItem.vue'
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import { ResourcePackageList } from '@/api/resource'
 declare module 'vue/types/vue' {
   interface Vue {
@@ -170,7 +171,8 @@ declare module 'vue/types/vue' {
   components: {
     SearchBlock,
     PackageItem,
-    QueryItem
+    QueryItem,
+    CateFilterCourse
   }
 })
 export default class ResourceList extends Vue {
@@ -194,7 +196,6 @@ export default class ResourceList extends Vue {
   //     selected: null,
   //     packstatusCN: '全部', // 审核状态 中文
   //     packstatus: '', // 审核状态
-  //     typechoose: 'all',
   //     status: '', // 审核状态
   //     is_published: '', // 是否上架
   //     category_id: '', // 类别ID
@@ -209,15 +210,37 @@ export default class ResourceList extends Vue {
   // }
   name: string
   // noList: boolean
-  public typechoose: string = 'all'
+  public typeChoose: string = 'all' //我的发布，我的摘录，全部
+  public mine: string = '' //我的发布
   public packagesList: Array<any> = []
   public queryItems: Array<object> = mockQueryParams
-  getPackageList: any | Function
+
   public searchName(data: string) {
     console.log('父组件data=', data)
   }
   mounted() {
     this.getResourceList()
+    // this.$router.push({ query: obj })
+    this.routerPushParams() //初始化URL方法调用
+  }
+
+  //每次url变化监听
+  @Watch('$route', { immediate: true, deep: true })
+  onUrlChange(to: { id: number; query: { id: number; type: string } }) {
+    const url = to.query
+    const typechoose = to.query.type
+    if (typechoose == 'myfa') {
+      this.mine = '1'
+    } else if (typechoose == 'all') {
+      this.mine = ''
+    }
+    this.getResourceList()
+    console.log('监听watch route typechoose=', typechoose)
+  }
+  //初始化URL方法
+  routerPushParams() {
+    const obj = { type: this.typeChoose, keyword: 'haha' }
+    this.$router.push({ query: obj })
   }
   changeHandler(obj: any, data: any) {
     this[obj.eventName] && this[obj.eventName](data)
@@ -225,7 +248,8 @@ export default class ResourceList extends Vue {
   async getResourceList() {
     const obj: Object = {}
     const postObj = {
-      name: this.name // 关键字搜索
+      name: this.name, // 关键字搜索
+      mine: this.mine === '' ? '' : this.mine // 我的发布
       // is_free: this.is_free === 'all' ? '' : this.is_free, // 1免费 0收费
       // role_id: this.role_id === 'all' ? '' : this.role_id, // 发布方
       // education: this.education === 'all' ? '' : this.education, // 适用层次
@@ -233,11 +257,11 @@ export default class ResourceList extends Vue {
       // category_id: this.category_id === -1 ? '' : this.category_id, // 三级筛选
       // status: this.packstatus === '全部' ? '' : this.packstatus, // 筛选审核状态（0：待审，1：通过，2：未通过）,9为未发布
       // is_published: this.is_published === '' ? '' : this.is_published, // 上下架
-      // mine: this.mine === '' ? '' : this.mine, // 我的发布
+
       // bought: this.bought === '' ? '' : this.bought // 我的摘录
     }
-    let res = await ResourcePackageList.getPackageList(postObj)
-
+    const res = await ResourcePackageList.getPackageList(postObj)
+    console.log('请求完成')
     this.packagesList = res.data
     // this.packagesList = [...this.packagesList, ...res.data]
     console.log('packagesList=', this.packagesList)
@@ -245,6 +269,16 @@ export default class ResourceList extends Vue {
 
   hander() {
     console.log('handler方法')
+  }
+
+  // 选择全部、我的发布、我的摘录
+  typeChooseClick(type: string) {
+    this.typeChoose = type
+    const obj = {
+      type: this.typeChoose
+    }
+    this.$router.push({ query: obj })
+    // this.getResourceList()
   }
 
   // this.data = await
@@ -291,19 +325,7 @@ export default class ResourceList extends Vue {
   //     mine: this.mine === '' ? '' : this.mine, // 我的发布
   //     bought: this.bought === '' ? '' : this.bought // 我的摘录
   //   }
-  //   Resource.ResourcePackage.getResourceList(postObj)
-  //     .then(rec => {
-  //       console.log('列表=', rec)
-  //       this.packagesList = rec
-  //       if (rec.data.length > 0) {
-  //         console.log(rec)
-  //       } else {
-  //         console.log(rec)
-  //       }
-  //     })
-  //     .catch(rec => {
-  //       console.log(rec)
-  //     })
+  //
   // },
   // 获取一级分类
   // getNavtypes() {
@@ -333,102 +355,7 @@ export default class ResourceList extends Vue {
   //   this.deepsecond = arr
   //   this.getNavtypethird()
   // },
-  // 获取三级分类 课程类别
-  // getNavtypethird() {
-  //   const arrdep3 = []
-  //   const arr = []
-  //   const thirdList = this.navSecondShow
-  //   console.log('thirdList', thirdList)
-  //   thirdList.forEach(row => {
-  //     if (row.children) {
-  //       arrdep3.push(row.children)
-  //     }
-  //   })
-  //   arrdep3.forEach(row => {
-  //     row.forEach(item => {
-  //       arr.push(item)
-  //     })
-  //   })
-  //   this.deepthird = arr
-  //   this.navtypethird = arr
-  //   this.navThirdShow = arr
-  // },
-  // 一级分类选中
-  // setNavActive(index) {
-  //   console.log('this.deepsecond', this.deepsecond)
-  //   this.navActiveSecond = -1 // 确保学科类别 全部 选中
-  //   const arr = []
-  //   // 当选择全部时
-  //   if (index === -1) {
-  //     this.navSecondShow = this.deepsecond
-  //   } else {
-  //     // 没有选择全部时
-  //     this.deepsecond.forEach(item => {
-  //       if (item.parent_id === index) {
-  //         arr.push(item)
-  //       }
-  //     })
-  //     this.navSecondShow = arr
-  //   }
-  //   // 获取三级分类
-  //   this.getNavtypethird()
-  //   // 如果该一级分类下不存在二级分类 则二级分类不用展示
-  //   if (this.navSecondShow.length === 0) {
-  //     this.navSecondShow = ''
-  //     this.category_id = index
-  //     console.log('没有二级分类时category_id=', this.category_id)
-  //   } else {
-  //     this.navSecondShow = arr
-  //   }
-  //   this.category_id = index
-  //   this.getResourceList()
-  //   this.navFirstCurrent = index
-  // },
-  // 二级分类选中
-  // setNavSecond(index) {
-  //   const arr = []
-  //   // 当选择全部时
-  //   if (index === -1) {
-  //     this.navThirdShow = this.deepthird
-  //   } else {
-  //     this.deepthird.forEach(item => {
-  //       if (item.parent_id === index) {
-  //         arr.push(item)
-  //       }
-  //     })
-  //     this.navThirdShow = arr
-  //   }
-  //   this.category_id = index
-  //   this.getResourceList()
-  //   console.log('课程类别=', this.navThirdShow)
-  //   this.navActiveSecond = index
-  // },
-  // 第三行选中
-  // setNavThird(index) {
-  //   this.navThirdActive = index
-  //   this.category_id = index
-  //   this.getResourceList()
-  // },
-  // 收费类型
-  // setChargeActive(name) {
-  //   this.is_free = name
-  //   this.getResourceList()
-  // },
-  // 发布方 role_id
-  // setPublishActive(name) {
-  //   this.role_id = name
-  //   this.getResourceList()
-  // },
-  // 适合层次
-  // setScopeActive(name) {
-  //   this.education = name
-  //   this.getResourceList()
-  // },
-  // 排序 order
-  // setSortActive(name) {
-  //   this.order = name
-  //   this.getResourceList()
-  // },
+
   // 搜索关键字
   // searchName(data) {
   //   console.log('关键字', data)
@@ -510,9 +437,7 @@ export default class ResourceList extends Vue {
   //     this.is_published = ''
   //     this.packstatusCN = '全部'
   //     this.getResourceList()
-  //     const obj = {
-  //       type: 'release'
-  //     }
+  //
   //     this.$router.push({ query: obj })
   //   } else if (type === 'all') {
   //     // 选择全部
@@ -521,10 +446,7 @@ export default class ResourceList extends Vue {
   //     this.packstatus = ''
   //     this.is_published = ''
   //     this.getResourceList()
-  //     const obj = {
-  //       type: 'all'
-  //     }
-  //     this.$router.push({ query: obj })
+  //
   //   } else if (type === 'myzhai') {
   //     // 我的摘录
   //     this.mine = ''
@@ -532,10 +454,7 @@ export default class ResourceList extends Vue {
   //     this.packstatus = ''
 
   //     this.getResourceList()
-  //     const obj = {
-  //       type: 'excerpt'
-  //     }
-  //     this.$router.push({ query: obj })
+  //
   //   }
   // },
 
@@ -635,7 +554,7 @@ export default class ResourceList extends Vue {
 }
 .head-nav {
   margin-bottom: 20px;
-  .fistQuery {
+  .fist-query {
     -webkit-box-shadow: 0px 5px 10px 0px #e6e6e6;
     box-shadow: 0px 5px 10px 0px #e6e6e6;
     background: #fff;

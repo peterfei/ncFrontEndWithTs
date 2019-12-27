@@ -1,34 +1,38 @@
 <template>
   <div class="cate-filter-item" @mouseover="handleEnter" @mouseout="handleOut">
     <div
+      class="cate-list"
       :class="[isEnter ? 'cate-list cate-list-hover' : 'cate-list']"
       ref="ele"
-      :style="{ height: cateListHeight }"
     >
+      <!-- :style="{ height: cateListHeight }"  这一段放到上面div中-->
+      <!--  -->
       <div class="cate-name">{{ cataData.title }} :</div>
       <div class="cate-sub">
         <div class="cate-sub-all">
           <span
-            :class="
-              cataData.activeId === 0 || cataData.activeId === '0'
-                ? 'cate-sub-title-active'
-                : ''
-            "
-            @click="routerLinkTo(cataData)"
+            :class="cataData.activeId === 0 ? 'cate-sub-title-active' : ''"
+            @click="routerLinkTitleTo(cataData)"
           >
             全部
           </span>
         </div>
-        <div class="cate-sub-title" v-if="cataData.children.length">
+        <div
+          class="
+            cate-sub-title"
+          v-if="cataData.children.length"
+        >
           <span
             :class="
               item.id === cataData.activeId ? 'cate-sub-title-active' : ''
             "
-            v-for="item in cataData.children"
+            v-for="item in cataData.options"
             :key="item.id"
             @click="routerLinkTo(item)"
           >
+            {{ item.id }}
             {{ item.name }}
+            {{ cataData.activeId }}
           </span>
         </div>
       </div>
@@ -37,7 +41,7 @@
 </template>
 <script>
 export default {
-  name: 'CateFixedFilter',
+  name: 'CateFilterItem',
   props: {
     cataData: {
       type: Object,
@@ -46,34 +50,56 @@ export default {
   },
   data() {
     return {
-      cateListHeight: '63px',
+      cateListHeight: null,
       isEnter: false
     }
   },
+  watch: {
+    cataData: val => {
+      console.log(val)
+      // console.log('监听watch cataData=', val)
+    }
+  },
+  // mounted() {
+  //   console.log('cataData=', cataData)
+  // },
   methods: {
     routerLinkTo(item) {
       const obj = this.$route.query
       const query = {
-        ...obj
+        ...obj,
+        id: item.id
       }
-
-      if (!item.activeId) {
-        query[item.types] = item.id
+      if (item.title) {
+        query.title = item.title
       } else {
-        query[item.types] = 0
+        delete query.title
       }
       this.$router.push({
         query
       })
     },
+    routerLinkTitleTo(item) {
+      const pId = item.options[0] ? item.options[0].parent_id : 0
+      const obj = this.$route.query
+      const query = {
+        ...obj,
+        id: pId,
+        title: item.title
+      }
+
+      this.$router.push({
+        query
+      })
+    },
     handleEnter() {
-      const height = this.$refs.ele.offsetHeight
-      this.cateListHeight = height
+      // const height = this.$refs.ele.offsetHeight
+      // this.cateListHeight = height
       this.isEnter = true
     },
     handleOut() {
       this.isEnter = false
-      this.cateListHeight = '63px'
+      // this.cateListHeight = 'auto'
     }
   }
 }
@@ -88,7 +114,6 @@ export default {
   .cate-list {
     position: absolute;
     width: 100%;
-    height: 63px;
     background-color: #ffffff;
     box-sizing: border-box;
     padding: 0 20px 16px;
@@ -144,11 +169,19 @@ export default {
     transition: all 0.3s;
     -webkit-transition: all 0.3s; /* Safari */
     z-index: 100;
-    // margin-top: -1px;
     border-radius: 6px;
     background-color: #ffffff;
     box-shadow: 2px -2px 10px 2px rgba(230, 230, 230, 1);
   }
+}
+.cate-filter-item:after {
+  position: absolute;
+  z-index: 10;
+  content: '';
+  top: 63px;
+  width: 100%;
+  height: 1px;
+  background-color: #ebeff3;
 }
 .cate-sub-title-active {
   color: #ff783c;

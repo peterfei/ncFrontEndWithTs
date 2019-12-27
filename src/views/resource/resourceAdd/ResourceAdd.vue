@@ -10,7 +10,7 @@
           教学包发布
         </div>
         <div>
-          <el-form ref="form"  label-width="100px">
+          <el-form ref="form" label-width="100px">
             <el-form-item label="教学包标题：" class="title-block">
               <el-input v-model="form.name"></el-input>
             </el-form-item>
@@ -79,13 +79,13 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 interface formInterface {
   directionStudy: null
   name: string //资源包名称
-  intro:'' //资源包介绍
-  payment_type:boolean //判断是否收费
-  level:number //适用层级
+  intro: '' //资源包介绍
+  payment_type: boolean //判断是否收费
+  level: number //适用层级
 }
 @Component
 export default class ResourceAdd extends Vue {
-  public form:Array<formInterface> = []
+  public form: Array<formInterface> = []
   // @Prop({ default: null }) value: number | null
 
   // data() {

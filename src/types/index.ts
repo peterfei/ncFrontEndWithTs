@@ -36,3 +36,37 @@ export interface IBoxCardStyle {
   padding: string
   width: string
 }
+
+export interface ICateList {
+  id: string
+  activeId: number
+  title: string
+  children: ICategories[] | ICateOption[]
+}
+export interface ICateFixedList {
+  id: string
+  activeId: number
+  title: string
+  types: string
+  children: ICategories[] | ICateOption[]
+}
+export interface ICateOption {
+  name: string
+  value?: string
+  id: string
+  types?: string
+}
+
+export interface ICategories {
+  children: ICategories[] | ICateOption[]
+  depth: number
+  id: number | any
+  is_leaf: number
+  name: string
+  ordering: number
+  parent_id: number
+  parent_id_list: string | string[]
+  status: number
+  value?: string | any
+  types?: string | any
+}

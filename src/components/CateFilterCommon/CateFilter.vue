@@ -38,48 +38,81 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue, Prop, Model, Watch } from 'vue-property-decorator'
-export interface IOptions {
-  value: string
-}
-@Component
-export default class CateFilter extends Vue {
-  @Model('change', { type: [String, Number] }) selected!: number
-  @Prop({ type: String, default: 'value' }) optionKey!: string
-  @Prop({ type: String, default: 'label' }) optionLabel!: string
-  @Prop({ type: String, required: true }) title!: string
-  @Prop({ type: Array, default: () => [{ value: '' }] }) options!: IOptions[]
-  @Prop({ type: Array, default: () => [] }) allOption!: string[]
-  @Prop({ type: String, default: '全部' }) allText!: string
-  @Prop({ type: [String, Number], default: 0 }) allValue!: string | number
-  @Watch('selected', { immediate: true, deep: true })
-  onSelectdChanged(val: string, oldVal: string) {
-    this.selfValue =
-      typeof +this.selected === 'undefined' ? this.selfValue : +this.selected
-  }
-
-  maxHeight: number = 80
-  needClass: boolean = false
-  selfValue: Number = 0 // 内置的状态保存, 用户在没有配合v-model的情况下依然可用
+<script>
+export default {
+  name: 'CateFilter',
+  model: {
+    prop: 'selected',
+    event: 'change'
+  },
+  props: {
+    optionKey: {
+      type: String,
+      default: 'value'
+    },
+    optionLabel: {
+      type: String,
+      default: 'label'
+    },
+    selected: {
+      type: [String, Number]
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    options: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    allOption: {
+      type: Boolean,
+      default: true
+    },
+    allText: {
+      type: String,
+      default: '全部'
+    },
+    allValue: {
+      type: [String, Number],
+      default: 0
+    }
+  },
+  watch: {
+    selected() {
+      this.selfValue =
+        typeof this.selected === 'undefined' ? this.selfValue : this.selected
+    }
+  },
+  methods: {
+    // selectOption(val) {
+    //   // this.selfValue = val;
+    //   // this.$emit('change', val);
+    // },
+  },
+  data() {
+    return {
+      maxHeight: 80,
+      needClass: false,
+      selfValue: 0 // 内置的状态保存, 用户在没有配合v-model的情况下依然可用
+    }
+  },
   created() {
     // 初始化this.selfValue的值
     if (typeof this.selected !== 'undefined') {
-      this.selfValue = +this.selected
+      this.selfValue = this.selected
     } else if (this.allOption) {
-      this.selfValue = +this.allValue
+      this.selfValue = this.allValue
     } else if (this.options.length) {
-      //this.selfValue =this.options[0].value
+      this.selfValue = this.options[0].value
     } else {
       throw Error('options not given.')
     }
-  }
-  $refs!: {
-    cateUI: HTMLFrameElement
-    spanEl: HTMLFrameElement
-  }
+  },
   mounted() {
-    this.needClass = this.$refs.cateUI.clientHeight > this.maxHeight
+    this.needClass = this.$refs.cateUl.clientHeight > this.maxHeight
     this.$refs.spanEl.style.maxHeight = `${this.maxHeight}px`
   }
 }

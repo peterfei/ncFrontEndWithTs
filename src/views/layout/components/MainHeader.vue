@@ -108,8 +108,8 @@ export default class MainHeader extends Vue {
     }
   }
   loginBox() {
-    console.log(111)
-    this.dialogVisible = true
+    this.$router.push({ path: '/login' })
+    // this.dialogVisible = true
   }
   handleClose() {}
 }

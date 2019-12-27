@@ -20,13 +20,13 @@
         <div
           class="
             cate-sub-title"
-          v-if="cataData.options.length"
+          v-if="cataData.children.length"
         >
           <span
             :class="
               item.id === cataData.activeId ? 'cate-sub-title-active' : ''
             "
-            v-for="item in cataData.options"
+            v-for="item in cataData.children"
             :key="item.id"
             @click="routerLinkTo(item)"
           >
@@ -69,7 +69,7 @@ export default {
       })
     },
     routerLinkTitleTo(item) {
-      const pId = item.options[0] ? item.options[0].parent_id : 0
+      const pId = item.children[0] ? item.children[0].parent_id : 0
       const obj = this.$route.query
       const query = {
         ...obj,

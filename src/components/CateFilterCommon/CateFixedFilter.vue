@@ -58,9 +58,9 @@ export default {
       }
 
       if (!item.activeId) {
-        query[item.types] = item.id
+        query[item.type] = item.id
       } else {
-        query[item.types] = 0
+        query[item.type] = 0
       }
       this.$router.push({
         query
