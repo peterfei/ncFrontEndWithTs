@@ -8,7 +8,7 @@
         ></el-input>
       </div>
       <drag-veri @verifySuccess="verifySuccess"></drag-veri>
-      <div class="verify-code">
+      <div class="verify-code" v-if="verifyIs == true">
         <el-input placeholder="验证码" v-model="verifyInput"> </el-input>
         <div class="verify-code-show">
           <span v-if="canSendCode == true" class="send-code" @click="getCode"
@@ -21,7 +21,9 @@
       </div>
     </div>
     <div class="next-reg-block">
-      <el-button :class="{ active: verifyIs == true }">注册</el-button>
+      <el-button :class="{ active: verifyInput != '' && canNext == true }"
+        >注册</el-button
+      >
     </div>
   </div>
 </template>
@@ -42,6 +44,7 @@ export default class Register extends Vue {
   public canSendCode: boolean = true //是否可以发送验证码
   public timer: any = null //定时器
   public verifyInput: any = '' //输入验证码的框
+  public canNext: boolean = false //是否可以点击下一步
   public verifySuccess(val: boolean) {
     this.verifyIs = val
   }
@@ -50,6 +53,7 @@ export default class Register extends Vue {
     if (this.canSendCode == true) {
       this.countDown()
       this.canSendCode = false
+      this.canNext = true
     }
   }
   // 倒计时方法
@@ -107,10 +111,12 @@ $orange-color: #ff783c;
       color: #909499;
       background: #edeeef;
       border: none;
+      cursor: not-allowed;
     }
     .el-button.active {
       background: $orange-color;
       color: #fff;
+      cursor: pointer;
     }
   }
 }
