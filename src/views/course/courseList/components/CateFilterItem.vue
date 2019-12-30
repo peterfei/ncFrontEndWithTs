@@ -42,7 +42,7 @@ import { Component, Vue, Prop, Model, Watch } from 'vue-property-decorator'
 @Component({})
 export default class CateFilterItem extends Vue {
   @Prop({ type: Object, default: () => {} }) cataData!: object
-  cateListHeight: string | null | number = 0
+  cateListHeight: string | null | number = 10
   isEnter: boolean = false
   routerLinkTo(item: any) {
     const obj = this.$route.query

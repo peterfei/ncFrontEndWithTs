@@ -35,46 +35,39 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: 'CateFixedFilter',
-  props: {
-    cataData: {
-      type: Object,
-      default: () => {}
-    }
-  },
-  data() {
-    return {
-      cateListHeight: '63px',
-      isEnter: false
-    }
-  },
-  methods: {
-    routerLinkTo(item) {
-      const obj = this.$route.query
-      const query = {
-        ...obj
-      }
+<script lang="ts">
+import { Component, Vue, Prop, Model, Watch } from 'vue-property-decorator'
+export default class CateFixedFilter extends Vue {
+  @Prop({ type: Object, default: () => {} }) cataData: object
 
-      if (!item.activeId) {
-        query[item.types] = item.id
-      } else {
-        query[item.types] = 0
-      }
-      this.$router.push({
-        query
-      })
-    },
-    handleEnter() {
-      const height = this.$refs.ele.offsetHeight
-      this.cateListHeight = height
-      this.isEnter = true
-    },
-    handleOut() {
-      this.isEnter = false
-      this.cateListHeight = '63px'
+  cateListHeight: String | Number = '63px'
+  isEnter: Boolean = false
+  routerLinkTo(item: { activeId: number; types: any; id: number }) {
+    const obj = this.$route.query
+    const query: any = {
+      ...obj
     }
+
+    if (!item.activeId) {
+      query[item.types] = item.id
+    } else {
+      query[item.types] = 0
+    }
+    this.$router.push({
+      query
+    })
+  }
+  $refs!: {
+    ele: HTMLElement
+  }
+  handleEnter() {
+    const height = this.$refs.ele.offsetHeight
+    this.cateListHeight = height
+    this.isEnter = true
+  }
+  handleOut() {
+    this.isEnter = false
+    this.cateListHeight = '63px'
   }
 }
 </script>
