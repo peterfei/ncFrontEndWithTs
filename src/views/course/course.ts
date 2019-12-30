@@ -29,7 +29,7 @@ class Course extends CourseBase {
       yield items[i]
     }
   }
-  *generatorCate(cateAll: Array<any>, id: number, cateList: Array<any>): any {
+  generatorCate(cateAll: Array<any>, id: number, cateList: Array<any>): any {
     for (let i = 0; i < cateAll.length; i++) {
       const item = cateAll[i]
       if (item.id === id) {
@@ -97,11 +97,9 @@ class Course extends CourseBase {
         }
       }
     }
-
-    yield
   }
   setCateList(cateAll: ICategories[], id: number, cateList: Array<ICateList>) {
-    this.generatorCate(cateAll, id, cateList).next()
+    this.generatorCate(cateAll, id, cateList)
   }
   // 解析url
   handleUrl(
