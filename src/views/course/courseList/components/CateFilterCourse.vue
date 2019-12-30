@@ -32,8 +32,8 @@ import { mockCateLists, mockCateFixedList } from '@/mocks'
   }
 })
 export default class CateFilterCourse extends Vue {
-  @Prop({ default: '' }) cateId!: string
-  id: any = null // 根据路由获取的cateID
+  @Prop({ default: '0' }) cateId!: string
+  id: any = 0 // 根据路由获取的cateID
   cateListSpread: Array<any> = [] // 将分类递归，变成一维数组
   cateList: Array<ICateList> = mockCateLists
   cateFixedList: Array<ICateFixedList> = mockCateFixedList
@@ -42,7 +42,7 @@ export default class CateFilterCourse extends Vue {
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: { id: number; query: { id: number } }) {
     const url = to.query
-    this.id = url.id ? +url.id : -1
+    this.id = url.id ? +url.id : 0
     let _course = new Course()
     _course.handleUrl(
       url,
@@ -60,17 +60,17 @@ export default class CateFilterCourse extends Vue {
 
     this.categories = await Categories.getCategoriesList()
     console.log(`categories dicts is `, this.categories)
-    this.categories.forEach(cate => {
-      let _course = new Course()
-      _course.handleSpread(cate, this.cateListSpread)
-    })
-
-    console.log(`cateListSpread`, this.cateListSpread)
+    let _course = new Course()
+    for (const x of _course.handleSpread(this.categories)) {
+      this.cateListSpread.push(x)
+      //this.cateListSpread = Array.from(new Set([...this.cateListSpread, ...x]))
+    }
+    console.log(`-------cateListSpread`, this.cateListSpread)
     if (obj !== '{}') {
       let _course = new Course()
       _course.handleUrl(
         this.$route.query,
-        this.id,
+        this.id || 0,
         this.cateListSpread,
         this.cateList,
         this.cateFixedList

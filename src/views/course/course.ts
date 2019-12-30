@@ -1,5 +1,5 @@
 export abstract class CourseBase implements courseBase.Util {
-  abstract handleSpread(items: object, lists: Array<any>): void
+  abstract handleSpread(items: object): any
   abstract setCateList(
     cateAll: Array<any>,
     id: number,
@@ -16,17 +16,18 @@ export abstract class CourseBase implements courseBase.Util {
 import { ICategories, ICateList, ICateFixedList } from '@/types'
 class Course extends CourseBase {
   // 将分类递归，变成一维数组
-  handleSpread(items: ICategories, lists: Array<any>) {
-    if (items.children) {
-      items.children.forEach((child: any) => this.handleSpread(child, lists))
+  *handleSpread(items: ICategories[] | any): any {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].children) {
+        yield* this.handleSpread(items[i].children)
+      }
+      const _item = '' + items[i].parent_id_list
+      items[i].parent_id_list = _item
+        .substring(0, items[i].parent_id_list.length - 1)
+        .substr(1)
+        .split(',')
+      yield items[i]
     }
-    const item = '' + items.parent_id_list
-    items.parent_id_list = item
-      .substring(0, item.length - 1)
-      .substr(1)
-      .split(',')
-
-    lists.push(items)
   }
   *generatorCate(cateAll: Array<any>, id: number, cateList: Array<any>): any {
     for (let i = 0; i < cateAll.length; i++) {
@@ -116,7 +117,7 @@ class Course extends CourseBase {
     })
 
     if (arr.length > 0) {
-      id = +url.id
+      id = +url.id || 0
       this.setCateFixedList(arr, url)
       this.setCateList(
         cateListSpread.map(item => item),
@@ -124,7 +125,7 @@ class Course extends CourseBase {
         cateList
       )
     } else {
-      id = +url.id
+      id = +url.id || 0
       this.setCateList(
         cateListSpread.map(item => item),
         id,
