@@ -7,7 +7,10 @@ import Course from './modules/CoursesModule'
 import Cloud from './modules/CloudModule'
 import Login from './modules/LoginSignModule'
 Vue.use(VueRouter)
-
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location: any) {
+  originalPush.call(this, location, (err: any) => err)
+}
 const routes = [
   {
     path: '/',
