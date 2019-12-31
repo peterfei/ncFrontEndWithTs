@@ -37,6 +37,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Model, Watch } from 'vue-property-decorator'
+@Component
 export default class CateFixedFilter extends Vue {
   @Prop({ type: Object, default: () => {} }) cataData: object
 
