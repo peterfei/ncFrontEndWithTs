@@ -69,4 +69,5 @@ export interface ICategories {
   status: number
   value?: string | any
   types?: string | any
+  activeId?: any
 }

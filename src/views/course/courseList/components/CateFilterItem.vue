@@ -37,59 +37,52 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: 'CateFilterItem',
-  props: {
-    cataData: {
-      type: Object,
-      default: () => {}
+<script lang="ts">
+import { Component, Vue, Prop, Model, Watch } from 'vue-property-decorator'
+@Component({})
+export default class CateFilterItem extends Vue {
+  @Prop({ type: Object, default: () => {} }) cataData!: object
+  cateListHeight: string | null | number = 10
+  isEnter: boolean = false
+  routerLinkTo(item: any) {
+    const obj = this.$route.query
+    const query: any = {
+      ...obj,
+      id: item.id
     }
-  },
-  data() {
-    return {
-      cateListHeight: null,
-      isEnter: false
+    if (item.title) {
+      query.title = item.title
+    } else {
+      delete query.title
     }
-  },
-  methods: {
-    routerLinkTo(item) {
-      const obj = this.$route.query
-      const query = {
-        ...obj,
-        id: item.id
-      }
-      if (item.title) {
-        query.title = item.title
-      } else {
-        delete query.title
-      }
-      this.$router.push({
-        query
-      })
-    },
-    routerLinkTitleTo(item) {
-      const pId = item.children[0] ? item.children[0].parent_id : 0
-      const obj = this.$route.query
-      const query = {
-        ...obj,
-        id: pId,
-        title: item.title
-      }
+    this.$router.push({
+      query
+    })
+  }
+  routerLinkTitleTo(item: any) {
+    const pId = item.children[0] ? item.children[0].parent_id : 0
+    const obj = this.$route.query
+    const query = {
+      ...obj,
+      id: pId,
+      title: item.title
+    }
 
-      this.$router.push({
-        query
-      })
-    },
-    handleEnter() {
-      const height = this.$refs.ele.offsetHeight
-      this.cateListHeight = height
-      this.isEnter = true
-    },
-    handleOut() {
-      this.isEnter = false
-      this.cateListHeight = 'auto'
-    }
+    this.$router.push({
+      query
+    })
+  }
+  $refs!: {
+    ele: HTMLElement
+  }
+  handleEnter() {
+    const height = this.$refs.ele.offsetHeight
+    this.cateListHeight = height
+    this.isEnter = true
+  }
+  handleOut() {
+    this.isEnter = false
+    this.cateListHeight = 'auto'
   }
 }
 </script>

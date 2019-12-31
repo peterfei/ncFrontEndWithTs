@@ -1,5 +1,5 @@
 <template>
-  <div class="learningSyllabus">
+  <div class="learningSyllabus" v-if="Syllabuses != ''">
     <div class="learnContent" v-for="item in Syllabuses" :key="item.id">
       <div class="title">{{ item.title }}</div>
       <div class="info">{{ item.description }}</div>
@@ -67,13 +67,16 @@
       </div>
     </div>
   </div>
+  <div v-else>
+    暂无数据
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({})
 export default class LearningSyllabus extends Vue {
-  @Prop({ default: () => [] }) Syllabuses!: Array<object>
+  @Prop({ default: () => [] }) Syllabuses!: Array<any>
   @Prop({ default: '' }) title!: string
   @Prop({ default: '' }) description!: string
 }

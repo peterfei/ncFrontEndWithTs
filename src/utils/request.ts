@@ -138,9 +138,9 @@ class Request {
         }`
       ) {
         list.cancel()
-        console.log('=====', this.pending)
+        // console.log('=====', this.pending)
         this.pending.splice(item, 1)
-        console.log('+++++', this.pending)
+        // console.log('+++++', this.pending)
       }
     }
   }

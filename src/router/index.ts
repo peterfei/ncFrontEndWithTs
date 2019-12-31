@@ -9,7 +9,10 @@ import Login from './modules/LoginModule'
 import Reg from './modules/RegisterModule'
 
 Vue.use(VueRouter)
-
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location: any) {
+  originalPush.call(this, location, (err: any) => err)
+}
 const routes = [
   {
     path: '/',

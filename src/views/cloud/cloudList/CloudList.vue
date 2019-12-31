@@ -100,7 +100,7 @@ export default class CourseList extends Vue {
       status: this.moocStatus,
       is_free: this.paymentType
     }
-    Cloud.MoocList.getList(params).then((res: any) => {
+    Cloud.getList(params).then((res: any) => {
       console.log(res)
       // debugger
       this.moocList = res.data
@@ -114,7 +114,7 @@ export default class CourseList extends Vue {
   // 人气爆棚
   getPopularity() {
     console.log('人气爆棚')
-    Cloud.MoocList.getPopularity().then((rec: any) => {
+    Cloud.getPopularity().then((rec: any) => {
       this.popularityList = rec
       console.log('popularityList人气=', this.popularityList)
     })
@@ -122,7 +122,7 @@ export default class CourseList extends Vue {
   // 大咖推荐
   getRecommendList() {
     console.log('大咖推荐==', 22)
-    Cloud.MoocList.getRecommendList().then((rec: any) => {
+    Cloud.getRecommendList().then((rec: any) => {
       this.recommendList = rec
       console.log('rec=======', rec)
     })
