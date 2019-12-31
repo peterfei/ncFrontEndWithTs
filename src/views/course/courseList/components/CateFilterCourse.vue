@@ -1,14 +1,17 @@
 <template>
   <div class="cate-filter-course">
     <cate-filter-group>
-      <template slot="cate">
+      <template slot="cate" v-if="cateList">
         <div v-for="item in cateList" :key="item.id">
           <cate-filter-item :cata-data="item"></cate-filter-item>
         </div>
       </template>
-      <template slot="cateFixed">
+      <template slot="cateFixed" v-if="cateFixedList">
         <div v-for="item in cateFixedList" :key="item.id">
-          <cate-fixed-filter :cata-data="item"></cate-fixed-filter>
+          <cate-fixed-filter
+            :cata-data="item"
+            v-if="item.length > 0"
+          ></cate-fixed-filter>
         </div>
       </template>
     </cate-filter-group>
@@ -56,6 +59,7 @@ export default class CateFilterCourse extends Vue {
   async mounted() {
     const obj = JSON.stringify(this.$route.query)
 
+    console.log(`---obj--`, obj)
     //  获取数据
 
     this.categories = await Categories.getCategoriesList()
@@ -66,16 +70,16 @@ export default class CateFilterCourse extends Vue {
       //this.cateListSpread = Array.from(new Set([...this.cateListSpread, ...x]))
     }
     console.log(`-------cateListSpread`, this.cateListSpread)
-    if (obj !== '{}') {
-      let _course = new Course()
-      _course.handleUrl(
-        this.$route.query,
-        this.id || 0,
-        this.cateListSpread,
-        this.cateList,
-        this.cateFixedList
-      )
-    }
+    //if (obj !== '{}') {
+    //let _course = new Course()
+    _course.handleUrl(
+      this.$route.query,
+      this.id || 0,
+      this.cateListSpread,
+      this.cateList,
+      this.cateFixedList
+    )
+    //}
   }
 
   handleOut() {}
