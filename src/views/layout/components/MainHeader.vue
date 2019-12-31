@@ -52,7 +52,7 @@
           登录
         </el-button>
         <el-button type="text" class="login-register">
-          <router-link tag="a" :to="{ path: '/register' }">注册</router-link>
+          <router-link tag="a" :to="{ path: '/reg' }">注册</router-link>
         </el-button>
       </div>
     </el-row>
