@@ -1,5 +1,5 @@
 export abstract class CourseBase implements courseBase.Util {
-  abstract handleSpread(items: object): any
+  abstract handleSpread(items: object): Iterable<any>
   abstract setCateList(
     cateAll: Array<any>,
     id: number,
