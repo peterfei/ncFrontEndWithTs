@@ -158,7 +158,7 @@ export default class CourseList extends Vue {
       limit: 20,
       page: this.page,
       is_free: 0,
-      category_id: 0
+      category_id: 1
     }
     Object.keys(obj).forEach((item: any) => {
       if (item === 'isPrice') {
@@ -171,6 +171,7 @@ export default class CourseList extends Vue {
         postUrl[item] = obj[item]
       }
     })
+    console.log(`postUrl is `, postUrl)
     Course.getList(postUrl).then((rec: any) => {
       this.courseListData = rec.data
       this.courseMeta = rec.meta
