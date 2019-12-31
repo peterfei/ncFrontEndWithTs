@@ -85,99 +85,99 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue, Prop, Model, Watch } from 'vue-property-decorator'
 import { Course } from '@/api/course'
 import CateFilterCourse from './components/CateFilterCourse.vue'
 import CourseItem from '../../../components/CourserPosterItem/CourserPosterItem.vue'
 import MiniPagination from '../../../components/MiniPagination/MiniPagination.vue'
-
-export default {
-  name: 'CourseList',
+@Component({
   components: {
     CateFilterCourse,
     CourseItem,
     MiniPagination
-  },
-  data() {
-    return {
-      selectActive: 'date',
-      // cateId: '',
-      postObj: {},
-      courseListData: [],
-      courseMeta: [],
-      page: 1
-    }
-  },
-  beforeRouteUpdate(to, from, next) {
+  }
+})
+export default class CourseList extends Vue {
+  selectActive: string | any = 'date'
+  // cateId: '',
+  postObj: Object = {}
+  courseListData: Array<any> = []
+  courseMeta: { totalPage: number; total: number; per_page: number } = {
+    totalPage: 0,
+    total: 0,
+    per_page: 0
+  }
+  page: number = 1
+  @Watch('$route')
+  onUrlChange(to: { id: number; query: { id: number } }) {
     // // 获取分类的id
     // this.cateId = to.query.type;
-    next()
-  },
+    //next()
+    this.page = 1
+    this.getCoursesList()
+  }
 
-  created() {
-    // this.getCoursesList(); // 课程列表
-  },
   mounted() {
     this.getCoursesList() // 课程列表
-  },
-  computed: {},
-  methods: {
-    // 分页
-    handleCurrentChange(val) {
-      this.page = val
-      this.getCoursesList() // 课程列表
-    },
-    // 上面翻页
-    simplePaginnation(pageid) {
-      this.page = pageid
-      this.getCoursesList() // 课程列表
-    },
-    // 根据热度查找
-    selectActiveFun(str) {
-      this.postObj = {
-        sort: str
-      }
-      const obj = {
-        ...this.$route.query,
-        sort: str
-      }
-      this.$router.push({
-        query: obj
-      })
-    },
-    // 获取课程列表
-    getCoursesList() {
-      const obj = this.$route.query
-      this.selectActive = obj.sort ? obj.sort : 'date'
-      const postUrl = {
-        limit: 20,
-        page: this.page
-      }
-      Object.keys(obj).forEach(item => {
-        if (item === 'isPrice') {
-          if (obj[item] === 'free') postUrl.is_free = 1
-          if (obj[item] === 'charge') postUrl.is_free = 0
-        } else if (item === 'id') {
-          postUrl.category_id = obj[item]
-          if (obj[item] === 0 || obj[item] === '0') delete postUrl.category_id
-        } else if (item !== 'title') {
-          postUrl[item] = obj[item]
-        }
-      })
-      Course.getList(postUrl).then(rec => {
-        this.courseListData = rec.data
-        this.courseMeta = rec.meta
-        this.courseMeta.totalPage = Math.ceil(
-          this.courseMeta.total / this.courseMeta.per_page
-        )
-      })
+  }
+  // 分页
+  handleCurrentChange(val: any) {
+    this.page = val
+    this.getCoursesList() // 课程列表
+  }
+  // 上面翻页
+  simplePaginnation(pageid: number) {
+    this.page = pageid
+    this.getCoursesList() // 课程列表
+  }
+  // 根据热度查找
+  selectActiveFun(str: string) {
+    this.postObj = {
+      sort: str
     }
-  },
-  watch: {
-    $route() {
-      this.page = 1
-      this.getCoursesList()
+    const obj = {
+      ...this.$route.query,
+      sort: str
     }
+    this.$router.push({
+      query: obj
+    })
+  }
+  // 获取课程列表
+  getCoursesList() {
+    const obj = this.$route.query
+    this.selectActive = obj.sort ? obj.sort : 'date'
+    const postUrl: {
+      limit: number
+      page: number
+      is_free: number
+      category_id: number
+      [item: number]: Object //定义索引类型
+    } = {
+      limit: 20,
+      page: this.page,
+      is_free: 0,
+      category_id: 0
+    }
+    Object.keys(obj).forEach((item: any) => {
+      if (item === 'isPrice') {
+        if (obj[item] === 'free') postUrl.is_free = 1
+        if (obj[item] === 'charge') postUrl.is_free = 0
+      } else if (item === 'id') {
+        postUrl.category_id = +obj[item]
+        if (+obj[item] === 0 || obj[item] === '0') delete postUrl.category_id
+      } else if (item !== 'title') {
+        postUrl[item] = obj[item]
+      }
+    })
+    Course.getList(postUrl).then((rec: any) => {
+      this.courseListData = rec.data
+      this.courseMeta = rec.meta
+      this.courseMeta.totalPage = Math.ceil(
+        this.courseMeta.total / this.courseMeta.per_page
+      )
+    })
   }
 }
 </script>
