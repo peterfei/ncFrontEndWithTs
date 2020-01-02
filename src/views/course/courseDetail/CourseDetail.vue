@@ -206,6 +206,16 @@ export default class CourseDetail extends Vue {
     //// // 获取评论列表
     //this.getCommentsList({ id: this.packageId, type: 0 })
   }
+
+  // 最热/最新
+  async changeStatus(data: any) {
+    this.activeSort = data
+    try {
+      await this.getCommentsList({ id: this.packageId, type: this.activeSort })
+    } catch (err) {
+      this.$message.error(err.data.message)
+    }
+  }
 }
 </script>
 
