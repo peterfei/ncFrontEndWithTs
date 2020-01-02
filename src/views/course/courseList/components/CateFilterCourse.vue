@@ -8,10 +8,7 @@
       </template>
       <template slot="cateFixed" v-if="cateFixedList">
         <div v-for="item in cateFixedList" :key="item.id">
-          <cate-fixed-filter
-            :cata-data="item"
-            v-if="item.length > 0"
-          ></cate-fixed-filter>
+          <cate-fixed-filter :cata-data="item"></cate-fixed-filter>
         </div>
       </template>
     </cate-filter-group>
