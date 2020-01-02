@@ -329,3 +329,21 @@ export const mockCateFixedList = [
     ]
   }
 ]
+export const mockRoleRigister = [
+  {
+    id: 1,
+    label: '学生'
+  },
+  {
+    id: 2,
+    label: '教师'
+  },
+  {
+    id: 3,
+    label: '企业'
+  },
+  {
+    id: 4,
+    label: '专家'
+  }
+]

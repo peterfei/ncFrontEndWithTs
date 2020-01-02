@@ -30,8 +30,18 @@
       </div>
     </div>
 
+    <!-- 选择角色模块 -->
     <div class="character-select-block" v-if="routeType == 'character'">
       <character-choose></character-choose>
+    </div>
+    <!-- 上传资料模块 -->
+    <div class="upload-info-block" v-if="routeType == 'upload'">
+      <upload-info></upload-info>
+    </div>
+
+    <!-- 注册成功模块 -->
+    <div class="reg-complete-block" v-if="routeType == 'complete'">
+      <complete-reg></complete-reg>
     </div>
   </div>
 </template>
@@ -41,11 +51,16 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import LoginRegHead from './components/LoginRegHead.vue'
 import DragVeriCheck from './components/DragVeriCheck.vue'
 import CharacterChoose from './components/CharacterChoose.vue'
+import uploadInfo from './components/uploadInfo.vue'
+import completeReg from './components/completeReg.vue'
+
 @Component({
   components: {
     LoginRegHead,
     DragVeriCheck,
-    CharacterChoose
+    CharacterChoose,
+    uploadInfo,
+    completeReg
   }
 })
 export default class Register extends Vue {
@@ -67,6 +82,10 @@ export default class Register extends Vue {
       this.boxTitle = '设置密码'
     } else if (this.routeType == 'character') {
       this.boxTitle = '选择角色'
+    } else if (this.routeType == 'upload') {
+      this.boxTitle = '上传资料'
+    } else if (this.routeType == 'complete') {
+      this.boxTitle = '注册成功'
     } else {
       this.boxTitle = '账号登录'
     }

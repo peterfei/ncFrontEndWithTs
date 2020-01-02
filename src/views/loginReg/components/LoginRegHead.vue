@@ -30,6 +30,8 @@ $orange-color: #ff783c;
       line-height: 19px;
       color: #303133;
       opacity: 1;
+      border-bottom: 2px solid #303133;
+      padding-bottom: 15px;
     }
   }
 }
