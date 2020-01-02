@@ -27,7 +27,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component
 export default class RecommentCourse extends Vue {
-  @Prop({ default: [] }) categoryCourses!: Array<object>
+  @Prop({ default: () => [] }) categoryCourses!: Array<object>
 }
 </script>
 <style lang="scss" scoped>
