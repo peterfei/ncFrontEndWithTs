@@ -20,7 +20,7 @@ export const Course = {
     return Request.xget('/api/excellent_courses/courses/good_courses')
   },
   getDetail(postUrl: string) {
-    return Request.post(postUrl)
+    return Request.get(postUrl)
   },
   // 获取该讲师的其他推荐课程
   getLecture(postObj: any) {

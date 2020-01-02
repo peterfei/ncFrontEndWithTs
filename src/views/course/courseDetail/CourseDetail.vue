@@ -1,6 +1,5 @@
 <template>
   <div class="w100 main-box">
-    <!--
     <course-head
       :courseInfoDetail="courseInfoDetail"
       :courseName="courseInfoDetail ? courseInfoDetail.name : ''"
@@ -11,7 +10,6 @@
       :studyStuNum="courseInfoDetail.learners_count"
       :chapterNum="courseInfoDetail.course_chapters_count"
     ></course-head>
-    -->
     <div class="content course-detail-content">
       <div class="head-type">
         <el-tabs
@@ -94,7 +92,6 @@
           </template>
         </div>
         <div class="right-content">
-          <!--
           <study-status
             v-if="courseInfoDetail.author"
             :lectureCourseList="lectureCourseList"
@@ -120,7 +117,6 @@
               </recommend-course>
             </el-card>
           </div>
-          -->
         </div>
       </div>
     </div>
@@ -128,7 +124,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import CourseHead from './components/CourseHead.vue'
 import CourseChapterListItem from './components/CourseChapterListItem.vue'
@@ -139,13 +135,40 @@ import CourseCommentItem from './components/CourseCommentItem.vue'
 import CourseCommentInput from './components/CourseCommentInput.vue'
 @Component({
   components: {
-    //CourseHead,
-    //CourseChapterListItem,
-    //CourseChapterItem,
-    //StudyStatus,
-    //RecommendCourse,
-    //CourseCommentItem,
-    //CourseCommentInput
+    CourseHead,
+    CourseChapterListItem,
+    CourseChapterItem,
+    StudyStatus,
+    RecommendCourse,
+    CourseCommentItem,
+    CourseCommentInput
+  },
+  methods: {
+    ...mapActions('CourseDetails', [
+      'getCourseDetail', // 课程详情
+      'getLectureCourse', // 获取该讲师的其他推荐课程
+      'getCoursesRecommend' // 获取右侧推荐课程列表
+      //'getCommentsList', // 评论列表
+      //'postCourseComment', // 提交新的评论
+      //'userReplyTo', // 评论回复
+      //'userThumbsUp', // 点赞 thumbsUp
+    ])
+  },
+  computed: {
+    ...mapState({
+      // 获取右侧推荐课程列表
+      courseRecommedList: (state: any) =>
+        state.CourseDetails.coursesRecommendList || [],
+      // 课程详情
+      courseInfoDetail: (state: any) => state.CourseDetails.courseDetail || {},
+      // 获取该讲师的其他推荐课程
+      lectureCourseList: (state: any) =>
+        state.CourseDetails.lectureCourseList || {},
+      // 课程包学习进度
+      chapterProgress: (state: any) => state.CourseDetails.chapterProgress,
+      // 评论列表
+      comments: (state: any) => state.CourseDetails.courseCommentsList
+    })
   }
 })
 export default class CourseDetail extends Vue {
@@ -158,11 +181,30 @@ export default class CourseDetail extends Vue {
     borderRadius: '10px'
   }
   public lectuerCourse: Array<any> = []
-  public packageId: any = null
+  public packageId: number = -1
   public activeSort: number = 0
 
   public handleClick() {
     this.$router.push({ query: { type: this.activeName } })
+  }
+
+  @Watch('$route', { immediate: true })
+  beforeRouteChange(to: any) {
+    this.packageId = parseInt(to.params.id, 10)
+    // 获取课程详情
+    this.getCourseDetail(to.params.id)
+    // 获取该讲师的其他推荐课程
+    this.getLectureCourse({
+      packageId: this.packageId,
+      limit: 4
+    })
+    //// 获取右侧推荐课程列表
+    this.getCoursesRecommend({
+      packageId: this.packageId,
+      limit: 4
+    })
+    //// // 获取评论列表
+    //this.getCommentsList({ id: this.packageId, type: 0 })
   }
 }
 </script>
