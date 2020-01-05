@@ -33,7 +33,6 @@ const actions: ActionTree<ICourseDetailsState, any> = {
   // 推荐课程  --o
   async getRecommendCourseList({ commit }) {
     const now = new Date().valueOf()
-    debugger
     if (now > state.expireTime) {
       const ret = await Course.getGoodCourse()
       // debugger
