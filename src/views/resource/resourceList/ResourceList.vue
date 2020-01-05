@@ -239,7 +239,7 @@ export default class ResourceList extends Vue {
   }
   //初始化URL方法
   routerPushParams() {
-    const obj = { type: this.typeChoose, keyword: 'haha' }
+    const obj = { type: this.typeChoose, keyword: '' }
     this.$router.push({ query: obj })
   }
   changeHandler(obj: any, data: any) {

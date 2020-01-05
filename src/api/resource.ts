@@ -1,18 +1,18 @@
 import Request from '@/utils/request'
 const moduleBasedUrl = 'resource_library'
+const resourceUrl = `/api/resource_library` // 课程
 
-// const Course = {
-//   getGoodCourse() {
-//     return Request.xget(
-//       'http://dev.nc.com/api/excellent_courses/courses/good_courses'
-//     )
-//   }
-// }
 const ResourcePackageList = {
   getPackageList(obj: any): Promise<any> {
-    const url = `http://dev.nc.com/api/${moduleBasedUrl}`
+    const url = `${resourceUrl}`
 
     return Request.get(url, obj)
   }
 }
-export { ResourcePackageList }
+const ResourceAddPackage = {
+  addPackage(postObj: any) {
+    const url = `${resourceUrl}/add`
+    return Request.post(url, postObj)
+  }
+}
+export { ResourcePackageList, ResourceAddPackage }

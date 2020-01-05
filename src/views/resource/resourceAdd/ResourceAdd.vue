@@ -12,7 +12,7 @@
         <div>
           <el-form ref="form" label-width="100px">
             <el-form-item label="教学包标题：" class="title-block">
-              <el-input v-model="form.name"></el-input>
+              <el-input v-model="packageTitle"></el-input>
             </el-form-item>
             <!-- <el-form-item label="创建封面：" class="upload">
               <images-uploader
@@ -21,49 +21,50 @@
               ></images-uploader>
             </el-form-item> -->
             <el-form-item label="教学包描述：">
-              <el-input type="textarea" v-model="form.intro"></el-input>
+              <el-input type="textarea" v-model="packageIntro"></el-input>
             </el-form-item>
-            <!-- <el-form-item label="学习方向：">
+            <el-form-item label="学习方向：">
               <div class="block">
                 <el-cascader
-                  v-model="direction"
-                  :options="directionList"
+                  v-model="directValue"
+                  :options="directList"
                   :props="props"
                   @change="setDirection()"
                 ></el-cascader>
+                <!-- :props="{ expandTrigger: 'hover' }" -->
               </div>
-            </el-form-item> -->
+            </el-form-item>
 
             <el-form-item label="实用层次：">
-              <el-select v-model="form.level" @change="setLevel()">
+              <el-select v-model="packageLevel" @change="setLevel">
                 <el-option label="中职" value="1"></el-option>
                 <el-option label="高职" value="2"></el-option>
                 <el-option label="本科及以上" value="3"></el-option>
                 <el-option label="其他" value="0"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="是否免费：" class="payment">
+            <el-form-item label="是否收费：" class="payment">
               <el-switch
                 style="display: inline-block"
-                v-model="form.payment_type"
+                v-model="paymentTypeSwitch"
                 active-color="#13ce66"
                 inactive-color="#ccc"
               >
               </el-switch>
-              <!-- <div class="price" v-if="this.form.payment_type == true">
-                <el-input placeholder="" v-model="form.pay_bodou">
+              <div class="price" v-if="paymentTypeSwitch == true">
+                <el-input placeholder="" v-model="payBodou" type="number">
                   <template slot="append">博豆</template>
                 </el-input>
-                &nbsp; 或&nbsp;
-                <el-input placeholder="" v-model="form.pay_rmb">
+                <span class="text">或</span>
+                <el-input placeholder="" v-model="payRmb" type="number">
                   <template slot="append">人民币</template>
                 </el-input>
-              </div> -->
+              </div>
             </el-form-item>
 
             <el-form-item class="btns">
               <el-button>取消</el-button>
-              <!-- <el-button type="primary" @click="onSubmit">保存</el-button> -->
+              <el-button type="primary" @click="onSubmit">保存</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -73,44 +74,96 @@
 </template>
 
 <script lang="ts">
-// import categoriesApi from '@/api/categories/categories'
-// import Resource from '@/api/resource/index'
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Categories } from '@/api/categories'
+import { ResourceAddPackage } from '@/api/resource'
+
 interface formInterface {
-  directionStudy: null
-  name: string //资源包名称
-  intro: '' //资源包介绍
-  payment_type: boolean //判断是否收费
-  level: number //适用层级
+  // directionStudy: null
 }
 @Component
 export default class ResourceAdd extends Vue {
-  public form: Array<formInterface> = []
-  // @Prop({ default: null }) value: number | null
+  public packageTitle: string = '' //资源包名称
+  public packageIntro: string = '' //资源包介绍
+  public packageLevel: any = '' //适用层级
+  public paymentType: string = '' //收费类型
+  public paymentTypeSwitch: boolean = false
+  public directList: any = [] //三级类别
+  public direct: any = '' //选中类别
+  public directSelected: any = '' //选中的学习类别
+  public directValue: any = []
+  public props = {
+    value: 'id',
+    label: 'name',
+    children: 'children',
+    expandTrigger: 'hover' //方式
+  }
+  public imgCover: string =
+    'https://imgs.gamersky.com/upimg/2020/202001051233012024.jpg' //上传封面
+  public payBodou: number = 0 //博豆支付
+  public payRmb: number = 0 //人民币支付
+  public price: number = 0 //价格
 
+  async mounted() {
+    this.directList = await Categories.getCategoriesList()
+    console.log(this.directionList)
+  }
+
+  // 选择学习方向
+  setDirection() {
+    this.directSelected = this.directValue[
+      Object.keys(this.directValue)[Object.keys(this.directValue).length - 1]
+    ]
+  }
+  // 设置适用层次
+  public setLevel(val: number): void {
+    this.packageLevel = val
+  }
+  // 页面提交
+  onSubmit() {
+    if (this.payBodou !== 0) {
+      this.paymentType = 'both'
+      this.price = this.payBodou
+    }
+    if (this.payRmb !== 0) {
+      this.paymentType = 'rmb'
+      this.price = this.payRmb
+    } else {
+      this.paymentType = ''
+    }
+    const formPost = {
+      name: this.packageTitle,
+      intro: this.packageIntro,
+      education: this.packageLevel,
+      category_id: this.directSelected,
+      payment_type: this.paymentType,
+      price: this.price,
+      cover: this.imgCover
+    }
+    const res = ResourceAddPackage.addPackage(formPost)
+    console.log('res=', res)
+    const router = this.$router
+    this.$message({
+      type: 'success',
+      message: '发布资源包成功',
+      duration: 2000,
+      onClose: function() {
+        router.push({ path: '/resource' })
+      }
+    })
+  }
   // data() {
   //   return {
   //     value: [],
   //     edit: 0,
   //     editData: [],
   //     userid: null,
-  //     props: {
-  //       value: 'id',
-  //       label: 'name',
-  //       children: 'children'
-  //     },
-  //     directionList: [],
-  //     direction: [],
+  //
   //     form: {
-  //       directionStudy: null, // 学习方向
-  //       name: '', // 资源包名称
-  //       intro: '', // 资源包介绍
-  //       payment_type: false, // 用来判断switch收费或者免费    默认false 免费
   //       region: '',
   //       type: [],
   //       resource: '',
   //       desc: '',
-  //       level: '1', // 适用层次
   //       pay_bodou: 0,
   //       pay_rmb: 0,
   //       price: 0 // 实际支付
@@ -235,9 +288,7 @@ export default class ResourceAdd extends Vue {
   //     }
   //     return isJPG && isLt2M
   //   },
-  //   changeCharge() {
-  //     console.log(this.chargeList)
-  //   },
+
   //   addImages(d) {
   //     console.log('DD=', d)
   //   },
@@ -253,12 +304,6 @@ export default class ResourceAdd extends Vue {
   //     this.form.directionStudy = x
   //     console.log('学习方向=', this.form.directionStudy)
   //   },
-  //   // 实用层次
-  //   setLevel() {
-  //     console.log('实用层次=', this.form.level)
-  //   }
-  //   // 收费/付费
-  // }
 }
 </script>
 
@@ -305,6 +350,16 @@ export default class ResourceAdd extends Vue {
         display: inline;
         ::v-deep .el-input-group--append {
           width: 160px;
+        }
+        .text {
+          margin: 0 15px;
+        }
+        ::v-deep input::-webkit-outer-spin-button,
+        ::v-deep input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+        }
+        ::v-deep input[type='number'] {
+          -moz-appearance: textfield;
         }
       }
     }
