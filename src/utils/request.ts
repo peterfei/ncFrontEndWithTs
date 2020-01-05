@@ -47,6 +47,7 @@ class Request {
           return data
         }
       ],
+
       timeout: 30000,
       withCredentials: false,
       responseType: 'json',
@@ -66,18 +67,20 @@ class Request {
     this.service.interceptors.request.use(
       (config: any) => {
         this.removePending(config)
-        config.CancelToken = new this.CancelToken((c: any) => {
+        ;(config.CancelToken = new this.CancelToken((c: any) => {
           this.pending.push({
             url: `${config.url}/${JSON.stringify(config.data)}&request_type=${
               config.method
             }`,
             cancel: c
           })
-        })
-        // if (UserModule.token) {
-        //   config.headers['authorization'] = UserModule.token
-        // }
-        this.requestLog(config)
+        })),
+          (config.headers['authorization'] =
+            'Bearer pwBK8R4TzvZVwZqnPadBT77tDi0n3koLn9nO6FaEuSREY6txQM7tD35hZliZ'),
+          // if (UserModule.token) {
+          //   config.headers['authorization'] = UserModule.token
+          // }
+          this.requestLog(config)
         return config
       },
       (error: any) => {
