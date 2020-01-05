@@ -5,6 +5,12 @@ import store from './store'
 import './components/plugins/element'
 import '@/assets/style/base/golbal.scss'
 import './assets/style/iconfont/iconfont.css'
+import { Component } from 'vue-property-decorator'
+Component.registerHooks([
+  'beforeRouteEnter',
+  'beforeRouteLeave',
+  'beforeRouteUpdate'
+])
 Vue.config.productionTip = false
 import qs from 'qs'
 new Vue({

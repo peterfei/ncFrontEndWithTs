@@ -33,6 +33,7 @@ const actions: ActionTree<ICourseDetailsState, any> = {
   // 推荐课程  --o
   async getRecommendCourseList({ commit }) {
     const now = new Date().valueOf()
+    debugger
     if (now > state.expireTime) {
       const ret = await Course.getGoodCourse()
       // debugger
@@ -41,29 +42,33 @@ const actions: ActionTree<ICourseDetailsState, any> = {
   },
 
   async getCourseDetail({ commit }, packageId) {
-    const postUrl: Array<ICoursePostURL> = []
-    const data = await Course.getDetail(
-      `/api${moduleName}/courses/${packageId}/chapters`
-    )
-    //const postUrl: Array<{ url: string; mutations: string }> = [
-    //  {
-    //    url: `/api${moduleName}/courses/${packageId}/chapters`,
-    //    mutations: 'setChapters'
-    //  }, // 章节列表
-    //  {
-    //    url: `/api${moduleName}/courses/${packageId}/course_study_progress`,
-    //    mutations: 'setUserWatch'
-    //  }, // 课程包学习进度 总进度
-    //  {
-    //    url: `/api${moduleName}/courses/${packageId}/watching_records`,
-    //    mutations: 'setWatchingRecords'
-    //  }, // 单个课程下用户的观看记录接口 列表记录
-    //  {
-    //    url: `/api${moduleName}/courses/${packageId}`,
-    //    mutations: 'setchaptersDetail'
-    //  } // 课程详情接口
-    //]
+    //let postUrl: Array<ICoursePostURL> = []
+    //const data = await Course.getDetail(
+    //  `/api${moduleName}/courses/${packageId}/chapters`
+    //)
+    const postUrl: Array<ICoursePostURL> = [
+      {
+        url: `/api${moduleName}/courses/${packageId}/chapters`,
+        mutations: 'setChapters'
+      }, // 章节列表
+      {
+        url: `/api${moduleName}/courses/${packageId}/course_study_progress`,
+        mutations: 'setUserWatch'
+      }, // 课程包学习进度 总进度
+      {
+        url: `/api${moduleName}/courses/${packageId}/watching_records`,
+        mutations: 'setWatchingRecords'
+      }, // 单个课程下用户的观看记录接口 列表记录
+      {
+        url: `/api${moduleName}/courses/${packageId}`,
+        mutations: 'setchaptersDetail'
+      } // 课程详情接口
+    ]
     //const AllData = await Course.getDetail(postUrl.map(rec => rec.url))
+    postUrl.forEach(async (m: any) => {
+      const result = await Course.getDetail(m.url)
+      commit(m.mutations, result)
+    })
     //postUrl.forEach(rec => {
     //  if (AllData[rec.url] && AllData[rec.url].status_code === 200) {
     //    commit(rec.mutations, AllData[rec.url].content)

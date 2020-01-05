@@ -145,7 +145,7 @@ export default class MainHeader extends Vue {
     position: relative;
     width: auto;
     display: inline-block;
-    margin: 0 25px;
+    margin: 0 20px;
     height: 100%;
     line-height: 70px;
   }
