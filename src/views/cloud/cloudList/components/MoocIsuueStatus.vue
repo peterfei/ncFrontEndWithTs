@@ -38,34 +38,6 @@ export default class MoocIsuueStatus extends Vue {
   //  @Model ('change', {type: Boolean})  checked!: boolean;
   @Model('prop', { type: Number }) change!: number | null
 }
-// export default {
-//   name: 'MoocIsuueStatus',
-//   model: {
-//     prop: 'value',
-//     event: 'change'
-//   },
-//   props: {
-//     value: {
-//       type: Number,
-//       default: 0
-//     }
-//   },
-//   data() {
-//     return {
-//       options: [
-//         { value: null, label: '全部' },
-//         { value: 1, label: '进行中' },
-//         { value: 0, label: '未开始' },
-//         { value: -1, label: '已结束' }
-//       ]
-//     }
-//   },
-//   methods: {
-//     onClick(val) {
-//       this.$emit('change', val)
-//     }
-//   }
-// }
 </script>
 
 <style lang="scss" scoped>

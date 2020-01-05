@@ -1,8 +1,8 @@
 <template>
   <div class="tab">
-    <div class="listBox">
+    <div class="list-box" v-if="moocList.length > 0">
       <router-link
-        class="tab_content"
+        class="tab-content"
         v-for="item in moocList"
         :key="item.id"
         :to="{ path: `/cloud/cloudDetail/packages/${item.id}` }"
@@ -13,8 +13,8 @@
           alt=""
           class="cover-img"
         />
-        <div class="right_content">
-          <div class="titcon">
+        <div class="right-content">
+          <div class="tit-con">
             <span class="title">{{ item.title }}</span>
             <div class="star ing" v-if="item.status == 0">
               <i class="icon iconfont icon-shijian"></i>
@@ -33,14 +33,14 @@
               <span>已结束</span>
             </div>
           </div>
-          <div class="avaCon" v-if="item['lecturer'].length > 0">
+          <div class="ava-con" v-if="item['lecturer'].length > 0">
             <img :src="item['lecturer'][0]['avatar']" alt="" class="ava" />
             <span>{{ item['lecturer'][0]['realname'] }}</span>
             <span class="line">|</span>
             <span>{{ item['lecturer'][0]['school_name'] }}</span>
           </div>
           <p class="intro">{{ item.description }}</p>
-          <div class="lastCon">
+          <div class="last-con">
             <span class="free" v-if="item.latest_price == 0">免费</span>
             <span class="price" v-else>￥{{ item.latest_price }}</span>
             <span class="num">
@@ -51,9 +51,9 @@
         </div>
       </router-link>
     </div>
-    <!-- <div v-else>
+    <div v-else>
       <h6 class="no-content">暂无信息</h6>
-    </div> -->
+    </div>
     <div class="block ">
       <el-pagination
         layout="prev, pager, next"
@@ -76,27 +76,6 @@ export default class GraphicList extends Vue {
     this.$emit('handleCurrentChange', val)
   }
 }
-// export default {
-//   name: 'GraphicList',
-//   props: {
-//     moocList: {},
-//     pageMeta: {}
-//   },
-//   data() {
-//     return {}
-//   },
-//   filters: {
-//     numl(val) {
-//       return `${val}`
-//     }
-//   },
-//   methods: {
-//     handleCurrentChange(val) {
-//       console.log(val)
-//       this.$emit('handleCurrentChange', val)
-//     }
-//   }
-// }
 </script>
 
 <style lang="scss" scoped>
@@ -108,32 +87,32 @@ export default class GraphicList extends Vue {
   margin: 100px 0;
   text-align: center;
 }
-.right_content {
+.right-content {
   margin-top: -3px;
 }
-.tab_content {
+.tab-content {
   background-color: #fff;
   padding: 20px 22px 20px 19px;
   border-bottom: 1px solid #f2f2f2;
   display: flex;
   flex-direction: row;
 }
-.tab_content:last-child {
+.tab-content:last-child {
   margin-bottom: 20px;
 }
 
-.tab_content .cover-img {
+.tab-content .cover-img {
   width: 200px;
   display: inline-block;
   height: 150px;
   margin-right: 14px;
 }
-.tab_content .titcon {
+.tab-content .tit-con {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-.tab_content .titcon .star {
+.tab-content .tit-con .star {
   font-size: 12px;
   color: #fff;
   background-size: cover;
@@ -154,7 +133,7 @@ export default class GraphicList extends Vue {
 .unstar {
   background: url('./../../../../assets/image/bg/unstar.png');
 }
-.tab_content .titcon .star > span {
+.tab-content .tit-con .star > span {
   margin-left: 2px;
 }
 .icon-shijian {
@@ -162,29 +141,29 @@ export default class GraphicList extends Vue {
   margin-right: 2px;
   margin-left: 2px;
 }
-.tab_content .titcon .title {
+.tab-content .tit-con .title {
   font-size: 20px;
   font-weight: bold;
   color: #0a121a;
   margin-right: 7px;
 }
-.tab_content .avaCon {
+.tab-content .ava-con {
   margin-top: 14px;
 }
-.tab_content .avaCon span {
+.tab-content .ava-con span {
   font-size: 12px;
   color: #4c5359;
 }
-.tab_content .avaCon .line {
+.tab-content .ava-con .line {
   padding: 0px 13px;
 }
-.tab_content .avaCon .ava {
+.tab-content .ava-con .ava {
   border-radius: 50%;
   width: 20px;
   height: 20px;
   margin-right: 8px;
 }
-.tab_content .intro {
+.tab-content .intro {
   font-size: 12px;
   color: #8a9199;
   line-height: 20px;
@@ -193,18 +172,18 @@ export default class GraphicList extends Vue {
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
-.tab_content .lastCon span {
+.tab-content .last-con span {
   font-size: 12px;
 }
-.tab_content .lastCon .price {
+.tab-content .last-con .price {
   color: #4c5359;
   margin-right: 20px;
 }
-.tab_content .lastCon .free {
+.tab-content .last-con .free {
   color: #40c78d;
   margin-right: 20px;
 }
-.tab_content .lastCon .num {
+.tab-content .last-con .num {
   color: #8a9199;
 }
 .icon-guankanshu {

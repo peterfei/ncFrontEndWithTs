@@ -5,6 +5,7 @@ import Home from './modules/HomeModule'
 import Resource from './modules/ResourceModule'
 import Course from './modules/CoursesModule'
 import Cloud from './modules/CloudModule'
+import CloudVideo from '@/views/cloud/cloudVideo/index.vue'
 import Login from './modules/LoginSignModule'
 Vue.use(VueRouter)
 const originalPush = VueRouter.prototype.push
@@ -20,7 +21,12 @@ const routes = [
   Resource.ResourceModule,
   Course.CoursesModule,
   Cloud.CloudModule,
-  Login.LoginSignModule
+  Login.LoginSignModule,
+  {
+    path: '/cloudVideo/:syllabuseId/:sub_id/:mooc_issue_id',
+    name: 'CloudVideo',
+    component: CloudVideo
+  }
 ]
 
 const router = new VueRouter({

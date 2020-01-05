@@ -1,26 +1,26 @@
 <template>
-  <div class="courseIntroduction">
+  <div class="course-introduction">
     <div class="introduction">
       <div class="title">课程推介</div>
-      <div class="courseContent">
+      <div class="course-content">
         {{ intro_remark }}
       </div>
     </div>
     <div class="objectives">
       <div class="title">授课目标</div>
-      <div class="courseContent">
+      <div class="course-content">
         {{ target }}
       </div>
     </div>
     <div class="summary">
       <div class="title">课程概述</div>
-      <div class="courseContent">
+      <div class="course-content">
         {{ summary }}
       </div>
     </div>
     <div class="data">
       <div class="title">参考资料</div>
-      <div class="courseContent">
+      <div class="course-content">
         {{ consult_data }}
       </div>
     </div>
@@ -39,7 +39,7 @@ export default class CourseIntroduction extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.courseIntroduction {
+.course-introduction {
   margin-top: 20px;
   width: 860px;
 }
@@ -65,22 +65,22 @@ export default class CourseIntroduction extends Vue {
   color: rgba(76, 82, 88, 1);
   margin-bottom: 6px;
 }
-.introduction .courseContent,
-.objectives .courseContent,
-.summary .courseContent,
-.data .courseContent,
-.courseContent .courseLi {
+.introduction .course-content,
+.objectives .course-content,
+.summary .course-content,
+.data .course-content,
+.course-content .courseLi {
   font-size: 12px;
   color: rgba(76, 82, 88, 1);
   line-height: 22px;
 }
-.courseContent ul {
+.course-content ul {
   margin-left: 0px;
   margin-right: 0px;
   padding-left: 0px;
   padding-right: 0px;
 }
-.courseContent .courseLi {
+.course-content .courseLi {
   margin-bottom: 10px;
 }
 .mt9 {
@@ -90,5 +90,3 @@ export default class CourseIntroduction extends Vue {
   display: none;
 }
 </style>
-
-<!--<CourseIntroduction :content="小程序些香椿v"></CourseIntroduction>-->
