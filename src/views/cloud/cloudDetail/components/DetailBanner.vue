@@ -1,8 +1,8 @@
 <template>
-  <div class="detailHead">
-    <div class="gradualChange"></div>
-    <div class="detailBanner"></div>
-    <div class="bannerContent">
+  <div class="detail-head">
+    <div class="gradual-change"></div>
+    <div class="detail-banner"></div>
+    <div class="banner-content">
       <div class="up">
         <div class="social-share">
           <a href="">
@@ -17,7 +17,7 @@
         </div>
         <div class="info">
           <div class="info-title">{{ package_title }}</div>
-          <div class="openingTime">
+          <div class="opening-time">
             开课时间： {{ begin_date }} ~ {{ end_date }}
             <span v-if="description">{{ description }}</span>
             <span v-else-if="duration">，共{{ duration }}</span>
@@ -25,19 +25,19 @@
           </div>
           <div class="buyBox">
             <!-- 立即购买 -->
-            <button class="buyBtn" v-if="is_free == 0 && is_buy == 0">
+            <button class="buy-btn" v-if="is_free == 0 && is_buy == 0">
               <span class="pay">立即购买</span>
               <span class="line"></span>
               <span class="money">¥{{ base_price }}</span>
             </button>
             <!-- 进入学习 -->
-            <button class="buyBtn" v-if="is_free == 1 || is_buy == 1">
+            <button class="buy-btn" v-if="is_free == 1 || is_buy == 1">
               <span class="pay" style="margin-right:0px">进入学习</span>
             </button>
           </div>
         </div>
       </div>
-      <div class="bannerBottom"></div>
+      <div class="banner-bottom"></div>
       <!-- {{ all_issue }} -->
       <div class="down">
         <div class="drop-content">
@@ -63,7 +63,7 @@
       </div>
       <div class="collection">
         <i class="iconfont icon icon-xingxing"></i>
-        <div class="collect_tit">收藏</div>
+        <div class="collect-tit">收藏</div>
       </div>
     </div>
   </div>
@@ -93,21 +93,13 @@ export default class DetailBanner extends Vue {
   @Prop({ default: () => {} }) issueOptions!: Array<any>
   @Prop({ type: Number, default: 0 }) activedIssueId!: number
 
-  value: number = 0
+  value: number
   // updated() {
   //   console.log('aaaxxxsss', this.issueOptions)
   // }
   // 当期刊改变时
   selectTrigger(e: number | string) {
-    // console.log('________chang', e);
-    // this.value = +`第${e}期`
-    // console.log('dijiqi', this.value);
-    // 告诉别人我更新了
-    // Cloud.MoocList.getPeriodical(this.id).then((rec) => {
-    //   this.qiContent = rec.data;
-    //   console.log('期数改变了哦', this.qiContent);
-    // });
-    this.$emit('issueChange', e) // 向父组件发送参数（当前期选中期数id）
+    this.$emit('issueChange', e) // 向父组件发送
   }
 }
 // export default {
@@ -254,7 +246,7 @@ export default class DetailBanner extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.detailHead {
+.detail-head {
   background: transparent;
   position: relative;
   overflow: hidden;
@@ -262,7 +254,7 @@ export default class DetailBanner extends Vue {
   border-radius: 10px;
   margin-top: 30px;
 }
-.detailBanner {
+.detail-banner {
   height: 265px;
   width: 100%;
   position: absolute;
@@ -279,7 +271,7 @@ export default class DetailBanner extends Vue {
   overflow: hidden;
   z-index: 0;
 }
-.gradualChange {
+.gradual-change {
   position: absolute;
   top: 0px;
   height: 265px;
@@ -287,50 +279,50 @@ export default class DetailBanner extends Vue {
   background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1));
   z-index: 1;
 }
-.bannerContent {
+.banner-content {
   position: relative;
   height: 265px;
   z-index: 100;
 }
-.bannerContent .up {
+.banner-content .up {
   padding-top: 28px;
 }
-.bannerContent .up .social-share {
+.banner-content .up .social-share {
   text-align: right;
 }
-.bannerContent .up .social-share a {
+.banner-content .up .social-share a {
   display: inline-block;
   margin-right: 24px;
 }
-.bannerContent .up .social-share i {
+.banner-content .up .social-share i {
   font-size: 20px;
   color: #ffffff;
   -webkit-transition: 0.6s;
   transition: 0.6s;
   opacity: 0.6;
 }
-.bannerContent .up .info {
+.banner-content .up .info {
   position: relative;
   top: -16px;
 }
-.bannerContent .up .info .info-title {
+.banner-content .up .info .info-title {
   text-align: center;
   font-size: 32px;
   color: #fff;
   font-weight: bold;
   margin-bottom: 12px;
 }
-.bannerContent .up .info .openingTime {
+.banner-content .up .info .opening-time {
   text-align: center;
   color: #fff;
   font-size: 16px;
 }
-.bannerContent .up .info .buyBox {
+.banner-content .up .info .buyBox {
   text-align: center;
   margin-top: 30px;
   position: relative;
 }
-.bannerContent .up .info .buyBtn {
+.banner-content .up .info .buy-btn {
   width: 200px;
   height: 46px;
   background: #f21113;
@@ -338,11 +330,11 @@ export default class DetailBanner extends Vue {
   border: none;
   color: #fff;
 }
-.bannerContent .up .info .buyBtn .pay {
+.banner-content .up .info .buy-btn .pay {
   font-size: 16px;
   margin-right: 25px;
 }
-.bannerContent .up .info .buyBtn .line {
+.banner-content .up .info .buy-btn .line {
   width: 1px;
   height: 19px;
   background-color: #ffffff;
@@ -350,11 +342,11 @@ export default class DetailBanner extends Vue {
   position: absolute;
   top: 15px;
 }
-.bannerContent .up .info .buyBtn .money {
+.banner-content .up .info .buy-btn .money {
   font-size: 14px;
   margin-left: 11px;
 }
-.bannerContent .bannerBottom {
+.banner-content .banner-bottom {
   height: 54px;
   background: rgba(0, 0, 0, 1);
   opacity: 0.2;
@@ -366,7 +358,7 @@ export default class DetailBanner extends Vue {
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
 }
-.bannerContent .down {
+.banner-content .down {
   position: absolute;
   bottom: 14px;
   left: 20px;
@@ -374,7 +366,7 @@ export default class DetailBanner extends Vue {
   flex-direction: row;
   align-items: center;
 }
-.bannerContent .down .drop-content {
+.banner-content .down .drop-content {
   .select-box {
     color: #fff;
   }
@@ -414,13 +406,13 @@ export default class DetailBanner extends Vue {
     color: #fff;
   }
 }
-.bannerContent .down .learn {
+.banner-content .down .learn {
   color: #fff;
   font-size: 12px;
   opacity: 0.6;
   margin-left: 13px;
 }
-.bannerContent .down .learn .spot {
+.banner-content .down .learn .spot {
   width: 4px;
   height: 4px;
   background: rgba(255, 255, 255, 1);
@@ -431,7 +423,7 @@ export default class DetailBanner extends Vue {
   position: relative;
   top: -2px;
 }
-.bannerContent .collection {
+.banner-content .collection {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -439,14 +431,14 @@ export default class DetailBanner extends Vue {
   right: 20px;
   margin-top: 27px;
 }
-.bannerContent .collection i {
+.banner-content .collection i {
   color: #ffffff;
   -webkit-transition: 0.6s;
   transition: 0.6s;
   opacity: 0.6;
   font-size: 16px;
 }
-.bannerContent .collect_tit {
+.banner-content .collect-tit {
   font-size: 12px;
   color: rgba(255, 255, 255, 1);
   opacity: 0.6;
