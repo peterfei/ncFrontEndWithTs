@@ -102,7 +102,7 @@ export default class CourseTesting extends Vue {
     this.resource_id = +this.id // 资源id
     const resourceId = this.resource_id
     console.log(this.resource_id)
-    // this.$emit('starTestClick', resourceId) // 资源id传入父级HeaderNav
+    this.$emit('starTestClick', resourceId) // 资源id传入父级HeaderNav
   }
 }
 // export default {

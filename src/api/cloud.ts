@@ -1,5 +1,6 @@
 import Request from '@/utils/request'
 const moocModuleBasedUrl = '/api/mooc'
+const moocSurveyBaseUrl = '/api'
 
 const moocPackageUrl = `${moocModuleBasedUrl}/packages` // 课程包列表
 const moocPopularity = `${moocModuleBasedUrl}/popularity` // 课程包列表【人气爆棚】
@@ -9,7 +10,7 @@ const moocSupport = `${moocModuleBasedUrl}/comments/support` // 点赞
 const moocRelated = `${moocModuleBasedUrl}/related` // 相关课程
 const moocChapter = `${moocModuleBasedUrl}/syllabuse` // 章节
 const moocSurveys = `${moocModuleBasedUrl}/surveys` // 测验答题
-const moocModuleCountDown = 'user_survey' // 测验开始时间
+const moocModuleCountDown = `${moocSurveyBaseUrl}/user_survey` // 测验开始时间
 
 export default {
   // 课程包列表

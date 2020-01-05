@@ -219,8 +219,9 @@ export default class StartTest extends Vue {
     // console.log("this.options",JSON.parse(this.options).used_duration)
     window.addEventListener('scroll', this.menu)
     console.log('123', this.resoucedId)
-    this.generateQuestions()
     this.countDowm()
+    this.generateQuestions()
+    
   }
   get keguan(): any {
     return this.questions.filter(
@@ -267,12 +268,13 @@ export default class StartTest extends Vue {
     // console.log("as",this.questions);
     // const questionArr = this.questions;
     // console.log("questionArr==",questionArr);
-    // this.questions.forEach((res: any) => {
-    //   this.question_id = res.id
-    //   console.log('question_id', this.question_id) // aaa
-    // })
+    this.questions.forEach((res: any) => {
+      this.question_id = res.id
+      console.log('question_id', this.question_id) // aaa
+    })
   }
   countDowm() {
+    console.log('hhhhhaaaa', this.resoucedId)
     // 测验开始时间
     Cloud.getCountDown(this.resoucedId).then((res: string) => {
       this.CountDownData = res
@@ -319,6 +321,22 @@ export default class StartTest extends Vue {
     }
     console.log('xxxx', this.questions, t)
     return -1
+  }
+  goQuestion(id, index) {
+    const idx = this.getIndex(id)
+    this.currentIndex = index // 动态加class
+    const area = this.$refs.qArea
+    const baseTop = area.offsetTop
+    // const baseLeft = area.offsetLeft;
+    const comp = this.$refs.qItem[idx]
+    const compTop = comp.offsetTop
+    const targetX = 0
+    const targetY = compTop - baseTop
+    area.scrollTo({
+      top: targetY,
+      left: targetX,
+      behavior: 'smooth'
+    })
   }
   answerSubmit() {
     console.log('q', this.questions)

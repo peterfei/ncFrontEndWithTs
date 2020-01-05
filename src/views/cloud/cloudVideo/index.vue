@@ -96,12 +96,12 @@ export default class VideoPlayer extends Vue {
     // this.getChapter();// 调取刷新章节下的内容
   }
 
-  // 获取测验答题
+  //     // 获取测验答题
   starTestClick(id: any) {
     console.log('index', id)
     Cloud.getQuestion(id).then((res: any) => {
       this.questionData = res
-      // console.log('测验答题', this.questionData)
+      console.log('测验答题', this.questionData)
     })
   }
   // 点章节刷新章节下内容
