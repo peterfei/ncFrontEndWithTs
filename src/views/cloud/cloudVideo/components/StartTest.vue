@@ -221,7 +221,6 @@ export default class StartTest extends Vue {
     console.log('123', this.resoucedId)
     this.countDowm()
     this.generateQuestions()
-    
   }
   get keguan(): any {
     return this.questions.filter(
@@ -322,22 +321,22 @@ export default class StartTest extends Vue {
     console.log('xxxx', this.questions, t)
     return -1
   }
-  goQuestion(id, index) {
-    const idx = this.getIndex(id)
-    this.currentIndex = index // 动态加class
-    const area = this.$refs.qArea
-    const baseTop = area.offsetTop
-    // const baseLeft = area.offsetLeft;
-    const comp = this.$refs.qItem[idx]
-    const compTop = comp.offsetTop
-    const targetX = 0
-    const targetY = compTop - baseTop
-    area.scrollTo({
-      top: targetY,
-      left: targetX,
-      behavior: 'smooth'
-    })
-  }
+  // goQuestion(id, index) {
+  //   const idx = this.getIndex(id)
+  //   this.currentIndex = index // 动态加class
+  //   const area = this.$refs.qArea
+  //   const baseTop = area.offsetTop
+  //   // const baseLeft = area.offsetLeft;
+  //   const comp = this.$refs.qItem[idx]
+  //   const compTop = comp.offsetTop
+  //   const targetX = 0
+  //   const targetY = compTop - baseTop
+  //   area.scrollTo({
+  //     top: targetY,
+  //     left: targetX,
+  //     behavior: 'smooth'
+  //   })
+  // }
   answerSubmit() {
     console.log('q', this.questions)
     const answerData = this.questions.map((rec: any) => ({

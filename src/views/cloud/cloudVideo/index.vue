@@ -6,7 +6,7 @@
     ></video-head>
     <div class="video-content">
       <!-- {{ Syllabuses }} -->
-      <div class="video-sidebar" v-if="chapter[0]">
+      <div class="video-sidebar" ref="a" v-if="chapter[0]">
         <video-sidebar
           @chapterClick="chapterClick"
           :chapter="chapter"
@@ -15,12 +15,12 @@
           :Syllabuses="Syllabuses"
         ></video-sidebar>
       </div>
-      <div class="player">
+      <div class="player" v-if="{ temp_data }">
         <!-- {{questionData}} -->
         <header-nav
           :chapter="chapter"
           @starTestClick="starTestClick"
-          :questionData="questionData"
+          :questionData="temp_data"
         >
           <!--starTestClick 父组件接收子组件HeaderNav传过来资源id-->
         </header-nav>
@@ -49,8 +49,9 @@ export default class VideoPlayer extends Vue {
   syllabuseId: number = 0
   sub_id: number = 0
   mooc_issue_id: number = 0
-
+  public temp_data: object = {}
   mounted() {
+    this.temp_data = this.questionData
     console.log('路由中获取章id', this.$route)
     this.syllabuseId = +this.$route.params.syllabuseId // 路由中获取章id
     console.log('syllabuseId====', this.syllabuseId)
@@ -96,13 +97,17 @@ export default class VideoPlayer extends Vue {
     // this.getChapter();// 调取刷新章节下的内容
   }
 
-  //     // 获取测验答题
+  // 获取测验答题
   starTestClick(id: any) {
     console.log('index', id)
     Cloud.getQuestion(id).then((res: any) => {
-      this.questionData = res
-      console.log('测验答题', this.questionData)
+      this.temp_data = res
+      // console.log('测验答题', this.questionData)
     })
+  }
+  @Watch('questionData')
+  onQuestionDataChange(val: object, oldVal: object) {
+    this.temp_data = val
   }
   // 点章节刷新章节下内容
   //     // 点章节刷新章节下内容
