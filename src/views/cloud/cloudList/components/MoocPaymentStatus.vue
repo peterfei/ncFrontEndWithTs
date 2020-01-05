@@ -32,33 +32,6 @@ export default class MoocIsuueStatus extends Vue {
   }
   @Model('prop', { type: Number }) change!: number | null
 }
-// export default {
-//   name: 'MoocPaymentStatus',
-//   model: {
-//     prop: 'value',
-//     event: 'change'
-//   },
-//   props: {
-//     value: {
-//       type: Number,
-//       default: 0
-//     }
-//   },
-//   data() {
-//     return {
-//       options: [
-//         { value: 2, label: '全部' },
-//         { value: 0, label: '免费' },
-//         { value: 1, label: '付费' }
-//       ]
-//     }
-//   },
-//   methods: {
-//     onClick(val) {
-//       this.$emit('change', val)
-//     }
-//   }
-// }
 </script>
 
 <style lang="scss" scoped>

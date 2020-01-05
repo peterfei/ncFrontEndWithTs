@@ -132,7 +132,8 @@ export default {
     // },
     // 当文档内容发生变化
     onContentChange({ html }) {
-      this.$emit('update:content', html)
+      this.$emit('change', html)
+      // this.$emit('update:content', html)
     },
     openImageDailog() {
       this.$refs.imgUploader.open()

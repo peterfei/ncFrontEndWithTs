@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="right_bottom">
+    <div class="right-bottom">
       <div class="title">
         <i class="icon iconfont icon-tuijian"></i>
         <span>大咖推荐</span>
@@ -39,34 +39,24 @@ import { Component, Vue, Prop, Model } from 'vue-property-decorator'
 export default class urRecommend extends Vue {
   @Prop({ default: [] }) recommendList!: Array<object>
 }
-//export default {
-//   name: 'name',
-//   props: {
-//     recommendList: {}
-//   },
-//   data() {
-//     return {}
-//   },
-//   methods: {}
-// }
 </script>
 
 <style lang="scss" scoped>
-.right_bottom {
+.right-bottom {
   margin-top: 20px;
   background-color: #fff;
   padding: 30px 20px 0px 20px;
   margin-bottom: 20px;
   border-radius: 5px;
 }
-.right_bottom .title {
+.right-bottom .title {
   padding-bottom: 6px;
 }
-.right_bottom .title > span {
+.right-bottom .title > span {
   color: #242b33;
   font-weight: bold;
 }
-.right_bottom .bottom-list {
+.right-bottom .bottom-list {
   border-bottom: 1px solid #f2f2f2;
   padding-bottom: 20px;
 }
@@ -133,7 +123,7 @@ export default class urRecommend extends Vue {
   font-size: 12px;
   color: #8a9199;
 }
-.right_bottom .bottom-btn {
+.right-bottom .bottom-btn {
   background-color: #fafafa;
   width: 200px;
   height: 24px;
@@ -141,11 +131,11 @@ export default class urRecommend extends Vue {
   text-align: center;
   margin-top: 10px;
 }
-.right_bottom .bottom-btn span {
+.right-bottom .bottom-btn span {
   font-size: 12px;
   color: #4c5359;
 }
-.right_bottom .bottom-btn .line {
+.right-bottom .bottom-btn .line {
   padding: 0px 13px;
 }
 </style>

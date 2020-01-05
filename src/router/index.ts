@@ -5,6 +5,7 @@ import Home from './modules/HomeModule'
 import Resource from './modules/ResourceModule'
 import Course from './modules/CoursesModule'
 import Cloud from './modules/CloudModule'
+import CloudVideo from '@/views/cloud/cloudVideo/index.vue'
 import Login from './modules/LoginModule'
 import Reg from './modules/RegisterModule'
 
@@ -22,6 +23,11 @@ const routes = [
   Resource.ResourceModule,
   Course.CoursesModule,
   Cloud.CloudModule,
+  {
+    path: '/cloudVideo/:syllabuseId/:sub_id/:mooc_issue_id',
+    name: 'CloudVideo',
+    component: CloudVideo
+  },
   Login.LoginModule,
   Reg.RegisterModule
 ]

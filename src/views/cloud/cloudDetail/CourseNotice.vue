@@ -1,13 +1,13 @@
 <template>
-  <div class="courseNotice">
+  <div class="course-notice">
     <span class="notice-new"></span>
-    <div
-      class="noiceContent"
-      :class="{ active: !index }"
-      v-for="(item, index) in notices"
-      :key="index"
-    >
-      <div v-if="notices != ''">
+    <div v-if="notices != ''">
+      <div
+        class="noice-con"
+        :class="{ active: !index }"
+        v-for="(item, index) in notices"
+        :key="index"
+      >
         <div class="title">
           {{ item.title }}
         </div>
@@ -16,10 +16,8 @@
         </div>
         <div class="noice-time">时间：{{ item.created_at }}</div>
       </div>
-      <div v-else>
-        暂无内容
-      </div>
     </div>
+    <div class="no-data" v-else>暂无内容</div>
   </div>
 </template>
 
@@ -29,39 +27,14 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 export default class CourseNotice extends Vue {
   @Prop({ default: () => {} }) notices!: object
 }
-// export default {
-//   name: 'CourseNotice',
-//   props: {
-//     notices: {}
-//   },
-//   data() {
-//     return {
-//       // noiceList: [
-//       //   {
-//       //     title: '上课啦，注意开课时间',
-//       //     content: '第三讲的作业，仍然一部分为10道选择题，另一部分是选择一首欧词进行分析。交后由大家互评批改。',
-//       //     time: '2019-07-09 11：11',
-//       //     index: 0,
-//       //   },
-//       //   {
-//       //     title: '上课啦，注意开课时间',
-//       //     content: '第三讲的作业，仍然一部分为10道选择题，另一部分是选择一首欧词进行分析。',
-//       //     time: '2019-07-09 11：11',
-//       //     index: 1,
-//       //   },
-//       // ],
-//     }
-//   },
-//   methods: {}
-// }
 </script>
 
 <style lang="scss" scoped>
-.courseNotice {
+.course-notice {
   width: 860px;
   position: relative;
 }
-.noiceContent {
+.noice-con {
   background: rgba(255, 255, 255, 1);
   box-shadow: 0px 5px 10px 0px rgba(230, 230, 230, 1);
   border-radius: 5px;
@@ -70,19 +43,19 @@ export default class CourseNotice extends Vue {
   flex-direction: column;
   margin-bottom: 10px;
 }
-.noiceContent .title {
+.noice-con .title {
   font-size: 14px;
   color: #4c5258;
   font-weight: bold;
   margin-bottom: 5px;
 }
-.noiceContent .noice-content {
+.noice-con .noice-content {
   font-size: 12px;
   color: rgba(76, 82, 88, 1);
   line-height: 22px;
   margin-bottom: 24px;
 }
-.noiceContent .noice-time {
+.noice-con .noice-time {
   font-size: 12px;
   color: rgba(182, 186, 191, 1);
   text-align: right;
@@ -93,5 +66,11 @@ export default class CourseNotice extends Vue {
   width: 48px;
   height: 48px;
   position: absolute;
+}
+.no-data {
+  width: 100%;
+  background: #fff;
+  padding: 28px;
+  color: #4c5258;
 }
 </style>

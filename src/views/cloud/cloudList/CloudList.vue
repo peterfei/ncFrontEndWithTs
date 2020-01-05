@@ -19,16 +19,16 @@
     </div>
     <div class="cloud-right">
       <el-button class="cloud-button">开课后台</el-button>
-      <extraordinary-popularity
-        :popularityList="popularityList"
-      ></extraordinary-popularity>
+      <!-- 人气爆棚 -->
+      <hot-top :popularityList="popularityList"></hot-top>
+      <!-- 大咖推荐 -->
       <up-recommended :recommendList="recommendList"></up-recommended>
     </div>
   </div>
 </template>
 <script lang="ts">
 import GraphicList from './components/GraphicList.vue'
-import ExtraordinaryPopularity from './components/ExtraordinaryPopularity.vue'
+import HotTop from './components/HotTop.vue'
 import UpRecommended from './components/UpRecommended.vue'
 import MoocIsuueStatus from './components/MoocIsuueStatus.vue'
 import { Component, Vue, Watch } from 'vue-property-decorator'
@@ -42,7 +42,7 @@ import { Dictionary, Location } from 'vue-router/types/router'
     MoocIsuueStatus,
     GraphicList,
     MoocPaymentStatus,
-    ExtraordinaryPopularity,
+    HotTop,
     UpRecommended
   }
 })
@@ -91,7 +91,7 @@ export default class CourseList extends Vue {
       status: this.moocStatus,
       is_free: this.paymentType.toString()
     }
-    console.log(query)
+    // console.log(query)
     this.$router.push({ query })
   }
   // 检索
@@ -101,58 +101,32 @@ export default class CourseList extends Vue {
       is_free: this.paymentType
     }
     Cloud.getList(params).then((res: any) => {
-      console.log(res)
+      // console.log(res)
       // debugger
       this.moocList = res.data
       this.pageMeta = res.meta
     })
   }
-  // headletabClick(item) {
-  //   // 根据传值调用列表函数
-  //   this.getList(`?status=${item.status}`)
-  // }
   // 人气爆棚
   getPopularity() {
-    console.log('人气爆棚')
+    // console.log('人气爆棚')
     Cloud.getPopularity().then((rec: any) => {
       this.popularityList = rec
-      console.log('popularityList人气=', this.popularityList)
+      // console.log('popularityList人气=', this.popularityList)
     })
   }
   // 大咖推荐
   getRecommendList() {
-    console.log('大咖推荐==', 22)
+    // console.log('大咖推荐==', 22)
     Cloud.getRecommendList().then((rec: any) => {
       this.recommendList = rec
-      console.log('rec=======', rec)
+      // console.log('rec=======', rec)
     })
   }
 
   // 分页
   handleCurrentChange() {}
 }
-
-// export default {
-//   name: 'CourseList',
-//   components: {
-//     MoocIsuueStatus,
-//     MoocPaymentStatus,
-//     GraphicList,
-//     ExtraordinaryPopularity,
-//     UpRecommended
-//   },
-//   data() {
-//     return {
-//       moocStatus: null,
-//       paymentType: 0,
-//       moocList: [],
-//       recommendList: [],
-//       pageMeta: [],
-//       popularityList: [],
-//       page: 1
-//     }
-//   }
-// }
 </script>
 <style lang="scss" scoped>
 .cloud-page {

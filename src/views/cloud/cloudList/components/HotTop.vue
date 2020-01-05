@@ -39,47 +39,12 @@
 <script lang="ts">
 import { Component, Vue, Prop, Model } from 'vue-property-decorator'
 @Component({})
-export default class ExtraordinaryPopularity extends Vue {
+export default class HotTop extends Vue {
   @Prop({ default: [] }) popularityList!: Array<object>
   seen: false
   hide: true
   current: 0
-  // enter(index: any) {
-  //   console.log()
-  //   this.current = index
-  //   // this.seen = true
-  //   // this.hide = false
-  // }
-  // leave() {
-  //   this.seen = false
-  //   this.hide = true
-  // }
 }
-// export default {
-//   name: 'ExtraordinaryPopularity',
-//   props: {
-//     popularityList: {}
-//   },
-//   data() {
-//     return {
-//       seen: false,
-//       hide: true,
-//       current: 0
-//     }
-//   },
-//   methods: {
-//     enter(index) {
-//       this.current = index
-//       console.log(index)
-//       this.seen = true
-//       this.hide = false
-//     },
-//     leave() {
-//       this.seen = false
-//       this.hide = true
-//     }
-//   }
-// }
 </script>
 
 <style lang="scss" scoped>
