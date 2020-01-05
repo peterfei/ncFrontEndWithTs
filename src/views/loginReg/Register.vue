@@ -32,11 +32,16 @@
 
     <!-- 选择角色模块 -->
     <div class="character-select-block" v-if="routeType == 'character'">
-      <character-choose></character-choose>
+      <character-choose
+        @change="userRoleSet"
+        :selected-role="userRole"
+        @next="goUploadStep"
+      ></character-choose>
+      <!-- @change="userRole = $event" -->
     </div>
     <!-- 上传资料模块 -->
     <div class="upload-info-block" v-if="routeType == 'upload'">
-      <upload-info></upload-info>
+      <upload-info v-model="userProfileUrl"></upload-info>
     </div>
 
     <!-- 注册成功模块 -->
@@ -51,7 +56,7 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import LoginRegHead from './components/LoginRegHead.vue'
 import DragVeriCheck from './components/DragVeriCheck.vue'
 import CharacterChoose from './components/CharacterChoose.vue'
-import uploadInfo from './components/uploadInfo.vue'
+import UploadInfo from './components/uploadInfo.vue'
 import completeReg from './components/completeReg.vue'
 
 @Component({
@@ -59,11 +64,12 @@ import completeReg from './components/completeReg.vue'
     LoginRegHead,
     DragVeriCheck,
     CharacterChoose,
-    uploadInfo,
+    UploadInfo,
     completeReg
   }
 })
 export default class Register extends Vue {
+  public userRole: number = 0
   public boxTitle: string = '账号注册'
   public username: string = '' //手机号或邮箱
   public routeType: string = '' //页面参数类型
@@ -91,6 +97,16 @@ export default class Register extends Vue {
     }
   }
 
+  userRoleSet(val: number) {
+    console.log('父组件this.userRole=', val)
+    this.userRole = val
+  }
+
+  goUploadStep() {
+    console.log('父组件this.userRole=', this.userRole)
+    console.log('主页面的upload=')
+    this.routeType = 'upload'
+  }
   // 滑块验证码返回值是否可以进行下一步
   public canNextBoolean(val: boolean) {
     if (val == false) {

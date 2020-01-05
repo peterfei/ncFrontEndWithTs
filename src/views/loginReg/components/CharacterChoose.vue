@@ -1,37 +1,18 @@
 <template>
   <div class="character-box">
     <ul>
-      <!-- <li>
-        <i></i>
-        <span>学生</span>
-      </li>
-      <li>
-        <i></i>
-        <span>学生</span>
-      </li>
-      <li>
-        <i></i>
-        <span>学生</span>
-      </li>
-      <li>
-        <i></i>
-        <span>学生</span>
-      </li> -->
       <li
         v-for="role in roles"
         :key="role.id"
         @click="selectRole(role.id)"
-        :class="{ active: selectRoleId == role.id }"
+        :class="{ active: selectedRole === role.id }"
       >
         <i></i>
         <span>{{ role.label }}</span>
       </li>
     </ul>
     <div class="next-block">
-      <el-button
-        :class="{ active: canNextBoolean == true }"
-        @click="toNextPage"
-      >
+      <el-button :class="{ active: !!selectedRole }" @click="toNextPage">
         下一步
       </el-button>
     </div>
@@ -39,38 +20,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Model, Emit } from 'vue-property-decorator'
 import { mockRoleRigister } from '@/mocks/index'
 
 @Component({
   components: {}
 })
 export default class DragVeriCheck extends Vue {
+  public selectid: number = 0
   public roles: Array<any> = mockRoleRigister
-  public selectRoleId: any = null
   public canNextBoolean: boolean = false
+  @Model('change', { type: Number }) readonly selectedRole!: number
 
   // 点击选择角色
+  @Emit('change')
   selectRole(val: number) {
-    this.selectRoleId = val
-    this.canNext()
+    console.log('子组件change事件')
+    // console.log(val)
+    return val
   }
-
-  // 判断是否可以下一步
-  canNext() {
-    this.canNextBoolean = true
-  }
-
   // 点击前往下一页
+  @Emit('next')
   toNextPage() {
-    if (this.canNextBoolean == true) {
-      this.$router.push({
-        path: `/reg/`,
-        query: {
-          type: 'upload'
-        }
-      })
-    }
+    console.log('子组件点击下一步')
   }
 }
 </script>
