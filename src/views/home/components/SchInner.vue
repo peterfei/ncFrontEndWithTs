@@ -31,7 +31,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import { ISchInner } from '@/types/index'
 @Component
 export default class SchInner extends Vue {
-  @Prop({ default: [] }) schInner!: Array<ISchInner>
+  @Prop({ default: () => [] }) schInner!: Array<ISchInner>
 
   get imgList() {
     const list: Array<ISchInner> = []

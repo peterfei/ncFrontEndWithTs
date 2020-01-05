@@ -22,7 +22,7 @@ import { Component, Vue, Prop, Model } from 'vue-property-decorator'
 @Component
 export default class BannerNavFilter extends Vue {
   @Prop({ default: 'value' }) title!: string
-  @Prop({ default: [] }) categoryList!: Array<object>
+  @Prop({ default: () => [] }) categoryList!: Array<object>
 
   @Model('change', { type: Boolean }) readonly seleced!: boolean
   public categoryItem(item: any) {

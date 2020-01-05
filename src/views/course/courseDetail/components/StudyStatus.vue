@@ -3,15 +3,12 @@
     <div>
       <div class="df flex-b fcolor-4c">
         <span class="already-study  fbold"
-          >已学: {{ studyStatus.percentage | getTimer('percent') }}%
+          >已学: {{ studyStatus.percentage }}%
         </span>
         <!-- {{studyStatus.percentage?studyStatus.percentage:0}}% -->
         <span class="spend-time fs14"
           >学习耗时:
-          {{
-            (studyStatus.watch_time ? studyStatus.watch_time : 0)
-              | getTimer('characters')
-          }}
+          {{ studyStatus.watch_time ? studyStatus.watch_time : 0 }}
         </span>
       </div>
       <!-- 进度条 -->

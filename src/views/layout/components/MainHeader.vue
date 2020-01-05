@@ -52,7 +52,7 @@
           登录
         </el-button>
         <el-button type="text" class="login-register">
-          <router-link tag="a" :to="{ path: '/register' }">注册</router-link>
+          <router-link tag="a" :to="{ path: '/reg' }">注册</router-link>
         </el-button>
       </div>
     </el-row>
@@ -145,7 +145,7 @@ export default class MainHeader extends Vue {
     position: relative;
     width: auto;
     display: inline-block;
-    margin: 0 25px;
+    margin: 0 20px;
     height: 100%;
     line-height: 70px;
   }

@@ -1,5 +1,5 @@
 export abstract class CourseBase implements courseBase.Util {
-  abstract handleSpread(items: object): any
+  abstract handleSpread(items: object): Iterable<any>
   abstract setCateList(
     cateAll: Array<any>,
     id: number,
@@ -16,7 +16,7 @@ export abstract class CourseBase implements courseBase.Util {
 import { ICategories, ICateList, ICateFixedList } from '@/types'
 class Course extends CourseBase {
   // 将分类递归，变成一维数组
-  *handleSpread(items: ICategories[] | any): any {
+  *handleSpread(items: ICategories[] | any): Iterable<ICategories> {
     for (let i = 0; i < items.length; i++) {
       if (items[i].children) {
         yield* this.handleSpread(items[i].children)

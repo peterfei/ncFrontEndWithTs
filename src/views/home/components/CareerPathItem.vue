@@ -25,12 +25,8 @@ import PosterImg from '../../../components/PosterImg/PosterImg.vue'
   }
 })
 export default class CareerPathItem extends Vue {
-  @Prop({ default: {} }) item!: Object
-  data() {
-    return {
-      itemHeight: '130'
-    }
-  }
+  @Prop({ default: () => {} }) item!: Object
+  itemHeight: string = '130'
 }
 </script>
 <style lang="scss" scoped>

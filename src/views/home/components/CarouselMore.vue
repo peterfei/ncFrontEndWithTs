@@ -41,7 +41,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 export default class CarouselMore extends Vue {
   // public carouselLists: any = []
   @Prop({ default: 5 }) showNum!: number
-  @Prop({ default: [] }) carouselLists!: Array<object>
+  @Prop({ default: () => [] }) carouselLists!: Array<object>
   @Prop({ default: '174px' }) height!: string
   // 计算属性的 getter
   get carouselList() {

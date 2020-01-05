@@ -23,13 +23,15 @@ $orange-color: #ff783c;
     border-radius: 1px;
     border-bottom: 1px solid #dfe2e5;
     padding-bottom: 17px;
-    margin-bottom: 50px;
+    margin-bottom: 55px;
     .title {
       font-size: 16px;
       font-family: MicrosoftYaHei;
       line-height: 19px;
       color: #303133;
       opacity: 1;
+      border-bottom: 2px solid #303133;
+      padding-bottom: 15px;
     }
   }
 }

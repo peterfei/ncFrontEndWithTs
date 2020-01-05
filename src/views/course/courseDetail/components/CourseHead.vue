@@ -46,7 +46,7 @@
             </li>
             <li>
               <div class="data">
-                {{ courseTime | getTimer('characters') }}
+                {{ courseTime }}
               </div>
               <div class="name">总时长</div>
             </li>

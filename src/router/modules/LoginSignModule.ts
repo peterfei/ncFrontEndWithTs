@@ -1,5 +1,5 @@
 import Layout from '@/views/layout/LayoutPage.vue'
-import CourseList from '@/views/login/Login.vue'
+import LoginSign from '@/views/loginReg/index.vue'
 
 const LoginSignModule = {
   path: '/login',
@@ -8,9 +8,10 @@ const LoginSignModule = {
   children: [
     {
       path: '',
-      name: 'Login',
-      component: CourseList
+      name: 'login',
+      component: LoginSign
     }
   ]
 }
+
 export default { LoginSignModule }
