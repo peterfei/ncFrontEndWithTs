@@ -1,31 +1,30 @@
 <template>
   <div class="login-box">
     <login-reg-head :title="boxTitle"></login-reg-head>
-    <!-- 登录模块 -->
-    <div class="login-form-block">
-      <div class="login-form">
-        <div>
-          <el-input
-            v-model="usernameInput"
-            placeholder="手机号/邮箱"
-          ></el-input>
-        </div>
-        <div>
-          <el-input v-model="pwdInput" placeholder="密码"></el-input>
-        </div>
-        <div class="loginbtn-block">
-          <el-button>登录</el-button>
-        </div>
-      </div>
 
-      <div class="find-pwd-sign el-row">
-        <el-col :span="12"
-          ><span class="sign" @click="regist">没有账号？立即注册</span></el-col
-        >
-        <el-col :span="12"
-          ><span class="forget" @click="findPwd">忘记密码</span></el-col
+    <!-- 找回密码模块 -->
+    <div class="find-pwd-block" v-if="step == 1">
+      <div>
+        <el-input
+          v-model="usernameInput"
+          placeholder="请输入手机号或邮箱"
+        ></el-input>
+      </div>
+      <drag-veri-check @canNext="nextPage"></drag-veri-check>
+      <div class="nextPage">
+        <el-button :class="{ active: this.veryCheck == true }" @click="goSetPwd"
+          >下一步</el-button
         >
       </div>
+    </div>
+
+    <!-- 设置密码模块 -->
+    <div class="set-pwd-block" v-if="step == 2">
+      <set-pwd @complete="completePwd"></set-pwd>
+    </div>
+
+    <div class="complete-block" v-if="step == 3">
+      <complete></complete>
     </div>
   </div>
 </template>
@@ -35,32 +34,40 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import LoginRegHead from './components/LoginRegHead.vue'
 import DragVeriCheck from './components/DragVeriCheck.vue'
 import SetPwd from './components/SetPwd.vue'
+import Complete from './components/completeResPwd.vue'
 
 @Component({
   components: {
     LoginRegHead,
     DragVeriCheck,
-    SetPwd
+    SetPwd,
+    Complete
   }
 })
 export default class Login extends Vue {
-  public boxTitle: string = '账号登录'
+  public boxTitle: string = '找回密码'
   public usernameInput: string = '' //账号
   public pwdInput: string = '' //密码
-
+  public step: number = 1 //页面步骤
+  public veryCheck: boolean = false
   mounted() {}
 
-  // 点击立即注册
-  public regist() {
-    this.$router.push({
-      path: `/reg`
-    })
+  // 是否可以点击下一步
+  nextPage(val: any) {
+    this.veryCheck = val
   }
-  // 点击找回密码
-  public findPwd() {
-    this.$router.push({
-      path: `/findpwd`
-    })
+
+  // 完成重置密码
+  completePwd(val: any) {
+    console.log(val)
+    if (val != false) {
+      this.step++
+    }
+  }
+
+  // 点击去设置密码
+  public goSetPwd() {
+    this.step++
   }
 }
 </script>
@@ -68,6 +75,7 @@ export default class Login extends Vue {
 <style lang="scss" scoped>
 $orange-color: #ff783c;
 $orangeHoverColor: #ff6520;
+$inputBackground: #f7f9fa;
 $gray: #edeeef;
 .login-box {
   width: 404px;
@@ -92,10 +100,6 @@ $gray: #edeeef;
         font-size: 16px;
         height: 44px;
         border: none;
-        &:hover {
-          background: $orangeHoverColor;
-          transition: 0.3s;
-        }
       }
     }
     .find-pwd-sign {
@@ -124,6 +128,8 @@ $gray: #edeeef;
     ::v-deep .el-input {
       .el-input__inner {
         height: 44px;
+        background: $inputBackground;
+        border: 1px solid #e3e6e8;
       }
     }
     .nextPage {

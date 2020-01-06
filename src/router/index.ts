@@ -9,6 +9,7 @@ import CloudVideo from '@/views/cloud/cloudVideo/index.vue'
 import Login from './modules/LoginModule'
 import Reg from './modules/RegisterModule'
 import ProFile from './modules/ProFileModule'
+import FindPwd from './modules/FindPwdModule'
 
 Vue.use(VueRouter)
 const originalPush = VueRouter.prototype.push
@@ -25,6 +26,7 @@ const routes = [
   Course.CoursesModule,
   Cloud.CloudModule,
   ProFile.ProFileModule,
+  FindPwd.FindPwdModule,
   {
     path: '/cloudVideo/:syllabuseId/:sub_id/:mooc_issue_id',
     name: 'CloudVideo',
