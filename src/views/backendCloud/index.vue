@@ -46,8 +46,13 @@ export default class BackendCloud extends Vue {
       display: flex;
       justify-content: center;
       flex-direction: column;
-      .header-btn {
+      .header-btn > button {
+        color: 'green';
         margin-bottom: 10px;
+
+        background: rgba(103, 194, 58, 1);
+        border-radius: 2px;
+        border-color: rgba(103, 194, 58, 1);
       }
     }
   }
