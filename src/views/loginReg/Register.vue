@@ -3,7 +3,7 @@
     <!-- 公共头部 -->
     <login-reg-head :title="boxTitle"></login-reg-head>
     <!-- 输入密码的注册模块 -->
-    <div class="register-form-block" v-if="routeType == ''">
+    <div class="register-form-block" v-if="routeType == 'reg'">
       <div>
         <el-input
           v-model="username"
@@ -38,10 +38,6 @@
         @next="goUploadStep"
       ></character-choose>
       <!-- @change="userRole = $event" -->
-    </div>
-    <!-- 上传资料模块 -->
-    <div class="upload-info-block" v-if="routeType == 'upload'">
-      <upload-info v-model="userProfileUrl"></upload-info>
     </div>
 
     <!-- 注册成功模块 -->
@@ -81,7 +77,7 @@ export default class Register extends Vue {
   // 判断当前页面路由变化
   onUrlChange(to: { name: string; query: { type: string } }) {
     this.routeType = to.query.type
-    console.log(this.routeType)
+    console.log('进入注册页面', this.$router.currentRoute.name)
     if (this.routeType == 'findpwd') {
       this.boxTitle = '找回密码'
     } else if (this.routeType == 'setpwd') {

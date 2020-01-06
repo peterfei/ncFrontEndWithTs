@@ -4,11 +4,11 @@
       <div>
         <i class="icon iconfont icon-wancheng"></i>
       </div>
-      <p>恭喜您注册成功</p>
+      <p>成功完善个人资料</p>
     </div>
     <div class="go-ibd">
-      <el-button @click="goProfile">
-        去完善个人资料
+      <el-button @click="goibd">
+        进入i博导
       </el-button>
     </div>
   </div>
@@ -21,7 +21,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
   components: {}
 })
 export default class DragVeriCheck extends Vue {
-  goProfile() {
+  goibd() {
     this.$router.push({
       path: `/home`
     })

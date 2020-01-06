@@ -1,16 +1,16 @@
 import Layout from '@/views/layout/LayoutPage.vue'
 // import Register from '@/views/loginReg/index.vue'
-import RegBox from '@/views/loginReg/Register.vue'
+import ProFileBox from '@/views/proFile/ProFile.vue'
 
-const RegisterModule = {
-  path: '/reg',
+const ProFileModule = {
+  path: '/profile',
   name: '',
   component: Layout,
   children: [
     {
       path: '/',
-      name: 'reg',
-      component: RegBox
+      name: 'profile',
+      component: ProFileBox
     }
     // {
     //   path: '/login/:type',
@@ -19,4 +19,4 @@ const RegisterModule = {
     // }
   ]
 }
-export default { RegisterModule }
+export default { ProFileModule }

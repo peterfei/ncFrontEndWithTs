@@ -85,10 +85,10 @@ export default class Login extends Vue {
   // 点击立即注册
   public regist() {
     this.$router.push({
-      path: `/reg/`,
-      query: {
-        type: ''
-      }
+      path: `/reg/`
+      // query: {
+      //   type: ''
+      // }
     })
   }
   // 点击找回密码
