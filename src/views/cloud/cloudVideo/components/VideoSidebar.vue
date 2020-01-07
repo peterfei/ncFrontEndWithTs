@@ -226,6 +226,10 @@ export default class VideoSidebar extends Vue {
   Replies: object = {}
   mooc_discussion_id: string
   page: number = 1
+  supports:any = []
+  to_user_id:number = -1
+  inputStyWidth:string = ""
+
   // Syllabuses: Array<any> = []
 
   // mounted() {
