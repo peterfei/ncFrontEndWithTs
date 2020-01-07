@@ -139,16 +139,16 @@
         <div class="num-title">
           客观题
         </div>
-        <div
-          v-for="(q, index) in keguan"
-          :key="'q_nav_item_' + q.id"
-          class="q-nav-item"
-          :class="{ kOn: currentIndex[index] === q.id }"
-        >
-          <!-- {{ q }} -->
+        <!-- <div v-for="(k,l) in currentIndex" :key="l"> -->
+        <!-- {{i}} -->
+        <div v-for="q in keguan" :key="'q_nav_item_' + q.id" class="q-nav-item"
+            :class="currentIndex.includes(q.id)?'kOn':'ZOn'"
+          >
           {{ getIndex(q.id) + 1 }}
+          
         </div>
       </div>
+
       <div class="subjective-questions">
         <div class="sub-title">
           主观题
@@ -336,7 +336,11 @@ export default class StartTest extends Vue {
   //   this.goQuestion(id, indexk)
   // }
   changeHandler(index: number) {
-    this.currentIndex.push(index)
+    console.log(`current results is ======`, index)
+    if(!this.currentIndex.includes(index)){
+        this.currentIndex.push(index)
+    }
+    
   }
   answerSubmit() {
     console.log('q', this.questions)
@@ -719,7 +723,7 @@ export default class StartTest extends Vue {
     background-color: #33ccff;
   }
   .ZOn {
-    background-color: #33ccff;
+    background-color: #cccccc;
   }
 }
 </style>
