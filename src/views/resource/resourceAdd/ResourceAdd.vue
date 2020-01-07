@@ -146,7 +146,7 @@ export default class ResourceAdd extends Vue {
     this.$message({
       type: 'success',
       message: '发布资源包成功',
-      duration: 2000,
+      duration: 1200,
       onClose: function() {
         router.push({ path: '/resource' })
       }

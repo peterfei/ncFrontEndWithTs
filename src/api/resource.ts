@@ -15,4 +15,21 @@ const ResourceAddPackage = {
     return Request.post(url, postObj)
   }
 }
-export { ResourcePackageList, ResourceAddPackage }
+
+const PackageOperate = {
+  deletePackage(id: number) {
+    const url = `${resourceUrl}/destroy/${id}`
+    return Request.delete(url)
+  },
+
+  editPackage(id: number) {
+    const url = `${resourceUrl}/destroy/${id}/edit`
+    return Request.get(url)
+  },
+
+  editPackageSave(id: number) {
+    const url = `${resourceUrl}/destroy/${id}/update`
+    return Request.post(url)
+  }
+}
+export { ResourcePackageList, ResourceAddPackage, PackageOperate }

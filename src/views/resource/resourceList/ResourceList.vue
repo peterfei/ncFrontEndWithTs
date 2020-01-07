@@ -128,6 +128,11 @@
               :title="item.name"
               :price="item.price"
               :typeChoose="typeChoose"
+              :status="item.status"
+              :is_published="item.is_published"
+              :bought_num="item.bought_num"
+              :tags="item.item_count"
+              @deletePackage="deletePackage"
             >
             </package-item>
 
@@ -142,9 +147,6 @@
               :bodou="item.points"
               :paymentType="item.payment_type"
               :bought_num="item.bought_num"
-              :status="item.status"
-              :is_published="item.is_published"
-              :typechoose="typechoose"
               @setPublish="setPublish"
               @setArraignment="setArraignment"
             >
@@ -170,7 +172,7 @@ import { mockQueryParams } from '@/mocks/index'
 import { mockResPackFilter } from '@/mocks/index'
 import PackageItem from './components/PackageItem.vue'
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { ResourcePackageList } from '@/api/resource'
+import { ResourcePackageList, PackageOperate } from '@/api/resource'
 declare module 'vue/types/vue' {
   interface Vue {
     [key: string]: any
@@ -212,7 +214,6 @@ export default class ResourceList extends Vue {
   public packagesList: Array<any> = []
   public queryItems: Array<object> = mockQueryParams
   public packDropStatus: Array<object> = mockResPackFilter
-  public typechoose: string = ''
   public packstatusCN: string = '全部' //审核状态-中文
 
   public keyword: string = '' //关键字搜索
@@ -237,16 +238,15 @@ export default class ResourceList extends Vue {
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: { id: number; query: { id: number; type: string } }) {
     const url = to.query
-    const typechoose = to.query.type
-    if (typechoose == 'myfa') {
+    const typeChoose = to.query.type
+    if (typeChoose == 'myfa') {
       this.mine = '1'
-    } else if (typechoose == 'all') {
+    } else if (typeChoose == 'all') {
       this.mine = ''
     }
 
     this.loadUrl()
     this.getResourceList()
-    console.log('监听watch route typechoose=', typechoose)
   }
   loadUrl() {
     const urlParams = {
@@ -295,7 +295,6 @@ export default class ResourceList extends Vue {
   // 选择全部、我的发布、我的摘录
   typeChooseClick(type: string) {
     this.typeChoose = type
-
     this.loadUrl()
   }
 
@@ -305,8 +304,20 @@ export default class ResourceList extends Vue {
     this.filterLabel = status.label
     this.filterValue = status.value
     this.packstatusCN = status
-    console.log('筛选状态', this.filterValue)
     this.loadUrl()
+  }
+
+  // 删除资源包
+  deletePackage(id: number) {
+    PackageOperate.deletePackage(id).then(res => {
+      if (res == true) {
+        this.$message({
+          message: '成功删除资源包',
+          type: 'success'
+        })
+        this.getResourceList()
+      }
+    })
   }
 
   // this.data = await
@@ -334,10 +345,6 @@ export default class ResourceList extends Vue {
   //     }
 
   //   },
-
-  //   // 获取列表数据
-  //   this.getResourceList()
-  // },
 
   // methods: {
   // getResourceList() {

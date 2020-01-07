@@ -3,10 +3,12 @@
     <div class="img"><img src="" alt="" /></div>
     <div class="detail">
       <div class="top">
-        <el-dropdown :hide-on-click="false" v-if="typechoose != 'all'">
+        <el-dropdown :hide-on-click="true">
           <span class="el-dropdown-link">
-            <!-- <i class="el-icon-arrow-down el-icon--right"></i> -->
-            <i class="iconfont icon-icon-test1 handle-i"></i>
+            <i
+              class="iconfont icon-icon-test1 handle-i"
+              v-if="typeChoose !== 'all'"
+            ></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="unzip"
@@ -39,27 +41,27 @@
             >
           </el-dropdown-menu>
         </el-dropdown>
-        <router-link
+        <!-- <router-link
           :to="{ path: `/resource/resourcedetail/${id}` }"
           v-if="typechoose == 'all' || typechoose == 'myzhai'"
+        > -->
+        <p class="package-title word-spot">{{ title }}</p>
+        <span
+          class="status-tag success"
+          v-if="(status == 1) & (typeChoose == 'myfa')"
+          >已发布</span
         >
-          <p class="package-title word-spot">{{ title }}</p>
-          <span
-            class="status-tag success"
-            v-if="(status == 1) & (typechoose == 'myfa')"
-            >已发布</span
-          >
-          <span
-            class="status-tag review"
-            v-if="(status == 0) & (typechoose == 'myfa')"
-            >待审核</span
-          >
-          <span
-            class="status-tag error"
-            v-if="(status == 2) & (typechoose == 'myfa')"
-            >已驳回</span
-          >
-        </router-link>
+        <span
+          class="status-tag review"
+          v-if="(status == 0) & (typeChoose == 'myfa')"
+          >待审核</span
+        >
+        <span
+          class="status-tag error"
+          v-if="(status == 2) & (typeChoose == 'myfa')"
+          >已驳回</span
+        >
+        <!-- </router-link> -->
 
         <!-- 当我们的发布时，进入编辑条目页面 -->
         <router-link
@@ -92,7 +94,7 @@
         <p class="describe word-spot">{{ school }}</p>
         <div class="tags">
           <span v-for="(tag, index) in tags" :key="tag.id" class="tag">
-            {{ obj[index] }}{{ tag }}
+            {{ tagObj[index] }}{{ tag }}
           </span>
         </div>
       </div>
@@ -137,9 +139,17 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 @Component
 export default class PackageItem extends Vue {
+  public tagObj = {
+    course: '课程',
+    testing: '测验',
+    material: '资料',
+    homework: '作业',
+    interaction: '互动'
+  }
+  @Prop({ default: '1111111' }) typechoose: string
   @Prop({ default: '1111111' }) title: string
   @Prop({ default: '' }) id: number
   @Prop({ default: '' }) price: string
@@ -148,9 +158,25 @@ export default class PackageItem extends Vue {
   @Prop({ default: 0 }) is_published: number
   @Prop({ default: 0 }) status: number // 审核状态 0待审核 1通过 2未通过 9未发布
   @Prop({ default: '' }) school: string
-  @Prop({ default: 'all' }) typechoose: string // 全部 我的发布 我的摘录
+  @Prop({ default: 'all' }) typeChoose: string // 全部 我的发布 我的摘录
   @Prop({ default: '' }) tags: string
+
+  // 删除资源包
+  deletePackage(id: number) {
+    this.$confirm('确定删除该教学包?', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+      this.$emit('deletePackage', id)
+    })
+  }
+  // 编辑资源包
+  editPackage(id: number) {
+    console.log('编辑')
+  }
 }
+
 // this.name:String = 'aaaaaaaa'
 // import Resource from '@/api/resource/index'
 // import Prepare from '@/api/prepare/index'
@@ -159,13 +185,7 @@ export default class PackageItem extends Vue {
 //   data() {
 //     return {
 //       prepareDialogVisible: false,
-//       obj: {
-//         course: '课程',
-//         testing: '测验',
-//         material: '资料',
-//         homework: '作业',
-//         interaction: '互动'
-//       },
+//
 //       treedata: [],
 //       defaultProps: {
 //         children: '_child',
@@ -173,13 +193,7 @@ export default class PackageItem extends Vue {
 //       }
 //     }
 //   },
-//   props: {
 
-//     paymentType: {}, // 付费类型
-//     status: {},
-//     is_published: {}, // 0下架 1上架
-//
-//   },
 //   computed: {},
 //   methods: {
 //     handleNodeClick(data) {
@@ -200,33 +214,7 @@ export default class PackageItem extends Vue {
 //           console.log(rec)
 //         })
 //     },
-//     // 删除资源包
-//     deletePackage(id) {
-//       this.$confirm('确定删除该教学包?', '提示', {
-//         confirmButtonText: '确定',
-//         cancelButtonText: '取消',
-//         type: 'warning'
-//       })
-//         .then(() => {
-//           Resource.ResourcePackage.deletePackage(id)
-//             .then(rec => {
-//               console.log('删除', rec)
-//               if (rec === true) {
-//                 this.$message({
-//                   message: '删除成功！',
-//                   type: 'success'
-//                 })
-//                 window.location.reload()
-//               }
-//             })
-//             .catch(rec => {
-//               console.log(rec)
-//             })
-//         })
-//         .catch(() => {
-//           // 取消删除
-//         })
-//     },
+//
 //     // 解压到备课区
 //     unzip() {
 //       this.prepareDialogVisible = true
@@ -335,8 +323,8 @@ export default class PackageItem extends Vue {
       color: rgba(23, 24, 26, 1);
       margin: 0;
       display: inline-block;
-      max-width: 80%;
-      margin-right: 8px;
+      max-width: 70%;
+      margin-right: 5px;
     }
     .review {
       background: #00a5e1;
@@ -354,7 +342,7 @@ export default class PackageItem extends Vue {
       color: #fff;
       width: 50px;
       height: 18px;
-      line-height: 18px;
+      line-height: 20px;
       border-radius: 2px;
       display: inline-block;
       vertical-align: top;
@@ -373,7 +361,7 @@ export default class PackageItem extends Vue {
       padding: 0 8px;
       height: 22px;
       margin-right: 10px;
-      line-height: 22px;
+      line-height: 24px;
       background: rgba(235, 238, 240, 1);
       text-align: center;
       border-radius: 2px;

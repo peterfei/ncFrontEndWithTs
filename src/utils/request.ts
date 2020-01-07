@@ -159,7 +159,8 @@ class Request {
 
   public async delete(url: string, config: object = {}) {
     try {
-      await this.service.delete(url, config)
+      const result = await this.service.delete(url, config)
+      return result
     } catch (error) {
       console.error(error)
     }
