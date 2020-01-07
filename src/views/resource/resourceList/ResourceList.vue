@@ -89,23 +89,31 @@
             >我的摘录</span
           >
         </div>
-        <!-- <div class="sort_type">
-          <el-dropdown @command="setPackstatus" v-if="typechoose == 'myfa'">
+        <div class="sort_type">
+          <el-dropdown
+            @command="dropDownPackstatus"
+            v-if="typeChoose == 'myfa'"
+          >
             <span class="el-dropdown-link">
-              {{ packstatusCN
-              }}<i class="el-icon-arrow-down el-icon--right"></i>`
+              {{ filterLabel }}
+              <i class="el-icon-arrow-down el-icon--right"></i>`
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="全部" v-if="packstatusCN != '全部'"
+              <!-- <el-dropdown-item
+                command="selectStatus"
+                v-if="selectStatus != '全部'"
                 >全部</el-dropdown-item
+              > -->
+              <el-dropdown-item
+                v-for="(item, index) in packDropStatus"
+                :key="index"
+                :command="item"
               >
-              <el-dropdown-item command="待审核">待审核</el-dropdown-item>
-              <el-dropdown-item command="已通过">已通过</el-dropdown-item>
-              <el-dropdown-item command="未通过">未通过</el-dropdown-item>
-              <el-dropdown-item command="待发布">待发布</el-dropdown-item>
+                {{ item.label }}
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        </div> -->
+        </div>
       </div>
       <!-- 发布按钮结束 -->
       <!-- 教学包列表 -->
@@ -159,6 +167,7 @@ import CateFilterCourse from '@/components/CateFilterCommon/CateFilterCourse.vue
 import SearchBlock from './components/SearchBlock.vue'
 import QueryItem from './components/QueryItem.vue'
 import { mockQueryParams } from '@/mocks/index'
+import { mockResPackFilter } from '@/mocks/index'
 import PackageItem from './components/PackageItem.vue'
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { ResourcePackageList } from '@/api/resource'
@@ -184,19 +193,8 @@ export default class ResourceList extends Vue {
   //     deepfirst: '', // 一级分类总数据
   //     navFirstShow: '', // 一级分类实际显示数据
   //     navFirstCurrent: -1,
-  //     deepsecond: '', // 二级学科类别总数据
-  //     navSecondShow: '', // 二级学科类别显示数据
-  //     navActiveSecond: -1,
-  //     deepthird: '', // 三级课程类别总数据
-  //     navThirdShow: '', // 三级课程类别展示数据
-  //     navThirdActive: -1,
-  //     name: '', // 关键字搜搜
   //     publishCurrent: 'all', // 发布方筛选
   //     noList: false, // 是否有数据
-  //     selected: null,
-  //     packstatusCN: '全部', // 审核状态 中文
-  //     packstatus: '', // 审核状态
-  //     status: '', // 审核状态
   //     is_published: '', // 是否上架
   //     category_id: '', // 类别ID
   //     is_free: 'all', // 1免费 0不免费
@@ -209,19 +207,30 @@ export default class ResourceList extends Vue {
   //   }
   // }
   name: string
-  // noList: boolean
   public typeChoose: string = 'all' //我的发布，我的摘录，全部
   public mine: string = '' //我的发布
   public packagesList: Array<any> = []
   public queryItems: Array<object> = mockQueryParams
+  public packDropStatus: Array<object> = mockResPackFilter
+  public typechoose: string = ''
+  public packstatusCN: string = '全部' //审核状态-中文
 
+  public keyword: string = '' //关键字搜索
+  public sortType: string = '' //排序方式
+  public filterLabel: string = '全部' //审核状态下拉筛选
+  public filterValue: any = null //审核状态下拉
   public searchName(data: string) {
     console.log('父组件data=', data)
   }
   mounted() {
     this.getResourceList()
-    // this.$router.push({ query: obj })
-    this.routerPushParams() //初始化URL方法调用
+    const urlParams = {
+      type: this.typeChoose, //我的分类
+      keyword: this.keyword,
+      sort: this.sortType,
+      filter: this.filterValue
+    }
+    this.routerPushParams(urlParams) //初始化URL方法调用
   }
 
   //每次url变化监听
@@ -234,12 +243,28 @@ export default class ResourceList extends Vue {
     } else if (typechoose == 'all') {
       this.mine = ''
     }
+
+    this.loadUrl()
     this.getResourceList()
     console.log('监听watch route typechoose=', typechoose)
   }
+  loadUrl() {
+    const urlParams = {
+      type: this.typeChoose,
+      keyword: this.keyword,
+      sort: this.sortType,
+      filter: this.filterValue
+    }
+    this.$router.push({ query: urlParams })
+  }
   //初始化URL方法
-  routerPushParams() {
-    const obj = { type: this.typeChoose, keyword: '' }
+  routerPushParams(urlParams: any) {
+    const obj = {
+      type: urlParams.type, //分类——我的发布、我的摘录
+      keyword: urlParams.keyword, //关键字搜索
+      sort: urlParams.sort, //排序
+      filter: urlParams.filter //筛选状态
+    }
     this.$router.push({ query: obj })
   }
   changeHandler(obj: any, data: any) {
@@ -249,7 +274,8 @@ export default class ResourceList extends Vue {
     const obj: Object = {}
     const postObj = {
       name: this.name, // 关键字搜索
-      mine: this.mine === '' ? '' : this.mine // 我的发布
+      mine: this.mine === '' ? '' : this.mine, // 我的发布
+      status: this.filterValue
       // is_free: this.is_free === 'all' ? '' : this.is_free, // 1免费 0收费
       // role_id: this.role_id === 'all' ? '' : this.role_id, // 发布方
       // education: this.education === 'all' ? '' : this.education, // 适用层次
@@ -261,24 +287,26 @@ export default class ResourceList extends Vue {
       // bought: this.bought === '' ? '' : this.bought // 我的摘录
     }
     const res = await ResourcePackageList.getPackageList(postObj)
-    console.log('请求完成')
     this.packagesList = res.data
     // this.packagesList = [...this.packagesList, ...res.data]
     console.log('packagesList=', this.packagesList)
   }
 
-  hander() {
-    console.log('handler方法')
-  }
-
   // 选择全部、我的发布、我的摘录
   typeChooseClick(type: string) {
     this.typeChoose = type
-    const obj = {
-      type: this.typeChoose
-    }
-    this.$router.push({ query: obj })
-    // this.getResourceList()
+
+    this.loadUrl()
+  }
+
+  // 最右侧下拉审核状态筛选
+  dropDownPackstatus(status: any) {
+    console.log('筛选状态', status)
+    this.filterLabel = status.label
+    this.filterValue = status.value
+    this.packstatusCN = status
+    console.log('筛选状态', this.filterValue)
+    this.loadUrl()
   }
 
   // this.data = await

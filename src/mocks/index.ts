@@ -347,3 +347,21 @@ export const mockRoleRigister = [
     label: '专家'
   }
 ]
+export const mockResPackFilter = [
+  {
+    value: 0,
+    label: '待审核'
+  },
+  {
+    value: 1,
+    label: '已通过'
+  },
+  {
+    value: 2,
+    label: '未通过'
+  },
+  {
+    value: 9,
+    label: '未发布'
+  }
+]
