@@ -1,6 +1,5 @@
 <template>
   <div class="videoSidebar clearfix">
-    <!-- {{ Syllabuses }} -->
     <el-tabs
       :tab-position="tabPosition"
       style="height: 100%"
@@ -8,22 +7,190 @@
     >
       <el-tab-pane ref="companyStyle" v-bind:style="{ width: Width }">
         <span slot="label">
-          <i class="el-icon-date"></i> <label>大纲</label>
+          <i class="icon iconfont icon-ceyan"></i> <label>大纲</label>
         </span>
-        <!-- 大纲 -->
-        <!-- {{ Syllabuses }} -->
         <sidebar-content
           @chapterClick="chapterClick"
           :Syllabuses="Syllabuses"
         ></sidebar-content>
       </el-tab-pane>
-      <el-tab-pane name="dis">
+      <el-tab-pane name="a">
         <span slot="label">
-          <i class="el-icon-date"></i> <label>讨论q</label>
+          <i class="icon iconfont icon-taolunqu"></i> <label>讨论</label>
         </span>
-        <!-- <el-button @click="drawer = true" type="primary" style="margin-left: 16px;"> -->
       </el-tab-pane>
     </el-tabs>
+    <div
+      class="mask"
+      v-show="mask"
+      @click="maskClick"
+      v-bind:style="{ width: myWidth }"
+    ></div>
+    <div class="commont" v-show="diolog">
+      <div class="commontContent">
+        <div class="title">
+          <span class="commont-area">讨论区</span>
+          <span class="post" @click="dialogVisible = true">我要发帖</span>
+        </div>
+        <div class="commontList" v-for="item in ListDisscussion" :key="item.id">
+          <img src="" alt="" />
+          <div class="listContent">
+            <div class="Publisher">
+              <span class="name">{{ item.user['realname'] }}</span>
+              <span class="job">{{ item.role['role'] }}</span>
+              <span class="time">{{ item.created_at }}发布</span>
+            </div>
+            <div class="releaseTitle">{{ item.title }}</div>
+            <div class="info">
+              {{ item.content }}
+            </div>
+            <div class="access">
+              <div class="reply" @click="replayUp(item)">
+                <i class="icon iconfont icon-pinglun"></i>
+                <span>{{ item.reply_cnt }}条回复</span>
+              </div>
+              <!-- 点赞 -->
+              <div class="support" @click="support(item)">
+                <!-- praised为1点过赞；praised为0未点赞-->
+                <div v-if="item.praised == 1">
+                  <i class="icon iconfont icon-zan2" style="color:#F38622"></i>
+                  <span>{{ item.thumb_cnt }}</span>
+                </div>
+                <div v-else>
+                  <i class="icon iconfont icon-zan2"></i>
+                  <span>{{ item.thumb_cnt }}</span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="replyBox mb20 clearfix"
+              v-if="item.id === replyDiscusId"
+            >
+              <el-input
+                type="textarea"
+                autosize
+                :rows="2"
+                placeholder="回帖"
+                v-model="replyDiscusContent"
+              >
+              </el-input>
+              <el-button
+                type="info"
+                size="medium"
+                class="replyBtn"
+                @click="repliesBtn"
+                >回复</el-button
+              >
+            </div>
+            <template v-if="item.id === replyDiscusId">
+              <div
+                class="commentaryArea"
+                v-for="item1 in item.replys"
+                :key="item1.id"
+              >
+                <div class="com-main">
+                  <img src="" alt="" />
+                  <div class="reply-info">
+                    <div class="r_name">{{ item1.user.realname }}</div>
+                    <div class="r_info">{{ item1.content }}</div>
+                    <div class="reply-time">
+                      <span>{{ item1.updated_at }}</span>
+                      <div class="reply-num">
+                        <div @click="replyClick(item1)">
+                          <!-- <i class="icon iconfont icon-pinglun"
+                          @click="replyClick(item1)"></i> -->
+                          <i class="icon iconfont icon-pinglun"></i>
+                          <!-- <span>{{item1.reply_cnt}}条回复</!-->
+                        </div>
+                        <!-- {{item1.reply_praised}} -->
+                        <div class="suppor" @click="supportReplay(item1)">
+                          <!-- <div v-if="item1.reply_praised == 1">
+                            <i class="icon iconfont icon-zan2" style="color:#F38622"></i>
+                            <span class="s-span">{{item1.thumb_cnt}}赞</span>
+                          </div> -->
+                          <div v-if="item1.reply_praised == 1">
+                            <i
+                              class="icon iconfont icon-zan2"
+                              style="color:#F38622"
+                            ></i>
+                            <span class="s-span">{{ item1.thumb_cnt }}</span>
+                          </div>
+                          <div v-else>
+                            <i class="icon iconfont icon-zan2"></i>
+                            <span class="s-span">{{ item1.thumb_cnt }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="replyBox clearfix"
+                      v-if="item1.id === replyReplyObj.id"
+                    >
+                      <el-input
+                        type="textarea"
+                        autosize
+                        :rows="2"
+                        :placeholder="`回复${replyReplyObj.user.realname}`"
+                        v-model="replyReplyContent"
+                      >
+                      </el-input>
+                      <el-button
+                        type="info"
+                        size="medium"
+                        class="replyBtn"
+                        @click="replyBtn"
+                        >回复1</el-button
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="com-border"></div>
+              </div>
+              <div v-if="item && item.replysMeta">
+                <!-- 分页 -->
+                <el-pagination
+                  layout="total, prev, pager, next"
+                  :page-size="parseInt(item.replysMeta.per_page, 10)"
+                  :total="item.replysMeta ? item.replysMeta.total : 0"
+                  @current-change="replyPageChange($event, item)"
+                ></el-pagination>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+      <span class="commont-close">
+        <i class="icon iconfont icon-guanbi" @click="closeButton"></i>
+      </span>
+    </div>
+    <!-- 我要发帖弹层 -->
+    <div class="post-diolog">
+      <el-dialog
+        title="我要发帖"
+        :visible.sync="dialogVisible"
+        width="720px"
+        height="400px"
+        :before-close="handleClose"
+      >
+        <el-input
+          v-model="mytext"
+          placeholder="请输入标题"
+          @input="inputTit"
+        ></el-input>
+        <el-input
+          type="textarea"
+          :rows="2"
+          placeholder="回复 PC冷冷："
+          v-model="textarea"
+          @input="inputTextarea"
+        >
+        </el-input>
+        <span slot="footer" class="dialog-footer">
+          <el-button plain @click="dialogVisible = false">取 消</el-button>
+          <el-button type="success" @click="release">发布</el-button>
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -39,26 +206,96 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 })
 export default class VideoSidebar extends Vue {
   @Prop({ default: () => [] }) Syllabuses!: Array<any>
+  @Prop({ default: 0 }) mooc_package_id!: number
+  @Prop({ default: '' }) mooc_issue_id!: string
   replyDiscusId: null = null
-  replyDiscusContent: string
-  replyReplyObj: object = {}
-  replyReplyContent: string
+  replyDiscusContent: string = ''
+  replyReplyObj: { id?: number } = {}
+  replyReplyContent: string = ''
   tabPosition: string = 'left'
   diolog: boolean = false
   mask: boolean = false
-  textarea: string
+  textarea: string = ''
   dialogVisible: boolean = false
-  mytext: string
+  mytext: string = ''
   commentaryArea: boolean
   Width: string = '400px'
   myWidth: string = `${window.innerWidth - 60}px`
   releaseData: Array<any> = []
   ListDisscussion: Array<any> = []
-  Replies: Array<any> = []
+  Replies: object = {}
   mooc_discussion_id: string
   page: number = 1
   // Syllabuses: Array<any> = []
 
+  // mounted() {
+  //   const that = this
+  //   window.onresize = () =>
+  //     (() => {
+  //       this.window.screenWidth = document.body.clientWidth
+  //       that.screenWidth = this.window.screenWidth
+  //     })()
+  // }
+  // 点赞
+  support(item: any) {
+    // console.log('item.id', item.id);// 帖子id
+    const supportObj = {
+      type: '1',
+      id: item.id
+    }
+    Cloud.getSupportDis(supportObj).then((rec: any) => {
+      this.supports = rec
+      this.ListDisscussion = this.ListDisscussion.map(res => {
+        // 用map遍历this.ListDisscussion
+        const obj = res
+        // console.log('obj.id', obj.id);// 帖子id当前
+        if (obj.id === item.id) {
+          if (item.praised === 1) {
+            return { ...obj, praised: 0, thumb_cnt: item.thumb_cnt - 1 }
+          }
+          if (item.praised === 0) {
+            return { ...obj, praised: 1, thumb_cnt: item.thumb_cnt + 1 }
+          }
+        }
+        return obj
+      })
+    })
+  }
+  // 回复点赞
+  supportReplay(item1: any) {
+    const supportObj = {
+      type: '2',
+      id: item1.id
+    }
+    Cloud.getSupportDis(supportObj).then(rec => {
+      this.supports = rec
+      this.ListDisscussion = this.ListDisscussion.map(res => {
+        // 用map遍历this.ListDisscussion
+        const obj = res
+        // console.log('obj.id', obj.id);// 帖子id当前
+        if (obj.id === item1.id) {
+          if (item1.praised === 1) {
+            return { ...obj, reply_praised: 0, thumb_cnt: item1.thumb_cnt - 1 }
+          }
+          if (item1.praised === 0) {
+            return { ...obj, reply_praised: 1, thumb_cnt: item1.thumb_cnt + 1 }
+          }
+        }
+        this.$set(obj, 'replysMeta', res.meta)
+        this.$set(obj, 'replysMeta', rec.data)
+        return obj
+      })
+    })
+  }
+  // 回复分页
+  replyPageChange(page: any, obj: any) {
+    console.log('page,obj', typeof obj.replysMeta)
+    this.getListReplies(obj.id, page).then((res: any) => {
+      this.$set(obj, 'replysMeta', res.meta)
+      this.$set(obj, 'replys', res.data)
+      // this.$set(‘对象名’,要修改的属性名,属性值)
+    })
+  }
   chapterClick(obj: any) {
     console.log('obj', obj)
     this.$emit('chapterClick', obj)
@@ -75,6 +312,136 @@ export default class VideoSidebar extends Vue {
       this.diolog = false
       this.mask = false
     }
+  }
+  // 评论区遮罩
+  maskClick() {
+    console.log('ff')
+    this.diolog = false
+    this.mask = false
+  }
+  //     // 关闭评论
+  closeButton() {
+    console.log('ff')
+    this.diolog = false
+    this.mask = false
+  }
+  inputTit() {
+    // console.log(this.mytext);
+  }
+  inputTextarea() {
+    // console.log(this.textarea);
+  }
+  //     // 回帖
+  replayUp(obj: any) {
+    console.log('obgshshishish', obj.id)
+    this.mooc_discussion_id = obj.id
+    if (this.replyDiscusId === obj.id) {
+      this.replyDiscusId = null
+    } else {
+      this.getRepliesByDisscussion(obj).then(() => {
+        this.replyDiscusId = obj.id
+      })
+    }
+  }
+  // 回复帖子
+  repliesBtn() {
+    console.log('aa回复帖子repliesBtn')
+    console.log('shishishishi', this.replyDiscusContent) // 帖子内容
+    // this.commentaryArea = true;
+    console.log('shima', this.mooc_discussion_id) // 帖子id
+    const postObj = {
+      content: this.replyDiscusContent, // 帖子内容
+      mooc_discussion_id: this.mooc_discussion_id // 帖子id
+    }
+    Cloud.getReplies(postObj).then(res => {
+      this.Replies = res
+      console.log('回复', this.Replies)
+      this.getListDisscussion()
+    })
+  }
+  // 回复给人
+  replyBtn() {
+    console.log('回复给人回复内容replyBtn===', this.replyReplyContent)
+    const postObj = {
+      content: this.replyReplyContent, // 帖子内容
+      mooc_discussion_id: this.mooc_discussion_id, // 帖子id
+      to_user_id: this.to_user_id // 被回复人id
+    }
+    console.log('12121212', this.replyReplyContent)
+    Cloud.getReplies(postObj).then(res => {
+      this.Replies = res
+      console.log('回复', this.Replies)
+      this.getListDisscussion()
+    })
+  }
+  // 回复给某人
+  replyClick(obj: any) {
+    console.log('回复给某人replyClick', obj)
+    this.to_user_id = obj.user_id // 被回复人id
+    console.log('被回复人id', this.to_user_id)
+    if (this.replyReplyObj.id === obj.id) {
+      this.replyReplyObj = {}
+    } else {
+      this.getRepliesByDisscussion(obj).then(() => {
+        // this.replyReplyObj = obj.id;
+        this.replyReplyObj = obj
+      })
+      this.replyReplyObj = obj
+    }
+  }
+  // 我要发帖弹层关闭
+  handleClose(done: any) {
+    console.log('ggg')
+    this.$confirm('确认关闭？')
+      .then(() => {
+        done()
+      })
+      .catch(() => {})
+  }
+  // 定义refs类型
+  $refs!: {
+    companyStyle: any
+  }
+  newAddBtn() {
+    const me = this
+    this.$nextTick(() => {
+      me.inputStyWidth = `${me.$refs.companyStyle.$el.clientWidth}px`
+      console.log('me', me.inputStyWidth)
+    })
+  }
+  // 发布帖子
+  release() {
+    const postObj = {
+      title: this.mytext,
+      content: this.textarea,
+      mooc_package_id: this.mooc_issue_id,
+      mooc_issue_id: this.mooc_package_id
+    }
+    Cloud.getDiscussion(postObj).then(res => {
+      this.releaseData = res
+      console.log('发布数据', this.releaseData)
+      this.getListDisscussion()
+    })
+
+    this.dialogVisible = false
+  }
+  // 帖子列表
+  getListDisscussion() {
+    Cloud.getListDisscussion(this.mooc_package_id).then((res: any) => {
+      this.ListDisscussion = res.data
+      console.log(this.ListDisscussion)
+    })
+  }
+  getRepliesByDisscussion(rec: any) {
+    return this.getListReplies(rec.id).then((resp: any) => {
+      console.log('resp shi', resp)
+      this.$set(rec, 'replysMeta', resp.meta)
+      this.$set(rec, 'replys', resp.data)
+    })
+  }
+  // 回帖列表
+  getListReplies(id: number, page = 1) {
+    return Cloud.getListReplies(id, page)
   }
   // dialogVisible: false,
   //     // input: '',
@@ -486,7 +853,7 @@ export default class VideoSidebar extends Vue {
 }
 .commont {
   width: 800px;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 60px);
   background: #fff;
   position: absolute;
   top: 0px;
@@ -706,7 +1073,7 @@ export default class VideoSidebar extends Vue {
 
 .mask {
   width: 1860px;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 60px);
   background: #000;
   position: absolute;
   top: 0px;

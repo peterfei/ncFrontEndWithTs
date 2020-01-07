@@ -5,7 +5,7 @@
     <router-link
       tag="span"
       :to="{
-        path: `/cloud/cloudDetail/${mooc_issue_id}/packages/${mooc_package_id}`
+        path: `/cloud/cloudDetail/packages/${mooc_package_id}`
       }"
     >
       <div class="head-left">
@@ -50,7 +50,7 @@ export default {
   justify-content: space-between;
   box-shadow: 0px 5px 10px 0px rgba(230, 230, 230, 1);
   position: relative;
-  z-index: 30;
+  z-index: 2006;
   mix-blend-mode: multiply;
 }
 .videoHead .head-left {

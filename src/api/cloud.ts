@@ -89,5 +89,40 @@ export default {
   getAnswerSubmit(postObj: any) {
     const url = `${moocModuleCountDown}/answer_submit`
     return Request.post(url, postObj)
+  },
+  // 提交测验详情{{host}}/api/user_survey/{id}/info
+  getTestDetail(id: number) {
+    const url = `${moocModuleCountDown}/${id}/info`
+    return Request.get(url)
+  },
+
+  // 评论区-发布帖子
+  getDiscussion(postObj: any) {
+    const url = `${moocModuleBasedUrl}/discussions`
+    return Request.post(url, postObj)
+  },
+  // 评论区-帖子列表
+  getListDisscussion(issueId: number) {
+    // {{host}}/api/mooc/discussions?mooc_issue_id=1
+    const url = `${moocModuleBasedUrl}/discussions?mooc_issue_id=${issueId}`
+    return Request.get(url)
+  },
+  // 评论区-回复帖{{host}}/api/mooc/replies
+  getReplies(obj: any) {
+    const url = `${moocModuleBasedUrl}/replies`
+    return Request.post(url, obj)
+  },
+  // 评论区-回帖列表{{host}}/api/mooc/replies?mooc_discussion_id=1
+  getListReplies(discussionId: any, page: any) {
+    const url = `${moocModuleBasedUrl}/replies`
+    return Request.get(url, {
+      mooc_discussion_id: discussionId,
+      page
+    })
+  },
+  // 评论区-点赞
+  getSupportDis(supportObj: any) {
+    const url = `${moocModuleBasedUrl}/discussions/support`
+    return Request.post(url, supportObj)
   }
 }

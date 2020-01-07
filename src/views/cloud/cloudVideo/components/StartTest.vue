@@ -19,9 +19,13 @@
         <div v-if="q.options">
           <div class="topic-options">
             <!-- 1单选 -->
-            <div class="ml44">
+            <div class="ml30">
               <div v-if="q.type == 1">
-                <el-radio-group v-model="q.answer" class="st-radio-group">
+                <el-radio-group
+                  v-model="q.answer"
+                  @change="changeHandler(q.id)"
+                  class="st-radio-group"
+                >
                   <el-radio
                     :label="item.key"
                     class="st-radio"
@@ -31,7 +35,8 @@
                     >{{ item.label }}</el-radio
                   >
                 </el-radio-group>
-                <div class="analysis">
+                <!-- 答案解析 -->
+                <!-- <div class="analysis">
                   <div class="right-answer">
                     答案：A
                   </div>
@@ -45,7 +50,7 @@
                       就可到达冰岛著名的地热温泉——蓝湖。有些游客慕名而来，更有甚者。
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
               <!-- 2多选 -->
               <div v-if="q.type == 2">
@@ -61,7 +66,7 @@
               </div>
             </div>
             <!-- 3判断题 -->
-            <div class="ml44">
+            <div class="ml30">
               <div v-if="q.type == 3">
                 <el-radio-group v-model="q.answer" class="st-radio-group">
                   <el-radio
@@ -103,29 +108,6 @@
             </div>
           </div>
         </div>
-        <!-- <div v-if="q.options">
-          <div class="topic-options">
-            <div class="ml44">
-              <div v-if="q.type == 1">
-                <el-radio-group v-model="q.answer" class="st-radio-group">
-                  <el-radio :label="item.key" class="st-radio" v-for="item in q.options"
-                    :key="item.key"  ref="checks">{{item.label}}</el-radio>
-                </el-radio-group>
-                <div class="analysis">
-                  <div class="right-answer">
-                    答案：A
-                  </div>
-                  <div class="analysis-answer">
-                    <span>解析：</span>
-                    <div class="analysis-content">蓝湖百科名片 蓝湖蓝湖是冰岛最大的温泉。从冰岛首都雷克雅未克市向东南方向驱车1小时左右，
-                      就可到达冰岛著名的地热温泉——蓝湖。有些游客慕名而来，更有甚者。蓝湖百科名片 蓝湖蓝湖是冰岛最大的温泉。从冰岛首都雷克雅未克市向东南方向驱车1小时左右，
-                      就可到达冰岛著名的地热温泉——蓝湖。有些游客慕名而来，更有甚者。</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
     <div class="q-nav clearfix">
@@ -161,9 +143,9 @@
           v-for="(q, index) in keguan"
           :key="'q_nav_item_' + q.id"
           class="q-nav-item"
-          :class="{ on: currentIndex === index }"
-          @click="goQuestion(q.id, index)"
+          :class="{ kOn: currentIndex[index] === q.id }"
         >
+          <!-- {{ q }} -->
           {{ getIndex(q.id) + 1 }}
         </div>
       </div>
@@ -172,12 +154,12 @@
           主观题
         </div>
         <div
-          v-for="(q, index) in zhuguan"
+          v-for="(q, indexk) in zhuguan"
           :key="'q_nav_item_' + q.id"
           class="q-nav-item"
-          :class="{ on: currentIndex === index }"
-          @click="goQuestion(q.id, index)"
+          :class="{ ZOn: currentIndex1 === indexk }"
         >
+          {{ q }}
           {{ getIndex(q.id) + 1 }}
         </div>
       </div>
@@ -200,7 +182,8 @@ export default class StartTest extends Vue {
   @Prop({ default: '' }) mooc_issue_id!: string
   // @Prop({ default: () => [] }) questions!: Array<any>
 
-  currentIndex: number = 0
+  currentIndex: Array<any> = []
+  currentIndex1: number = -1
   scroll: any
   minute: number = 60
   second: number = 0
@@ -208,12 +191,12 @@ export default class StartTest extends Vue {
   promiseTimer: any
   answer_data: Array<object> = []
   question_id: number
-  CountDownData: string = ''
-  start_time: string
+  CountDownData: any
+  start_time: string = ''
   answerData: any
   testId: number = 0
   questions: Array<{ id: any }> = []
-
+  baseTop: number
   mounted() {
     // JSON.parse(options).used_duration
     // console.log("this.options",JSON.parse(this.options).used_duration)
@@ -243,6 +226,7 @@ export default class StartTest extends Vue {
   }
   generateQuestions() {
     const q = this.questionData.question.map((rec: any) => {
+      console.log('aaaaa', q)
       let options
       try {
         options = JSON.parse(rec.options)
@@ -278,7 +262,6 @@ export default class StartTest extends Vue {
     Cloud.getCountDown(this.resoucedId).then((res: string) => {
       this.CountDownData = res
       console.log('测验开始时间', this.CountDownData)
-      // console.log('测验开始时间', this.CountDownData.start_time)
     })
     const self = this
     clearInterval(this.promiseTimer)
@@ -321,13 +304,20 @@ export default class StartTest extends Vue {
     console.log('xxxx', this.questions, t)
     return -1
   }
-  // goQuestion(id, index) {
+  // 定义refs类型
+  $refs!: {
+    qArea: HTMLFrameElement
+    qItem: any
+  }
+  // goQuestion(id: number, index: number) {
   //   const idx = this.getIndex(id)
   //   this.currentIndex = index // 动态加class
   //   const area = this.$refs.qArea
   //   const baseTop = area.offsetTop
+  //   console.log('basetop', baseTop)
   //   // const baseLeft = area.offsetLeft;
   //   const comp = this.$refs.qItem[idx]
+  //   console.log('comp', comp)
   //   const compTop = comp.offsetTop
   //   const targetX = 0
   //   const targetY = compTop - baseTop
@@ -337,6 +327,17 @@ export default class StartTest extends Vue {
   //     behavior: 'smooth'
   //   })
   // }
+  // kgClick(id: number, index: number) {
+  //   this.currentIndex = index
+  //   this.goQuestion(id, index)
+  // }
+  // zgClick(id: number, indexk: number) {
+  //   this.currentIndex1 = indexk
+  //   this.goQuestion(id, indexk)
+  // }
+  changeHandler(index: number) {
+    this.currentIndex.push(index)
+  }
   answerSubmit() {
     console.log('q', this.questions)
     const answerData = this.questions.map((rec: any) => ({
@@ -353,29 +354,26 @@ export default class StartTest extends Vue {
       resource_id: this.resoucedId,
       channel: 'mooc',
       channel_id: this.mooc_issue_id,
-      answer_data: JSON.stringify(answerData) // 转字符串
-      // start_time: this.CountDownData.start_time
+      answer_data: JSON.stringify(answerData), // 转字符串
+      start_time: this.CountDownData.start_time
     }
     Cloud.getAnswerSubmit(postObj).then(res => {
       this.answerData = res
-      console.log('测验成果id', res.data.id)
-      this.testId = res.data.id
+      console.log('测验成果id', res.id)
+      this.testId = res.id
       console.log('提交测验', this.answerData)
       this.TestDetail()
     })
   }
-  //       questions: [],
-  //       radio: 3,
-  //       currentIndex: 0,
-  //       scroll: '',
-  //       hour: '',
-  //       minute: 60,
-  //       second: 0,
-  //       promiseTimer: '',
-  //       answer_data: [],
-  //       answerKey: [],
-  //       exercise: '',
-  //       short_answer: ''
+  TestDetail() {
+    console.log('测验成果id==', this.testId)
+    Cloud.getTestDetail(this.testId).then((res: any) => {
+      this.answerData = res
+      console.log('用户提交测验详情', res)
+      // console.log('测验成果id', res.id)
+      // console.log('提交测验', this.answerData)
+    })
+  }
 }
 // export default {
 //   name: 'StartTest',
@@ -580,7 +578,7 @@ export default class StartTest extends Vue {
 .q_content {
   display: flex;
   flex-direction: row;
-  padding: 0px 0px 0px 15px;
+  padding: 0px 0px 0px 30px;
   margin-bottom: 19px;
 
   .question {
@@ -606,8 +604,8 @@ export default class StartTest extends Vue {
         color: rgba(76, 82, 88, 1);
         margin-bottom: 19px;
       }
-      .ml44 {
-        margin-left: 44px;
+      .ml30 {
+        margin-left: 30px;
       }
       .analysis {
         width: 968px;
@@ -717,7 +715,10 @@ export default class StartTest extends Vue {
     margin-bottom: 10px;
     margin-right: 9px;
   }
-  .on {
+  .kOn {
+    background-color: #33ccff;
+  }
+  .ZOn {
     background-color: #33ccff;
   }
 }
