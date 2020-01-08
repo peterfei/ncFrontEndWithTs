@@ -41,27 +41,24 @@
             >
           </el-dropdown-menu>
         </el-dropdown>
-        <!-- <router-link
-          :to="{ path: `/resource/resourcedetail/${id}` }"
-          v-if="typechoose == 'all' || typechoose == 'myzhai'"
-        > -->
-        <p class="package-title word-spot">{{ title }}</p>
-        <span
-          class="status-tag success"
-          v-if="(status == 1) & (typeChoose == 'myfa')"
-          >已发布</span
-        >
-        <span
-          class="status-tag review"
-          v-if="(status == 0) & (typeChoose == 'myfa')"
-          >待审核</span
-        >
-        <span
-          class="status-tag error"
-          v-if="(status == 2) & (typeChoose == 'myfa')"
-          >已驳回</span
-        >
-        <!-- </router-link> -->
+        <router-link :to="{ path: `/resource/resourcedetail/${id}` }">
+          <p class="package-title word-spot">{{ title }}</p>
+          <span
+            class="status-tag success"
+            v-if="(status == 1) & (typeChoose == 'myfa')"
+            >已发布</span
+          >
+          <span
+            class="status-tag review"
+            v-if="(status == 0) & (typeChoose == 'myfa')"
+            >待审核</span
+          >
+          <span
+            class="status-tag error"
+            v-if="(status == 2) & (typeChoose == 'myfa')"
+            >已驳回</span
+          >
+        </router-link>
 
         <!-- 当我们的发布时，进入编辑条目页面 -->
         <router-link

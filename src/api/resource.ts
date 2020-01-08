@@ -9,6 +9,7 @@ const ResourcePackageList = {
     return Request.get(url, obj)
   }
 }
+// 新增资源包接口
 const ResourceAddPackage = {
   addPackage(postObj: any) {
     const url = `${resourceUrl}/add`
@@ -16,25 +17,36 @@ const ResourceAddPackage = {
   }
 }
 
+// 教学包详情下的接口
+const PackageDetail = {
+  getDetail(id: number) {
+    const url = `${resourceUrl}/${id}`
+    return Request.get(url)
+  }
+}
+
+// 针对教学包操作的
 const PackageOperate = {
   deletePackage(id: number) {
     const url = `${resourceUrl}/destroy/${id}`
     return Request.delete(url)
   },
 
-  // getEditPackageFatherCategories(id: number) {
-  //   const url = `/api/categories/${id}`
-  //   return Request.get(url)
-  // },
-
+  // 编辑资源包
   editPackage(id: number) {
     const url = `${resourceUrl}/${id}/edit`
     return Request.get(url)
   },
 
+  // 编辑资源包更新
   editPackageSave(id: number, params: any) {
     const url = `${resourceUrl}/${id}/update`
     return Request.post(url, params)
   }
 }
-export { ResourcePackageList, ResourceAddPackage, PackageOperate }
+export {
+  ResourcePackageList,
+  ResourceAddPackage,
+  PackageOperate,
+  PackageDetail
+}

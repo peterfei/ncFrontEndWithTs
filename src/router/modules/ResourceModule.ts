@@ -1,6 +1,6 @@
 import Layout from '@/views/layout/LayoutPage.vue'
 import ResourceList from '@/views/resource/resourceList/ResourceList.vue'
-// import ResourceDetail from '@/views/resource/resourceDetail/resourceDetail.vue'
+import ResourceDetail from '@/views/resource/resourceDetail/ResourceDetail.vue'
 import ResourceAdd from '@/views/resource/resourceAdd/ResourceAdd.vue'
 // import MyResource from '@/views/resource/myResource/myResource.vue'
 
@@ -14,11 +14,11 @@ const ResourceModule = {
       name: 'Resource',
       component: ResourceList
     },
-    // {
-    //   path: 'resourcedetail/:id',
-    //   name: 'ResourceDetail',
-    //   component: ResourceDetail,
-    // },
+    {
+      path: 'resourcedetail/:id',
+      name: 'ResourceDetail',
+      component: ResourceDetail
+    },
     {
       path: 'addpackage',
       name: 'add',
