@@ -347,6 +347,7 @@ export const mockRoleRigister = [
     label: '专家'
   }
 ]
+
 export const mockResPackFilter = [
   {
     value: 0,
@@ -363,5 +364,31 @@ export const mockResPackFilter = [
   {
     value: 9,
     label: '未发布'
+  }
+]
+export const mockBackendCloudData = [
+  {
+    class: '第一学期',
+    name: '王小虎',
+    status: '已结束',
+    date: '2016-05-02'
+  },
+  {
+    class: '第一学期',
+    name: '王小虎',
+    status: '已结束',
+    date: '2016-05-02'
+  },
+  {
+    class: '第一学期',
+    name: '王小虎',
+    status: '已结束',
+    date: '2016-05-02'
+  },
+  {
+    class: '第一学期',
+    name: '王小虎',
+    status: '已结束',
+    date: '2016-05-02'
   }
 ]
