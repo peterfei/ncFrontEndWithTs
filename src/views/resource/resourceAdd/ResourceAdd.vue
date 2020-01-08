@@ -63,7 +63,7 @@
             </el-form-item>
 
             <el-form-item class="btns">
-              <el-button>取消</el-button>
+              <el-button @click="cancelSubmit">取消</el-button>
               <el-button type="primary" @click="onSubmit">保存</el-button>
             </el-form-item>
           </el-form>
@@ -76,7 +76,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Categories } from '@/api/categories'
-import { ResourceAddPackage } from '@/api/resource'
+import { ResourceAddPackage, PackageOperate } from '@/api/resource'
 
 interface formInterface {
   // directionStudy: null
@@ -90,8 +90,11 @@ export default class ResourceAdd extends Vue {
   public paymentTypeSwitch: boolean = false
   public directList: any = [] //三级类别
   public direct: any = '' //选中类别
-  public directSelected: any = '' //选中的学习类别
-  public directValue: any = []
+  public directSelected: any = '' //选中的学习类别第三级 例如16
+  public directValue: any = [] //选中的三级  例如[1,6,16]
+  public packageId: any //编辑时获取的packid
+  public editIs: boolean = false //编辑还是新增
+  public editCateArr: Array<number> = [] // 编辑时获取的 [1,6,16]
   public props = {
     value: 'id',
     label: 'name',
@@ -104,10 +107,52 @@ export default class ResourceAdd extends Vue {
   public payRmb: number = 0 //人民币支付
   public price: number = 0 //价格
 
-  async mounted() {
+  // 判断是新增还是添加
+  async created() {
     this.directList = await Categories.getCategoriesList()
-    console.log(this.directionList)
+    this.packageId = this.$route.query.packageId
+    if (this.packageId) {
+      //编辑
+      this.getEditPageDetail()
+    }
   }
+
+  //编辑页面的数据详情获取
+  getEditPageDetail() {
+    PackageOperate.editPackage(this.packageId).then((res: any) => {
+      this.packageTitle = res.info.name
+      this.packageIntro = res.info.intro
+      this.packageLevel = res.info.education
+      this.directSelected = res.info.category_id
+      this.directValue = this.getEditCategoriesArr(this.directSelected)
+    })
+  }
+
+  // 已知子节点获取父节点课程分类数组
+  getEditCategoriesArr(id: number) {
+    let ret: any = []
+    this.directList.forEach((rec: any) => {
+      rec.children &&
+        rec.children.forEach((rr: any) => {
+          rr.children &&
+            rr.children.forEach((r: any) => {
+              if (r.id === id) {
+                ret = [rec.id, rr.id, r.id]
+              }
+            })
+        })
+    })
+    return ret
+  }
+  // 递归获取编辑页面下的学习方向选中数组
+  // getEditFatherCategoriesArr(id: number) {
+  //   PackageOperate.getEditPackageFatherCategories(id).then((res: any) => {
+  //     if (res.parent_id != 0) {
+  //       this.editCateArr.unshift(res.parent_id)
+  //       this.getEditFatherCategoriesArr(res.parent_id)
+  //     }
+  //   })
+  // }
 
   // 选择学习方向
   setDirection() {
@@ -140,15 +185,32 @@ export default class ResourceAdd extends Vue {
       price: this.price,
       cover: this.imgCover
     }
-    const res = ResourceAddPackage.addPackage(formPost)
-    console.log('res=', res)
+
+    let msgText = '发布资源包成功'
+    if (this.packageId) {
+      // 编辑
+      PackageOperate.editPackageSave(this.packageId, formPost)
+      msgText = '资源包更新成功'
+    } else {
+      ResourceAddPackage.addPackage(formPost)
+    }
     const router = this.$router
     this.$message({
       type: 'success',
-      message: '发布资源包成功',
+      message: msgText,
       duration: 1200,
       onClose: function() {
         router.push({ path: '/resource' })
+      }
+    })
+  }
+
+  // 取消提交
+  cancelSubmit() {
+    this.$router.push({
+      path: '/resource',
+      query: {
+        type: 'myfa'
       }
     })
   }
@@ -174,17 +236,9 @@ export default class ResourceAdd extends Vue {
   //   }
   // },
   // created() {
-  //   this.userid = this.$route.query.userid
-  //   const arrDirection = []
   //   if (this.userid !== undefined) {
-  //     this.edit = 1
   //     Resource.ResourcePackage.editResource(this.userid)
   //       .then(rec => {
-  //         console.log('编辑数据=', rec)
-  //         this.editData = rec
-  //         this.form.name = rec.info.name // 教学包标题
-  //         this.form.intro = rec.info.intro // 简介
-  //         this.form.level = `${rec.info.education}` // rec.info.education; // 适用层次
   //         this.form.pay_rmb = rec.info.price
   //         if (this.form.pay_rmb > 0) {
   //           this.form.payment_type = true
@@ -220,17 +274,7 @@ export default class ResourceAdd extends Vue {
   //       this.form.price = payBodou
   //       this.form.payment_type = 'both'
   //     }
-  //     const postObj = {
-  //       category_id: this.form.directionStudy, // 学习方向
-  //       name: this.form.name, // 资源包名称
-  //       intro: this.form.intro, // 资源包描述
-  //       cover:
-  //         'https://ss0.baidu.com/73t1bjeh1BF3odCf/it/u=3960861278,28C29147E89F1E571CFDDC9703005000', // 资源部封面
-  //       education: this.form.level, // 使用层次
-  //       payment_type: this.form.payment_type, // 收费方式
-  //       price: this.form.price // 价格
-  //     }
-  //     console.log('postObj=', postObj)
+  //
   //     // 新增接口
   //     if (this.edit === 0) {
   //       Resource.ResourcePackage.addResource(postObj)
@@ -273,36 +317,6 @@ export default class ResourceAdd extends Vue {
   //           })
   //         })
   //     }
-  //   },
-  //   handleAvatarSuccess(res, file) {
-  //     this.imageUrl = URL.createObjectURL(file.raw)
-  //   },
-  //   beforeAvatarUpload(file) {
-  //     const isJPG = file.type === 'image/jpeg'
-  //     const isLt2M = file.size / 1024 / 1024 < 2
-  //     if (!isJPG) {
-  //       this.$message.error('上传头像图片只能是 JPG 格式!')
-  //     }
-  //     if (!isLt2M) {
-  //       this.$message.error('上传头像图片大小不能超过 2MB!')
-  //     }
-  //     return isJPG && isLt2M
-  //   },
-
-  //   addImages(d) {
-  //     console.log('DD=', d)
-  //   },
-  //   // 获取学习方向
-  //   getDirectionStudy() {
-  //     categoriesApi.getCategoriesList().then(res => {
-  //       this.directionList = res
-  //     })
-  //   },
-  //   setDirection() {
-  //     console.log('学习方向=', this.direction)
-  //     const x = this.direction[2]
-  //     this.form.directionStudy = x
-  //     console.log('学习方向=', this.form.directionStudy)
   //   },
 }
 </script>
@@ -395,6 +409,8 @@ export default class ResourceAdd extends Vue {
       margin-top: 55px;
       ::v-deep .el-button {
         width: 90px;
+        height: 40px;
+        line-height: 18px;
       }
       ::v-deep .el-button--default {
         background: #8b9199;

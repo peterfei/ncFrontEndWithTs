@@ -22,14 +22,19 @@ const PackageOperate = {
     return Request.delete(url)
   },
 
+  // getEditPackageFatherCategories(id: number) {
+  //   const url = `/api/categories/${id}`
+  //   return Request.get(url)
+  // },
+
   editPackage(id: number) {
-    const url = `${resourceUrl}/destroy/${id}/edit`
+    const url = `${resourceUrl}/${id}/edit`
     return Request.get(url)
   },
 
-  editPackageSave(id: number) {
-    const url = `${resourceUrl}/destroy/${id}/update`
-    return Request.post(url)
+  editPackageSave(id: number, params: any) {
+    const url = `${resourceUrl}/${id}/update`
+    return Request.post(url, params)
   }
 }
 export { ResourcePackageList, ResourceAddPackage, PackageOperate }

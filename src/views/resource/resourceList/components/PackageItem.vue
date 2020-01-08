@@ -172,8 +172,16 @@ export default class PackageItem extends Vue {
     })
   }
   // 编辑资源包
-  editPackage(id: number) {
+  editPackage(id: any) {
     console.log('编辑')
+    this.$router.push({
+      path: 'resource/addpackage',
+      query: { packageId: id }
+    })
+    // this.$router.push({
+    //   path: 'resource/addpackage',
+    //   query: { userid: id }
+    // })
   }
 }
 

@@ -192,9 +192,6 @@ export default class ResourceList extends Vue {
   //   return {
   //     current: -1,
   //     index: null,
-  //     deepfirst: '', // 一级分类总数据
-  //     navFirstShow: '', // 一级分类实际显示数据
-  //     navFirstCurrent: -1,
   //     publishCurrent: 'all', // 发布方筛选
   //     noList: false, // 是否有数据
   //     is_published: '', // 是否上架
@@ -220,9 +217,7 @@ export default class ResourceList extends Vue {
   public sortType: string = '' //排序方式
   public filterLabel: string = '全部' //审核状态下拉筛选
   public filterValue: any = null //审核状态下拉
-  public searchName(data: string) {
-    console.log('父组件data=', data)
-  }
+  public searchName(data: string) {}
   mounted() {
     this.getResourceList()
     const urlParams = {
@@ -238,12 +233,15 @@ export default class ResourceList extends Vue {
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: { id: number; query: { id: number; type: string } }) {
     const url = to.query
+    this.typeChoose = url.type
+    console.log('获取url=', url)
     const typeChoose = to.query.type
     if (typeChoose == 'myfa') {
       this.mine = '1'
     } else if (typeChoose == 'all') {
       this.mine = ''
     }
+    console.log('——————监听URL')
 
     this.loadUrl()
     this.getResourceList()
@@ -255,6 +253,8 @@ export default class ResourceList extends Vue {
       sort: this.sortType,
       filter: this.filterValue
     }
+    console.log('——————进入loadurl')
+    console.log(urlParams)
     this.$router.push({ query: urlParams })
   }
   //初始化URL方法
@@ -288,7 +288,6 @@ export default class ResourceList extends Vue {
     }
     const res = await ResourcePackageList.getPackageList(postObj)
     this.packagesList = res.data
-    // this.packagesList = [...this.packagesList, ...res.data]
     console.log('packagesList=', this.packagesList)
   }
 

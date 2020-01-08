@@ -54,26 +54,22 @@ export default class CateFilterCourse extends Vue {
     //   this.handleUrl(this.$route.query)
     // }
     this.categories = await Categories.getCategoriesList()
-    console.log(`categories dicts is `, this.categories)
     this.categories.forEach((cate: any) => {
       this.handleSpread(cate)
     })
 
-    console.log(`cateListSpread`, this.cateListSpread)
     if (obj !== '{}') {
       this.handleUrl(this.$route.query)
     }
   }
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: { id: number; query: { id: number } }) {
-    console.log('监听watch route')
     const url = to.query
     this.id = url.id ? +url.id : -1
     this.handleUrl(url)
   }
   // 解析url
   handleUrl(url: any) {
-    console.log(111)
     // 自定义的配置
     const arr = this.cateFixedList.filter(item => {
       const a = Object.keys(url).includes(item.type)
@@ -177,7 +173,6 @@ export default class CateFilterCourse extends Vue {
   }
   // 找url对应的具体那一个，并设置他的样式 设置样式
   setCateFixedList(arr: any, url: any) {
-    console.log('设置样式')
     arr.forEach((item: any) => {
       const a = item
       a.activeId = url[item.type]
