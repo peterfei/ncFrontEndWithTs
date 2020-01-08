@@ -55,7 +55,7 @@ export default class Register extends Vue {
   public pwdInputBoxShow: boolean = false
   public pwdInputType: string = 'password' //密码输入框默认type
   public step: number = 1 //页面步骤
-
+  routeType: string = ''
   goUploadStep() {
     this.routeType = 'upload'
   }
