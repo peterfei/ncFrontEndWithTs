@@ -72,27 +72,27 @@
         <div class="type_choose">
           <span
             class="item"
-            :class="{ active: typeChoose == 'all' }"
+            :class="{ active: pageType == 'all' }"
             @click="typeChooseClick('all')"
             >全部</span
           >
           <span
             class="item"
-            :class="{ active: typeChoose == 'myfa' }"
-            @click="typeChooseClick('myfa')"
+            :class="{ active: pageType == 'release' }"
+            @click="typeChooseClick('release')"
             >我的发布</span
           >
           <span
             class="item"
-            :class="{ active: typeChoose == 'myzhai' }"
-            @click="typeChooseClick('myzhai')"
+            :class="{ active: pageType == 'extract' }"
+            @click="typeChooseClick('extract')"
             >我的摘录</span
           >
         </div>
         <div class="sort_type">
           <el-dropdown
             @command="dropDownPackstatus"
-            v-if="typeChoose == 'myfa'"
+            v-if="pageType == 'release'"
           >
             <span class="el-dropdown-link">
               {{ filterLabel }}
@@ -127,7 +127,7 @@
               :id="item.id"
               :title="item.name"
               :price="item.price"
-              :typeChoose="typeChoose"
+              :typeChoose="pageType"
               :status="item.status"
               :is_published="item.is_published"
               :bought_num="item.bought_num"
@@ -206,13 +206,13 @@ export default class ResourceList extends Vue {
   //   }
   // }
   name: string
-  public typeChoose: string = 'all' //我的发布，我的摘录，全部
   public mine: string = '' //我的发布
   public packagesList: Array<any> = []
   public queryItems: Array<object> = mockQueryParams
   public packDropStatus: Array<object> = mockResPackFilter
   public packstatusCN: string = '全部' //审核状态-中文
 
+  public pageType: string = 'all' //我的发布，我的摘录，全部
   public keyword: string = '' //关键字搜索
   public sortType: string = '' //排序方式
   public filterLabel: string = '全部' //审核状态下拉筛选
@@ -221,7 +221,7 @@ export default class ResourceList extends Vue {
   mounted() {
     this.getResourceList()
     const urlParams = {
-      type: this.typeChoose, //我的分类
+      type: this.pageType, //我的分类
       keyword: this.keyword,
       sort: this.sortType,
       filter: this.filterValue
@@ -233,28 +233,17 @@ export default class ResourceList extends Vue {
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: { id: number; query: { id: number; type: string } }) {
     const url = to.query
-    this.typeChoose = url.type
-    console.log('获取url=', url)
-    const typeChoose = to.query.type
-    if (typeChoose == 'myfa') {
-      this.mine = '1'
-    } else if (typeChoose == 'all') {
-      this.mine = ''
-    }
-    console.log('——————监听URL')
-
-    this.loadUrl()
+    this.pageType = url.type
+    this.mine = this.pageType == 'release' ? '1' : ''
     this.getResourceList()
   }
   loadUrl() {
     const urlParams = {
-      type: this.typeChoose,
+      type: this.pageType,
       keyword: this.keyword,
       sort: this.sortType,
       filter: this.filterValue
     }
-    console.log('——————进入loadurl')
-    console.log(urlParams)
     this.$router.push({ query: urlParams })
   }
   //初始化URL方法
@@ -293,13 +282,12 @@ export default class ResourceList extends Vue {
 
   // 选择全部、我的发布、我的摘录
   typeChooseClick(type: string) {
-    this.typeChoose = type
+    this.pageType = type
     this.loadUrl()
   }
 
   // 最右侧下拉审核状态筛选
   dropDownPackstatus(status: any) {
-    console.log('筛选状态', status)
     this.filterLabel = status.label
     this.filterValue = status.value
     this.packstatusCN = status

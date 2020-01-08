@@ -210,7 +210,7 @@ export default class ResourceAdd extends Vue {
     this.$router.push({
       path: '/resource',
       query: {
-        type: 'myfa'
+        type: 'release'
       }
     })
   }
