@@ -7,7 +7,9 @@
         </div>
 
         <div class="header-btn">
-          <el-button size="mini" type="primary">新建课程</el-button>
+          <el-button size="mini" type="primary" @click="routerLinkToGuide()"
+            >新建课程</el-button
+          >
         </div>
         <div class="content-tbl">
           <el-table :data="tableData" style="width: 100%">
@@ -31,6 +33,12 @@ import { mockBackendCloudData } from '@/mocks'
 @Component
 export default class BackendCloud extends Vue {
   tableData: Array<object> = mockBackendCloudData
+
+  routerLinkToGuide() {
+    this.$router.push({
+      path: '/backend_cloud/guide/'
+    })
+  }
 }
 </script>
 <style lang="scss" scoped>
