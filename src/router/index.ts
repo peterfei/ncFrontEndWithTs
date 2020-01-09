@@ -8,7 +8,9 @@ import Cloud from './modules/CloudModule'
 import CloudVideo from '@/views/cloud/cloudVideo/index.vue'
 import Login from './modules/LoginModule'
 import Reg from './modules/RegisterModule'
-
+import ProFile from './modules/ProFileModule'
+import FindPwd from './modules/FindPwdModule'
+import Backend from './modules/BackendCloudModule'
 Vue.use(VueRouter)
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location: any) {
@@ -23,13 +25,16 @@ const routes = [
   Resource.ResourceModule,
   Course.CoursesModule,
   Cloud.CloudModule,
+  ProFile.ProFileModule,
+  FindPwd.FindPwdModule,
   {
     path: '/cloudVideo/:syllabuseId/:sub_id/:mooc_issue_id',
     name: 'CloudVideo',
     component: CloudVideo
   },
   Login.LoginModule,
-  Reg.RegisterModule
+  Reg.RegisterModule,
+  Backend.BackendCloudModule
 ]
 
 const router = new VueRouter({

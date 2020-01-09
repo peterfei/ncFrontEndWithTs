@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 
 @Component({
   components: {}
@@ -56,18 +56,21 @@ export default class uploadInfo extends Vue {
   canNext() {
     this.canNextBoolean = true
   }
-  // 点击上一页
-  toPrevtPage() {}
 
-  // 点击前往下一页
+  // 点击上一页
+  @Emit('prev')
+  toPrevtPage() {
+    return 'prev'
+  }
+  // 点击前往下一页 完成
+  @Emit('next')
   toNextPage() {
+    const obj = {
+      userName: this.nameInput,
+      stepStatus: 'next'
+    }
     if (this.canNextBoolean == true) {
-      this.$router.push({
-        path: `/reg/`,
-        query: {
-          type: 'complete'
-        }
-      })
+      return obj
     }
   }
 

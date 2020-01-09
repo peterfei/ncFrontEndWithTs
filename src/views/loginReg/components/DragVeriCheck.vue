@@ -37,7 +37,6 @@ export default class DragVeriCheck extends Vue {
 
   public verifySuccess(val: boolean) {
     this.verifyBoxIsShow = val
-    // this.$emit('dragVeriCheck', this.verifyIs)
   }
 
   // 点击获取验证码
@@ -45,7 +44,6 @@ export default class DragVeriCheck extends Vue {
     if (this.canSendCode == true) {
       this.countDown()
       this.canSendCode = false
-      // this.canNext = true
     }
   }
 
@@ -63,7 +61,6 @@ export default class DragVeriCheck extends Vue {
   }
 
   public codeChange() {
-    console.log('变了', this.pwdInput)
     this.canNext = this.verifyInput != '' ? true : false
     this.$emit('canNext', this.canNext)
   }

@@ -4,11 +4,11 @@
       <div>
         <i class="icon iconfont icon-wancheng"></i>
       </div>
-      <p>恭喜您注册成功</p>
+      <p>密码重置成功！</p>
     </div>
     <div class="go-ibd">
       <el-button @click="goProfile">
-        去完善个人资料
+        前往登录
       </el-button>
     </div>
   </div>

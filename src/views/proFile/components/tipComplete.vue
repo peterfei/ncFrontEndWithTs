@@ -2,29 +2,31 @@
   <div class="complete-box">
     <div class="info-content">
       <div>
-        <i class="icon iconfont icon-wancheng"></i>
+        <i class="icon iconfont icon-biaoqing"></i>
       </div>
-      <p>恭喜您注册成功</p>
+      <p>未确定角色不能使用该功能！</p>
     </div>
     <div class="go-ibd">
-      <el-button @click="goProfile">
-        去完善个人资料
+      <el-button @click="goChoose">
+        选择角色
       </el-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 
 @Component({
   components: {}
 })
 export default class DragVeriCheck extends Vue {
-  goProfile() {
-    this.$router.push({
-      path: `/home`
-    })
+  @Emit('next')
+  goChoose() {
+    const obj = {
+      stepStatus: 'next'
+    }
+    return obj
   }
 }
 </script>
@@ -39,7 +41,7 @@ $gray: #edeeef;
     text-align: center;
     i {
       font-size: 58px;
-      color: #67c23a;
+      color: #c0c6cc;
     }
     p {
       font-size: 20px;
