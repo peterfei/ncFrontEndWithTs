@@ -15,15 +15,15 @@
           <div class="q_title">{{ index + 1 + q.title }}</div>
           <span>得分：{{ q.score }}</span>
         </div>
-        <!-- {{JSON.parse(q.options)}} 字符串转对象-->
+        <!-- {{JSON.parse(q.options)}} 字符串转为对象-->
         <div v-if="q.options">
           <div class="topic-options">
-            <!-- 1单选 -->
+            <!-- 1单选 3判断题-->
             <div class="ml30">
-              <div v-if="q.type == 1">
+              <div v-if="q.type == 1 || q.type == 3">
                 <el-radio-group
                   v-model="q.answer"
-                  @change="changeHandler(q.id)"
+                  @change="handlerAnwserChange(q, $event)"
                   class="st-radio-group"
                 >
                   <el-radio
@@ -36,7 +36,7 @@
                   >
                 </el-radio-group>
                 <!-- 答案解析 -->
-                <!-- <div class="analysis">
+                <!-- <div class="analysis" v-if="user_score">
                   <div class="right-answer">
                     答案：A
                   </div>
@@ -54,7 +54,11 @@
               </div>
               <!-- 2多选 -->
               <div v-if="q.type == 2">
-                <el-checkbox-group v-model="q.answer" class="st-radio-group">
+                <el-checkbox-group
+                  v-model="q.answer"
+                  class="st-radio-group"
+                  @change="handlerAnwserChange(q, $event)"
+                >
                   <el-checkbox
                     class="st-radio"
                     :label="item.key"
@@ -66,7 +70,7 @@
               </div>
             </div>
             <!-- 3判断题 -->
-            <div class="ml30">
+            <!-- <div class="ml30">
               <div v-if="q.type == 3">
                 <el-radio-group v-model="q.answer" class="st-radio-group">
                   <el-radio
@@ -79,7 +83,7 @@
                   >
                 </el-radio-group>
               </div>
-            </div>
+            </div> -->
             <!-- 4填空题 -->
             <div v-if="q.type == 4">
               <div class="test">
@@ -88,7 +92,8 @@
                   type="textarea"
                   :autosize="{ minRows: 2, maxRows: 4 }"
                   placeholder="请输入内容"
-                  v-model="q.answer"
+                  :value="q.answer"
+                  @input="handlerAnwserChange(q, $event)"
                 >
                 </el-input>
               </div>
@@ -101,13 +106,50 @@
                   type="textarea"
                   :autosize="{ minRows: 2, maxRows: 4 }"
                   placeholder="请输入答案"
-                  v-model="q.answer"
+                  :value="q.answer"
+                  @input="handlerAnwserChange(q, $event)"
                 >
                 </el-input>
               </div>
             </div>
           </div>
         </div>
+        <!-- 已批阅 -->
+        {{ resultData }}
+        <!-- <div v-if="user_score.status == 1">
+          <div class="topic-options">
+            <div class="ml30">
+              <div v-if="q.type == 1 || q.type == 3">
+                <el-radio-group class="st-radio-group">
+                  <el-radio
+                    :label="item.key"
+                    class="st-radio"
+                    v-for="item in list"
+                    :key="item.key"
+                    ref="checks"
+                    >{{ item.right_answer }}</el-radio
+                  >
+                </el-radio-group>
+
+                <div class="analysis" v-if="user_score">
+                  <div class="right-answer">
+                    答案：A
+                  </div>
+                  <div class="analysis-answer">
+                    <span>解析：</span>
+                    <div class="analysis-content">
+                      蓝湖百科名片
+                      蓝湖蓝湖是冰岛最大的温泉。从冰岛首都雷克雅未克市向东南方向驱车1小时左右，
+                      就可到达冰岛著名的地热温泉——蓝湖。有些游客慕名而来，更有甚者。蓝湖百科名片
+                      蓝湖蓝湖是冰岛最大的温泉。从冰岛首都雷克雅未克市向东南方向驱车1小时左右，
+                      就可到达冰岛著名的地热温泉——蓝湖。有些游客慕名而来，更有甚者。
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
       </div>
     </div>
     <div class="q-nav clearfix">
@@ -141,11 +183,13 @@
         </div>
         <!-- <div v-for="(k,l) in currentIndex" :key="l"> -->
         <!-- {{i}} -->
-        <div v-for="q in keguan" :key="'q_nav_item_' + q.id" class="q-nav-item"
-            :class="currentIndex.includes(q.id)?'kOn':'ZOn'"
-          >
+        <div
+          v-for="q in keguan"
+          :key="'q_nav_item_' + q.id"
+          class="q-nav-item"
+          :class="currentIndex.includes(q.id) ? 'kOn' : ''"
+        >
           {{ getIndex(q.id) + 1 }}
-          
         </div>
       </div>
 
@@ -154,12 +198,11 @@
           主观题
         </div>
         <div
-          v-for="(q, indexk) in zhuguan"
+          v-for="q in zhuguan"
           :key="'q_nav_item_' + q.id"
           class="q-nav-item"
-          :class="{ ZOn: currentIndex1 === indexk }"
+          :class="currentIndex.includes(q.id) ? 'kOn' : ''"
         >
-          {{ q }}
           {{ getIndex(q.id) + 1 }}
         </div>
       </div>
@@ -180,7 +223,7 @@ export default class StartTest extends Vue {
   @Prop({ default: () => {} }) options!: object
   @Prop({ default: '' }) remainTime!: string
   @Prop({ default: '' }) mooc_issue_id!: string
-  // @Prop({ default: () => [] }) questions!: Array<any>
+  @Prop({ default: () => {} }) user_score!: object
 
   currentIndex: Array<any> = []
   currentIndex1: number = -1
@@ -197,9 +240,8 @@ export default class StartTest extends Vue {
   testId: number = 0
   questions: Array<{ id: any }> = []
   baseTop: number
+  resultData: Array<any> = []
   mounted() {
-    // JSON.parse(options).used_duration
-    // console.log("this.options",JSON.parse(this.options).used_duration)
     window.addEventListener('scroll', this.menu)
     console.log('123', this.resoucedId)
     this.countDowm()
@@ -248,9 +290,6 @@ export default class StartTest extends Vue {
     })
     q.sort(() => Math.random() - 0.5)
     this.questions = q
-    // console.log("as",this.questions);
-    // const questionArr = this.questions;
-    // console.log("questionArr==",questionArr);
     this.questions.forEach((res: any) => {
       this.question_id = res.id
       console.log('question_id', this.question_id) // aaa
@@ -335,13 +374,53 @@ export default class StartTest extends Vue {
   //   this.currentIndex1 = indexk
   //   this.goQuestion(id, indexk)
   // }
+  // 值改变时
+  handlerAnwserChange(
+    rec: { id: number; answer: string; type: number },
+    e: any
+  ) {
+    console.log('123', rec, e)
+    this.$set(rec, 'answer', e)
+    this.changeCurrentIndex(rec.id, this.isEmpty(e, rec.type))
+  }
+
+  private changeCurrentIndex(index: number, action: boolean) {
+    const i = this.currentIndex.indexOf(index)
+    if (i === -1 && !action) {
+      this.currentIndex.push(index)
+    }
+    if (i !== -1 && action) {
+      this.currentIndex.splice(i, 1)
+    }
+  }
+
+  private isEmpty(val: any, type: number): boolean {
+    if ([1, 3, 4, 5].indexOf(type) >= 0) {
+      return !val.toString().trim()
+    } else {
+      return !val.length
+    }
+  }
+  // 单选，判断
   changeHandler(index: number) {
     console.log(`current results is ======`, index)
-    if(!this.currentIndex.includes(index)){
-        this.currentIndex.push(index)
+    if (!this.currentIndex.includes(index)) {
+      this.currentIndex.push(index)
     }
-    
   }
+  // 填空题
+  inputChange(index: number, e: string | number) {
+    const i = this.currentIndex.indexOf(index)
+    const val = e.toString().trim()
+    console.log('vvvvvvvvvvvvv', this.currentIndex.includes(index))
+    if (val && i === -1) {
+      this.currentIndex.push(index)
+    }
+    if (!val && i !== -1) {
+      this.currentIndex.splice(i, 1)
+    }
+  }
+  // 提交答题
   answerSubmit() {
     console.log('q', this.questions)
     const answerData = this.questions.map((rec: any) => ({
@@ -368,14 +447,16 @@ export default class StartTest extends Vue {
       console.log('提交测验', this.answerData)
       this.TestDetail()
     })
+    // this.TestDetail()
   }
+  // 提交测验详情
   TestDetail() {
     console.log('测验成果id==', this.testId)
     Cloud.getTestDetail(this.testId).then((res: any) => {
-      this.answerData = res
-      console.log('用户提交测验详情', res)
+      this.resultData = res
+      console.log('用户提交测验详情', this.resultData)
       // console.log('测验成果id', res.id)
-      // console.log('提交测验', this.answerData)
+      // console.log('提交测验', this.resultData)
     })
   }
 }

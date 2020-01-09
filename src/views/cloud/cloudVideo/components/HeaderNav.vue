@@ -30,12 +30,14 @@
             </div>
           </span>
           <template v-if="tab.type === 3">
+            <!-- {{ questionData }} -->
             <course-testing
               :chapter="chapter"
               :title="tab.title"
               :total_score="tab.base_resource.total_score"
               :survey_type="tab.survey_type"
               :options="tab.options"
+              :user_score="tab.user_score"
               :id="tab.id"
               @starTestClick="starTestClick"
               :questionData="questionData"

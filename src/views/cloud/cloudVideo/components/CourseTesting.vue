@@ -5,8 +5,15 @@
       <div class="testTitBox">
         <div class="test-up">
           <div class="title">{{ title }}</div>
-          <div class="test-status red">未提交</div>
-          <!-- <div class="test-status green">未批改</div> --><!-- 未批改 -->
+          <div class="test-status red" v-if="user_score == null">未提交</div>
+          <div
+            class="test-status green"
+            v-if="user_score && user_score.status == 0"
+          >
+            未批改
+          </div>
+          <div v-if="user_score && user_score.status == 1"></div>
+          <!-- 未批改 -->
         </div>
         <div class="down">
           <!-- <span>76分</span> -->
@@ -65,12 +72,14 @@
       </div>
     </div>
     <div class="starTest">
+      <!-- {{ chapter[0].mooc_issue_id }} -->
       <start-test
-        v-if="starTest && questionData"
+        v-if="starTest && questionData && chapter"
         :question-data="questionData.base_resource"
         :resoucedId="questionData.id"
         :options="questionData.options"
         :mooc_issue_id="chapter[0].mooc_issue_id"
+        :user_score="user_score"
       ></start-test>
     </div>
   </div>
@@ -92,11 +101,16 @@ export default class CourseTesting extends Vue {
   @Prop({ default: () => [] }) options!: Array<object>
   @Prop({ default: () => {} }) questionData!: object
   @Prop({ default: '' }) id!: string
+  @Prop({ default: '' }) user_score!: string
 
   starTest: boolean = false
   resource_id: number
+  mounted() {
+    console.log('他妈的', this.chapter)
+  }
   // 开始测验
   starTestClick() {
+    console.log('她她她她她她她她她============')
     this.starTest = true
     console.log('dakaile', this.starTest)
     this.resource_id = +this.id // 资源id
