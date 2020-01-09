@@ -1,7 +1,7 @@
 <template>
   <div class="profile-box">
     <!-- 公共头部 -->
-    <login-reg-head :title="boxTitle"></login-reg-head>
+    <login-reg-head :title="titles[step]"></login-reg-head>
 
     <!-- 温馨提示模块 -->
     <div class="tips" v-if="step == 0">
@@ -10,8 +10,7 @@
     <!-- 选择角色模块 -->
     <div class="character-select-block" v-if="step == 1">
       <character-choose
-        @change="userRoleSet"
-        :selected-role="userRole"
+        v-model="userRole"
         @next="goUploadStep"
       ></character-choose>
       <!-- @change="userRole = $event" -->
@@ -33,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import LoginRegHead from './components/LoginRegHead.vue'
 import CharacterChoose from './components/CharacterChoose.vue'
 import UploadInfo from './components/uploadInfo.vue'
@@ -56,14 +55,15 @@ export default class Register extends Vue {
   public canNext: boolean = false //是否可以点击下一步
   public step: number = 0 //第几个页面
   public userName: string = '' //用户真实姓名
+  public titles: string[] = ['温馨提示', '选择角色', '上传资料', '完善资料']
 
   mounted() {
-    this.changeTitle()
+    // this.changeTitle()
   }
 
-  userRoleSet(val: number) {
-    this.userRole = val
-  }
+  // userRoleSet(val: number) {
+  //   this.userRole = val
+  // }
 
   // 页面跳转
   goUploadStep(obj: any) {
@@ -73,21 +73,21 @@ export default class Register extends Vue {
     } else {
       this.step--
     }
-    this.changeTitle()
+    // this.changeTitle()
   }
 
   // 页面标题改变
-  changeTitle() {
-    if (this.step === 0) {
-      this.boxTitle = '温馨提示'
-    } else if (this.step === 1) {
-      this.boxTitle = '选择角色'
-    } else if (this.step === 2) {
-      this.boxTitle = '上传资料'
-    } else if (this.step === 3) {
-      this.boxTitle = '完善资料'
-    }
-  }
+  // changeTitle() {
+  //   if (this.step === 0) {
+  //     this.boxTitle = '温馨提示'
+  //   } else if (this.step === 1) {
+  //     this.boxTitle = '选择角色'
+  //   } else if (this.step === 2) {
+  //     this.boxTitle = '上传资料'
+  //   } else if (this.step === 3) {
+  //     this.boxTitle = '完善资料'
+  //   }
+  // }
 
   public goChooseCharacter() {
     this.$router.push({

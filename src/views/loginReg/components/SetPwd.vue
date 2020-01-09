@@ -5,7 +5,6 @@
         placeholder="请输入密码"
         v-model="pwdInput"
         type="password"
-        @input="checkSame"
       ></el-input>
     </div>
     <div>
@@ -13,13 +12,12 @@
         placeholder="请再次输入密码"
         v-model="pwdInputAgain"
         type="password"
-        @input="checkSame"
       ></el-input>
     </div>
-    <div class="tip" v-if="checkPwdSame == false">两次密码不一致</div>
+    <div class="tip" v-if="!checkSame">两次密码不一致</div>
 
     <div class="submit-block">
-      <el-button @click="completeSet" :class="{ active: btnCan == true }"
+      <el-button @click="completeSet" :class="{ active: checkSame }"
         >确定</el-button
       >
     </div>
@@ -33,21 +31,16 @@ import LoginRegHead from './components/LoginRegHead.vue'
 export default class SetPwd extends Vue {
   public pwdInput: string = '' //输入密码
   public pwdInputAgain: string = '' //再次输入密码
-  public checkPwdSame: boolean = true //判断密码相同
-  public btnCan: boolean = false
 
   // 判断两次密码是否相同
-  checkSame() {
-    this.checkPwdSame = this.pwdInputAgain == this.pwdInput ? true : false
-    this.btnCan = this.checkPwdSame == true ? true : false
+  get checkSame() {
+    return this.pwdInputAgain == this.pwdInput
   }
 
   // 点击确定
   @Emit('complete')
   completeSet() {
-    if (this.btnCan != true) {
-      return false
-    }
+    return this.checkSame
   }
 }
 </script>

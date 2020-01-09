@@ -14,7 +14,7 @@
           <el-input v-model="pwdInput" placeholder="密码"></el-input>
         </div>
         <div class="loginbtn-block">
-          <el-button>登录</el-button>
+          <el-button @click="login">登录</el-button>
         </div>
       </div>
 
@@ -62,6 +62,7 @@ export default class Login extends Vue {
       path: `/findpwd`
     })
   }
+  login() {} //登陆实现
 }
 </script>
 

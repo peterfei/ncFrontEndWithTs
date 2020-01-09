@@ -233,7 +233,7 @@ export default class StartTest extends Vue {
   hour: number = 0
   promiseTimer: any
   answer_data: Array<object> = []
-  question_id: number
+  question_id: number =0
   CountDownData: any
   start_time: string = ''
   answerData: any
@@ -336,12 +336,8 @@ export default class StartTest extends Vue {
     this.scroll = document.body.scrollTop
   }
   getIndex(value: any) {
-    const t = this.questions.findIndex((rec: any) => rec.id === value)
-    if (t !== -1) {
-      return t
-    }
-    console.log('xxxx', this.questions, t)
-    return -1
+    return this.questions.findIndex((rec: any) => rec.id === value)
+    
   }
   // 定义refs类型
   $refs!: {
