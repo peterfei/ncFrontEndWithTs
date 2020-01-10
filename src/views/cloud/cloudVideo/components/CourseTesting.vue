@@ -67,8 +67,10 @@
             </span>
           </div>
         </div>
-        {{ user_score }}
-        <div class="mt20" @click="starTestClick">
+        <!-- {{ clickIndex }} -->
+        <!-- {{ questions }} -->
+        <!-- {{ user_score }} -->
+        <div class="mt20" @click="starTestClick" v-if="!user_score">
           <el-button type="primary">前往测验</el-button>
         </div>
       </div>
@@ -76,12 +78,21 @@
     <div class="starTest">
       <!-- <start-test :user_score="user_score"></start-test> -->
 
-      <start-test
+      <!-- <start-test
         v-if="starTest && questionData.base_resource"
         :question-data="questionData.base_resource"
         :resoucedId="questionData.id"
         :options="questionData.options"
         :mooc_issue_id="chapter[0].mooc_issue_id"
+      ></start-test> -->
+      <!-- {{ qs }} -->
+      <start-test
+        :question-data="qs.base_resource"
+        :resoucedId="qs.id"
+        :options="qs.options"
+        :mooc_issue_id="chapter[0].mooc_issue_id"
+        @testChange="testChange"
+        :clickIndex="clickIndex"
       ></start-test>
     </div>
   </div>
@@ -105,13 +116,18 @@ export default class CourseTesting extends Vue {
   @Prop({ default: '' }) id!: string
   @Prop({ default: () => ({}) }) user_score!: object
   @Prop({ default: 0 }) clickIndex!: number
-  starTest: boolean = false
+  @Prop({ default: () => [] }) qs!: Array<object>
+  starTest: boolean = true
   resource_id: number
   mounted() {
-    console.log('========clickIndex=========', this.clickIndex)
-    if (this.user_score) {
-      this.starTest = true
-    }
+    // console.log('========questionsList=========', this.questionsList)
+    // if (this.user_score) {
+    //   this.starTest = true
+    // }
+  }
+  testChange(click_id: number) {
+    console.log('值有变化')
+    this.$emit('changeQs', click_id)
   }
   // 开始测验
   starTestClick() {
