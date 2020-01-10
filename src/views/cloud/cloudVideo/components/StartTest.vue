@@ -2,9 +2,11 @@
   <!-- StartTest -->
   <div class="q_content" @click="menu">
     <!-- {{questionData.base_resource}} -->
-    1111user_score:{{ Object.keys(user_score).length === 0 }}
-
-    <div v-if="Object.keys(user_score).length === 0">
+    <!-- {{Object.keys(user_score).length }} -->
+    <!-- user_score_length:{{ Object.keys(user_score).length===0 }} -->
+    <!-- {{chapter}} -->
+    <!-- {{user_score}} -->
+    <div v-if="user_score==null">
       <div
         class="question"
         ref="qArea"
@@ -154,7 +156,6 @@
           {{ getIndex(q.id) + 1 }}
         </div>
       </div>
-
       <div class="subjective-questions">
         <div class="sub-title">
           主观题
@@ -206,6 +207,7 @@ export default class StartTest extends Vue {
   resultData: Array<any> = []
   testState: boolean = true
   mounted() {
+    console.log(`=====chapter======`, this.chapter)
     // window.addEventListener('scroll', this.menu)
     // console.log('123', this.resoucedId)
     // this.countDowm()
@@ -388,7 +390,7 @@ export default class StartTest extends Vue {
   }
   // 提交答题
   async answerSubmit() {
-    this.$emit('testChange',this.clickIndex)
+    this.$emit('testChange', this.clickIndex)
     this.CountDownData = await this.countDowm()
 
     console.log('q', this.questions)
