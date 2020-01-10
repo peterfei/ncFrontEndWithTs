@@ -44,7 +44,7 @@ export const mockNavLists = [
   {
     index: '8',
     name: '教学包',
-    link: 'resource',
+    link: 'resource?type=all&keyword=&sort=&filter',
     children: []
   },
   {
@@ -390,5 +390,49 @@ export const mockBackendCloudData = [
     name: '王小虎',
     status: '已结束',
     date: '2016-05-02'
+  }
+]
+
+// 资源包详情页下的分类
+export const mockResourceDetailType = [
+  {
+    name: 'course',
+    label: '课程'
+  },
+  {
+    name: 'task',
+    label: '作业'
+  },
+  {
+    name: 'test',
+    label: '测验'
+  },
+  {
+    name: 'material',
+    label: '资料'
+  }
+]
+
+//资源包详情下该教师的其他教学包
+export const mockResourceTeacherPackages = [
+  {
+    name: 'Python数据可视化处理',
+    excerpt: 123
+  },
+  {
+    name: '常用验证码操作大全',
+    excerpt: 54323
+  },
+  {
+    name: '快速入门Hadoop3.0大数据处理',
+    excerpt: 353
+  },
+  {
+    name: 'Nodejs全栈入门',
+    excerpt: 53214
+  },
+  {
+    name: 'Springboot + ElasticSearch 构建博客检索系统',
+    excerpt: 4214
   }
 ]

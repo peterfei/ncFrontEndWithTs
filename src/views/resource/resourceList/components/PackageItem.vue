@@ -41,7 +41,9 @@
             >
           </el-dropdown-menu>
         </el-dropdown>
-        <router-link :to="{ path: `/resource/resourcedetail/${id}` }">
+        <router-link
+          :to="{ path: `/resource/resourcedetail/${id}?type=course` }"
+        >
           <p class="package-title word-spot">{{ title }}</p>
           <span
             class="status-tag success"

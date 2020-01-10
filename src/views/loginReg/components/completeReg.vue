@@ -23,7 +23,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 export default class DragVeriCheck extends Vue {
   goProfile() {
     this.$router.push({
-      path: `/home`
+      path: '/profile'
     })
   }
 }
