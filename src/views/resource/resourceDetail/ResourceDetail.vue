@@ -8,16 +8,89 @@
         :packageEducation="packageEducation"
       ></detail-banner>
     </div>
+
+    <!-- 1200布局 -->
+    <div class="layout-content">
+      <!-- 购买模块 -->
+      <buy-btn :id="packageId" :price="packagePrice"></buy-btn>
+
+      <!-- 分类标签模块 -->
+      <div class="nav-box types-block">
+        <div class="types">
+          <span
+            v-for="item in navTypes"
+            :key="item.index"
+            class="type-item"
+            @click="setNav(item.name)"
+            :class="{ active: navType == item.name }"
+          >
+            {{ item.label }}
+          </span>
+        </div>
+      </div>
+
+      <div class="detail-content">
+        <div class="left-list-block">
+          这里是列表
+        </div>
+        <div class="right-recommend-block">
+          <div class="teacher-packages-block">
+            <div class="title">该老师其他的教学包</div>
+            <div class="teacher-packages-list">
+              <div
+                class="teacher-packages-item"
+                v-for="item in tecPackageList"
+                :key="item.index"
+              >
+                <div class="left">
+                  <div class="img-block">
+                    <img :src="cover" alt="" class="seat" />
+                  </div>
+                </div>
+                <div class="right">
+                  <router-link
+                    tag="div"
+                    class="name"
+                    :to="{ path: `/course/courseDetail/${id}` }"
+                    >{{ item.name }}
+                  </router-link>
+                  <div class="expert-num">
+                    <span>
+                      <i class="icon iconfont icon-guankanshu"></i>
+                      <span class="people-num fs12">{{ item.excerpt }}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="relate-packages-block">
+            <div class="title">相关教学包</div>
+            <div class="relate-packages-list">
+              <div class="relate-packages-item"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import DetailBanner from './components/DetailBanner.vue'
+import BuyBtn from './components/BuyBtn.vue'
+import { mockResourceDetailType } from '@/mocks/index'
+import { mockResourceTeacherPackages } from '@/mocks/index'
+
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { PackageDetail } from '@/api/resource'
 
 @Component({
-  components: { DetailBanner }
+  components: {
+    DetailBanner,
+    BuyBtn
+    // DetailNav
+  }
 })
 export default class ResourceDetail extends Vue {
   public packageId: any //资源包id
@@ -25,9 +98,19 @@ export default class ResourceDetail extends Vue {
   public packageIntro: string = '' //资源包简介
   public packageUpdate: string = '' //资源包更新时间
   public packageEducation: string = '' //资源包适用等级
+  public packagePrice: string = '' //资源包价格
+  public navTypes: Array<object> = mockResourceDetailType
+  public navType: string = 'all' //选中的标签
+  public tecPackageList: Array<object> = mockResourceTeacherPackages
   created() {
     this.packageId = this.$route.params.id
     this.getPackageDetail()
+    console.log(11)
+    this.$router.push({
+      query: {
+        type: this.navType
+      }
+    })
   }
   getPackageDetail() {
     PackageDetail.getDetail(this.packageId).then((res: any) => {
@@ -36,6 +119,30 @@ export default class ResourceDetail extends Vue {
       this.packageIntro = res.intro
       this.packageUpdate = res.updated_at
       this.packageEducation = res.education
+      this.packagePrice = res.price
+    })
+  }
+  @Watch('$route', { immediate: true, deep: true })
+  onUrlChange(to: { id: number; query: { id: number; type: string } }) {
+    console.log('监听url')
+    const url = to.query
+    this.navType = url.type
+  }
+  loadurl(val: string) {
+    this.$router.push({
+      query: {
+        type: val
+      }
+    })
+  }
+
+  setNav(nav: string) {
+    this.navType = nav
+    // this.loadurl()
+    this.$router.push({
+      query: {
+        type: this.navType
+      }
     })
   }
 }
@@ -57,7 +164,13 @@ body {
   margin-top: -25px;
   margin-bottom: 120px;
 }
-
+// 中间布局
+.layout-content {
+  width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  top: -25px;
+}
 .types-block {
   border-bottom: 1px solid #ebeff3;
   padding-bottom: 35px;
@@ -93,19 +206,59 @@ body {
 .detail-content {
   display: flex;
   justify-content: space-between;
-  .left-content {
+  .left-list-block {
     width: 840px;
     margin-right: 40px;
   }
-  .right-content {
+  .right-recommend-block {
     .title {
       font-size: 16px;
       font-weight: bold;
       color: rgba(7, 17, 27, 1);
       margin-bottom: 20px;
     }
-    .author-date {
-      text-align: center;
+    .teacher-packages-item {
+      display: flex;
+      margin-bottom: 15px;
+      .img-block {
+        width: 80px;
+        height: 60px;
+        margin-right: 12px;
+        img {
+          width: 100%;
+          height: 100%;
+          background: #ccc;
+          display: block;
+          border-radius: 4px;
+        }
+      }
+
+      .right {
+        .name {
+          font-size: 14px;
+          font-weight: 400;
+          color: #07111b;
+          margin-bottom: 18px;
+          cursor: pointer;
+          overflow: hidden; //超出的文本隐藏
+          text-overflow: ellipsis; //溢出用省略号显示
+          white-space: nowrap; //溢出不换行
+          &:hover {
+            transition: 0.3s;
+            color: $hover-main;
+          }
+        }
+        .expert-num {
+          i {
+            color: #8a9199;
+            font-size: 12px;
+          }
+          .people-num {
+            font-size: 12px;
+            color: #8a9199;
+          }
+        }
+      }
     }
   }
 }
@@ -139,17 +292,6 @@ body {
         margin-right: 14px;
         padding-right: 14px;
         border-right: 1px solid #e7e7e7;
-      }
-    }
-    .nums {
-      font-size: 12px;
-      margin-top: 20px;
-      color: #8b9199;
-      .scores {
-        text-align: right;
-        span {
-          color: #ff783c;
-        }
       }
     }
   }
