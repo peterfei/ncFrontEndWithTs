@@ -436,3 +436,37 @@ export const mockResourceTeacherPackages = [
     excerpt: 4214
   }
 ]
+
+//资源包详情下相关教学包
+export const mockResourcerelatePackages = [
+  {
+    name: 'Vue.js从入门到放弃',
+    school: '河北交通职业技术学院',
+    views: 123,
+    author: '阿尔萨斯'
+  },
+  {
+    name: 'MySQL数据库直通车：从入门到面试',
+    school: '艾泽拉斯职业技术学院',
+    views: 4223,
+    author: '诺兰'
+  },
+  {
+    name: '快速入门Hadoop3.0大数据处理',
+    school: '铁炉堡诺莫瑞根',
+    views: 353,
+    author: '地狱咆哮'
+  },
+  {
+    name: 'Nodejs全栈入门',
+    school: '奥格瑞玛铁石农场',
+    views: 53214,
+    author: '萨尔'
+  },
+  {
+    name: 'Android工程师升职加薪之路',
+    school: '加基森',
+    excerpt: 424114,
+    author: '伊利丹'
+  }
+]

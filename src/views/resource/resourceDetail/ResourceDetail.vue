@@ -30,10 +30,13 @@
       </div>
 
       <div class="detail-content">
+        <!-- 左侧模块 -->
         <div class="left-list-block">
           这里是列表
         </div>
+        <!-- 右侧模块 -->
         <div class="right-recommend-block">
+          <!-- 教师的其他教学包 -->
           <div class="teacher-packages-block">
             <div class="title">该老师其他的教学包</div>
             <div class="teacher-packages-list">
@@ -64,10 +67,39 @@
               </div>
             </div>
           </div>
+          <!-- 相关教学包 -->
           <div class="relate-packages-block">
             <div class="title">相关教学包</div>
             <div class="relate-packages-list">
-              <div class="relate-packages-item"></div>
+              <div
+                class="relate-packages-item"
+                v-for="item in relatePackageList"
+                :key="item.index"
+              >
+                <div class="left">
+                  <div class="img-block">
+                    <img alt="" class="seat" />
+                  </div>
+                </div>
+                <div class="right">
+                  <router-link
+                    tag="div"
+                    class="name"
+                    :to="{ path: `/course/courseDetail/${id}` }"
+                    >{{ item.name }}
+                  </router-link>
+                  <div class="school">
+                    {{ item.school }}
+                  </div>
+                  <div class="author-views">
+                    <span class="author">{{ item.author }}</span>
+                    <span class="views">
+                      <i class="icon iconfont icon-guankanshu"></i>
+                      <span class="people-num fs12">{{ item.views }}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -81,6 +113,7 @@ import DetailBanner from './components/DetailBanner.vue'
 import BuyBtn from './components/BuyBtn.vue'
 import { mockResourceDetailType } from '@/mocks/index'
 import { mockResourceTeacherPackages } from '@/mocks/index'
+import { mockResourcerelatePackages } from '@/mocks/index'
 
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { PackageDetail } from '@/api/resource'
@@ -89,7 +122,6 @@ import { PackageDetail } from '@/api/resource'
   components: {
     DetailBanner,
     BuyBtn
-    // DetailNav
   }
 })
 export default class ResourceDetail extends Vue {
@@ -101,11 +133,13 @@ export default class ResourceDetail extends Vue {
   public packagePrice: string = '' //资源包价格
   public navTypes: Array<object> = mockResourceDetailType
   public navType: string = 'all' //选中的标签
+
   public tecPackageList: Array<object> = mockResourceTeacherPackages
+  public relatePackageList: Array<object> = mockResourcerelatePackages
+
   created() {
     this.packageId = this.$route.params.id
     this.getPackageDetail()
-    console.log(11)
     this.$router.push({
       query: {
         type: this.navType
@@ -206,10 +240,12 @@ body {
 .detail-content {
   display: flex;
   justify-content: space-between;
+  // 左侧列表展示
   .left-list-block {
     width: 840px;
     margin-right: 40px;
   }
+  // 右侧推荐展示
   .right-recommend-block {
     .title {
       font-size: 16px;
@@ -217,28 +253,82 @@ body {
       color: rgba(7, 17, 27, 1);
       margin-bottom: 20px;
     }
-    .teacher-packages-item {
-      display: flex;
-      margin-bottom: 15px;
-      .img-block {
-        width: 80px;
-        height: 60px;
-        margin-right: 12px;
-        img {
-          width: 100%;
-          height: 100%;
-          background: #ccc;
-          display: block;
-          border-radius: 4px;
+    // 教师其他教学包
+    .teacher-packages-block {
+      padding-bottom: 30px;
+      border-bottom: 1px solid #ebeff3;
+      margin-bottom: 28px;
+      .teacher-packages-item {
+        display: flex;
+        margin-bottom: 15px;
+        .img-block {
+          width: 80px;
+          height: 60px;
+          margin-right: 12px;
+          img {
+            width: 100%;
+            height: 100%;
+            background: #ccc;
+            display: block;
+            border-radius: 4px;
+          }
+        }
+        .right {
+          .name {
+            font-size: 14px;
+            font-weight: 400;
+            color: #07111b;
+            margin-bottom: 18px;
+            cursor: pointer;
+            overflow: hidden; //超出的文本隐藏
+            text-overflow: ellipsis; //溢出用省略号显示
+            white-space: nowrap; //溢出不换行
+            &:hover {
+              transition: 0.3s;
+              color: $hover-main;
+            }
+          }
+          .expert-num {
+            i {
+              color: #8a9199;
+              font-size: 12px;
+            }
+            .people-num {
+              font-size: 12px;
+              color: #8a9199;
+            }
+          }
         }
       }
+    }
 
+    // 相关教学包
+    .relate-packages-item {
+      margin-bottom: 15px;
+      display: flex;
+      .left {
+        margin-right: 20px;
+        .img-block {
+          width: 80px;
+          height: 60px;
+
+          img {
+            background: #ccc;
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+          }
+        }
+      }
       .right {
+        position: relative;
+        top: -2px;
         .name {
           font-size: 14px;
           font-weight: 400;
           color: #07111b;
-          margin-bottom: 18px;
+          margin-bottom: 3px;
           cursor: pointer;
           overflow: hidden; //超出的文本隐藏
           text-overflow: ellipsis; //溢出用省略号显示
@@ -248,14 +338,23 @@ body {
             color: $hover-main;
           }
         }
-        .expert-num {
-          i {
-            color: #8a9199;
-            font-size: 12px;
+        .school {
+          margin-bottom: 3px;
+        }
+        .author-views,
+        .school {
+          color: #8b9199;
+          font-size: 14px;
+        }
+        .author-views {
+          .author {
+            margin-right: 8px;
           }
-          .people-num {
-            font-size: 12px;
-            color: #8a9199;
+          .views {
+            i {
+              margin-right: 3px;
+              font-size: 13px;
+            }
           }
         }
       }
