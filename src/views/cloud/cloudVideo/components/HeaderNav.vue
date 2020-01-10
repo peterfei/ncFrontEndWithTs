@@ -41,6 +41,8 @@
               @starTestClick="starTestClick"
               :questionData="questionData"
               :clickIndex="clickIndex"
+              :qs="qs"
+              @changeQs="changeQs"
             >
               <!--starTestClick 父组件接收子组件CourseTesting传过来资源id-->
             </course-testing>
@@ -110,6 +112,7 @@ export default class HeaderNav extends Vue {
   @Prop({ default: () => {} }) questionData!: object
   clickIndex: number = 0
   testInformation: any
+  qs: Array<any> = []
   public tabs: Array<IMoocTaps> = [
     { label: '课程测试', type: 'test', icon: 'icon-ceyan' },
     { label: '课程作业', type: 'task', icon: 'icon-zuoyelianxi' },
@@ -121,29 +124,41 @@ export default class HeaderNav extends Vue {
     console.log(e)
     this.$emit('starTestClick', e) // 资源id传入父级index
   }
-
-  tabClick(e: any) {
-    console.log('e', e.index)
+  changeQs(click_id: number) {
+    console.log(`==========================`)
+    this.tabClick(click_id)
+  }
+  async tabClick(e: any) {
+    console.log('=========e=========', e)
+    let tmp = -1
+    if (e.index == undefined) {
+      // e:{index:any}={index:0}
+      tmp = e
+    } else {
+      tmp = e.index
+    }
     const testData = this.chapter.map((rec: any) => {
-      console.log(`===========rec`, rec.data[e.index].id)
-      return rec.data[e.index].user_score
+      // console.log(`===========rec`, rec.data[e.index].id)
+      return rec.data[tmp].user_score
       // question_id: rec.id,
       // answer: rec.type === 2 ? rec.answer : [rec.answer]
     })
-    this.clickIndex = e.index
-    this.getQuestion(this.chapter[0].data[e.index].id)
-    // console.log('testData', rec.data[e.index])
+    this.clickIndex = tmp
+    this.qs = await this.getQuestion(this.chapter[0].data[tmp].id)
+    console.log('==========questions==============', this.qs)
 
     // if (e.name === 'a') { this.$message.success('弹框'); } else {
     //   this.$message.error('关闭弹框');
     // }
   }
-
+  get questionsList() {
+    return this.qs
+  }
+  // set questions(newVal) {
+  //    this.q  = newVal
+  // }
   getQuestion(id: number) {
-    Cloud.getQuestion(id).then((res: any) => {
-      this.testInformation = res
-      console.log('测验答题', res)
-    })
+    return Cloud.getQuestion(id)
   }
 }
 // export default {

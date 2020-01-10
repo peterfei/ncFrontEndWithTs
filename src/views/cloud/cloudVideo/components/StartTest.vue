@@ -2,22 +2,24 @@
   <!-- StartTest -->
   <div class="q_content" @click="menu">
     <!-- {{questionData.base_resource}} -->
-    <!-- {{questionData}} -->
-    <!-- {{ user_score }} -->
-    <div v-if="Object.keys(user_score).length == 0">
+    1111user_score:{{ Object.keys(user_score).length === 0 }}
+
+    <div v-if="Object.keys(user_score).length === 0">
       <div
         class="question"
         ref="qArea"
         v-if="questionData"
-        style="height:550px"
+        style="height:551px"
       >
         <!-- {{questionData.base_resource.question}} -->
+        <!-- {{questions}} -->
         <div
           ref="qItem"
-          v-for="(q, index) in questions"
+          v-for="(q, index) in questions_temp"
           :key="index"
           class="q-item"
         >
+          <!-- {{q}} -->
           <div class="title">
             <div class="q_title">{{ index + 1 + q.title }}</div>
             <span>得分：{{ q.score }}</span>
@@ -111,11 +113,11 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      gfsfaeghh
+    <div v-else style="height:30px;width:90px;">
+      111222222222222222222 gfsfaeghh
     </div>
     <div class="q-nav clearfix">
-      <div class="count" :options="options">
+      <!-- <div class="count" :options="options">
         <div v-if="JSON.parse(options)">
           <div class="num" v-if="JSON.parse(options).used_duration > 0">
             <div v-if="typeof JSON.parse(options).used_duration === 'string'">
@@ -136,7 +138,7 @@
             {{ JSON.parse(options).used_duration }}
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="objective-questions">
         <div class="num-title">
           客观题
@@ -175,7 +177,7 @@
 
 <script lang="ts">
 import Cloud from '@/api/cloud'
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 @Component({})
 export default class StartTest extends Vue {
   @Prop({ default: () => ({}) }) questionData!: { question: any }
@@ -185,7 +187,7 @@ export default class StartTest extends Vue {
   @Prop({ default: '' }) mooc_issue_id!: string
   @Prop({ default: () => ({}) }) user_score!: object
   @Prop({ default: () => {} }) chapter!: Array<any>
-
+  @Prop({ default: 0 }) clickIndex!: number
   currentIndex: Array<any> = []
   currentIndex1: number = -1
   scroll: any
@@ -194,20 +196,23 @@ export default class StartTest extends Vue {
   hour: number = 0
   promiseTimer: any
   answer_data: Array<object> = []
-  question_id: number =0
+  question_id: number = 0
   CountDownData: any
   start_time: string = ''
   answerData: any
   testId: number = 0
-  questions: Array<{ id: any }> = []
+  questions_temp: Array<{ id: any }> = []
   baseTop: number
   resultData: Array<any> = []
   testState: boolean = true
   mounted() {
-    window.addEventListener('scroll', this.menu)
-    console.log('123', this.resoucedId)
-    this.countDowm()
-    this.generateQuestions()
+    // window.addEventListener('scroll', this.menu)
+    // console.log('123', this.resoucedId)
+    // this.countDowm()
+    this.questions_temp = this.questions
+    // console.log(`===###questions_temp###====`, this.questions_temp)
+
+    // this.generateQuestions()
   }
   get keguan(): any {
     return this.questions.filter(
@@ -228,67 +233,102 @@ export default class StartTest extends Vue {
   get secondString(): string {
     return this.formatNum(this.second)
   }
-  generateQuestions() {
-    const q = this.questionData.question.map((rec: any) => {
-      console.log('aaaaa', q)
-      let options
-      try {
-        options = JSON.parse(rec.options)
-      } catch {
-        options = []
-      }
-      options.sort(() => Math.random() - 0.5)
-      const { id, title, score, type, rightAnswer, surveyId } = rec
-      return {
-        id,
-        title,
-        score,
-        type,
-        rightAnswer,
-        surveyId,
-        options,
-        answer: type === 2 ? [] : ''
-      }
-    })
-    q.sort(() => Math.random() - 0.5)
-    this.questions = q
-    this.questions.forEach((res: any) => {
-      this.question_id = res.id
-      console.log('question_id', this.question_id) // aaa
-    })
+  @Watch('questions')
+  onChangeQuestions(val: any, oldVal: any) {
+    // debugger
+    this.questions_temp = val
   }
-  countDowm() {
-    console.log('hhhhhaaaa', this.resoucedId)
+  get questions() {
+    if (this.questionData.question) {
+      console.log(`===this.questionData====`, this.questionData)
+      return this.questionData.question
+        .map((rec: any) => {
+          let options
+          try {
+            options = JSON.parse(rec.options)
+          } catch {
+            options = []
+          }
+          options.sort(() => Math.random() - 0.5)
+          const { id, title, score, type, rightAnswer, surveyId } = rec
+          return {
+            id,
+            title,
+            score,
+            type,
+            rightAnswer,
+            surveyId,
+            options,
+            answer: type === 2 ? [] : ''
+          }
+        })
+        .sort(() => Math.random() - 0.5)
+    } else {
+      return []
+    }
+  }
+  // generateQuestions() {
+  //   // debugger
+  //   console.log(`======questionData========`, this.questionData)
+
+  //   if (this.questionData.question) {
+  //     const q = this.questionData.question.map((rec: any) => {
+  //       console.log('aaaaa', q)
+  //       let options
+  //       try {
+  //         options = JSON.parse(rec.options)
+  //       } catch {
+  //         options = []
+  //       }
+  //       options.sort(() => Math.random() - 0.5)
+  //       const { id, title, score, type, rightAnswer, surveyId } = rec
+  //       return {
+  //         id,
+  //         title,
+  //         score,
+  //         type,
+  //         rightAnswer,
+  //         surveyId,
+  //         options,
+  //         answer: type === 2 ? [] : ''
+  //       }
+  //     })
+  //     q.sort(() => Math.random() - 0.5)
+  //     this.questions = q
+  //     this.questions.forEach((res: any) => {
+  //       this.question_id = res.id
+  //       console.log('question_id', this.question_id) // aaa
+  //     })
+  //   }
+  // }
+  async countDowm() {
     // 测验开始时间
-    Cloud.getCountDown(this.resoucedId).then((res: string) => {
-      this.CountDownData = res
-      console.log('测验开始时间', this.CountDownData)
-    })
-    const self = this
-    clearInterval(this.promiseTimer)
-    this.promiseTimer = setInterval(() => {
-      if (self.hour === 0) {
-        if (self.minute !== 0 && self.second === 0) {
-          self.second = 59
-          self.minute -= 1
-        } else if (self.minute === 0 && self.second === 0) {
-          self.second = 0
-          self.$emit('countDowmEnd', true)
-          clearInterval(self.promiseTimer)
-        } else {
-          self.second -= 1
-        }
-      } else if (self.minute !== 0 && self.second === 0) {
-        self.second = 59
-        self.minute -= 1
-      } else if (self.minute === 0 && self.second === 0) {
-        self.hour -= 1
-        self.minute = 59
-        self.second = 59
-      } else {
-        self.second -= 1
-      }
-    }, 1000)
+    return await Cloud.getCountDown(this.resoucedId)
+    // const self = this
+    // clearInterval(this.promiseTimer)
+    // this.promiseTimer = setInterval(() => {
+    //   if (self.hour === 0) {
+    //     if (self.minute !== 0 && self.second === 0) {
+    //       self.second = 59
+    //       self.minute -= 1
+    //     } else if (self.minute === 0 && self.second === 0) {
+    //       self.second = 0
+    //       self.$emit('async End', true)
+    //       clearInterval(self.promiseTimer)
+    //     } else {
+    //       self.second -= 1
+    //     }
+    //   } else if (self.minute !== 0 && self.second === 0) {
+    //     self.second = 59
+    //     self.minute -= 1
+    //   } else if (self.minute === 0 && self.second === 0) {
+    //     self.hour -= 1
+    //     self.minute = 59
+    //     self.second = 59
+    //   } else {
+    //     self.second -= 1
+    //   }
+    // }, 1000)
   }
   formatNum(num: number) {
     return num.toString().padStart(2, '0')
@@ -299,7 +339,6 @@ export default class StartTest extends Vue {
   }
   getIndex(value: any) {
     return this.questions.findIndex((rec: any) => rec.id === value)
-    
   }
   // 值改变时
   handlerAnwserChange(
@@ -348,7 +387,10 @@ export default class StartTest extends Vue {
     }
   }
   // 提交答题
-  answerSubmit() {
+  async answerSubmit() {
+    this.$emit('testChange',this.clickIndex)
+    this.CountDownData = await this.countDowm()
+
     console.log('q', this.questions)
     const answerData = this.questions.map((rec: any) => ({
       question_id: rec.id,
@@ -369,7 +411,7 @@ export default class StartTest extends Vue {
     }
     Cloud.getAnswerSubmit(postObj).then(res => {
       this.answerData = res
-      console.log('测验成果id', res.id)
+      // console.log('测验成果id', res.id)
       this.testId = res.id
       console.log('提交测验', this.answerData)
       console.log('this.testState', this.testState)
