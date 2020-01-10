@@ -1,7 +1,7 @@
 <template>
   <div class="header-nav">
     <div class="right-nav">
-      <el-tabs v-if="chapter[0]">
+      <el-tabs v-if="chapter[0]" @tab-click="tabClick">
         <!-- {{chapter[0]['data']}} -->
         <el-tab-pane
           v-for="(tab, index) in chapter[0]['data']"
@@ -30,7 +30,6 @@
             </div>
           </span>
           <template v-if="tab.type === 3">
-            <!-- {{ questionData }} -->
             <course-testing
               :chapter="chapter"
               :title="tab.title"
@@ -41,6 +40,7 @@
               :id="tab.id"
               @starTestClick="starTestClick"
               :questionData="questionData"
+              :clickIndex="clickIndex"
             >
               <!--starTestClick 父组件接收子组件CourseTesting传过来资源id-->
             </course-testing>
@@ -89,7 +89,9 @@ import CourseAssignments from './CourseAssignments.vue' // 作业组件
 import CourseTesting from './CourseTesting.vue' // 测试组件
 // import AliPlayer from '@/components/VideoPlayer/AliPlayer.vue'
 import CourseMaterials from './CourseMaterials.vue' //资料
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import Cloud from '@/api/cloud'
+
 export interface IMoocTaps {
   type: string
   label: string
@@ -106,6 +108,8 @@ export interface IMoocTaps {
 export default class HeaderNav extends Vue {
   @Prop({ default: () => {} }) chapter!: Array<any>
   @Prop({ default: () => {} }) questionData!: object
+  clickIndex: number = 0
+  testInformation: any
   public tabs: Array<IMoocTaps> = [
     { label: '课程测试', type: 'test', icon: 'icon-ceyan' },
     { label: '课程作业', type: 'task', icon: 'icon-zuoyelianxi' },
@@ -116,6 +120,30 @@ export default class HeaderNav extends Vue {
   starTestClick(e: number) {
     console.log(e)
     this.$emit('starTestClick', e) // 资源id传入父级index
+  }
+
+  tabClick(e: any) {
+    console.log('e', e.index)
+    const testData = this.chapter.map((rec: any) => {
+      console.log(`===========rec`, rec.data[e.index].id)
+      return rec.data[e.index].user_score
+      // question_id: rec.id,
+      // answer: rec.type === 2 ? rec.answer : [rec.answer]
+    })
+    this.clickIndex = e.index
+    this.getQuestion(this.chapter[0].data[e.index].id)
+    // console.log('testData', rec.data[e.index])
+
+    // if (e.name === 'a') { this.$message.success('弹框'); } else {
+    //   this.$message.error('关闭弹框');
+    // }
+  }
+
+  getQuestion(id: number) {
+    Cloud.getQuestion(id).then((res: any) => {
+      this.testInformation = res
+      console.log('测验答题', res)
+    })
   }
 }
 // export default {

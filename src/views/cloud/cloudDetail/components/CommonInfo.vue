@@ -20,7 +20,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
   components: { EleRate }
 })
 export default class CommonInfo extends Vue {
-  @Prop({ default: () => {} }) starts!: Object
+  @Prop({ default: () => ({}) }) starts!: Object
   @Prop({ default: '' }) score_num!: string
   @Prop({ default: '' }) avg_score!: string
   // @Prop({ default: () => {} }) relatedCourse!: object

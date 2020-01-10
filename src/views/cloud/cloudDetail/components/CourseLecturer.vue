@@ -26,7 +26,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({})
 export default class CourseLecturer extends Vue {
-  @Prop({ default: () => {} }) periodical!: object
+  @Prop({ default: () => ({}) }) periodical!: object
   // updated() {
   //   console.log('bbbbb', JSON.stringify(this.periodical))
   // }
