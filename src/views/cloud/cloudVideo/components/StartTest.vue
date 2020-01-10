@@ -3,160 +3,120 @@
   <div class="q_content" @click="menu">
     <!-- {{questionData.base_resource}} -->
     <!-- {{questionData}} -->
-    <div class="question" ref="qArea" v-if="questionData" style="height:550px">
-      <!-- {{questionData.base_resource.question}} -->
+    <!-- {{ user_score }} -->
+    <div v-if="Object.keys(user_score).length == 0">
       <div
-        ref="qItem"
-        v-for="(q, index) in questions"
-        :key="index"
-        class="q-item"
+        class="question"
+        ref="qArea"
+        v-if="questionData"
+        style="height:550px"
       >
-        <div class="title">
-          <div class="q_title">{{ index + 1 + q.title }}</div>
-          <span>得分：{{ q.score }}</span>
-        </div>
-        <!-- {{JSON.parse(q.options)}} 字符串转为对象-->
-        <div v-if="q.options">
-          <div class="topic-options">
-            <!-- 1单选 3判断题-->
-            <div class="ml30">
-              <div v-if="q.type == 1 || q.type == 3">
-                <el-radio-group
-                  v-model="q.answer"
-                  @change="handlerAnwserChange(q, $event)"
-                  class="st-radio-group"
-                >
-                  <el-radio
-                    :label="item.key"
-                    class="st-radio"
-                    v-for="item in q.options"
-                    :key="item.key"
-                    ref="checks"
-                    >{{ item.label }}</el-radio
-                  >
-                </el-radio-group>
-                <!-- 答案解析 -->
-                <!-- <div class="analysis" v-if="user_score">
-                  <div class="right-answer">
-                    答案：A
-                  </div>
-                  <div class="analysis-answer">
-                    <span>解析：</span>
-                    <div class="analysis-content">
-                      蓝湖百科名片
-                      蓝湖蓝湖是冰岛最大的温泉。从冰岛首都雷克雅未克市向东南方向驱车1小时左右，
-                      就可到达冰岛著名的地热温泉——蓝湖。有些游客慕名而来，更有甚者。蓝湖百科名片
-                      蓝湖蓝湖是冰岛最大的温泉。从冰岛首都雷克雅未克市向东南方向驱车1小时左右，
-                      就可到达冰岛著名的地热温泉——蓝湖。有些游客慕名而来，更有甚者。
-                    </div>
-                  </div>
-                </div> -->
-              </div>
-              <!-- 2多选 -->
-              <div v-if="q.type == 2">
-                <el-checkbox-group
-                  v-model="q.answer"
-                  class="st-radio-group"
-                  @change="handlerAnwserChange(q, $event)"
-                >
-                  <el-checkbox
-                    class="st-radio"
-                    :label="item.key"
-                    v-for="item in q.options"
-                    :key="item.key"
-                    >{{ item.label }}</el-checkbox
-                  >
-                </el-checkbox-group>
-              </div>
-            </div>
-            <!-- 3判断题 -->
-            <!-- <div class="ml30">
-              <div v-if="q.type == 3">
-                <el-radio-group v-model="q.answer" class="st-radio-group">
-                  <el-radio
-                    :label="item.key"
-                    class="st-radio"
-                    v-for="item in q.options"
-                    :key="item.key"
-                    ref="checks"
-                    >{{ item.label }}</el-radio
-                  >
-                </el-radio-group>
-              </div>
-            </div> -->
-            <!-- 4填空题 -->
-            <div v-if="q.type == 4">
-              <div class="test">
-                <el-input
-                  class="textarea"
-                  type="textarea"
-                  :autosize="{ minRows: 2, maxRows: 4 }"
-                  placeholder="请输入内容"
-                  :value="q.answer"
-                  @input="handlerAnwserChange(q, $event)"
-                >
-                </el-input>
-              </div>
-            </div>
-            <!-- 5简答题 -->
-            <div v-if="q.type == 5">
-              <div class="test">
-                <el-input
-                  class="textarea"
-                  type="textarea"
-                  :autosize="{ minRows: 2, maxRows: 4 }"
-                  placeholder="请输入答案"
-                  :value="q.answer"
-                  @input="handlerAnwserChange(q, $event)"
-                >
-                </el-input>
-              </div>
-            </div>
+        <!-- {{questionData.base_resource.question}} -->
+        <div
+          ref="qItem"
+          v-for="(q, index) in questions"
+          :key="index"
+          class="q-item"
+        >
+          <div class="title">
+            <div class="q_title">{{ index + 1 + q.title }}</div>
+            <span>得分：{{ q.score }}</span>
           </div>
-        </div>
-        <!-- 已批阅 -->
-        {{ resultData }}
-        <!-- <div v-if="user_score.status == 1">
-          <div class="topic-options">
-            <div class="ml30">
-              <div v-if="q.type == 1 || q.type == 3">
-                <el-radio-group class="st-radio-group">
-                  <el-radio
-                    :label="item.key"
-                    class="st-radio"
-                    v-for="item in list"
-                    :key="item.key"
-                    ref="checks"
-                    >{{ item.right_answer }}</el-radio
+          <!-- {{JSON.parse(q.options)}} 字符串转为对象-->
+          <div v-if="q.options">
+            <div class="topic-options" v-if="q.options">
+              <!-- 1单选 3判断题-->
+              <div class="ml30">
+                <div v-if="q.type == 1 || q.type == 3">
+                  <el-radio-group
+                    v-model="q.answer"
+                    @change="handlerAnwserChange(q, $event)"
+                    class="st-radio-group"
                   >
-                </el-radio-group>
-
-                <div class="analysis" v-if="user_score">
-                  <div class="right-answer">
-                    答案：A
-                  </div>
-                  <div class="analysis-answer">
-                    <span>解析：</span>
-                    <div class="analysis-content">
-                      蓝湖百科名片
-                      蓝湖蓝湖是冰岛最大的温泉。从冰岛首都雷克雅未克市向东南方向驱车1小时左右，
-                      就可到达冰岛著名的地热温泉——蓝湖。有些游客慕名而来，更有甚者。蓝湖百科名片
-                      蓝湖蓝湖是冰岛最大的温泉。从冰岛首都雷克雅未克市向东南方向驱车1小时左右，
-                      就可到达冰岛著名的地热温泉——蓝湖。有些游客慕名而来，更有甚者。
+                    <el-radio
+                      :label="item.key"
+                      class="st-radio"
+                      v-for="item in q.options"
+                      :key="item.key"
+                      ref="checks"
+                      >{{ item.label }}</el-radio
+                    >
+                  </el-radio-group>
+                  <!-- 答案解析 -->
+                  <!-- <div class="analysis" v-if="user_score">
+                    <div class="right-answer">
+                      答案：A
                     </div>
-                  </div>
+                    <div class="analysis-answer">
+                      <span>解析：</span>
+                      <div class="analysis-content">
+                        蓝湖百科名片
+                        蓝湖蓝湖是冰岛最大的温泉。从冰岛首都雷克雅未克市向东南方向驱车1小时左右，
+                        就可到达冰岛著名的地热温泉——蓝湖。有些游客慕名而来，更有甚者。蓝湖百科名片
+                        蓝湖蓝湖是冰岛最大的温泉。从冰岛首都雷克雅未克市向东南方向驱车1小时左右，
+                        就可到达冰岛著名的地热温泉——蓝湖。有些游客慕名而来，更有甚者。
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+                <!-- 2多选 -->
+                <div v-if="q.type == 2">
+                  <el-checkbox-group
+                    v-model="q.answer"
+                    class="st-radio-group"
+                    @change="handlerAnwserChange(q, $event)"
+                  >
+                    <el-checkbox
+                      class="st-radio"
+                      :label="item.key"
+                      v-for="item in q.options"
+                      :key="item.key"
+                      >{{ item.label }}</el-checkbox
+                    >
+                  </el-checkbox-group>
+                </div>
+              </div>
+              <!-- 4填空题 -->
+              <div v-if="q.type == 4">
+                <div class="test">
+                  <el-input
+                    class="textarea"
+                    type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4 }"
+                    placeholder="请输入内容"
+                    :value="q.answer"
+                    @input="handlerAnwserChange(q, $event)"
+                  >
+                  </el-input>
+                </div>
+              </div>
+              <!-- 5简答题 -->
+              <div v-if="q.type == 5">
+                <div class="test">
+                  <el-input
+                    class="textarea"
+                    type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4 }"
+                    placeholder="请输入答案"
+                    :value="q.answer"
+                    @input="handlerAnwserChange(q, $event)"
+                  >
+                  </el-input>
                 </div>
               </div>
             </div>
           </div>
-        </div> -->
+          <!-- 已批阅 -->
+          <div>{{ resultData }}</div>
+        </div>
       </div>
+    </div>
+    <div v-else>
+      gfsfaeghh
     </div>
     <div class="q-nav clearfix">
       <div class="count" :options="options">
-        <!-- {{JSON.parse(options).used_duration}}总用时 -->
         <div v-if="JSON.parse(options)">
-          <!-- {{JSON.parse(options).used_duration}} -->
           <div class="num" v-if="JSON.parse(options).used_duration > 0">
             <div v-if="typeof JSON.parse(options).used_duration === 'string'">
               <div class="num">
@@ -218,12 +178,13 @@ import Cloud from '@/api/cloud'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({})
 export default class StartTest extends Vue {
-  @Prop({ default: () => {} }) questionData!: { question: any }
+  @Prop({ default: () => ({}) }) questionData!: { question: any }
   @Prop({ default: 0 }) resoucedId!: number
   @Prop({ default: () => {} }) options!: object
   @Prop({ default: '' }) remainTime!: string
   @Prop({ default: '' }) mooc_issue_id!: string
-  @Prop({ default: () => {} }) user_score!: object
+  @Prop({ default: () => ({}) }) user_score!: object
+  @Prop({ default: () => {} }) chapter!: Array<any>
 
   currentIndex: Array<any> = []
   currentIndex1: number = -1
@@ -241,6 +202,7 @@ export default class StartTest extends Vue {
   questions: Array<{ id: any }> = []
   baseTop: number
   resultData: Array<any> = []
+  testState: boolean = true
   mounted() {
     window.addEventListener('scroll', this.menu)
     console.log('123', this.resoucedId)
@@ -339,37 +301,6 @@ export default class StartTest extends Vue {
     return this.questions.findIndex((rec: any) => rec.id === value)
     
   }
-  // 定义refs类型
-  $refs!: {
-    qArea: HTMLFrameElement
-    qItem: any
-  }
-  // goQuestion(id: number, index: number) {
-  //   const idx = this.getIndex(id)
-  //   this.currentIndex = index // 动态加class
-  //   const area = this.$refs.qArea
-  //   const baseTop = area.offsetTop
-  //   console.log('basetop', baseTop)
-  //   // const baseLeft = area.offsetLeft;
-  //   const comp = this.$refs.qItem[idx]
-  //   console.log('comp', comp)
-  //   const compTop = comp.offsetTop
-  //   const targetX = 0
-  //   const targetY = compTop - baseTop
-  //   area.scrollTo({
-  //     top: targetY,
-  //     left: targetX,
-  //     behavior: 'smooth'
-  //   })
-  // }
-  // kgClick(id: number, index: number) {
-  //   this.currentIndex = index
-  //   this.goQuestion(id, index)
-  // }
-  // zgClick(id: number, indexk: number) {
-  //   this.currentIndex1 = indexk
-  //   this.goQuestion(id, indexk)
-  // }
   // 值改变时
   handlerAnwserChange(
     rec: { id: number; answer: string; type: number },
@@ -441,6 +372,13 @@ export default class StartTest extends Vue {
       console.log('测验成果id', res.id)
       this.testId = res.id
       console.log('提交测验', this.answerData)
+      console.log('this.testState', this.testState)
+      // if (this.testState == true) {
+      //   this.testState = false
+      // } else if (this.testInfo) {
+      //   this.testInfo = true
+      // }
+
       this.TestDetail()
     })
     // this.TestDetail()

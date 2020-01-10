@@ -1,5 +1,6 @@
 <template>
   <div class="test-content">
+    <!-- {{ questionData }} -->
     <!-- {{title}}{{score}} -->
     <div class="testName">
       <div class="testTitBox">
@@ -66,20 +67,21 @@
             </span>
           </div>
         </div>
+        {{ user_score }}
         <div class="mt20" @click="starTestClick">
           <el-button type="primary">前往测验</el-button>
         </div>
       </div>
     </div>
     <div class="starTest">
-      <!-- {{ chapter[0].mooc_issue_id }} -->
+      <!-- <start-test :user_score="user_score"></start-test> -->
+
       <start-test
-        v-if="starTest && questionData && chapter"
+        v-if="starTest && questionData.base_resource"
         :question-data="questionData.base_resource"
         :resoucedId="questionData.id"
         :options="questionData.options"
         :mooc_issue_id="chapter[0].mooc_issue_id"
-        :user_score="user_score"
       ></start-test>
     </div>
   </div>
@@ -94,19 +96,22 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
   }
 })
 export default class CourseTesting extends Vue {
-  @Prop({ default: () => {} }) chapter!: object
+  @Prop({ default: () => ({}) }) chapter!: object
   @Prop({ default: '' }) title!: string
   @Prop({ default: '' }) total_score!: string
   @Prop({ default: '' }) survey_type!: string
   @Prop({ default: () => [] }) options!: Array<object>
   @Prop({ default: () => {} }) questionData!: object
   @Prop({ default: '' }) id!: string
-  @Prop({ default: '' }) user_score!: string
-
+  @Prop({ default: () => ({}) }) user_score!: object
+  @Prop({ default: 0 }) clickIndex!: number
   starTest: boolean = false
   resource_id: number
   mounted() {
-    console.log('他妈的', this.chapter)
+    console.log('========clickIndex=========', this.clickIndex)
+    if (this.user_score) {
+      this.starTest = true
+    }
   }
   // 开始测验
   starTestClick() {

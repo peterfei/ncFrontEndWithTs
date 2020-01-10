@@ -31,7 +31,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({})
 export default class CourseIntroduction extends Vue {
-  @Prop({ default: () => {} }) intro_remark!: object // 子组件接收到父组件传过来的对象
+  @Prop({ default: () => ({}) }) intro_remark!: object // 子组件接收到父组件传过来的对象
   @Prop({ default: () => {} }) target!: Array<object>
   @Prop({ default: () => {} }) summary!: Array<object>
   @Prop({ default: () => {} }) consult_data!: Array<object>

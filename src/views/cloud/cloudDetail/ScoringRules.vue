@@ -16,7 +16,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({})
 export default class ScoringRules extends Vue {
-  @Prop({ default: () => {} }) scoring_rules!: object
+  @Prop({ default: () => ({}) }) scoring_rules!: object
 }
 </script>
 

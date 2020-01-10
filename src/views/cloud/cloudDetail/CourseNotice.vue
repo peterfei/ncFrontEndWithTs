@@ -25,7 +25,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({})
 export default class CourseNotice extends Vue {
-  @Prop({ default: () => {} }) notices!: object
+  @Prop({ default: () => ({}) }) notices!: object
 }
 </script>
 

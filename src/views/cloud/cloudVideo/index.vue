@@ -16,7 +16,7 @@
         ></video-sidebar>
       </div>
       <div class="player" v-if="{ temp_data }">
-        <!-- {{questionData}} -->
+        <!-- {{ questionData }} -->
         <header-nav
           :chapter="chapter"
           @starTestClick="starTestClick"
@@ -96,14 +96,20 @@ export default class VideoPlayer extends Vue {
     // this.getSyllabuses();
     // this.getChapter();// 调取刷新章节下的内容
   }
-
+  getQuestion(id: number) {
+    Cloud.getQuestion(id).then((res: any) => {
+      this.temp_data = res
+      console.log('测验答题', res)
+    })
+  }
   // 获取测验答题
   starTestClick(id: any) {
     console.log('index', id)
-    Cloud.getQuestion(id).then((res: any) => {
-      this.temp_data = res
-      // console.log('测验答题', this.questionData)
-    })
+    // Cloud.getQuestion(id).then((res: any) => {
+    //   this.temp_data = res
+    //   console.log('测验答题', res)
+    // })
+    this.getQuestion(id)
   }
   @Watch('questionData')
   onQuestionDataChange(val: object, oldVal: object) {
