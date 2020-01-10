@@ -32,7 +32,26 @@
       <div class="detail-content">
         <!-- 左侧模块 -->
         <div class="left-list-block">
-          这里是列表
+          <div
+            class="detail-item"
+            v-for="(item, index) in arrListShow"
+            :class="{ active: index === hoverIndex }"
+            :key="item.index"
+            @mouseover="hoverIndex = index"
+            @mouseout="hoverIndex = -1"
+          >
+            <router-link class="item-block-a" :to="{ path: `/resource` }">
+              <div class="left">
+                <i class="iconfont icon-ceyan"></i>
+                <span class="name">{{ item.name }}</span>
+                <span class="limited-time">{{ item.limitedTime }}</span>
+                <span class="tag-type">上传</span>
+              </div>
+              <div class="right">
+                查看
+              </div>
+            </router-link>
+          </div>
         </div>
         <!-- 右侧模块 -->
         <div class="right-recommend-block">
@@ -47,14 +66,15 @@
               >
                 <div class="left">
                   <div class="img-block">
-                    <img :src="cover" alt="" class="seat" />
+                    <!-- :src="cover" -->
+                    <img alt="" class="seat" />
                   </div>
                 </div>
                 <div class="right">
                   <router-link
                     tag="div"
                     class="name"
-                    :to="{ path: `/course/courseDetail/${id}` }"
+                    :to="{ path: `/resource` }"
                     >{{ item.name }}
                   </router-link>
                   <div class="expert-num">
@@ -85,7 +105,7 @@
                   <router-link
                     tag="div"
                     class="name"
-                    :to="{ path: `/course/courseDetail/${id}` }"
+                    :to="{ path: `/resource` }"
                     >{{ item.name }}
                   </router-link>
                   <div class="school">
@@ -112,8 +132,10 @@
 import DetailBanner from './components/DetailBanner.vue'
 import BuyBtn from './components/BuyBtn.vue'
 import { mockResourceDetailType } from '@/mocks/index'
-import { mockResourceTeacherPackages } from '@/mocks/index'
-import { mockResourcerelatePackages } from '@/mocks/index'
+import { mockResourceTeacherPackages } from '@/mocks/index' //教师其他资源包
+import { mockResourcerelatePackages } from '@/mocks/index' //相关资源包
+import { mockResourceTestList } from '@/mocks/index' //测验
+import { mockResourceTaskList } from '@/mocks/index' //作业
 
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { PackageDetail } from '@/api/resource'
@@ -136,6 +158,10 @@ export default class ResourceDetail extends Vue {
 
   public tecPackageList: Array<object> = mockResourceTeacherPackages
   public relatePackageList: Array<object> = mockResourcerelatePackages
+  public testList: Array<object> = mockResourceTestList //测验
+  public taskList: Array<object> = mockResourceTaskList //作业
+  public hoverIndex: string = '-1' //hover 效果
+  public arrListShow: any = this.TestList //当前展示的列表
 
   created() {
     this.packageId = this.$route.params.id
@@ -158,9 +184,17 @@ export default class ResourceDetail extends Vue {
   }
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: { id: number; query: { id: number; type: string } }) {
-    console.log('监听url')
     const url = to.query
     this.navType = url.type
+    console.log(typeof this.navType)
+    if (this.navType === 'test') {
+      this.arrListShow = this.testList
+    } else if (this.navType === 'task') {
+      this.arrListShow = this.taskList
+    }
+    // if (this.navTypes === 'test') {
+    //   this.arrListShow = this.testList
+    // }
   }
   loadurl(val: string) {
     this.$router.push({
@@ -244,9 +278,70 @@ body {
   .left-list-block {
     width: 840px;
     margin-right: 40px;
+    .detail-item {
+      .item-block-a {
+        padding: 0 11px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        height: 50px;
+        line-height: 50px;
+        border-bottom: 1px solid #ebeff3;
+        font-size: 14px;
+        i {
+          color: #ced1d4;
+          margin-right: 10px;
+          font-size: 14px;
+        }
+        .name {
+          font-weight: 400;
+          color: #4c5258;
+          margin-right: 8px;
+        }
+        .limited-time {
+        }
+        .tag-type {
+          width: 24px;
+          font-size: 12px;
+          color: #8b9199;
+          border: 1px solid #8b9199;
+          padding: 2px 6px;
+          margin-left: 10px;
+        }
+        // 查看按钮显示
+        .right {
+          width: 56px;
+          height: 24px;
+          background: #ffe4d8;
+          border-radius: 3px;
+          color: #ff783c;
+          line-height: 24px;
+          text-align: center;
+          margin-top: 13px;
+          display: none;
+        }
+      }
+    }
+    .detail-item.active {
+      .detail-item {
+        background: $main;
+      }
+      i {
+        color: $main;
+      }
+      .name {
+        color: $main;
+      }
+      color: $main;
+      background: #fffcf2;
+      .right {
+        display: block;
+      }
+    }
   }
   // 右侧推荐展示
   .right-recommend-block {
+    width: 320px;
     .title {
       font-size: 16px;
       font-weight: bold;

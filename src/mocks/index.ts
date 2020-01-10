@@ -470,3 +470,54 @@ export const mockResourcerelatePackages = [
     author: '伊利丹'
   }
 ]
+export const mockResourceTestList = [
+  { id: 1, name: '编程必备基础 大话HTTP协议', limitedTime: '90min' },
+  {
+    id: 2,
+    name: 'HTTP，如水如空气。漫画＋图解，学习成体系。',
+    limitedTime: '120min30s'
+  },
+  { id: 3, name: 'Java项目面试实操 提升大厂面试成功率', limitedTime: '91min' },
+  {
+    id: 4,
+    name: '全面系统python3入门+进阶 小白也能听懂 (万人甄选口碑好课)',
+    limitedTime: '120min31s'
+  },
+  {
+    id: 5,
+    name: '全流程开发 TP6.0实战高并发电商服务系统',
+    limitedTime: '92min'
+  },
+  {
+    id: 6,
+    name: '结合编程学数学 专为程序员设计的线性代数',
+    limitedTime: '110min31s'
+  }
+]
+
+export const mockResourceTaskList = [
+  {
+    name: '编程必备基础 大话HTTP协议',
+    type: '1'
+  },
+  {
+    name: '《宝可梦：剑盾》两款DLC公布！6月/秋季推出',
+    type: '2'
+  },
+  {
+    name: 'Java项目面试实操 提升大厂面试成功率',
+    type: '3'
+  },
+  {
+    name: '全面系统python3入门+进阶 小白也能听懂 (万人甄选口碑好课)',
+    type: '1'
+  },
+  {
+    name: '《LOL》测试服玩家对猴子重做不满 设计师：够强了',
+    type: '2'
+  },
+  {
+    name: '《宝可梦剑盾》铠岛DLC内容介绍 武道家神兽霸气登场',
+    type: '3'
+  }
+]
