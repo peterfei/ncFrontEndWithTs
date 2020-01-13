@@ -51,7 +51,9 @@
         </div>
       </div>
       <div class="guide-approve">
-        <div class="approve-btn"><button>发布</button></div>
+        <div class="approve-btn">
+          <el-button type="success" size="medium">发布</el-button>
+        </div>
         <div class="approve-desc">
           首次发布课程基本信息和课程内容，需提交管理员审核。审核通过后，可发布课程，学生可报名参加课程。
         </div>
@@ -82,15 +84,30 @@ export default class Guild extends Vue {}
         border-radius: 3px;
         margin-right: 15px;
         flex: 1;
+        padding: 10px;
+        .box-title {
+          margin-top: 8.5px;
+        }
+        .box-content {
+          margin-bottom: 20px;
+        }
+        .box-btn {
+          margin-top: 37px;
+          & > button {
+            background: rgba(255, 120, 60, 1);
+            border-radius: 2px;
+            color: white;
+          }
+        }
       }
     }
     .guide-approve {
+      margin-top: 30px;
       .approve-btn > button {
-        width: 50px;
-        height: 20px;
         background: rgba(103, 194, 58, 1);
         border-radius: 2px;
         color: white;
+        margin-bottom: 10px;
       }
     }
   }
