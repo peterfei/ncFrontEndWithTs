@@ -23,8 +23,8 @@
       </div>
       <div class="structure">
         <div class="left-content">
+          <!-- {{ chaptersLists }} -->
           <template v-if="this.activeName === 'chapter'">
-            <!--
             <div v-if="chaptersLists && chaptersLists.length">
               <course-chapter-list-item
                 v-for="(ChapterItem, ListIndex) in chaptersLists"
@@ -51,7 +51,7 @@
             <div v-else>
               <h6 class="no-info">暂无信息</h6>
             </div>
-              -->
+              
           </template>
           <template v-if="this.activeName === 'comment'">
             <!--<course-comment-input
@@ -168,6 +168,9 @@ import CourseCommentInput from './components/CourseCommentInput.vue'
       chapterProgress: (state: any) => state.CourseDetails.chapterProgress,
       // 评论列表
       comments: (state: any) => state.CourseDetails.courseCommentsList
+    }),
+    ...mapGetters({
+      chaptersLists: 'CourseDetails/chaptersLists' || []
     })
   }
 })

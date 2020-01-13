@@ -3,29 +3,26 @@
     <div class="content">
       <div class="left">
         <div>
-          <img
-            :src="cover"
-            alt=""
-            class="seat"
-          >
+          <img :src="cover" alt="" class="seat" />
         </div>
       </div>
       <div class="right">
         <router-link
           tag="div"
           class="subtitle"
-          :to="{path:`/resource/resourceDetail/${id}`}"
-        >{{title}}</router-link>
+          :to="{ path: `/resource/resourceDetail/${id}` }"
+          >{{ title }}</router-link
+        >
         <div class="school">
-          {{school}}
+          {{ school }}
         </div>
         <div class="num_rate">
           <span class="author">
-            {{author}}
+            {{ author }}
           </span>
           <span class="views">
             <i class="icon iconfont icon-guankanshu"></i>
-            <span class="p_num fs12">{{viewsCount}}</span>
+            <span class="p_num fs12">{{ viewsCount }}</span>
           </span>
         </div>
       </div>
@@ -34,12 +31,10 @@
 </template>
 
 <script>
-
 export default {
-  components: {
-  },
+  components: {},
   data() {
-    return {};
+    return {}
   },
   props: {
     img: {},
@@ -51,12 +46,12 @@ export default {
     cover: {},
     id: {
       type: [Number, String],
-      default: () => null,
+      default: () => null
     },
-    viewsCount: {},
+    viewsCount: {}
   },
-  mounted() {},
-};
+  mounted() {}
+}
 </script>
 
 <style lang="scss" scoped>
@@ -84,25 +79,24 @@ export default {
     }
   }
 
-  .school{
-    color: #8B9199;
+  .school {
+    color: #8b9199;
     font-size: 14px;
   }
   .num_rate {
-    .author{
+    .author {
       font-size: 14px;
-      margin-right:8px;
-      color: #8B9199;
+      margin-right: 8px;
+      color: #8b9199;
     }
-    .views{
-      color: #8A9199;
+    .views {
+      color: #8a9199;
     }
     color: #8a9199;
     i {
       font-size: 10px;
       margin-right: 4px;
     }
-
   }
 }
 .seat {

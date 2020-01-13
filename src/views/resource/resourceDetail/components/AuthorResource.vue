@@ -3,39 +3,32 @@
     <div class="content">
       <div class="left">
         <div>
-          <img
-            :src="cover"
-            alt=""
-            class="seat"
-          >
+          <img :src="cover" alt="" class="seat" />
         </div>
       </div>
       <div class="right">
         <router-link
           tag="div"
           class="subtitle"
-          :to="{path:`/course/courseDetail/${id}`}"
-        >{{title}}</router-link>
+          :to="{ path: `/course/courseDetail/${id}` }"
+          >{{ title }}</router-link
+        >
         <div class="num_rate">
           <span>
             <i class="icon iconfont icon-guankanshu"></i>
-            <span class="p_num fs12">{{views}}</span>
+            <span class="p_num fs12">{{ views }}</span>
           </span>
-
         </div>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-
 export default {
-  components: {
-  },
+  components: {},
   data() {
-    return {};
+    return {}
   },
   props: {
     img: {},
@@ -43,12 +36,12 @@ export default {
     cover: {},
     id: {
       type: [Number, String],
-      default: () => null,
+      default: () => null
     },
-    views: {},
+    views: {}
   },
-  mounted() {},
-};
+  mounted() {}
+}
 </script>
 
 <style lang="scss" scoped>

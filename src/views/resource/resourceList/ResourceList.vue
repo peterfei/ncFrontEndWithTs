@@ -95,7 +95,7 @@
             v-if="pageType == 'release'"
           >
             <span class="el-dropdown-link">
-              {{ filterLabel }}
+              {{ filterValue | statusFilter }}
               <i class="el-icon-arrow-down el-icon--right"></i>`
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -184,6 +184,22 @@ declare module 'vue/types/vue' {
     PackageItem,
     QueryItem,
     CateFilterCourse
+  },
+  filters: {
+    // 下拉状态的过滤
+    statusFilter(filter: number) {
+      if (filter == 9) {
+        return '未发布'
+      } else if (filter == 2) {
+        return '未通过'
+      } else if (filter == 1) {
+        return '已通过'
+      } else if (filter == 0) {
+        return '待审核'
+      } else if (filter == null) {
+        return '全部'
+      }
+    }
   }
 })
 export default class ResourceList extends Vue {
@@ -215,11 +231,11 @@ export default class ResourceList extends Vue {
   public pageType: string = 'all' //我的发布，我的摘录，全部
   public keyword: string = '' //关键字搜索
   public sortType: string = '' //排序方式
-  public filterLabel: string = '全部' //审核状态下拉筛选
   public filterValue: any = null //审核状态下拉
   public searchName(data: string) {}
   mounted() {
     this.getResourceList()
+    console.log('mount')
     const urlParams = {
       type: this.pageType, //我的分类
       keyword: this.keyword,
@@ -231,10 +247,16 @@ export default class ResourceList extends Vue {
 
   //每次url变化监听
   @Watch('$route', { immediate: true, deep: true })
-  onUrlChange(to: { id: number; query: { id: number; type: string } }) {
+  onUrlChange(to: {
+    id: number
+    query: { id: number; type: string; filter: string }
+  }) {
+    console.log('url 的监听')
     const url = to.query
+    console.log(url)
     this.pageType = url.type
     this.mine = this.pageType == 'release' ? '1' : ''
+    this.filterValue = url.filter
     this.getResourceList()
   }
   loadUrl() {
@@ -283,12 +305,12 @@ export default class ResourceList extends Vue {
   // 选择全部、我的发布、我的摘录
   typeChooseClick(type: string) {
     this.pageType = type
+    this.filterValue = null
     this.loadUrl()
   }
 
-  // 最右侧下拉审核状态筛选
+  // 最右侧下拉审核状态筛选 清空状态筛选
   dropDownPackstatus(status: any) {
-    this.filterLabel = status.label
     this.filterValue = status.value
     this.packstatusCN = status
     this.loadUrl()

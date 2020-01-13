@@ -32,6 +32,7 @@
       <div class="detail-content">
         <!-- 左侧模块 -->
         <div class="left-list-block">
+          <div class="no-data" v-if="arrListShow.length == 0">暂无数据</div>
           <div
             class="detail-item"
             v-for="(item, index) in arrListShow"
@@ -161,9 +162,10 @@ export default class ResourceDetail extends Vue {
   public testList: Array<object> = mockResourceTestList //测验
   public taskList: Array<object> = mockResourceTaskList //作业
   public hoverIndex: string = '-1' //hover 效果
-  public arrListShow: any = this.TestList //当前展示的列表
+  public arrListShow: any = [] //当前展示的列表
 
   created() {
+    console.log('进入create', this.arrListShow.length)
     this.packageId = this.$route.params.id
     this.getPackageDetail()
     this.$router.push({

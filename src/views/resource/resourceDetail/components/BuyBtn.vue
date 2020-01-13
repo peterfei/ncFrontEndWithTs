@@ -4,50 +4,80 @@
       立即摘录
     </div>
 
-    <router-link :to="{ path: `/resource/resourceorder/${id}` }">
-      <div class="buy-block btn" v-if="price != 0">
-        <div class="buy">
-          <span class="buy-btn">立即购买</span>
-        </div>
-        <div class="price">￥{{ price }}</div>
+    <!-- <router-link :to="{ path: `/resource/resourceorder/${id}` }"> -->
+    <div class="buy-block btn" v-if="price != 0" @click="purchase">
+      <div class="buy">
+        <span class="buy-btn">立即购买</span>
       </div>
-    </router-link>
+      <div class="price">￥{{ price }}</div>
+    </div>
+    <!-- </router-link> -->
   </div>
 </template>
 
-<script>
-// import axios from 'axios';
-import Resource from '@/api/resource'
+<script lang="ts">
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
+// import Resource from '@/api/resource'
+// @Prop({ default: '' }) packageTitle: string
+//   @Prop({ default: '' }) packageIntro: string
+@Component({
+  components: {}
+})
+export default class BuyBtn extends Vue {
+  @Prop({ default: '' }) price: string
+  @Prop({ default: '' }) id: string
 
-export default {
-  props: {
-    price: {},
-    id: {}
-  },
-  methods: {
-    excerpt() {
-      this.$message({
-        message: '摘录成功',
-        type: 'success'
-      })
-      Resource.ResourcePackage.excerptPackage(this.id)
-        .then(rec => {
-          console.log('rec=', rec)
-        })
-        .catch(err => {
-          console.log('err=', err)
-          this.$message({
-            message: err.data,
-            type: 'error'
-          })
-        })
-    }
+  // 购买
+  purchase() {
+    console.log('点击购买')
+    this.$router.push({
+      path: `/resource/order/${this.id}`
+    })
+  }
+
+  // 摘录
+  excerpt() {
+    this.$message({
+      message: '摘录成功',
+      type: 'success'
+    })
   }
 }
+// export default {
+// props: {
+//   price: {},
+//   id: {}
+// },
+// 立即摘录
+// excerpt() {
+//   this.$message({
+//     message: '摘录成功',
+//     type: 'success'
+//   })
+//   Resource.ResourcePackage.excerptPackage(this.id)
+//     .then(rec => {
+//       console.log('rec=', rec)
+//     })
+//     .catch(err => {
+//       console.log('err=', err)
+//       this.$message({
+//         message: err.data,
+//         type: 'error'
+//       })
+//     })
+// }
+// 购买
+// purchase() {
+//   this.$router.push({
+//     path: `/order/${this.id}/`
+//   })
+// }
+// }
 </script>
 <style lang="scss" scoped>
 .box-block {
   text-align: center;
+  margin-bottom: 40px;
 }
 .btn {
   height: 50px;

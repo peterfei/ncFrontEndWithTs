@@ -2,8 +2,8 @@
   <div class="task-item" @click="checkDialogInfo(iteminfo)">
     <div class="info">
       <i class="iconfont icon-ceyan"></i>
-      <span class="title">{{title}}</span>
-      <span class="time">限时:{{time}}min</span>
+      <span class="title">{{ title }}</span>
+      <span class="time">限时:{{ time }}min</span>
     </div>
     <div class="check">
       <span class="btn">查看</span>
@@ -17,20 +17,20 @@ export default {
     title: {},
     index: {},
     time: {},
-    iteminfo: {},
+    iteminfo: {}
   },
   data() {
     return {
-      hoveritem: '',
-    };
+      hoveritem: ''
+    }
   },
   methods: {
     // 点击查看Item
     checkDialogInfo(data) {
-      this.$emit('showTestDialog', data);
-    },
-  },
-};
+      this.$emit('showTestDialog', data)
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .task-item {
@@ -45,7 +45,7 @@ export default {
   padding-right: 10px;
   cursor: pointer;
   .info {
-    .title{
+    .title {
       margin-right: 10px;
     }
     i {
@@ -76,13 +76,13 @@ export default {
 .task-item:hover {
   background: #fffcf2;
   color: #ff783c;
-  i{
+  i {
     color: #ff783c;
   }
   .btn {
     display: inline-block;
   }
-  .time{
+  .time {
     color: #ff783c;
     display: inline-block;
   }
