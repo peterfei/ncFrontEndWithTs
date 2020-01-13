@@ -50,13 +50,15 @@ export default class VideoPlayer extends Vue {
   sub_id: number = 0
   mooc_issue_id: number = 0
   public temp_data: object = {}
+
   mounted() {
+    console.log(this.$route)
     this.temp_data = this.questionData
     console.log('路由中获取章id', this.$route)
     this.syllabuseId = +this.$route.params.syllabuseId // 路由中获取章id
     console.log('syllabuseId====', this.syllabuseId)
     this.sub_id = +this.$route.params.sub_id // 路由中获取节id
-    console.log('sub_id=====', this.sub_id)
+    console.log('sub_id节节节=====', this.sub_id)
     this.mooc_issue_id = +this.$route.params.mooc_issue_id // 路由种获取期id
     console.log('mooc_issue_id=====', this.mooc_issue_id)
     this.getChapter()
