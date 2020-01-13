@@ -173,6 +173,7 @@ export default class CourseList extends Vue {
     })
     console.log(`postUrl is `, postUrl)
     Course.getList(postUrl).then((rec: any) => {
+      console.log(`分页...`, rec)
       this.courseListData = rec.data
       this.courseMeta = rec.meta
       this.courseMeta.totalPage = Math.ceil(

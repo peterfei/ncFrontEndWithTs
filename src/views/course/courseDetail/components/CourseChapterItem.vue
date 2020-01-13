@@ -23,7 +23,7 @@
         class="icon iconfont icon-dazuoye course-type"
       ></i>
       <span class="index-span">{{ listindex + 1 }}-{{ keyindex + 1 }}</span>
-      <span>{{ title }}（{{ courseTime | getTimer('xx:xx') }}）</span>
+      <span>{{ title }}（{{ courseTime }}）</span>
     </div>
 
     <div class="studystatus">
