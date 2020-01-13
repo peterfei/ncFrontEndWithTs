@@ -3,7 +3,7 @@
     <!-- {{iteminfo}} -->
     <div class="info">
       <i class="iconfont icon-ziliao"></i>
-      <span class="title">{{title}}</span>
+      <span class="title">{{ title }}</span>
     </div>
     <div class="check">
       <span class="btn">查看</span>
@@ -17,20 +17,20 @@ export default {
     iteminfo: {},
     title: {},
     index: {},
-    time: {},
+    time: {}
   },
   data() {
     return {
-      hoveritem: '',
-    };
+      hoveritem: ''
+    }
   },
   methods: {
     // 点击查看Item
     checkDialogInfo(data) {
-      this.$emit('showMaterialDialog', data);
-    },
-  },
-};
+      this.$emit('showMaterialDialog', data)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -46,7 +46,7 @@ export default {
   padding-right: 10px;
   cursor: pointer;
   .info {
-    .title{
+    .title {
       margin-right: 10px;
     }
     i {
@@ -74,12 +74,11 @@ export default {
 .task-item:hover {
   background: #fffcf2;
   color: #ff783c;
-  i{
+  i {
     color: #ff783c;
   }
   .btn {
     display: inline-block;
   }
-
 }
 </style>

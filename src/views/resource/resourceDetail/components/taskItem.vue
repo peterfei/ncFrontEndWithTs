@@ -2,9 +2,9 @@
   <div class="task-item" @click="checkDialogInfo(iteminfo)">
     <div class="info">
       <i class="iconfont icon-zuoyelianxi"></i>
-      <span class="title">{{title}}</span>
-      <span class="operate" v-if="operate==1">上传</span>
-      <span class="operate" v-else-if="operate==2">微博</span>
+      <span class="title">{{ title }}</span>
+      <span class="operate" v-if="operate == 1">上传</span>
+      <span class="operate" v-else-if="operate == 2">微博</span>
       <span class="operate" v-else>拖拽</span>
     </div>
     <div class="check">
@@ -19,20 +19,20 @@ export default {
     title: {},
     index: {},
     operate: {},
-    iteminfo: {},
+    iteminfo: {}
   },
   data() {
     return {
-      hoveritem: '',
-    };
+      hoveritem: ''
+    }
   },
   methods: {
     // 点击查看Item
     checkDialogInfo(data) {
-      this.$emit('showTaskDialog', data);
-    },
-  },
-};
+      this.$emit('showTaskDialog', data)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -48,7 +48,7 @@ export default {
   padding-right: 10px;
   cursor: pointer;
   .info {
-    .title{
+    .title {
       margin-right: 10px;
     }
     i {
@@ -88,13 +88,13 @@ export default {
 .task-item:hover {
   background: #fffcf2;
   color: #ff783c;
-  i{
+  i {
     color: #ff783c;
   }
   .btn {
     display: inline-block;
   }
-  .operate{
+  .operate {
     color: #ff783c;
     border-color: #ff783c;
   }
