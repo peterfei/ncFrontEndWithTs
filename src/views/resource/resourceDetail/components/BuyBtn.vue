@@ -4,14 +4,14 @@
       立即摘录
     </div>
 
-    <router-link :to="{ path: `/resource/resourceorder/${id}` }">
-      <div class="buy-block btn" v-if="price != 0">
-        <div class="buy">
-          <span class="buy-btn">立即购买</span>
-        </div>
-        <div class="price">￥{{ price }}</div>
+    <!-- <router-link :to="{ path: `/resource/resourceorder/${id}` }"> -->
+    <div class="buy-block btn" v-if="price != 0">
+      <div class="buy">
+        <span class="buy-btn">立即购买</span>
       </div>
-    </router-link>
+      <div class="price">￥{{ price }}</div>
+    </div>
+    <!-- </router-link> -->
   </div>
 </template>
 
@@ -48,6 +48,7 @@ export default {
 <style lang="scss" scoped>
 .box-block {
   text-align: center;
+  margin-bottom: 40px;
 }
 .btn {
   height: 50px;
