@@ -25,8 +25,6 @@
         <div class="left-content">
           <!-- {{ chaptersLists }} -->
           <template v-if="this.activeName === 'chapter'">
-            
-            
             <div v-if="chaptersLists && chaptersLists.length">
               <course-chapter-list-item
                 v-for="(ChapterItem, ListIndex) in chaptersLists"
