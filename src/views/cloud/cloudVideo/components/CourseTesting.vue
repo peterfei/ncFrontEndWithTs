@@ -93,6 +93,8 @@
         :mooc_issue_id="chapter[0].mooc_issue_id"
         @testChange="testChange"
         :clickIndex="clickIndex"
+        :chapter="chapter"
+        :user_score="user_score"
       ></start-test>
     </div>
   </div>
@@ -120,6 +122,9 @@ export default class CourseTesting extends Vue {
   starTest: boolean = true
   resource_id: number
   mounted() {
+    if (this.user_score == null) {
+      this.user_score = {}
+    }
     // console.log('========questionsList=========', this.questionsList)
     // if (this.user_score) {
     //   this.starTest = true

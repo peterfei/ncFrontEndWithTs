@@ -109,7 +109,12 @@ export default class VideoPlayer extends Vue {
     //   this.temp_data = res
     //   console.log('测验答题', res)
     // })
-    this.getQuestion(id)
+
+    if (id != undefined) {
+      this.getQuestion(id)
+    } else {
+      this.getChapter()
+    }
   }
   @Watch('questionData')
   onQuestionDataChange(val: object, oldVal: object) {

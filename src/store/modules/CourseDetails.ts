@@ -1,11 +1,11 @@
-import { Commit, Action, ActionTree } from 'vuex'
+import { Commit, Action, ActionTree, GetterTree } from 'vuex'
 import { ICourseDetailsState, IRecommendCourse, ICoursePostURL } from '../types'
 import { Course } from '@/api/course'
 import Request from '@/utils/request'
 import axios from 'axios'
 const moduleName = '/excellent_courses' // 模块名
 
-const getters = {}
+// const getters = {}
 export interface State {
   expireTime: any
   recommendCourseList: any[]
@@ -28,6 +28,12 @@ const state: State = {
   coursesRecommendList: [], // 获取右侧推荐课程列表
   courseCommentsList: [], // 获取评论列表
   expireTime: 0
+}
+
+const getters: GetterTree<any, any> = {
+  chaptersLists() {
+    return state.chapterList
+  }
 }
 const actions: ActionTree<ICourseDetailsState, any> = {
   // 推荐课程  --o

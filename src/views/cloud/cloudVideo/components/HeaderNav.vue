@@ -122,11 +122,12 @@ export default class HeaderNav extends Vue {
 
   starTestClick(e: number) {
     console.log(e)
-    this.$emit('starTestClick', e) // 资源id传入父级index
+    // this.$emit('starTestClick', e) // 资源id传入父级index
   }
   changeQs(click_id: number) {
     console.log(`==========================`)
-    this.tabClick(click_id)
+    // this.tabClick(click_id)
+    this.$emit('starTestClick')
   }
   async tabClick(e: any) {
     console.log('=========e=========', e)
