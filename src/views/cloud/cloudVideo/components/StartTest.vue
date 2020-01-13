@@ -25,6 +25,7 @@
           <div v-if="q.options">
             <div class="topic-options" v-if="q.options">
               <!-- 1单选 3判断题-->
+             
               <div class="ml30">
                 <div v-if="q.type == 1 || q.type == 3">
                   <el-radio-group
@@ -114,21 +115,22 @@
       <!-- {{ resultData }} -->
       <div class="question" v-if="questionData">
         <div v-for="(result, index) in resultData" :key="index" class="q-item">
-          <!-- {{  }} -->
+          {{currentIndex.includes(result.id) ?false: currentIndex.push(result.id) }}
           <div class="title">
             <div class="q_title">{{ index + 1 + result.title }}</div>
             <span v-if="detailData.status == 1">得分：{{ result.score }}</span>
           </div>
+          {{ result.user_answer.answer[0] }}
           <div class="topic-options" v-if="result.options">
             <div class="ml30">
               <div v-if="result.type == 1 || result.type == 3">
                 <!-- {{ resultData }} -->
                 <el-radio-group
-                  v-model="result.user_answer.answer"
+                  v-model="result.user_answer.answer[0]"
                   @change="handlerAnwserChange(result, $event)"
                   class="st-radio-group"
                 >
-                  {{ result.user_answer.answer }}
+                  
                   <el-radio
                     v-model="result.user_answer.answer"
                     :label="item.key"
@@ -153,6 +155,16 @@
               </div>
               <!-- 2多选 -->
               <div v-if="result.type == 2">
+                <!-- {{JSON.parse(result.options)}} -->
+
+                <el-checkbox
+                    class="st-radio"
+                    :label="item.key"
+                    v-for="item in JSON.parse(result.options)"
+                    :key="item.key"
+                    v-model="result.user_answer.answer"
+                    >{{ item.label }}</el-checkbox
+                  >
                 <!-- <el-checkbox-group class="st-radio-group">
                   <el-checkbox
                     class="st-radio"
@@ -273,7 +285,7 @@ export default class StartTest extends Vue {
         this.TestDetail(this.user_score.id)
       }
     }
-
+  // this.currentIndex = [1,2,3]
     // window.addEventListener('scroll', this.menu)
     // console.log('123', this.resoucedId)
     // this.countDowm()
