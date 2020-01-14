@@ -6,7 +6,7 @@
     <!-- user_score_length:{{ Object.keys(user_score).length===0 }} -->
     <!-- {{chapter}} -->
     <!-- {{user_score}} -->
-    <div v-if="!user_score || !user_score.id">
+    <div v-if="!user_score || !user_score.id || re_test_bln">
       <div class="question" ref="qArea" v-if="questionData">
         <!-- {{questionData.base_resource.question}} -->
         <!-- {{questions}} -->
@@ -25,7 +25,7 @@
           <div v-if="q.options">
             <div class="topic-options" v-if="q.options">
               <!-- 1单选 3判断题-->
-             
+
               <div class="ml30">
                 <div v-if="q.type == 1 || q.type == 3">
                   <el-radio-group
@@ -112,25 +112,25 @@
       </div>
     </div>
     <div v-else>
-      <!-- {{ resultData }} -->
       <div class="question" v-if="questionData">
-        <div v-for="(result, index) in resultData" :key="index" class="q-item">
-          {{currentIndex.includes(result.id) ?false: currentIndex.push(result.id) }}
+        <div class="q-item" v-for="(result, index) in resultData" :key="index">
+          {{
+            currentIndex.includes(result.id) || re_test_bln
+              ? ''
+              : currentIndex.push(result.id)
+          }}
           <div class="title">
             <div class="q_title">{{ index + 1 + result.title }}</div>
             <span v-if="detailData.status == 1">得分：{{ result.score }}</span>
           </div>
-          {{ result.user_answer.answer[0] }}
-          <div class="topic-options" v-if="result.options">
+          <div class="topic-options">
             <div class="ml30">
-              <div v-if="result.type == 1 || result.type == 3">
-                <!-- {{ resultData }} -->
+              <template v-if="result.type == 1 || result.type == 3">
                 <el-radio-group
                   v-model="result.user_answer.answer[0]"
                   @change="handlerAnwserChange(result, $event)"
                   class="st-radio-group"
                 >
-                  
                   <el-radio
                     v-model="result.user_answer.answer"
                     :label="item.key"
@@ -152,34 +152,61 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </template>
               <!-- 2多选 -->
-              <div v-if="result.type == 2">
-                <!-- {{JSON.parse(result.options)}} -->
-
+              <div class="st-radio-group" v-if="result.type == 2">
                 <el-checkbox
-                    class="st-radio"
-                    :label="item.key"
-                    v-for="item in JSON.parse(result.options)"
-                    :key="item.key"
-                    v-model="result.user_answer.answer"
-                    >{{ item.label }}</el-checkbox
-                  >
-                <!-- <el-checkbox-group class="st-radio-group">
-                  <el-checkbox
-                    class="st-radio"
-                    :label="item.key"
-                    v-for="item in JSON.parse(result.options)"
-                    :key="item.key"
-                    >{{ item.label }}</el-checkbox
-                  >
-                </el-checkbox-group> -->
+                  class="st-radio"
+                  :label="item.key"
+                  v-for="item in JSON.parse(result.options)"
+                  :key="item.key"
+                  v-model="result.user_answer.answer"
+                  >{{ item.label }}</el-checkbox
+                >
+                <div class="analysis" v-if="user_score">
+                  <div class="right-answer">
+                    答案：{{ result.right_answer }}
+                  </div>
+                  <div class="analysis-answer">
+                    <span>解析：</span>
+                    <div class="analysis-content">
+                      {{ result.answer_analysis }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 4填空题 -->
+            <div v-if="result.type == 4">
+              <div class="test">
+                <el-input
+                  class="textarea"
+                  type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 4 }"
+                  placeholder="请输入内容"
+                  :value="result.user_answer.answer[0]"
+                  @input="handlerAnwserChange(result, $event)"
+                >
+                </el-input>
+              </div>
+            </div>
+            <!-- 5简答题 -->
+            <div v-if="result.type == 5">
+              <div class="test">
+                <el-input
+                  class="textarea"
+                  type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 4 }"
+                  placeholder="请输入答案"
+                  :value="result.user_answer.answer[0]"
+                  @input="handlerAnwserChange(result, $event)"
+                >
+                </el-input>
               </div>
             </div>
           </div>
         </div>
       </div>
-      1112222
     </div>
     <div class="q-nav clearfix">
       <!-- <div class="count" :options="options">
@@ -233,7 +260,13 @@
         </div>
       </div>
       <div class="submit">
-        <el-button type="warning" @click="answerSubmit">提交</el-button>
+        <el-button
+          type="warning"
+          v-if="!user_score || !user_score.id || re_test_bln"
+          @click="answerSubmit"
+          >提交</el-button
+        >
+        <el-button type="warning" v-else @click="reTest">重新测验</el-button>
       </div>
     </div>
   </div>
@@ -249,7 +282,7 @@ export default class StartTest extends Vue {
   @Prop({ default: () => {} }) options!: object
   @Prop({ default: '' }) remainTime!: string
   @Prop({ default: '' }) mooc_issue_id!: string
-  @Prop({ default: () => ({}), type: Object }) user_score!: object
+  @Prop({ default: () => ({}), type: Object }) user_score!: { id: number }
   @Prop({ default: () => {} }) chapter!: Array<any>
   @Prop({ default: 0 }) clickIndex!: number
   currentIndex: Array<any> = []
@@ -270,6 +303,8 @@ export default class StartTest extends Vue {
   resultData: Array<any> = []
   testState: boolean = true
   list: Array<object> = []
+  detailData: Array<object> = []
+  re_test_bln: Boolean = false
   @Watch('chapter')
   chapterWatcher() {
     console.log('TestDetail', this.TestDetail)
@@ -277,6 +312,7 @@ export default class StartTest extends Vue {
   }
   mounted() {
     console.log(`=====user_scoreuser_score======`, this.user_score)
+    console.log('资源ididiidii===', this.resoucedId)
     // console.log(`----------resultData-------`, this.resultData)
     if (this.user_score != null) {
       if (Object.keys(this.user_score).length > 0) {
@@ -285,7 +321,7 @@ export default class StartTest extends Vue {
         this.TestDetail(this.user_score.id)
       }
     }
-  // this.currentIndex = [1,2,3]
+    // this.currentIndex = [1,2,3]
     // window.addEventListener('scroll', this.menu)
     // console.log('123', this.resoucedId)
     // this.countDowm()
@@ -436,7 +472,19 @@ export default class StartTest extends Vue {
       this.TestDetail(this.testId)
       this.$emit('testChange', this.clickIndex)
     })
+    this.re_test_bln = false
     // this.TestDetail()
+  }
+
+  reTest() {
+    this.re_test_bln = true
+    console.log('0000')
+    this.currentIndex = []
+    // Cloud.getAnswerSubmit(this.resoucedId).then(res => {
+    //   this.testDetail = res
+    //   console.log('chong',this.testDetail)
+    // })
+    // this.user_score = { id: 0 }
   }
   // 提交测验详情
   TestDetail(testId: number) {
