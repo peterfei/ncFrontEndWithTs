@@ -3,6 +3,7 @@ import BackendCloud from '@/views/backendCloud/index.vue'
 import BackendCloudGuide from '@/views/backendCloud/guideCloud.vue'
 import Guide from '@/views/backendCloud/components/guide.vue'
 import Teaching from '@/views/backendCloud/components/teaching.vue'
+import Course from '@/views/backendCloud/components/course.vue'
 
 // import CloudDetail from '@/views/cloud/cloudDetail/index.vue'
 
@@ -29,6 +30,11 @@ const BackendCloudModule = {
           path: 'teaching',
           name: 'teaching',
           component: Teaching
+        },
+        {
+          path: 'course',
+          name: 'course',
+          component: Course
         }
       ]
     }
