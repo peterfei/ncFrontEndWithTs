@@ -19,11 +19,12 @@ const BackendCloudModule = {
     },
     {
       path: 'guide',
-      // name: 'backend_cloud_guide',
+
       component: BackendCloudGuide,
       children: [
         {
           path: '/',
+          name: 'backend_guide',
           component: Guide
         },
         {
