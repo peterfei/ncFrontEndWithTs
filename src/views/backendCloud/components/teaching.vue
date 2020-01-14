@@ -30,6 +30,7 @@ export default class Teaching extends Vue {
     padding-bottom: 15px;
   }
   .teaching-content {
+    padding-bottom: 15px;
     background-color: white;
     .item-title {
       margin: 15px;
@@ -37,9 +38,12 @@ export default class Teaching extends Vue {
     .item-photo {
       margin: 15px;
       width: 84px;
-      height: 88px;
+      // height: 88px;
       background: rgba(247, 248, 250, 1);
       border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       & > img {
         padding: 10px 17px 27px 17px;
         width: 50px;
