@@ -54,15 +54,6 @@
     <div v-else>
       <h6 class="no-content">暂无信息</h6>
     </div>
-    <div class="block ">
-      <el-pagination
-        layout="prev, pager, next"
-        :total="pageMeta.total"
-        :page-size="parseInt(pageMeta.per_page, 10)"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
-    </div>
   </div>
 </template>
 <script lang="ts">
@@ -70,9 +61,9 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({})
 export default class GraphicList extends Vue {
   @Prop({ default: () => [] }) moocList!: Array<object> //子组件接收到父组件传过来的数组
-  @Prop({ default: () => [] }) pageMeta!: Array<object>
+  @Prop({ default: () => ({}) }) pageMeta!: object
   handleCurrentChange(val: any) {
-    console.log(val)
+    console.log(`==========`, val)
     this.$emit('handleCurrentChange', val)
   }
 }
@@ -189,18 +180,5 @@ export default class GraphicList extends Vue {
 .icon-guankanshu {
   font-size: 10px;
 }
-.page-block {
-  background: rgba(244, 244, 244, 1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 50px auto 100px;
-  &::v-deep button {
-    background: rgba(244, 244, 244, 1);
-    background-color: rgba(244, 244, 244, 1) !important;
-  }
-  &::v-deep li {
-    background: rgba(244, 244, 244, 1);
-  }
-}
+
 </style>
