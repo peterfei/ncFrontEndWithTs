@@ -15,7 +15,10 @@ const CloudModule = {
     {
       path: 'clouddetail/packages/:pkgId/',
       name: 'CloudDetail',
-      component: CloudDetail
+      component: CloudDetail,
+      meta: {
+        title: '首页'
+      }
     }
   ]
 }

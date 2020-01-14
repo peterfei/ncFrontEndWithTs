@@ -119,7 +119,10 @@ export default class HeaderNav extends Vue {
     { label: '课程播放', type: 'player', icon: 'icon-ziyuan1' },
     { label: '课程资料', type: 'materials', icon: 'icon-ziliao' }
   ]
-
+  @Watch('chapter')
+  chapterWatcher() {
+    console.log('on-chapter change:', this.chapter)
+  }
   starTestClick(e: number) {
     console.log(e)
     // this.$emit('starTestClick', e) // 资源id传入父级index
@@ -145,6 +148,9 @@ export default class HeaderNav extends Vue {
       // answer: rec.type === 2 ? rec.answer : [rec.answer]
     })
     this.clickIndex = tmp
+    // if( tab.type === 3 ){
+
+    // }
     this.qs = await this.getQuestion(this.chapter[0].data[tmp].id)
     console.log('==========questions==============', this.qs)
 

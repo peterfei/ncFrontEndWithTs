@@ -102,7 +102,7 @@
 
 <script lang="ts">
 import StartTest from './StartTest.vue'
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 @Component({
   components: {
     StartTest
@@ -121,14 +121,9 @@ export default class CourseTesting extends Vue {
   @Prop({ default: () => [] }) qs!: Array<object>
   starTest: boolean = true
   resource_id: number
-  mounted() {
-    if (this.user_score == null) {
-      this.user_score = {}
-    }
-    // console.log('========questionsList=========', this.questionsList)
-    // if (this.user_score) {
-    //   this.starTest = true
-    // }
+  @Watch('chapter')
+  chapterWatcher() {
+    console.log('CourseTesting', this.chapter)
   }
   testChange(click_id: number) {
     console.log('值有变化')
