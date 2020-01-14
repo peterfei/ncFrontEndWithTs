@@ -41,54 +41,53 @@
             >
           </el-dropdown-menu>
         </el-dropdown>
-        <router-link
+        <!-- <router-link
           :to="{ path: `/resource/resourcedetail/${id}?type=course` }"
+        > -->
+        <p class="package-title word-spot" @click="goDetail">{{ title }}</p>
+        <span
+          class="status-tag success"
+          v-if="(status == 1) & (typeChoose == 'myfa')"
+          >已发布</span
         >
-          <p class="package-title word-spot">{{ title }}</p>
-          <span
-            class="status-tag success"
-            v-if="(status == 1) & (typeChoose == 'myfa')"
-            >已发布</span
-          >
-          <span
-            class="status-tag review"
-            v-if="(status == 0) & (typeChoose == 'myfa')"
-            >待审核</span
-          >
-          <span
-            class="status-tag error"
-            v-if="(status == 2) & (typeChoose == 'myfa')"
-            >已驳回</span
-          >
-        </router-link>
+        <span
+          class="status-tag review"
+          v-if="(status == 0) & (typeChoose == 'myfa')"
+          >待审核</span
+        >
+        <span
+          class="status-tag error"
+          v-if="(status == 2) & (typeChoose == 'myfa')"
+          >已驳回</span
+        >
+        <!-- </router-link> -->
 
         <!-- 当我们的发布时，进入编辑条目页面 -->
-        <router-link
+        <!-- <router-link
           :to="{ path: `/resource/myResource/${id}` }"
           v-if="typechoose == 'myfa'"
+        > -->
+        <!-- <p class="package-title word-spot">这里是标题</p> -->
+        <span
+          class="status-tag success"
+          v-if="(status == 1) & (typechoose == 'myfa')"
+          >已发布</span
         >
-          <p class="package-title word-spot">这里是标题</p>
-          <span
-            class="status-tag success"
-            v-if="(status == 1) & (typechoose == 'myfa')"
-            >已发布</span
-          >
-          <span
-            class="status-tag review"
-            v-if="(status == 0) & (typechoose == 'myfa')"
-            >待审核</span
-          >
-          <span
-            class="status-tag error"
-            v-if="(status == 2) & (typechoose == 'myfa')"
-            >未通过</span
-          >
-          <span
-            class="status-tag wait"
-            v-if="(status == 9) & (typechoose == 'myfa')"
-            >待发布</span
-          >
-        </router-link>
+        <span
+          class="status-tag review"
+          v-if="(status == 0) & (typechoose == 'myfa')"
+          >待审核</span
+        >
+        <span
+          class="status-tag error"
+          v-if="(status == 2) & (typechoose == 'myfa')"
+          >未通过</span
+        >
+        <span
+          class="status-tag wait"
+          v-if="(status == 9) & (typechoose == 'myfa')"
+          >待发布</span
+        >
 
         <p class="describe word-spot">{{ school }}</p>
         <div class="tags">
@@ -181,6 +180,20 @@ export default class PackageItem extends Vue {
     //   path: 'resource/addpackage',
     //   query: { userid: id }
     // })
+  }
+
+  // 跳转至详情页
+  goDetail() {
+    console.log(111)
+    let urlPath = `/resource/myresource/${this.id}`
+    this.$router.push({ path: urlPath })
+    if (this.typeChoose === 'all') {
+      urlPath = `/resource/resourcedetail/${this.id}?type=course`
+    }
+    this.$router.push({
+      path: urlPath
+    })
+    console.log(urlPath)
   }
 }
 
@@ -332,6 +345,11 @@ export default class PackageItem extends Vue {
       display: inline-block;
       max-width: 70%;
       margin-right: 5px;
+      cursor: pointer;
+      &:hover {
+        color: $main;
+        transition: 0.3s;
+      }
     }
     .review {
       background: #00a5e1;

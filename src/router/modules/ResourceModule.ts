@@ -3,7 +3,7 @@ import ResourceList from '@/views/resource/resourceList/ResourceList.vue'
 import ResourceDetail from '@/views/resource/resourceDetail/ResourceDetail.vue'
 import ResourceAdd from '@/views/resource/resourceAdd/ResourceAdd.vue'
 import ResourceOrder from '@/views/resource/resourceOrder/ResourceOrder.vue'
-
+import MyResource from '@/views/resource/myResource/MyResource.vue'
 const ResourceModule = {
   path: '/resource',
   name: '',
@@ -28,6 +28,11 @@ const ResourceModule = {
       path: 'order/:id',
       name: 'order',
       component: ResourceOrder
+    },
+    {
+      path: 'myresource/:id',
+      name: 'myresource',
+      component: MyResource
     }
   ]
 }

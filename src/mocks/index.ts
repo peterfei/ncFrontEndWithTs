@@ -521,3 +521,76 @@ export const mockResourceTaskList = [
     type: '3'
   }
 ]
+
+export const mockMyResourceDetail = {
+  title:
+    'Steam一周销量榜：《怪物猎人：世界 冰原》登顶 《荒野大镖客：救赎2》第三',
+  intro: `上周的Steam一周（1月6日-年1月12日）的销量排行出炉了，《怪物猎人：世界 冰原》
+    夺得头筹，并且其豪华版位列第二，游戏本体《怪物猎人：世界》位列第六；R星的《荒野大镖客：救赎2》与《GTA5》依次位列第三与第四。`,
+  update: '2020-1-4',
+  price: 500,
+  education: 3
+}
+
+export const mockMyResourceList = [
+  {
+    type: 'course',
+    data: [
+      {
+        id: 12,
+        name: '童年回忆《魔法气泡2》16日登陆NS 售价约63元'
+      },
+      {
+        id: 32,
+        name: 'GameStop：新主机的公布对零售业务造成了负面影响'
+      }
+    ]
+  },
+  {
+    type: 'task',
+    data: [
+      {
+        id: 12,
+        name: '《妖精的尾巴》火龙纳兹雕像 半身龙化霸气爆表'
+      },
+      {
+        id: 323,
+        name: '《魔兽3重制》开发者故事 重制隐居避世的暗夜精灵'
+      }
+    ]
+  },
+  {
+    type: 'test',
+    data: [
+      {
+        id: 152,
+        name: '童年回忆《魔法气泡2》16日登陆NS 售价约63元'
+      },
+      {
+        id: 32,
+        name: '《王者荣耀》韩信五岳皮肤 衡山赤焰威武霸气'
+      },
+      {
+        id: 352,
+        name: '《云顶之弈》新赛季展望：或与皮肤有关 三月中旬上线'
+      }
+    ]
+  },
+  {
+    type: 'datum',
+    data: [
+      {
+        id: 132,
+        name: 'Xbox大佬确认微软出席今年E3：我们正为此积极准备'
+      },
+      {
+        id: 61,
+        name: 'GameStop：新主机的公布对零售业务造成了负面影响'
+      },
+      {
+        id: 97,
+        name: '吉卜力动画《侧耳倾听》将拍真人电影 10年后的故事'
+      }
+    ]
+  }
+]
