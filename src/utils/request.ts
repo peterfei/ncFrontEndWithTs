@@ -120,6 +120,7 @@ class Request {
         }
       },
       (error: any) => {
+        // debugger
         Message({
           message: error.message,
           type: 'error',
@@ -151,7 +152,7 @@ class Request {
   public async post(url: string, data: any = {}, config: object = {}) {
     try {
       const result = await this.service.post(url, data, config)
-      return result.data
+      return result
     } catch (error) {
       console.error(error)
     }
