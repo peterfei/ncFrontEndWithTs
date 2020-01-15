@@ -1,8 +1,8 @@
 import Layout from '@/views/layout/LayoutPage.vue'
 // import Register from '@/views/loginReg/index.vue'
-import ProFileBox from '@/views/proFile/ProFile.vue'
+import ProfileBox from '@/views/profile/Profile.vue'
 
-const ProFileModule = {
+const ProfileModule = {
   path: '/profile',
   name: '',
   component: Layout,
@@ -10,7 +10,7 @@ const ProFileModule = {
     {
       path: '/',
       name: 'profile',
-      component: ProFileBox
+      component: ProfileBox
     }
     // {
     //   path: '/login/:type',
@@ -19,4 +19,4 @@ const ProFileModule = {
     // }
   ]
 }
-export default { ProFileModule }
+export default { ProfileModule }

@@ -328,7 +328,9 @@ export default class MyResource extends Vue {
     const url = to.query
     this.navType = to.query.type
   }
-  mounted() {}
+  mounted() {
+    console.log('mounted', this.$route)
+  }
 
   public buy() {}
 
