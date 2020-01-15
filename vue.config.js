@@ -33,11 +33,11 @@ module.exports = {
   // publicPath: '/',
   outputDir: 'dist',
   runtimeCompiler: true,
-  productionSourceMap: true,
-  devServer: {
-    proxy: 'http://dev.nc.com',
-    disableHostCheck: true
-  }
+  productionSourceMap: true
+  // devServer: {
+  //   proxy: 'http://dev.nc.com',
+  //   disableHostCheck: true
+  // }
   //publicPath: process.env.NODE_ENV === 'production' ? '/' : 'http://dev.nc.com'
   // parallel: undefined,
 }
