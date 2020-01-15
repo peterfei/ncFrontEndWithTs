@@ -10,8 +10,7 @@ import qs from 'qs'
 // import { UserModule } from '@/store/modules/user'
 
 class Request {
-  protected baseURL: any =
-    'http://192.168.38.38:81' || process.env.VUE_APP_API_HOST
+  protected baseURL: any = process.env.VUE_APP_API_HOST
   protected service: any = axios
   protected pending: Array<{
     url: string
