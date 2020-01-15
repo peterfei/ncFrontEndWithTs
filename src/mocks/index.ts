@@ -532,65 +532,53 @@ export const mockMyResourceDetail = {
   education: 3
 }
 
-export const mockMyResourceList = [
+export const mockMyCourseList = [
   {
-    type: 'course',
-    data: [
-      {
-        id: 12,
-        name: '童年回忆《魔法气泡2》16日登陆NS 售价约63元'
-      },
-      {
-        id: 32,
-        name: 'GameStop：新主机的公布对零售业务造成了负面影响'
-      }
-    ]
+    id: 12,
+    name: '童年回忆《魔法气泡2》16日登陆NS 售价约63元'
   },
   {
-    type: 'task',
-    data: [
-      {
-        id: 12,
-        name: '《妖精的尾巴》火龙纳兹雕像 半身龙化霸气爆表'
-      },
-      {
-        id: 323,
-        name: '《魔兽3重制》开发者故事 重制隐居避世的暗夜精灵'
-      }
-    ]
+    id: 32,
+    name: 'GameStop：新主机的公布对零售业务造成了负面影响'
+  }
+]
+
+export const mockMyTaskList = [
+  {
+    id: 12,
+    name: '《妖精的尾巴》火龙纳兹雕像 半身龙化霸气爆表'
   },
   {
-    type: 'test',
-    data: [
-      {
-        id: 152,
-        name: '童年回忆《魔法气泡2》16日登陆NS 售价约63元'
-      },
-      {
-        id: 32,
-        name: '《王者荣耀》韩信五岳皮肤 衡山赤焰威武霸气'
-      },
-      {
-        id: 352,
-        name: '《云顶之弈》新赛季展望：或与皮肤有关 三月中旬上线'
-      }
-    ]
+    id: 323,
+    name: '《魔兽3重制》开发者故事 重制隐居避世的暗夜精灵'
+  }
+]
+
+export const mockMyTestList = [
+  {
+    id: 152,
+    name: '童年回忆《魔法气泡2》16日登陆NS 售价约63元'
   },
   {
-    type: 'datum',
-    data: [
-      {
-        id: 132,
-        name: 'Xbox大佬确认微软出席今年E3：我们正为此积极准备'
-      },
-      {
-        id: 61,
-        name: 'GameStop：新主机的公布对零售业务造成了负面影响'
-      },
-      {
-        id: 97,
-        name: '吉卜力动画《侧耳倾听》将拍真人电影 10年后的故事'
-      }
-    ]
+    id: 32,
+    name: '《王者荣耀》韩信五岳皮肤 衡山赤焰威武霸气'
+  },
+  {
+    id: 352,
+    name: '《云顶之弈》新赛季展望：或与皮肤有关 三月中旬上线'
+  }
+]
+export const mockMyDatumList = [
+  {
+    id: 132,
+    name: 'Xbox大佬确认微软出席今年E3：我们正为此积极准备'
+  },
+  {
+    id: 61,
+    name: 'GameStop：新主机的公布对零售业务造成了负面影响'
+  },
+  {
+    id: 97,
+    name: '吉卜力动画《侧耳倾听》将拍真人电影 10年后的故事'
   }
 ]

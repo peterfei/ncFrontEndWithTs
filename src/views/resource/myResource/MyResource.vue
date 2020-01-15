@@ -67,6 +67,33 @@
                 @delItem="delItem"
               ></course-item>
             </el-collapse> -->
+            <!-- 课程列表 -->
+            <el-collapse accordion>
+              <el-collapse-item v-for="item in courseList" :key="item.id">
+                <template slot="title">
+                  <i class="iconfont icon-ziyuan1"></i>
+                  <el-input
+                    readonly="true"
+                    v-model="item.name"
+                    class="title-item-edit"
+                  ></el-input>
+                  <div class="options">
+                    <i class="iconfont icon-yidong"></i>
+                    <i class="iconfont icon-bianji"></i>
+                    <i class="iconfont icon-shanchu"></i>
+                    <i
+                      class="header-icon el-icon-info"
+                      @click.stop.prevent="editItemTitle()"
+                    >
+                    </i>
+                  </div>
+                </template>
+
+                <div>
+                  与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
+                </div>
+              </el-collapse-item>
+            </el-collapse>
 
             <!-- 作业列表 -->
             <!-- <el-collapse
@@ -260,6 +287,8 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mockMyResourceDetail } from '@/mocks/index'
+import { mockMyCourseList } from '@/mocks/index'
+
 // import Resource from '@/api/resource/index'
 // import courseItem from './components/courseItem.vue'
 // import homeworkItem from './components/homeworkItem.vue'
@@ -320,6 +349,8 @@ export default class MyResource extends Vue {
   public packageId: any = null
   public addResourceTitle: string = ''
   public addResourceShow: boolean = false
+
+  public courseList: Array<any> = mockMyCourseList
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: {
     id: number
@@ -358,6 +389,11 @@ export default class MyResource extends Vue {
     })
     this.addResourceShow = false
     this.addResourceTitle = ''
+  }
+
+  // 编辑item 标题
+  editItemTitle() {
+    this.$message('点击了编辑')
   }
 }
 
