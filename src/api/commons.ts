@@ -1,8 +1,10 @@
 import { IUploadPolicy } from './../types/index'
 import Request from '@/utils/request'
 
-const UPLOAD_POLICY_URL = '/api/upload_policy'
-const RESOURCE_CALLBACK_URL = '/api/resource'
+const UPLOAD_POLICY_URL =
+  process.env.VUE_APP_UPLOADER_POLICY || '/api/upload_policy'
+const RESOURCE_CALLBACK_URL =
+  process.env.VUE_APP_RESOURCE_CALLBACK_URL || '/api/resource'
 
 export function getUploadPolicy(
   md5: string,
@@ -14,14 +16,18 @@ export function getUploadPolicy(
     is_private: isPrivate ? null : 0,
     file_extension: extension
   }
-  console.log(process.env.VUE_APP_API_HOST)
   return Request.get(UPLOAD_POLICY_URL, params)
 }
 
-export function postUploadFile(policyInfo: IUploadPolicy, file: File) {
+export function postUploadFile(
+  policyInfo: IUploadPolicy,
+  file: File,
+  progressFn: Function
+) {
   const headers = {
     'Content-Type': 'mulipart/form-data'
   }
+  const onUploadProgress = progressFn
   const fname = policyInfo.filename || file.name
   const formData = new FormData()
   formData.append('OSSAccessKeyId', policyInfo.accessid)
@@ -30,12 +36,11 @@ export function postUploadFile(policyInfo: IUploadPolicy, file: File) {
   formData.append('key', policyInfo.dir + fname)
   formData.append('success_action_status', '200')
   formData.append('file', file)
-  return Request.post(policyInfo.host, formData, { headers })
+  return Request.post(policyInfo.host, formData, { headers, onUploadProgress })
     .then(() => {
       return `${policyInfo.host}/${policyInfo.dir}${fname}`
     })
     .catch(err => {
-      console.log('err', err)
       return Promise.reject(err)
     })
 }

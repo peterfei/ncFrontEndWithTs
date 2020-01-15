@@ -52,47 +52,64 @@
             <span class="save-btn" @click="saveItemTitle">保存</span>
           </div>
           <div class="item-list">
-            <!-- <el-collapse
-              v-model="activeName"
-              accordion
-              v-if="navType == 'course'"
-            >
-              <course-item
-                v-for="item in courseList"
-                :key="item.id"
-                :id="item.id"
-                :itemId="item.id"
-                :packageId="packageId"
-                :title="item.resource.base_resource.title"
-                @delItem="delItem"
-              ></course-item>
-            </el-collapse> -->
             <!-- 课程列表 -->
-            <el-collapse accordion>
-              <el-collapse-item v-for="item in courseList" :key="item.id">
-                <template slot="title">
-                  <i class="iconfont icon-ziyuan1"></i>
-                  <el-input
-                    readonly="true"
-                    v-model="item.name"
-                    class="title-item-edit"
-                  ></el-input>
-                  <div class="options">
-                    <i class="iconfont icon-yidong"></i>
-                    <i class="iconfont icon-bianji"></i>
-                    <i class="iconfont icon-shanchu"></i>
-                    <i
-                      class="header-icon el-icon-info"
-                      @click.stop.prevent="editItemTitle()"
-                    >
-                    </i>
-                  </div>
-                </template>
-
-                <div>
-                  与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
+            <el-collapse
+              accordion
+              v-model="activeNames"
+              @change="collapseChange"
+            >
+              <div v-for="item in courseList" :key="item.id" class="item-block">
+                <div v-if="editTitleIndex !== item.id">
+                  <el-collapse-item :name="item.id">
+                    <!-- <div> -->
+                    <template slot="title">
+                      <div class="head-block">
+                        <div class="icon-title">
+                          <span class="type-icon">
+                            <i class="iconfont icon-ziyuan1"></i>
+                            {{ item.id }}
+                          </span>
+                          {{ item.name }}
+                        </div>
+                        <div class="options">
+                          <i
+                            class="iconfont icon-yidong"
+                            @click.stop.prevent="dragItem()"
+                          ></i>
+                          <i
+                            class="iconfont icon-bianji"
+                            @click.stop.prevent="editItemTitle(item.id)"
+                          ></i>
+                          <i
+                            class="iconfont icon-shanchu"
+                            @click.stop.prevent="delItem()"
+                          ></i>
+                        </div>
+                      </div>
+                    </template>
+                    <div>
+                      与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
+                    </div>
+                  </el-collapse-item>
                 </div>
-              </el-collapse-item>
+                <div v-if="editTitleIndex === item.id">
+                  <div class="itemtitle-edit-block">
+                    <el-input
+                      v-model="item.name"
+                      class="title-item-edit"
+                      :autofocus="true"
+                      :class="{ active: editTitleIndex === item.id }"
+                    >
+                    </el-input>
+                    <div class="options">
+                      <span class="cancel" @click="cancelUpdateTitle"
+                        >取消
+                      </span>
+                      <span class="save" @click="updateTitle">保存</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </el-collapse>
 
             <!-- 作业列表 -->
@@ -132,18 +149,7 @@
                         摘录：{{ item.resource.bought_num }}
                       </span>
                     </div>
-                    <div class="icons">
-                      <i
-                        class="iconfont icon-bianji"
-                        @click.stop.prevent="
-                          editTitle(item.id, item.resource.title)
-                        "
-                      ></i>
-                      <i
-                        class="iconfont icon-shanchu"
-                        @click.stop.prevent="delItem(item)"
-                      ></i>
-                    </div>
+                    
                   </div>
                   <div v-if="item.editType === 1" class="edit-title">
                     <el-input
@@ -289,11 +295,6 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mockMyResourceDetail } from '@/mocks/index'
 import { mockMyCourseList } from '@/mocks/index'
 
-// import Resource from '@/api/resource/index'
-// import courseItem from './components/courseItem.vue'
-// import homeworkItem from './components/homeworkItem.vue'
-// import testingItem from './components/testingItem.vue'
-// import materialItem from './components/materialItem.vue'
 @Component({
   components: {},
   filters: {
@@ -323,10 +324,8 @@ import { mockMyCourseList } from '@/mocks/index'
   }
 })
 export default class MyResource extends Vue {
-  public packageDetail: any = mockMyResourceDetail
-  public current: string = 'confirm'
-  public payment: string = 'zhibubao'
-
+  public packageDetail: any = mockMyResourceDetail //资源包详情信息
+  public editTitleIndex: number = 0
   public navTypes: Array<any> = [
     {
       name: 'course',
@@ -351,6 +350,7 @@ export default class MyResource extends Vue {
   public addResourceShow: boolean = false
 
   public courseList: Array<any> = mockMyCourseList
+  public activeNames: any = ''
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: {
     id: number
@@ -360,8 +360,6 @@ export default class MyResource extends Vue {
     this.navType = to.query.type
   }
   mounted() {}
-
-  public buy() {}
 
   // 点击左侧改变url
   changeUrl(nav: string) {
@@ -392,20 +390,56 @@ export default class MyResource extends Vue {
   }
 
   // 编辑item 标题
-  editItemTitle() {
-    this.$message('点击了编辑')
+  editItemTitle(val: number) {
+    this.editTitleIndex = val
+    console.log(this.editTitleIndex)
+  }
+  // 删除资源
+  delItem() {
+    this.$confirm('确定要删除吗?', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+      this.$message({
+        type: 'success',
+        message: '删除成功!'
+      })
+    })
+  }
+  // 更新资源标题
+  updateTitle() {
+    this.$message({
+      message: '题目保存成功',
+      type: 'success'
+    })
+    this.editTitleIndex = 0
+  }
+
+  // 取消更新标题
+  cancelUpdateTitle() {
+    this.editTitleIndex = 0
+  }
+
+  // 收起手风琴折叠效果
+  closeCollapse() {
+    this.activeNames = ''
+  }
+
+  dragItem() {
+    this.activeNames = ''
+  }
+
+  // 触发手风琴
+  collapseChange() {
+    this.$message('触发了手风琴' + this.activeNames)
+    console.log(this.activeNames)
+  }
+
+  stopstop() {
+    console.log('阻止冒泡')
   }
 }
-
-// watch: {
-//   formData: {
-//     handler(v) {
-//       this.formData = v
-//     },
-//     deep: true
-//   },
-
-// },
 
 // data() {
 //   return {
@@ -413,12 +447,7 @@ export default class MyResource extends Vue {
 //     editTitleInput: '',
 //     activeAaaaa: [],
 //     editType: 0,
-//     pageid: '',
-//     inputTitle: '', // 添加新标题的
-//     activeName: '1',
-//     navType: 'course',
 //     query: '',
-//     addSubject: 0, // 0不显示 1显示 是否添加标题(框)
 //     courseList: [],
 //     homeworkList: [],
 //     testList: [],
@@ -427,128 +456,16 @@ export default class MyResource extends Vue {
 //     packageTitle: '', // 教学包名称
 //     packageIntro: '', // 教学包介绍
 //     packagePrice: '', // 教学包价格
-//     packageUpdated_at: '', // 更新时间
-//     packageEducation: '', // 适用层次 0 1 2
-//     packageEducationLabel: '', // 适用层次
 
-//     activeNames: '',
 //     materialItem: '',
 //     materialLabel: '',
 //     materialType: '',
-//     formContent: {
-//       // 提交内容表单
-//       title: '',
-//       id: '', // 教学包id
-//       item_id: '', // 教学包资源id
-//       content: ''
-//     },
+//
 //     // 资料内容
 //     mLoading: true,
 //     mFormDataContent: '', // 表单内容
 //     mType: '' // 类型
 //   }
-// },
-
-// created() {
-//   this.pageid = this.$route.params.id
-//   this.packageId = this.$route.params.id
-// },
-// mounted() {
-//   this.$router.push({
-//     query: { type: 'course' }
-//   })
-
-//   this.getPackDetail()
-// },
-// methods: {
-//   addMaterial() {},
-//   // 修改标题按钮触发动作
-//   editTitle(itemid, title) {
-// this.editTitleInput = title
-// this.homeworkList = this.homeworkList.map(item => {
-//   const obj = item
-//   if (obj.id === itemid) {
-//     return { ...obj, editType: 1 }
-//   }
-//   return obj
-// })
-// },
-// 保存修改标题时触发动作
-// updateTitle(itemid) {
-// const obj = {
-//   item_id: 46,
-//   title: this.editTitleInput,
-//   resource_type: 'homework'
-// }
-// Resource.MyResource.addResourceItem(this.packageId, obj)
-//   .then(rec => {
-//     this.$message({
-//       type: 'success',
-//       message: '修改标题成功!'
-//     })
-//   })
-//   .catch(error => {
-//     console.log(error)
-//   })
-// },
-
-// stopstop() {},
-
-// 删除条目
-// delItem(obj) {
-// this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-//   confirmButtonText: '确定',
-//   cancelButtonText: '取消',
-//   type: 'warning'
-// })
-//   .then(() => {
-//     Resource.MyResource.delResourceItem(obj.teaching_package_id, obj.id)
-//       .then(rec => {
-//         this.getPackDetail()
-//       })
-//       .catch(error => {
-//         console.log(error)
-//       })
-//     this.$message({
-//       type: 'success',
-//       message: '删除成功!'
-//     })
-//   })
-//   .catch(() => {
-//   })
-// },
-// // 取消编辑标题
-// cancelEditTitle(itemid) {
-// this.homeworkList = this.homeworkList.map(item => {
-//   const obj = item
-//   if (obj.id === itemid) {
-//     return { ...obj, editType: 0 }
-//   }
-//   return obj
-// })
-// },
-// // 取消条目
-// cancelCollapse() {
-//   this.activeNames = 0
-// },
-
-// 添加、修改资源内容条目
-// updateItemDetail(obj) {
-// const postObj = obj
-// postObj.item_id = this.formContent.item_id
-// postObj.title = this.formContent.title
-// Resource.MyResource.updateResourceItem(this.pageid, obj)
-//   .then(rec => {
-//     this.$message({
-//       message: '更新成功',
-//       type: 'success'
-//     })
-//     this.getPackDetail()
-//     this.activeNames = 0
-//   })
-//   .catch(error => {
-//     console.log(error)
-//   })
 // },
 
 // 手风琴展开详情
@@ -572,72 +489,6 @@ export default class MyResource extends Vue {
 //       })
 //   }, 300)
 // },
-
-// 切换 作业 课程 测验等
-// setType(tab) {
-// this.query = tab
-// this.navType = tab
-// const obj = {
-//   type: this.query
-// }
-// this.$router.push({
-//   query: obj
-// })
-// this.addSubject = 0
-// },
-
-// 获取列表
-// getPackDetail() {
-// Resource.ResourcePackage.getResourceDetail(this.pageid)
-//   .then(rec => {
-//     this.packageTitle = rec.name // 教学包标题
-//     this.packageIntro = rec.intro // 教学包描述
-//     if (rec.price === '0.00') {
-//       this.packagePrice = '免费'
-//     } else {
-//       this.packagePrice = rec.price // 教学包价格
-//     }
-//     this.packageUpdated_at = rec.updated_at // 更新时间
-//     this.packageEducation = rec.education // 适用层次
-//     this.courseList = rec.teaching_pkg_items.course
-//     this.homeworkList = rec.teaching_pkg_items.homework.map(item => ({
-//       ...item,
-//       editType: 0
-//     }))
-//     this.testList = rec.teaching_pkg_items.testing
-//     this.materialList = rec.teaching_pkg_items.material
-//   })
-//   .catch(error => {
-//   })
-// },
-
-// addItem() {
-//   this.addSubject = 1
-// },
-// cancelItem() {
-//   this.addSubject = 0
-// },
-
-// 添加资源标题-保存
-// addItemTitle() {
-// const postObj = {
-//   title: this.inputTitle,
-//   resource_type: this.navType
-// }
-// Resource.MyResource.addResourceItem(this.pageid, postObj)
-//   .then(rec => {
-//     this.$message({
-//       message: '添加成功',
-//       type: 'success'
-//     })
-//     this.addSubject = 0
-//     this.inputTitle = ''
-//     this.getPackDetail()
-//   })
-//   .catch(err => {})
-//     }
-//   }
-// }
 </script>
 
 <style lang="scss" scoped>
@@ -792,33 +643,79 @@ export default class MyResource extends Vue {
         .add-item-block {
           padding: 20px 40px;
           background: #f7f9fa;
-          ::v-deep .el-input {
-            width: 712px;
-            margin-right: 18px;
-          }
-          .cancel-btn,
-          .save-btn {
-            display: inline-block;
-            width: 50px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 12px;
-            color: #fff;
-          }
-          .cancel-btn {
-            background: #b6babf;
-            margin-right: 10px;
-          }
-          .save-btn {
-            background: #ff783c;
-          }
         }
         ::v-deep .el-collapse {
           border-bottom: none !important;
         }
         .item-list {
+          .item-block {
+            min-height: 50px;
+            border-bottom: 1px solid #ebeef5;
+            ::v-deep .el-collapse-item__header {
+              border-bottom: none;
+            }
+            .head-block {
+              display: flex;
+              width: 100%;
+              justify-content: space-between;
+            }
+            .itemtitle-edit-block {
+              background: #f7f9fa;
+              height: 80px;
+              display: flex;
+              padding: 0 50px 0 40px;
+              align-items: center;
+              .title-item-edit {
+                ::v-deep .el-input__inner {
+                  width: 700px;
+                }
+              }
+              .options {
+                width: 128px;
+                span {
+                  display: inline-block;
+                  width: 50px;
+                  height: 30px;
+                  line-height: 30px;
+                  text-align: center;
+                  cursor: pointer;
+                  font-size: 12px;
+                  color: #fff;
+                }
+                .save {
+                  background: $main;
+                  &:hover {
+                    background: $mian-bright;
+                    transition: 0.3s;
+                  }
+                }
+                .cancel {
+                  background: $grey;
+                  margin-right: 10px;
+                  &:hover {
+                    background: $grey-bright;
+                    transition: 0.3s;
+                  }
+                }
+              }
+            }
+          }
+          .type-icon {
+            color: #bdc1c6;
+            margin-right: 8px;
+          }
+
+          .title-item-edit.active {
+            ::v-deep .el-input__inner {
+              border: 1px solid $main;
+            }
+          }
+          .options {
+            i {
+              color: #8a9199;
+              margin-right: 20px;
+            }
+          }
           .edit-title {
             display: flex;
             width: 100%;

@@ -31,6 +31,9 @@ import {
 export default class Upload extends Vue {
   @Prop({ type: String, default: 'fakeactioin' }) action: string
   @Prop({ type: Function }) httpRequest: Function
+  @Prop({ type: Function }) onSuccess: Function
+  @Prop({ type: Function }) onError: Function
+  @Prop({ type: Function }) onProgress: Function
 
   get uploader() {
     return this.httpRequest || this.defaultUploader
@@ -38,7 +41,6 @@ export default class Upload extends Vue {
 
   // 自定义上传方法，以覆盖默认的上传动作
   defaultUploader(params: any) {
-    console.log(456, params)
     const extName =
       params.file.name.indexOf('.') !== -1
         ? params.file.name.split('.')[1]
@@ -48,32 +50,31 @@ export default class Upload extends Vue {
       .then(md5 => {
         // 2.获取文件的上传授权
         getUploadPolicy(md5, extName).then((res: any) => {
-          console.log('policy', res)
           // 文件已存在的场合
           if (res._id && !res.accessid) {
             // 直接输出上传成功，及文件信息
-            console.log('quick upload', res)
+            this.onSuccess(res, params.file)
           } else {
-            postUploadFile(res, params.file)
+            postUploadFile(res, params.file, this.onProgress)
               .then(ossUrl => {
-                console.log('uploaded ::', ossUrl)
                 const attachmentType = Utils.getAttachmentType(params.file)
                 postAttachmentCallback(params.file, {
                   md5,
                   ossUrl,
                   ...attachmentType
                 }).then(resourceInfo => {
-                  console.log('resourceInfo', resourceInfo)
+                  this.onSuccess(resourceInfo, params.file)
                 })
               })
               .catch(err => {
-                console.log('123', err)
+                this.onError(err, params.file)
               })
           }
         })
       })
       .catch(err => {
         console.error(err)
+        this.onError(err, params.file)
       })
   }
 }
