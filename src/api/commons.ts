@@ -14,7 +14,6 @@ export function getUploadPolicy(
     is_private: isPrivate ? null : 0,
     file_extension: extension
   }
-  console.log(process.env.VUE_APP_API_HOST)
   return Request.get(UPLOAD_POLICY_URL, params)
 }
 
@@ -40,7 +39,6 @@ export function postUploadFile(
       return `${policyInfo.host}/${policyInfo.dir}${fname}`
     })
     .catch(err => {
-      console.log('err', err)
       return Promise.reject(err)
     })
 }

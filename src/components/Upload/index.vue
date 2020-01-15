@@ -38,13 +38,9 @@ export default class Upload extends Vue {
   get uploader() {
     return this.httpRequest || this.defaultUploader
   }
-  mounted() {
-    console.log(this.$attrs)
-  }
 
   // 自定义上传方法，以覆盖默认的上传动作
   defaultUploader(params: any) {
-    console.log(456, params)
     const extName =
       params.file.name.indexOf('.') !== -1
         ? params.file.name.split('.')[1]

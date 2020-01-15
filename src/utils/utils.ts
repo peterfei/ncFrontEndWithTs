@@ -1,6 +1,8 @@
 import SparkMD5 from 'spark-md5'
 
 export default class Utils {
+  static CHUNK_SIZE = 2097152
+
   static getAttachmentType(file: any) {
     let type = 'other'
     let ext = ''
@@ -42,7 +44,6 @@ export default class Utils {
     }
     return { type, ext }
   }
-  static CHUNK_SIZE = 2097152
   static getFileMD5(file: File, opt: any = {}): Promise<any> {
     var running = false
     return new Promise((resolve, reject) => {
@@ -50,9 +51,6 @@ export default class Utils {
         reject('has running')
       }
       const blobSlice = File.prototype.slice
-      // ||
-      // File.prototype.mozSlice ||
-      // File.prototype.webkitSlice
       const chunkSize = opt.chunkSize || this.CHUNK_SIZE
       const chunks = Math.ceil(file.size / chunkSize)
       let currentChunk = 0
@@ -66,9 +64,7 @@ export default class Utils {
       }
 
       fileReader.onload = e => {
-        console.log('Read chunk number (currentChunk + 1) of  chunks ')
         if (!fileReader.result) {
-          console.log('something went wrong')
           reject('something went wrong')
           return
         }
@@ -77,13 +73,13 @@ export default class Utils {
         if (currentChunk < chunks) {
           loadNext()
         } else {
-          console.log('Finished loading')
           resolve(spark.end())
         }
       }
 
       fileReader.onerror = () => {
         console.log('something went wrong')
+        reject('something went wrong')
       }
       loadNext()
     })
