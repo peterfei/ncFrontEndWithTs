@@ -50,7 +50,13 @@ class Request {
             typeof data === 'object'
           ) {
             return qs.stringify(data)
+          } else if (
+            headers['Content-Type'].indexOf('json') !== -1 &&
+            typeof data === 'object'
+          ) {
+            return JSON.stringify(data)
           }
+
           return data
         }
       ],

@@ -44,9 +44,6 @@ export function postAttachmentCallback(
   file: File,
   opt: { md5: string; ossUrl: string; type: string; ext: string }
 ) {
-  const headers = {
-    'Content-Type': 'application/json'
-  }
   const url = `${RESOURCE_CALLBACK_URL}?api_token=123`
   const data = {
     type: 5,
@@ -58,5 +55,5 @@ export function postAttachmentCallback(
     ext: opt.ext,
     is_private: 0
   }
-  return Request.post(url, data, { headers })
+  return Request.post(url, data)
 }
