@@ -71,3 +71,13 @@ export interface ICategories {
   types?: string | any
   activeId?: any
 }
+
+export interface IUploadPolicy {
+  accessid: string
+  host: string
+  policy: string
+  signature: string
+  expire: number
+  dir: string
+  filename: string
+}
