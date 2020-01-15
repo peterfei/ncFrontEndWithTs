@@ -113,6 +113,7 @@ export default class HeaderNav extends Vue {
   clickIndex: number = 0
   testInformation: any
   qs: Array<any> = []
+  // vid: string = '9f25c5058d794d68beb0216bb031f42e'
   public tabs: Array<IMoocTaps> = [
     { label: '课程测试', type: 'test', icon: 'icon-ceyan' },
     { label: '课程作业', type: 'task', icon: 'icon-zuoyelianxi' },

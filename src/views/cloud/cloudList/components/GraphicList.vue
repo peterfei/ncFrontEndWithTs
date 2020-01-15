@@ -180,5 +180,4 @@ export default class GraphicList extends Vue {
 .icon-guankanshu {
   font-size: 10px;
 }
-
 </style>

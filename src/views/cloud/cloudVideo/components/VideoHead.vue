@@ -27,7 +27,8 @@ export default {
   name: 'VideoHead',
   props: {
     mooc_package_id: {},
-    mooc_issue_id: {}
+    mooc_issue_id: {},
+    Syllabuses: {}
   },
   data() {
     return {
