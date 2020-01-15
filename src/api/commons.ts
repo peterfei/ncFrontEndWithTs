@@ -1,8 +1,10 @@
 import { IUploadPolicy } from './../types/index'
 import Request from '@/utils/request'
 
-const UPLOAD_POLICY_URL = '/api/upload_policy'
-const RESOURCE_CALLBACK_URL = '/api/resource'
+const UPLOAD_POLICY_URL =
+  process.env.VUE_APP_UPLOADER_POLICY || '/api/upload_policy'
+const RESOURCE_CALLBACK_URL =
+  process.env.VUE_APP_RESOURCE_CALLBACK_URL || '/api/resource'
 
 export function getUploadPolicy(
   md5: string,
