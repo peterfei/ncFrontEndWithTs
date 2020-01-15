@@ -3,6 +3,7 @@
     <video-head
       :mooc_package_id="chapter[0].mooc_package_id"
       :mooc_issue_id="chapter[0].mooc_issue_id"
+      :Syllabuses="Syllabuses"
     ></video-head>
     <div class="video-content">
       <!-- {{ Syllabuses }} -->
@@ -52,21 +53,21 @@ export default class VideoPlayer extends Vue {
   public temp_data: object = {}
 
   mounted() {
-    console.log(this.$route)
+    console.log('hhhh', this.$route.params)
     this.temp_data = this.questionData
-    console.log('路由中获取章id', this.$route)
+    // console.log('路由中获取章id', this.$route)
     this.syllabuseId = +this.$route.params.syllabuseId // 路由中获取章id
-    console.log('syllabuseId====', this.syllabuseId)
+    // console.log('syllabuseId====', this.syllabuseId)
     this.sub_id = +this.$route.params.sub_id // 路由中获取节id
-    console.log('sub_id节节节=====', this.sub_id)
+    // console.log('sub_id节节节=====', this.sub_id)
     this.mooc_issue_id = +this.$route.params.mooc_issue_id // 路由种获取期id
-    console.log('mooc_issue_id=====', this.mooc_issue_id)
+    // console.log('mooc_issue_id=====', this.mooc_issue_id)
     this.getChapter()
     this.getSyllabuses()
   }
   // 大纲
   getSyllabuses() {
-    console.log('xuexi', this.mooc_issue_id)
+    // console.log('xuexi', this.mooc_issue_id)
     Cloud.getSyllabuses(this.mooc_issue_id).then((res: any) => {
       this.Syllabuses = res
       console.log('大纲=======', res)

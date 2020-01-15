@@ -102,10 +102,11 @@ export default {
     return Request.post(url, postObj)
   },
   // 评论区-帖子列表
-  getListDisscussion(issueId: number) {
+  getListDisscussion(issueId: number, obj: any) {
     // {{host}}/api/mooc/discussions?mooc_issue_id=1
+    console.log('sss=========', obj)
     const url = `${moocModuleBasedUrl}/discussions?mooc_issue_id=${issueId}`
-    return Request.get(url)
+    return Request.get(url, obj)
   },
   // 评论区-回复帖{{host}}/api/mooc/replies
   getReplies(obj: any) {

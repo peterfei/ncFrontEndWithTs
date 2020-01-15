@@ -158,7 +158,17 @@
             </template>
           </div>
         </div>
+        <!-- {{ disscussPage }} -->
+        <!-- 发帖分页 -->
+        <el-pagination
+          v-if="disscussPage.last_page !== 1"
+          layout="total, prev, pager, next"
+          :page-size="parseInt(disscussPage.per_page, 10)"
+          :total="disscussPage ? disscussPage.total : 0"
+          @current-change="disListPageChange($event)"
+        ></el-pagination>
       </div>
+
       <span class="commont-close">
         <i class="icon iconfont icon-guanbi" @click="closeButton"></i>
       </span>
@@ -207,7 +217,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 export default class VideoSidebar extends Vue {
   @Prop({ default: () => [] }) Syllabuses!: Array<any>
   @Prop({ default: 0 }) mooc_package_id!: number
-  @Prop({ default: '' }) mooc_issue_id!: string
+  @Prop({ default: 0 }) mooc_issue_id!: number
   replyDiscusId: null = null
   replyDiscusContent: string = ''
   replyReplyObj: { id?: number } = {}
@@ -229,7 +239,7 @@ export default class VideoSidebar extends Vue {
   supports: any = []
   to_user_id: number = -1
   inputStyWidth: string = ''
-
+  disscussPage: object = {}
   // Syllabuses: Array<any> = []
 
   // mounted() {
@@ -291,7 +301,7 @@ export default class VideoSidebar extends Vue {
       })
     })
   }
-  // 回复分页
+  // 回复列表分页
   replyPageChange(page: any, obj: any) {
     console.log('page,obj', typeof obj.replysMeta)
     this.getListReplies(obj.id, page).then((res: any) => {
@@ -299,6 +309,16 @@ export default class VideoSidebar extends Vue {
       this.$set(obj, 'replys', res.data)
       // this.$set(‘对象名’,要修改的属性名,属性值)
     })
+  }
+  //帖子列表分页
+  disListPageChange(page: number) {
+    Cloud.getListDisscussion(this.mooc_package_id, { page: page }).then(
+      (res: any) => {
+        this.ListDisscussion = res.data
+        this.disscussPage = res.meta
+        console.log('发的帖子=======', this.disscussPage)
+      }
+    )
   }
   chapterClick(obj: any) {
     console.log('obj', obj)
@@ -431,10 +451,13 @@ export default class VideoSidebar extends Vue {
   }
   // 帖子列表
   getListDisscussion() {
-    Cloud.getListDisscussion(this.mooc_package_id).then((res: any) => {
-      this.ListDisscussion = res.data
-      console.log(this.ListDisscussion)
-    })
+    Cloud.getListDisscussion(this.mooc_issue_id, { page: 1 }).then(
+      (res: any) => {
+        this.ListDisscussion = res.data
+        this.disscussPage = res.meta
+        console.log('发的帖子=======', this.disscussPage)
+      }
+    )
   }
   getRepliesByDisscussion(rec: any) {
     return this.getListReplies(rec.id).then((resp: any) => {

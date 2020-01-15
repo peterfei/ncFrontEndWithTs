@@ -6,15 +6,19 @@
       <div class="learn-list">
         <ul v-if="item.child !== undefined">
           <!--{item.id章id,item1.id节id,item.mooc_issue_id期id  -->
-          <router-link
+          <!-- <router-link
             v-for="item1 in item.child"
             :key="item1.id"
             :to="{
               path: `/cloudVideo/${item.id}/${item1.id}/${item.mooc_issue_id}`
             }"
+          > -->
+          <!-- 已学完 -->
+          <div
+            v-for="item1 in item.child"
+            :key="item1.id"
+            @click="toDetail(item.id, item1.id, item.mooc_issue_id)"
           >
-            <!-- 已学完 -->
-
             <li v-if="item1.resources_is_finish == 1">
               <div class="list">
                 <i class="icon iconfont icon-yixuexi"></i>
@@ -62,7 +66,8 @@
                 </div>
               </div>
             </li>
-          </router-link>
+          </div>
+          <!-- </router-link> -->
         </ul>
       </div>
     </div>
@@ -79,6 +84,15 @@ export default class LearningSyllabus extends Vue {
   @Prop({ default: () => [] }) Syllabuses!: Array<any>
   @Prop({ default: '' }) title!: string
   @Prop({ default: '' }) description!: string
+  toDetail(zid: number, jid: number, issueid: number) {
+    console.log(zid, jid, issueid)
+    this.$router.push({
+      path: `/cloudVideo/${zid}/${jid}/${issueid}`,
+      params: {
+        name: 'hahahah'
+      }
+    })
+  }
 }
 </script>
 

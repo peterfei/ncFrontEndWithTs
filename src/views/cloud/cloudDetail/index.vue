@@ -25,7 +25,7 @@
     <div class="detail-content">
       <div class="tab-head">
         <el-tabs
-          v-model="activeName"
+          v-model="activedTab"
           style="margin-bottom:10px;"
           @tab-click="handlerTabChange"
         >
@@ -136,7 +136,7 @@ export interface IIssuesOptions {
 })
 export default class cloudDetal extends Vue {
   id: number
-  activeName: string = 'introduction'
+  // activeName: string = 'introduction'
   getIntroduct: Array<any> = []
   relatedCourse: Array<any> = []
   periodical: object = {}
@@ -150,7 +150,7 @@ export default class cloudDetal extends Vue {
   course_id: number
   pkgId: number = 0
   activedIssueId: number = 0
-  activedTab: any
+  activedTab: any = 'introduction'
   issueOptions: IIssuesOptions[] = []
   public tabs: Array<DetileTabs> = [
     {
@@ -204,6 +204,7 @@ export default class cloudDetal extends Vue {
   async mounted() {
     // 获取课程包id
     this.pkgId = +this.$route.params.pkgId
+    this.activedTab = this.$route.query.type || 'introduction'
     //获取期刊信息IssueOptions
     this.loadIssueOptions(this.pkgId).then((res: Array<object>) => {
       // 最新期
@@ -214,7 +215,7 @@ export default class cloudDetal extends Vue {
       console.log('------this.activedIssueId', this.activedIssueId) //期id
       // 确认激活tab， => activedTab
       //  根据激活的Tab，获取期的相应详情信息（intro, syllb, notices, rules, comments
-      this.activedTab = this.$route.query.type || 'introduction'
+
       this.getPeriodical()
       this.loadIssueInfo()
       this.getRelatedcourse()
