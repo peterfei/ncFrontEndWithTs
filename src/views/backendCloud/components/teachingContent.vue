@@ -4,7 +4,17 @@
     <div class="teaching-content-item">
       <div class="item">
         <el-collapse>
-          <el-collapse-item title="一致性 Consistency" name="1">
+          <el-collapse-item name="1">
+            <template slot="title">
+              一致性 Consistency
+              <div class="button-group">
+                <el-button size="mini">发布</el-button>
+
+                <el-button type="text">删除</el-button>
+                <el-button type="text">编辑</el-button>
+                <el-button type="text">移动</el-button>
+              </div>
+            </template>
             <div>
               与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
             </div>
@@ -62,6 +72,17 @@ export default class TeachingContent extends Vue {
     background-color: white;
     .item {
       padding: 25px;
+      .button-group {
+        display: flex;
+        flex-direction: row-reverse;
+        flex: 1;
+        flex-wrap: wrap;
+        align-items: center;
+        & > button {
+          margin: 10px;
+          // float: right;
+        }
+      }
       & > button {
         margin: 10px;
       }
