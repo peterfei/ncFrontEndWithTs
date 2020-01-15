@@ -10,7 +10,8 @@ import qs from 'qs'
 // import { UserModule } from '@/store/modules/user'
 
 class Request {
-  protected baseURL: any = process.env.baseURL
+  protected baseURL: any =
+    'http://192.168.38.38:81' || process.env.VUE_APP_API_HOST
   protected service: any = axios
   protected pending: Array<{
     url: string
@@ -41,7 +42,19 @@ class Request {
         timestamp: new Date().getTime(),
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
       },
-      transformRequest: [obj => qs.stringify(obj)],
+      transformRequest: [
+        (data, headers) => {
+          if (
+            headers['Content-Type'].indexOf(
+              'application/x-www-form-urlencoded'
+            ) !== -1 &&
+            typeof data === 'object'
+          ) {
+            return qs.stringify(data)
+          }
+          return data
+        }
+      ],
       transformResponse: [
         function(data: AxiosResponse) {
           return data
@@ -84,6 +97,7 @@ class Request {
         return config
       },
       (error: any) => {
+        console.log('interceptorError')
         return Promise.reject(error)
       }
     )
@@ -92,6 +106,7 @@ class Request {
   protected interceptorsResponse(): void {
     this.service.interceptors.response.use(
       (response: any) => {
+        console.log('interceptorresponse', response)
         this.responseLog(response)
         this.removePending(response.config)
         if (this.successCode.indexOf(response.status) === -1) {
@@ -116,7 +131,8 @@ class Request {
           }
           return Promise.reject(new Error(response.message || 'Error'))
         } else {
-          return response.data
+          console.log('resbs', response)
+          return response.data || response
         }
       },
       (error: any) => {
@@ -149,45 +165,21 @@ class Request {
   }
 
   public async post(url: string, data: any = {}, config: object = {}) {
-    try {
-      const result = await this.service.post(url, data, config)
-      return result.data
-    } catch (error) {
-      console.error(error)
-    }
+    const result = await this.service.post(url, data, config)
+    return result.data
   }
 
   public async delete(url: string, config: object = {}) {
-    try {
-      const result = await this.service.delete(url, config)
-      return result
-    } catch (error) {
-      console.error(error)
-    }
+    const result = await this.service.delete(url, config)
+    return result
   }
 
   public async put(url: string, data: any = {}, config: object = {}) {
-    try {
-      await this.service.put(url, qs.stringify(data), config)
-    } catch (error) {
-      console.error(error)
-    }
+    await this.service.put(url, qs.stringify(data), config)
   }
 
-  //public async get(url: string, parmas: any = {}, config: object = {}) {
-  //  try {
-  //    await this.service.get(url, parmas, config)
-  //  } catch (error) {
-  //    console.error(error)
-  //  }
-  //}
-
   public get(url: string, parmas: any = {}, config: object = {}) {
-    try {
-      return this.service.get(url, { ...config, params: parmas })
-    } catch (error) {
-      console.error(error)
-    }
+    return this.service.get(url, { ...config, params: parmas })
   }
   public xget(url: string, parmas: any = {}, config: object = {}) {
     return this.service.get(url, { ...config, params: parmas })
