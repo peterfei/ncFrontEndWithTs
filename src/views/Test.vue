@@ -1,6 +1,10 @@
 <template>
   <div class="i-test">
-    <ibd-upload multiple>
+    <ibd-upload
+      multiple
+      :on-success="handlerSuccess"
+      :on-progress="handlerProgress"
+    >
       <el-button>点击上传</el-button>
       <div slot="tip">
         hahha
@@ -24,6 +28,12 @@ export default class IbdTest extends Vue {
   }
   handlerUploader() {
     console.log('123')
+  }
+  handlerSuccess(a: any, b: any, c: any, d: any) {
+    console.log('onsuccess', a, b, c, d)
+  }
+  handlerProgress(e: any, file: File) {
+    console.log(e, file)
   }
 }
 </script>

@@ -18,10 +18,15 @@ export function getUploadPolicy(
   return Request.get(UPLOAD_POLICY_URL, params)
 }
 
-export function postUploadFile(policyInfo: IUploadPolicy, file: File) {
+export function postUploadFile(
+  policyInfo: IUploadPolicy,
+  file: File,
+  progressFn: Function
+) {
   const headers = {
     'Content-Type': 'mulipart/form-data'
   }
+  const onUploadProgress = progressFn
   const fname = policyInfo.filename || file.name
   const formData = new FormData()
   formData.append('OSSAccessKeyId', policyInfo.accessid)
@@ -30,7 +35,7 @@ export function postUploadFile(policyInfo: IUploadPolicy, file: File) {
   formData.append('key', policyInfo.dir + fname)
   formData.append('success_action_status', '200')
   formData.append('file', file)
-  return Request.post(policyInfo.host, formData, { headers })
+  return Request.post(policyInfo.host, formData, { headers, onUploadProgress })
     .then(() => {
       return `${policyInfo.host}/${policyInfo.dir}${fname}`
     })
