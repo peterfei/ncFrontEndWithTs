@@ -165,7 +165,6 @@ export default class ResourceDetail extends Vue {
   public arrListShow: any = [] //当前展示的列表
 
   created() {
-    console.log('进入create', this.arrListShow.length)
     this.packageId = this.$route.params.id
     this.getPackageDetail()
     this.$router.push({
@@ -176,7 +175,6 @@ export default class ResourceDetail extends Vue {
   }
   getPackageDetail() {
     PackageDetail.getDetail(this.packageId).then((res: any) => {
-      console.log('res=', res)
       this.packageTitle = res.name
       this.packageIntro = res.intro
       this.packageUpdate = res.updated_at
@@ -184,19 +182,16 @@ export default class ResourceDetail extends Vue {
       this.packagePrice = res.price
     })
   }
+  //监听URL变化
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: { id: number; query: { id: number; type: string } }) {
     const url = to.query
     this.navType = url.type
-    console.log(typeof this.navType)
     if (this.navType === 'test') {
       this.arrListShow = this.testList
     } else if (this.navType === 'task') {
       this.arrListShow = this.taskList
     }
-    // if (this.navTypes === 'test') {
-    //   this.arrListShow = this.testList
-    // }
   }
   loadurl(val: string) {
     this.$router.push({

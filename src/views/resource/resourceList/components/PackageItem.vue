@@ -184,7 +184,6 @@ export default class PackageItem extends Vue {
 
   // 跳转至详情页
   goDetail() {
-    console.log(111)
     let urlPath = `/resource/myresource/${this.id}`
     this.$router.push({ path: urlPath })
     if (this.typeChoose === 'all') {
@@ -193,7 +192,6 @@ export default class PackageItem extends Vue {
     this.$router.push({
       path: urlPath
     })
-    console.log(urlPath)
   }
 }
 
@@ -217,7 +215,6 @@ export default class PackageItem extends Vue {
 //   computed: {},
 //   methods: {
 //     handleNodeClick(data) {
-//       console.log(data)
 //     },
 
 //     // 编辑资源包

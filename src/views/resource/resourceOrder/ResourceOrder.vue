@@ -141,7 +141,6 @@ export default class ResourceOrder extends Vue {
         }
       })
     }
-    console.log(urlQuery)
   }
 
   // 点击购买按钮

@@ -35,8 +35,6 @@ export default class DragVeriCheck extends Vue {
   // 点击选择角色
   @Emit('change')
   selectRole(val: number) {
-    console.log('子组件change事件')
-    // console.log(val)
     return val
   }
   // 点击前往下一页

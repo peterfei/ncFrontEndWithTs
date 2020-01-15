@@ -235,7 +235,6 @@ export default class ResourceList extends Vue {
   public searchName(data: string) {}
   mounted() {
     this.getResourceList()
-    console.log('mount')
     const urlParams = {
       type: this.pageType, //我的分类
       keyword: this.keyword,
@@ -251,9 +250,7 @@ export default class ResourceList extends Vue {
     id: number
     query: { id: number; type: string; filter: string }
   }) {
-    console.log('url 的监听')
     const url = to.query
-    console.log(url)
     this.pageType = url.type
     this.mine = this.pageType == 'release' ? '1' : ''
     this.filterValue = url.filter
@@ -299,7 +296,6 @@ export default class ResourceList extends Vue {
     }
     const res = await ResourcePackageList.getPackageList(postObj)
     this.packagesList = res.data
-    console.log('packagesList=', this.packagesList)
   }
 
   // 选择全部、我的发布、我的摘录
@@ -329,12 +325,6 @@ export default class ResourceList extends Vue {
     })
   }
 
-  // this.data = await
-  // searchName(data) {
-  //     console.log('关键字', data)
-  //     this.name = data
-  //     this.getResourceList()
-  // },
   // mounted() {
   //   // 调用分类
   //   this.getNavtypes()
@@ -400,39 +390,8 @@ export default class ResourceList extends Vue {
   //   this.getNavtypethird()
   // },
 
-  // 搜索关键字
-  // searchName(data) {
-  //   console.log('关键字', data)
-  //   this.name = data
-  //   this.getResourceList()
-  // },
-  // 最右侧审核状态筛选
-  // setPackstatus(status) {
-  //   console.log('筛选状态', status)
-  //   this.packstatusCN = status
-  //   if (this.packstatusCN === '全部') {
-  //     this.packstatus = ''
-  //     this.is_published = ''
-  //   }
-  //   if (this.packstatusCN === '待审核') {
-  //     this.packstatus = 0
-  //     this.is_published = 0
-  //   }
-  //   if (this.packstatusCN === '已通过') {
-  //     this.packstatus = 1
-  //   }
-  //   if (this.packstatusCN === '未通过') {
-  //     this.packstatus = 2
-  //   }
-  //   if (this.packstatusCN === '待发布') {
-  //     this.packstatus = 9
-  //   }
-  //   this.getResourceList()
-  // },
   // 左侧三个筛选
   // typeChoose(type) {
-  //   this.typechoose = type
-  //   console.log('type=', type)
   //   if (type === 'myfa') {
   //     // 我的发布
   //     this.mine = 1
@@ -471,7 +430,6 @@ export default class ResourceList extends Vue {
   // },
   // typeChoose(type) {
   //   this.typechoose = type
-  //   console.log('type=', type)
   //   if (type === 'myfa') {
   //     // 我的发布
   //     this.mine = 1
@@ -513,7 +471,6 @@ export default class ResourceList extends Vue {
   //       this.typeChoose('myfa')
   //     })
   //     .catch(rec => {
-  //       console.log(rec)
   //     })
   // },
   // 提交审核
@@ -534,7 +491,6 @@ export default class ResourceList extends Vue {
   // setSorttype(tab) {
   //   if (tab === 'createtime') {
   //     this.sortactive = 'createtime'
-  //     console.log('创建时间')
   //   } else if (tab === 'excerptnum') {
   //     this.sortactive = 'excerptnum'
   //   }
@@ -542,7 +498,6 @@ export default class ResourceList extends Vue {
   //   setSorttype(tab) {
   //     if (tab === 'createtime') {
   //       this.sortactive = 'createtime'
-  //       console.log('创建时间')
   //     } else if (tab === 'excerptnum') {
   //       this.sortactive = 'excerptnum'
   //     }

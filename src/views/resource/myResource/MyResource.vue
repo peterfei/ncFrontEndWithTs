@@ -328,9 +328,7 @@ export default class MyResource extends Vue {
     const url = to.query
     this.navType = to.query.type
   }
-  mounted() {
-    console.log('mounted', this.$route)
-  }
+  mounted() {}
 
   public buy() {}
 
@@ -448,7 +446,6 @@ export default class MyResource extends Vue {
 // }
 // Resource.MyResource.addResourceItem(this.packageId, obj)
 //   .then(rec => {
-//     console.log(rec)
 //     this.$message({
 //       type: 'success',
 //       message: '修改标题成功!'
@@ -471,7 +468,6 @@ export default class MyResource extends Vue {
 //   .then(() => {
 //     Resource.MyResource.delResourceItem(obj.teaching_package_id, obj.id)
 //       .then(rec => {
-//         console.log('删除信息=', rec)
 //         this.getPackDetail()
 //       })
 //       .catch(error => {
@@ -505,10 +501,8 @@ export default class MyResource extends Vue {
 // const postObj = obj
 // postObj.item_id = this.formContent.item_id
 // postObj.title = this.formContent.title
-// console.log('更新详情=', obj)
 // Resource.MyResource.updateResourceItem(this.pageid, obj)
 //   .then(rec => {
-//     console.log(rec)
 //     this.$message({
 //       message: '更新成功',
 //       type: 'success'
@@ -529,7 +523,6 @@ export default class MyResource extends Vue {
 // setTimeout(() => {
 //   Resource.MyResource.detailResourceItem(this.pageid, id)
 //     .then(rec => {
-//       console.log('单个手风琴详情信息=', rec)
 //       this.formContent.title = rec.resource.base_resource.title
 //       this.formContent.item_id = rec.id
 //       this.mType = rec.resource.base_resource.type
