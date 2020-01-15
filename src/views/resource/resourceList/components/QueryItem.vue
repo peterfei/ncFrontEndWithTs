@@ -47,7 +47,6 @@ export default class QueryItem extends Vue {
     this.itemSeclected(null)
   }
   mounted() {
-    console.log(this.queryIsAll, this.value)
     if (!this.queryIsAll && this.value === null) {
       this.itemSeclected(this.options[0].id)
     } else {

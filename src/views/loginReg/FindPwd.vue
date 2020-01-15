@@ -59,7 +59,6 @@ export default class Login extends Vue {
 
   // 完成重置密码
   completePwd(val: any) {
-    console.log(val)
     if (val != false) {
       this.step++
     }

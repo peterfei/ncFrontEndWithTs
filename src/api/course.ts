@@ -1,7 +1,7 @@
 import Request from '@/utils/request'
 const moduleName = '/excellent_courses' // 模块名
 
-const courseUrl = `/api/${moduleName}/courses` // 课程
+const courseUrl = `/api${moduleName}/courses` // 课程
 const apisUrl = '/apis' // 通用接口
 const goodCoursesUrl = `${courseUrl}/good_courses` // 好课推荐
 const courseNoteUrl = `${moduleName}/course_notes` // 笔记

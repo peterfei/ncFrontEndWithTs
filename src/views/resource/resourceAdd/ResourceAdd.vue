@@ -247,12 +247,11 @@ export default class ResourceAdd extends Vue {
   //         arrDirection.push(Number(rec.category_parent.one_catid))
   //         arrDirection.push(Number(rec.category_parent.two_catid))
   //         arrDirection.push(Number(rec.category_parent.three_catid))
-  //         console.log('学习数组=', arrDirection)
+
   //         this.direction = arrDirection
   //         this.form.directionStudy = Number(rec.category_parent.three_catid)
   //       })
   //       .catch(rec => {
-  //         console.log(rec)
   //       })
   //   } else {
   //     this.edit = 0
@@ -265,7 +264,6 @@ export default class ResourceAdd extends Vue {
   //   onSubmit() {
   //     const payRmb = this.form.pay_rmb
   //     const payBodou = this.form.pay_bodou
-  //     console.log('category_id=', this.form.directionStudy)
   //     if (payRmb > 0) {
   //       this.form.price = payRmb
   //       this.form.payment_type = 'rmb'
@@ -290,7 +288,6 @@ export default class ResourceAdd extends Vue {
   //           }, 1500)
   //         })
   //         .catch(err => {
-  //           console.log('err=', err)
   //           this.$message({
   //             message: err.data.message,
   //             type: 'error'

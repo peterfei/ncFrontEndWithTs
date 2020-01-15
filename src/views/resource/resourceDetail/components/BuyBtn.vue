@@ -29,7 +29,6 @@ export default class BuyBtn extends Vue {
 
   // 购买
   purchase() {
-    console.log('点击购买')
     this.$router.push({
       path: `/resource/order/${this.id}`
     })
@@ -44,10 +43,7 @@ export default class BuyBtn extends Vue {
   }
 }
 // export default {
-// props: {
-//   price: {},
-//   id: {}
-// },
+
 // 立即摘录
 // excerpt() {
 //   this.$message({
@@ -56,22 +52,15 @@ export default class BuyBtn extends Vue {
 //   })
 //   Resource.ResourcePackage.excerptPackage(this.id)
 //     .then(rec => {
-//       console.log('rec=', rec)
 //     })
 //     .catch(err => {
-//       console.log('err=', err)
 //       this.$message({
 //         message: err.data,
 //         type: 'error'
 //       })
 //     })
 // }
-// 购买
-// purchase() {
-//   this.$router.push({
-//     path: `/order/${this.id}/`
-//   })
-// }
+
 // }
 </script>
 <style lang="scss" scoped>

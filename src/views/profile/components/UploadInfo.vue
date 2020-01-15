@@ -74,12 +74,8 @@ export default class uploadInfo extends Vue {
     }
   }
 
-  handleRemove(file: any, fileList: any) {
-    console.log(file, fileList)
-  }
-  handlePreview(file: any) {
-    console.log(file)
-  }
+  handleRemove(file: any, fileList: any) {}
+  handlePreview(file: any) {}
   handleExceed(files: any, fileList: any) {
     this.$message.warning(
       `当前限制选择 3 个文件，本次选择了 ${
