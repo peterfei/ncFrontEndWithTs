@@ -50,6 +50,7 @@
           </template>
           <template v-if="tab.type === 2">
             <!-- @submitAssignment="submitAssignment" -->
+            <!-- {{ tab }} -->
             <course-assignments
               :chapter="chapter"
               :title="tab.title"
@@ -57,7 +58,6 @@
               :end_time="tab.base_resource.end_time"
               :options="tab.options"
               :user_score="tab.user_score"
-              :answer_data="tab.answer_data"
               :id="tab.id"
               :mooc_issue_id="chapter[0].mooc_issue_id"
             ></course-assignments>
