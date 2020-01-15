@@ -136,6 +136,7 @@ class Request {
         }
       },
       (error: any) => {
+        // debugger
         Message({
           message: error.message,
           type: 'error',
@@ -166,7 +167,7 @@ class Request {
 
   public async post(url: string, data: any = {}, config: object = {}) {
     const result = await this.service.post(url, data, config)
-    return result.data
+    return result
   }
 
   public async delete(url: string, config: object = {}) {
@@ -196,9 +197,9 @@ class Request {
         '%c┍------------------------------------------------------------------┑',
         `color:${randomColor};`
       )
-      console.log('| 请求地址：', response.config.url)
-      console.log('| 请求参数：', qs.parse(response.config))
-      console.log('| 返回数据：', response.data)
+      // console.log('| 请求地址：', response.config.url)
+      // console.log('| 请求参数：', qs.parse(response.config))
+      // console.log('| 返回数据：', response.data)
       console.log(
         '%c┕------------------------------------------------------------------┙',
         `color:${randomColor};`

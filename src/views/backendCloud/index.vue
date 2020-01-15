@@ -36,7 +36,8 @@ export default class BackendCloud extends Vue {
 
   routerLinkToGuide() {
     this.$router.push({
-      path: '/backend_cloud/guide/'
+      // path: '/backend_cloud/guide/'
+      name: 'backend_guide'
     })
   }
 }

@@ -32,6 +32,7 @@
       <div class="detail-content">
         <!-- 左侧模块 -->
         <div class="left-list-block">
+          <div class="no-data" v-if="arrListShow.length == 0">暂无数据</div>
           <div
             class="detail-item"
             v-for="(item, index) in arrListShow"
@@ -161,7 +162,7 @@ export default class ResourceDetail extends Vue {
   public testList: Array<object> = mockResourceTestList //测验
   public taskList: Array<object> = mockResourceTaskList //作业
   public hoverIndex: string = '-1' //hover 效果
-  public arrListShow: any = this.TestList //当前展示的列表
+  public arrListShow: any = [] //当前展示的列表
 
   created() {
     this.packageId = this.$route.params.id
@@ -174,7 +175,6 @@ export default class ResourceDetail extends Vue {
   }
   getPackageDetail() {
     PackageDetail.getDetail(this.packageId).then((res: any) => {
-      console.log('res=', res)
       this.packageTitle = res.name
       this.packageIntro = res.intro
       this.packageUpdate = res.updated_at
@@ -182,19 +182,16 @@ export default class ResourceDetail extends Vue {
       this.packagePrice = res.price
     })
   }
+  //监听URL变化
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: { id: number; query: { id: number; type: string } }) {
     const url = to.query
     this.navType = url.type
-    console.log(typeof this.navType)
     if (this.navType === 'test') {
       this.arrListShow = this.testList
     } else if (this.navType === 'task') {
       this.arrListShow = this.taskList
     }
-    // if (this.navTypes === 'test') {
-    //   this.arrListShow = this.testList
-    // }
   }
   loadurl(val: string) {
     this.$router.push({

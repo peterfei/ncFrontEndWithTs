@@ -35,17 +35,17 @@
 import { Component, Vue } from 'vue-property-decorator'
 import LoginRegHead from './components/LoginRegHead.vue'
 import CharacterChoose from './components/CharacterChoose.vue'
-import UploadInfo from './components/uploadInfo.vue'
-import completeFile from './components/completeFile.vue'
-import tipComplete from './components/tipComplete.vue'
+import UploadInfo from './components/UploadInfo.vue'
+import CompleteFile from './components/CompleteFile.vue'
+import TipComplete from './components/TipComplete.vue'
 
 @Component({
   components: {
     LoginRegHead,
     CharacterChoose,
     UploadInfo,
-    completeFile,
-    tipComplete
+    CompleteFile,
+    TipComplete
   }
 })
 export default class Register extends Vue {

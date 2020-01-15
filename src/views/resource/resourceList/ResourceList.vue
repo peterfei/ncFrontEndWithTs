@@ -95,7 +95,7 @@
             v-if="pageType == 'release'"
           >
             <span class="el-dropdown-link">
-              {{ filterLabel }}
+              {{ filterValue | statusFilter }}
               <i class="el-icon-arrow-down el-icon--right"></i>`
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -184,6 +184,22 @@ declare module 'vue/types/vue' {
     PackageItem,
     QueryItem,
     CateFilterCourse
+  },
+  filters: {
+    // 下拉状态的过滤
+    statusFilter(filter: number) {
+      if (filter == 9) {
+        return '未发布'
+      } else if (filter == 2) {
+        return '未通过'
+      } else if (filter == 1) {
+        return '已通过'
+      } else if (filter == 0) {
+        return '待审核'
+      } else if (filter == null) {
+        return '全部'
+      }
+    }
   }
 })
 export default class ResourceList extends Vue {
@@ -215,7 +231,6 @@ export default class ResourceList extends Vue {
   public pageType: string = 'all' //我的发布，我的摘录，全部
   public keyword: string = '' //关键字搜索
   public sortType: string = '' //排序方式
-  public filterLabel: string = '全部' //审核状态下拉筛选
   public filterValue: any = null //审核状态下拉
   public searchName(data: string) {}
   mounted() {
@@ -231,10 +246,14 @@ export default class ResourceList extends Vue {
 
   //每次url变化监听
   @Watch('$route', { immediate: true, deep: true })
-  onUrlChange(to: { id: number; query: { id: number; type: string } }) {
+  onUrlChange(to: {
+    id: number
+    query: { id: number; type: string; filter: string }
+  }) {
     const url = to.query
     this.pageType = url.type
     this.mine = this.pageType == 'release' ? '1' : ''
+    this.filterValue = url.filter
     this.getResourceList()
   }
   loadUrl() {
@@ -277,18 +296,17 @@ export default class ResourceList extends Vue {
     }
     const res = await ResourcePackageList.getPackageList(postObj)
     this.packagesList = res.data
-    console.log('packagesList=', this.packagesList)
   }
 
   // 选择全部、我的发布、我的摘录
   typeChooseClick(type: string) {
     this.pageType = type
+    this.filterValue = null
     this.loadUrl()
   }
 
-  // 最右侧下拉审核状态筛选
+  // 最右侧下拉审核状态筛选 清空状态筛选
   dropDownPackstatus(status: any) {
-    this.filterLabel = status.label
     this.filterValue = status.value
     this.packstatusCN = status
     this.loadUrl()
@@ -307,12 +325,6 @@ export default class ResourceList extends Vue {
     })
   }
 
-  // this.data = await
-  // searchName(data) {
-  //     console.log('关键字', data)
-  //     this.name = data
-  //     this.getResourceList()
-  // },
   // mounted() {
   //   // 调用分类
   //   this.getNavtypes()
@@ -378,39 +390,8 @@ export default class ResourceList extends Vue {
   //   this.getNavtypethird()
   // },
 
-  // 搜索关键字
-  // searchName(data) {
-  //   console.log('关键字', data)
-  //   this.name = data
-  //   this.getResourceList()
-  // },
-  // 最右侧审核状态筛选
-  // setPackstatus(status) {
-  //   console.log('筛选状态', status)
-  //   this.packstatusCN = status
-  //   if (this.packstatusCN === '全部') {
-  //     this.packstatus = ''
-  //     this.is_published = ''
-  //   }
-  //   if (this.packstatusCN === '待审核') {
-  //     this.packstatus = 0
-  //     this.is_published = 0
-  //   }
-  //   if (this.packstatusCN === '已通过') {
-  //     this.packstatus = 1
-  //   }
-  //   if (this.packstatusCN === '未通过') {
-  //     this.packstatus = 2
-  //   }
-  //   if (this.packstatusCN === '待发布') {
-  //     this.packstatus = 9
-  //   }
-  //   this.getResourceList()
-  // },
   // 左侧三个筛选
   // typeChoose(type) {
-  //   this.typechoose = type
-  //   console.log('type=', type)
   //   if (type === 'myfa') {
   //     // 我的发布
   //     this.mine = 1
@@ -449,7 +430,6 @@ export default class ResourceList extends Vue {
   // },
   // typeChoose(type) {
   //   this.typechoose = type
-  //   console.log('type=', type)
   //   if (type === 'myfa') {
   //     // 我的发布
   //     this.mine = 1
@@ -491,7 +471,6 @@ export default class ResourceList extends Vue {
   //       this.typeChoose('myfa')
   //     })
   //     .catch(rec => {
-  //       console.log(rec)
   //     })
   // },
   // 提交审核
@@ -512,7 +491,6 @@ export default class ResourceList extends Vue {
   // setSorttype(tab) {
   //   if (tab === 'createtime') {
   //     this.sortactive = 'createtime'
-  //     console.log('创建时间')
   //   } else if (tab === 'excerptnum') {
   //     this.sortactive = 'excerptnum'
   //   }
@@ -520,7 +498,6 @@ export default class ResourceList extends Vue {
   //   setSorttype(tab) {
   //     if (tab === 'createtime') {
   //       this.sortactive = 'createtime'
-  //       console.log('创建时间')
   //     } else if (tab === 'excerptnum') {
   //       this.sortactive = 'excerptnum'
   //     }

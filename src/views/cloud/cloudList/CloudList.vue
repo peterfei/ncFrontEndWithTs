@@ -11,11 +11,18 @@
           @change="searchPayment"
         ></mooc-payment-status>
       </div>
-      <graphic-list
-        :moocList="moocList"
-        :pageMeta="pageMeta"
-        @handleCurrentChange="handleCurrentChange"
-      ></graphic-list>
+      <graphic-list :moocList="moocList"></graphic-list>
+      <div class="block page-block">
+        <div class="block ">
+          <el-pagination
+            layout="prev, pager, next"
+            :total="pageMeta.total"
+            :page-size="parseInt(pageMeta.per_page, 10)"
+            @current-change="handleCurrentChange"
+          >
+          </el-pagination>
+        </div>
+      </div>
     </div>
     <div class="cloud-right">
       <el-button class="cloud-button">开课后台</el-button>
@@ -51,12 +58,17 @@ export default class CourseList extends Vue {
   paymentType: number = 0
   moocList: Array<any> = []
   recommendList: Array<any> = []
-  pageMeta: Array<any> = []
+  // pageMeta: Array<any> = []
   popularityList: Array<any> = []
   page: Number = 1
-
+  pageMeta: { totalPage: number; total: number; per_page: number } = {
+    totalPage: 0,
+    total: 0,
+    per_page: 0
+  }
   @Watch('$route', { immediate: true, deep: true })
-  handler() {
+  onUrlChange(to: { id: number; query: { id: number } }) {
+    this.page = 1
     this.getList()
   }
   mounted() {
@@ -98,13 +110,18 @@ export default class CourseList extends Vue {
   getList() {
     const params = {
       status: this.moocStatus,
-      is_free: this.paymentType
+      is_free: this.paymentType,
+      limit: 20,
+      page: this.page
     }
     Cloud.getList(params).then((res: any) => {
       // console.log(res)
       // debugger
       this.moocList = res.data
       this.pageMeta = res.meta
+      this.pageMeta.totalPage = Math.ceil(
+        this.pageMeta.total / this.pageMeta.per_page
+      )
     })
   }
   // 人气爆棚
@@ -125,7 +142,10 @@ export default class CourseList extends Vue {
   }
 
   // 分页
-  handleCurrentChange() {}
+  handleCurrentChange(val: number) {
+    this.page = val
+    this.getList()
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -166,5 +186,19 @@ export default class CourseList extends Vue {
 .el-button:focus {
   background-color: #35cc67;
   color: #fff;
+}
+.page-block {
+  background: rgba(244, 244, 244, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto 100px;
+  &::v-deep button {
+    background: rgba(244, 244, 244, 1);
+    background-color: rgba(244, 244, 244, 1) !important;
+  }
+  &::v-deep li {
+    background: rgba(244, 244, 244, 1);
+  }
 }
 </style>

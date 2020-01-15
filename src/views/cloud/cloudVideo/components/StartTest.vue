@@ -6,13 +6,8 @@
     <!-- user_score_length:{{ Object.keys(user_score).length===0 }} -->
     <!-- {{chapter}} -->
     <!-- {{user_score}} -->
-    <div v-if="user_score==null">
-      <div
-        class="question"
-        ref="qArea"
-        v-if="questionData"
-        style="height:551px"
-      >
+    <div v-if="!user_score || !user_score.id || re_test_bln">
+      <div class="question" ref="qArea" v-if="questionData">
         <!-- {{questionData.base_resource.question}} -->
         <!-- {{questions}} -->
         <div
@@ -30,6 +25,7 @@
           <div v-if="q.options">
             <div class="topic-options" v-if="q.options">
               <!-- 1单选 3判断题-->
+
               <div class="ml30">
                 <div v-if="q.type == 1 || q.type == 3">
                   <el-radio-group
@@ -111,12 +107,106 @@
             </div>
           </div>
           <!-- 已批阅 -->
-          <div>{{ resultData }}</div>
+          <!-- <div>{{ resultData }}</div> -->
         </div>
       </div>
     </div>
-    <div v-else style="height:30px;width:90px;">
-      111222222222222222222 gfsfaeghh
+    <div v-else>
+      <div class="question" v-if="questionData">
+        <div class="q-item" v-for="(result, index) in resultData" :key="index">
+          {{
+            currentIndex.includes(result.id) || re_test_bln
+              ? ''
+              : currentIndex.push(result.id)
+          }}
+          <div class="title">
+            <div class="q_title">{{ index + 1 + result.title }}</div>
+            <span v-if="detailData.status == 1">得分：{{ result.score }}</span>
+          </div>
+          <div class="topic-options">
+            <div class="ml30">
+              <template v-if="result.type == 1 || result.type == 3">
+                <el-radio-group
+                  v-model="result.user_answer.answer[0]"
+                  @change="handlerAnwserChange(result, $event)"
+                  class="st-radio-group"
+                >
+                  <el-radio
+                    v-model="result.user_answer.answer"
+                    :label="item.key"
+                    class="st-radio"
+                    v-for="item in JSON.parse(result.options)"
+                    :key="item.key"
+                    >{{ item.label }}</el-radio
+                  >
+                </el-radio-group>
+                <!-- 答案解析 -->
+                <div class="analysis" v-if="user_score">
+                  <div class="right-answer">
+                    答案：{{ result.right_answer }}
+                  </div>
+                  <div class="analysis-answer">
+                    <span>解析：</span>
+                    <div class="analysis-content">
+                      {{ result.answer_analysis }}
+                    </div>
+                  </div>
+                </div>
+              </template>
+              <!-- 2多选 -->
+              <div class="st-radio-group" v-if="result.type == 2">
+                <el-checkbox
+                  class="st-radio"
+                  :label="item.key"
+                  v-for="item in JSON.parse(result.options)"
+                  :key="item.key"
+                  v-model="result.user_answer.answer"
+                  >{{ item.label }}</el-checkbox
+                >
+                <div class="analysis" v-if="user_score">
+                  <div class="right-answer">
+                    答案：{{ result.right_answer }}
+                  </div>
+                  <div class="analysis-answer">
+                    <span>解析：</span>
+                    <div class="analysis-content">
+                      {{ result.answer_analysis }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 4填空题 -->
+            <div v-if="result.type == 4">
+              <div class="test">
+                <el-input
+                  class="textarea"
+                  type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 4 }"
+                  placeholder="请输入内容"
+                  :value="result.user_answer.answer[0]"
+                  @input="handlerAnwserChange(result, $event)"
+                >
+                </el-input>
+              </div>
+            </div>
+            <!-- 5简答题 -->
+            <div v-if="result.type == 5">
+              <div class="test">
+                <el-input
+                  class="textarea"
+                  type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 4 }"
+                  placeholder="请输入答案"
+                  :value="result.user_answer.answer[0]"
+                  @input="handlerAnwserChange(result, $event)"
+                >
+                </el-input>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="q-nav clearfix">
       <!-- <div class="count" :options="options">
@@ -170,7 +260,13 @@
         </div>
       </div>
       <div class="submit">
-        <el-button type="warning" @click="answerSubmit">提交</el-button>
+        <el-button
+          type="warning"
+          v-if="!user_score || !user_score.id || re_test_bln"
+          @click="answerSubmit"
+          >提交</el-button
+        >
+        <el-button type="warning" v-else @click="reTest">重新测验</el-button>
       </div>
     </div>
   </div>
@@ -186,7 +282,7 @@ export default class StartTest extends Vue {
   @Prop({ default: () => {} }) options!: object
   @Prop({ default: '' }) remainTime!: string
   @Prop({ default: '' }) mooc_issue_id!: string
-  @Prop({ default: () => ({}) }) user_score!: object
+  @Prop({ default: () => ({}), type: Object }) user_score!: { id: number }
   @Prop({ default: () => {} }) chapter!: Array<any>
   @Prop({ default: 0 }) clickIndex!: number
   currentIndex: Array<any> = []
@@ -206,8 +302,26 @@ export default class StartTest extends Vue {
   baseTop: number
   resultData: Array<any> = []
   testState: boolean = true
+  list: Array<object> = []
+  detailData: Array<object> = []
+  re_test_bln: Boolean = false
+  @Watch('chapter')
+  chapterWatcher() {
+    console.log('TestDetail', this.TestDetail)
+    // this.TestDetail()
+  }
   mounted() {
-    console.log(`=====chapter======`, this.chapter)
+    console.log(`=====user_scoreuser_score======`, this.user_score)
+    console.log('资源ididiidii===', this.resoucedId)
+    // console.log(`----------resultData-------`, this.resultData)
+    if (this.user_score != null) {
+      if (Object.keys(this.user_score).length > 0) {
+        console.log('测验id==========', +this.user_score.id)
+        // debugger
+        this.TestDetail(this.user_score.id)
+      }
+    }
+    // this.currentIndex = [1,2,3]
     // window.addEventListener('scroll', this.menu)
     // console.log('123', this.resoucedId)
     // this.countDowm()
@@ -237,7 +351,6 @@ export default class StartTest extends Vue {
   }
   @Watch('questions')
   onChangeQuestions(val: any, oldVal: any) {
-    // debugger
     this.questions_temp = val
   }
   get questions() {
@@ -269,40 +382,6 @@ export default class StartTest extends Vue {
       return []
     }
   }
-  // generateQuestions() {
-  //   // debugger
-  //   console.log(`======questionData========`, this.questionData)
-
-  //   if (this.questionData.question) {
-  //     const q = this.questionData.question.map((rec: any) => {
-  //       console.log('aaaaa', q)
-  //       let options
-  //       try {
-  //         options = JSON.parse(rec.options)
-  //       } catch {
-  //         options = []
-  //       }
-  //       options.sort(() => Math.random() - 0.5)
-  //       const { id, title, score, type, rightAnswer, surveyId } = rec
-  //       return {
-  //         id,
-  //         title,
-  //         score,
-  //         type,
-  //         rightAnswer,
-  //         surveyId,
-  //         options,
-  //         answer: type === 2 ? [] : ''
-  //       }
-  //     })
-  //     q.sort(() => Math.random() - 0.5)
-  //     this.questions = q
-  //     this.questions.forEach((res: any) => {
-  //       this.question_id = res.id
-  //       console.log('question_id', this.question_id) // aaa
-  //     })
-  //   }
-  // }
   async countDowm() {
     // 测验开始时间
     return await Cloud.getCountDown(this.resoucedId)
@@ -369,41 +448,15 @@ export default class StartTest extends Vue {
       return !val.length
     }
   }
-  // 单选，判断
-  changeHandler(index: number) {
-    console.log(`current results is ======`, index)
-    if (!this.currentIndex.includes(index)) {
-      this.currentIndex.push(index)
-    }
-  }
-  // 填空题
-  inputChange(index: number, e: string | number) {
-    const i = this.currentIndex.indexOf(index)
-    const val = e.toString().trim()
-    console.log('vvvvvvvvvvvvv', this.currentIndex.includes(index))
-    if (val && i === -1) {
-      this.currentIndex.push(index)
-    }
-    if (!val && i !== -1) {
-      this.currentIndex.splice(i, 1)
-    }
-  }
   // 提交答题
   async answerSubmit() {
-    this.$emit('testChange', this.clickIndex)
     this.CountDownData = await this.countDowm()
 
-    console.log('q', this.questions)
     const answerData = this.questions.map((rec: any) => ({
       question_id: rec.id,
       answer: rec.type === 2 ? rec.answer : [rec.answer]
     }))
-    // return ;
     // console.log('测验开始时间', this.CountDownData.start_time)
-    console.log('asaaaaaaaaa', this.questions) // question_id
-    console.log('提交答案key==', this.key)
-    console.log('res.id', this.question_id)
-    console.log('mooc_issue_id', this.mooc_issue_id)
     const postObj = {
       resource_id: this.resoucedId,
       channel: 'mooc',
@@ -416,219 +469,35 @@ export default class StartTest extends Vue {
       // console.log('测验成果id', res.id)
       this.testId = res.id
       console.log('提交测验', this.answerData)
-      console.log('this.testState', this.testState)
-      // if (this.testState == true) {
-      //   this.testState = false
-      // } else if (this.testInfo) {
-      //   this.testInfo = true
-      // }
-
-      this.TestDetail()
+      this.TestDetail(this.testId)
+      this.$emit('testChange', this.clickIndex)
     })
+    this.re_test_bln = false
     // this.TestDetail()
   }
+
+  reTest() {
+    this.re_test_bln = true
+    console.log('0000')
+    this.currentIndex = []
+    // Cloud.getAnswerSubmit(this.resoucedId).then(res => {
+    //   this.testDetail = res
+    //   console.log('chong',this.testDetail)
+    // })
+    // this.user_score = { id: 0 }
+  }
   // 提交测验详情
-  TestDetail() {
-    console.log('测验成果id==', this.testId)
-    Cloud.getTestDetail(this.testId).then((res: any) => {
-      this.resultData = res
+  TestDetail(testId: number) {
+    console.log('测验成果id==', testId)
+    Cloud.getTestDetail(testId).then((res: any) => {
+      this.detailData = res
+      this.resultData = res.list
       console.log('用户提交测验详情', this.resultData)
       // console.log('测验成果id', res.id)
       // console.log('提交测验', this.resultData)
     })
   }
 }
-// export default {
-//   name: 'StartTest',
-//   props: {
-//     questionData: {
-//       type: Object
-//     },
-//     resoucedId: {},
-//     options: {},
-//     remainTime: {
-//       // 倒计时间总秒数
-//       default: ''
-//     },
-//     mooc_issue_id: {}
-//   },
-//   computed: {
-//     keguan() {
-//       return this.questions.filter(rec => [1, 2, 3, 4].indexOf(rec.type) !== -1)
-//     },
-//     zhuguan() {
-//       return this.questions.filter(rec => rec.type === 5)
-//     },
-//     scrollerHeight() {
-//       return `${window.innerHeight}px`
-//     },
-//     hourString() {
-//       return this.formatNum(this.hour)
-//     },
-//     // 分
-//     minuteString() {
-//       return this.formatNum(this.minute)
-//     },
-//     // 秒
-//     secondString() {
-//       return this.formatNum(this.second)
-//     }
-//   },
-//   mounted() {
-//     // JSON.parse(options).used_duration
-//     // console.log("this.options",JSON.parse(this.options).used_duration)
-//     window.addEventListener('scroll', this.menu)
-//     console.log('123', this.resoucedId)
-//     this.generateQuestions()
-//     this.countDowm()
-
-//   },
-//   data() {
-//     return {
-//       questions: [],
-//       radio: 3,
-//       currentIndex: 0,
-//       scroll: '',
-//       hour: '',
-//       minute: 60,
-//       second: 0,
-//       promiseTimer: '',
-//       answer_data: [],
-//       answerKey: [],
-//       exercise: '',
-//       short_answer: ''
-//     }
-//   },
-//   methods: {
-//     answerSubmit() {
-//       console.log('q', this.questions)
-//       const answerData = this.questions.map(rec => ({
-//         question_id: rec.id,
-//         answer: rec.type === 2 ? rec.answer : [rec.answer]
-//       }))
-//       // return ;
-//       console.log('测验开始时间', this.CountDownData.start_time)
-//       console.log('asaaaaaaaaa', this.questions) // question_id
-//       console.log('提交答案key==', this.key)
-//       console.log('res.id', this.question_id)
-//       console.log('mooc_issue_id', this.mooc_issue_id)
-//       const postObj = {
-//         resource_id: this.resoucedId,
-//         channel: 'mooc',
-//         channel_id: this.mooc_issue_id,
-//         answer_data: JSON.stringify(answerData), // 转字符串
-//         start_time: this.CountDownData.start_time
-//       }
-//       Cloud.MoocList.getAnswerSubmit(postObj).then(res => {
-//         this.answerData = res
-//         console.log('测验成果id', res.data.id)
-//         this.testId = res.data.id
-//         console.log('提交测验', this.answerData)
-//         this.TestDetail()
-//       })
-//     },
-//     TestDetail() {
-//       console.log('测验成果id==', this.testId)
-//       Cloud.MoocList.getTestDetail(this.testId).then(res => {
-//         this.answerData = res
-//         console.log('测验成果id', res.data.id)
-//         console.log('提交测验', this.answerData)
-//       })
-//     },
-//     countDowm() {
-//       // 测验开始时间
-//       Cloud.MoocList.getCountDown(this.resoucedId).then(res => {
-//         this.CountDownData = res
-//         console.log('测验开始时间', this.CountDownData)
-//       })
-//       const self = this
-//       clearInterval(this.promiseTimer)
-//       this.promiseTimer = setInterval(() => {
-//         if (self.hour === 0) {
-//           if (self.minute !== 0 && self.second === 0) {
-//             self.second = 59
-//             self.minute -= 1
-//           } else if (self.minute === 0 && self.second === 0) {
-//             self.second = 0
-//             self.$emit('countDowmEnd', true)
-//             clearInterval(self.promiseTimer)
-//           } else {
-//             self.second -= 1
-//           }
-//         } else if (self.minute !== 0 && self.second === 0) {
-//           self.second = 59
-//           self.minute -= 1
-//         } else if (self.minute === 0 && self.second === 0) {
-//           self.hour -= 1
-//           self.minute = 59
-//           self.second = 59
-//         } else {
-//           self.second -= 1
-//         }
-//       }, 1000)
-//     },
-//     formatNum(num) {
-//       return num.toString().padStart(2, '0')
-//       // return num < 10 ? `0${num}` : num.toString();
-//     },
-//     generateQuestions() {
-//       const q = this.questionData.question.map(rec => {
-//         let options
-//         try {
-//           options = JSON.parse(rec.options)
-//         } catch {
-//           options = []
-//         }
-//         options.sort(() => Math.random() - 0.5)
-//         const { id, title, score, type, rightAnswer, surveyId } = rec
-//         return {
-//           id,
-//           title,
-//           score,
-//           type,
-//           rightAnswer,
-//           surveyId,
-//           options,
-//           answer: type === 2 ? [] : ''
-//         }
-//       })
-//       q.sort(() => Math.random() - 0.5)
-//       this.questions = q
-
-//       this.questions.forEach(res => {
-//         this.question_id = res.id
-//         console.log('question_id', this.question_id) // aaa
-//       })
-//     },
-//     menu() {
-//       this.scroll = document.body.scrollTop
-//     },
-//     getIndex(value) {
-//       const t = this.questions.findIndex(rec => rec.id === value)
-//       if (t !== -1) {
-//         return t
-//       }
-//       console.log('xxxx', this.questions, t)
-//       return -1
-//     },
-//     goQuestion(id, index) {
-//       const idx = this.getIndex(id)
-//       this.currentIndex = index // 动态加class
-//       const area = this.$refs.qArea
-//       const baseTop = area.offsetTop
-//       // const baseLeft = area.offsetLeft;
-//       const comp = this.$refs.qItem[idx]
-//       const compTop = comp.offsetTop
-//       const targetX = 0
-//       const targetY = compTop - baseTop
-//       area.scrollTo({
-//         top: targetY,
-//         left: targetX,
-//         behavior: 'smooth'
-//       })
-//     }
-//   }
-// }
 </script>
 
 <style lang="scss" scoped>
@@ -646,7 +515,7 @@ export default class StartTest extends Vue {
 
   .question {
     width: 1061px;
-    // height: 500px;
+    height: 550px;
     overflow: auto;
     .q-item {
       display: flex;
