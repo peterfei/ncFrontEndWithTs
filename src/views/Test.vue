@@ -19,6 +19,9 @@ import { Component, Vue } from 'vue-property-decorator'
   }
 })
 export default class IbdTest extends Vue {
+  mounted() {
+    window.test = process.env
+  }
   handlerUploader() {
     console.log('123')
   }

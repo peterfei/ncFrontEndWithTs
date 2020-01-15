@@ -45,13 +45,11 @@
                   :courseType="item.type"
                 >
                 </course-chapter-item>
-
               </course-chapter-list-item>
             </div>
             <div v-else>
               <h6 class="no-info">暂无信息</h6>
             </div>
-              
           </template>
           <template v-if="this.activeName === 'comment'">
             <!--<course-comment-input
