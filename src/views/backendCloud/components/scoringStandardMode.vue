@@ -1,6 +1,12 @@
 <template>
   <div class="scoring">
-    <div class="title">评分规则|评分标准</div>
+    <div class="title">
+      评分规则
+      <div class="pipe">|</div>
+      <el-button type="info" size="small" round>评分标准</el-button>
+      <el-button type="info" size="small" round>评分设置</el-button>
+      <el-button type="info" size="small" round>证书设置</el-button>
+    </div>
     <div class="scoring-content">
       <div class="item">
         <div class="item-title">评分标准</div>
@@ -33,7 +39,18 @@ export default class scoringStandardMode extends Vue {
   flex: 4;
   margin-left: 10px;
   .title {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-family: Microsoft YaHei;
+    font-weight: bold;
+    color: rgba(10, 18, 26, 1);
+    line-height: 15px;
     padding-bottom: 15px;
+    .pipe {
+      // background: rgba(10, 18, 26, 1);
+      padding: 7px;
+    }
   }
   .scoring-content {
     padding-bottom: 15px;
@@ -63,7 +80,7 @@ export default class scoringStandardMode extends Vue {
       align-items: center;
       padding: 10px;
       & > textarea {
-        width: 90%;
+        width: 95%;
         height: 200px;
       }
     }
