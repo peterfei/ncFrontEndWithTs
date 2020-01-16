@@ -5,6 +5,7 @@ import Guide from '@/views/backendCloud/components/guide.vue'
 import Teaching from '@/views/backendCloud/components/teaching.vue'
 import Course from '@/views/backendCloud/components/course.vue'
 import TeachingContent from '@/views/backendCloud/components/teachingContent.vue'
+import ScoringStandardMode from '@/views/backendCloud/components/scoringStandardMode.vue'
 // import CloudDetail from '@/views/cloud/cloudDetail/index.vue'
 
 const BackendCloudModule = {
@@ -41,6 +42,11 @@ const BackendCloudModule = {
           path: 'teaching_content',
           name: 'teaching-content',
           component: TeachingContent
+        },
+        {
+          path: 'scoring',
+          name: 'scoring',
+          component: ScoringStandardMode
         }
       ]
     }
