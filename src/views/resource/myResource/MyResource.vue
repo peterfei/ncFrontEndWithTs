@@ -58,7 +58,7 @@
               v-model="activeNames"
               @change="collapseChange"
             >
-              <div v-for="item in courseList" :key="item.id" class="item-block">
+              <div v-for="item in dataList" :key="item.id" class="item-block">
                 <div v-if="editTitleIndex !== item.id">
                   <el-collapse-item :name="item.id">
                     <!-- <div> -->
@@ -67,11 +67,10 @@
                         <div class="icon-title">
                           <span class="type-icon">
                             <i class="iconfont icon-ziyuan1"></i>
-                            {{ item.id }}
                           </span>
                           {{ item.name }}
                         </div>
-                        <div class="options">
+                        <div class="options" @click.stop.prevent="stop">
                           <i
                             class="iconfont icon-yidong"
                             @click.stop.prevent="dragItem()"
@@ -87,8 +86,14 @@
                         </div>
                       </div>
                     </template>
-                    <div>
-                      与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
+                    <div v-loading="loading">
+                      任天堂香港有限公司官微宣布，任天堂商店现在已经支持VISA、MasterCard、
+                      Alipay、Unionpay（银联）付款。大陆版支付宝可以直接扫码支付，对于玩家来说更加便利了。
+                      游民星空笔者亲测在付款时可以从三种方式中任选一种：银联、Visa、Mster卡，大陆版支付宝，Alipay
+                      HK。连接体验也比较流畅。 游民星空 游民星空
+                      港服商店已经上架了不少Switch游戏，还有预付序号卡、NS
+                      Online会员等内容。
+                      本文由游民星空制作发布，未经允许禁止转载。
                     </div>
                   </el-collapse-item>
                 </div>
@@ -125,52 +130,6 @@
                 Consistency
                 :name="item.id"
               >
-                <div class="edit-title" v-if="item.type === 2">
-                  <el-input
-                    v-model="inputTitle"
-                    placeholder="请输入内容"
-                  ></el-input>
-                  <span class="cancel-btn" @click.stop.prevent="cancelItem"
-                    >取消</span
-                  >
-                  <span class="save-btn" @click="addItemTitle">保存</span>
-                </div>
-                <template slot="title" class="aaaaaaaa">
-                  <div class="item-content-block" v-if="item.editType === 0">
-                    <span class="item-title word-spot">{{
-                      item.resource.title
-                    }}</span>
-                    <div class="info">
-                      <span class="datatime">
-                        <i class="iconfont icon-tubiao1"></i>
-                        {{ item.resource.updated_at }}
-                      </span>
-                      <span class="excerpt" @click.stop.prevent="excerptList">
-                        摘录：{{ item.resource.bought_num }}
-                      </span>
-                    </div>
-                    
-                  </div>
-                  <div v-if="item.editType === 1" class="edit-title">
-                    <el-input
-                      v-model="editTitleInput"
-                      @click.stop.native="stopstop"
-                    ></el-input>
-                    <div class="btns">
-                      <span
-                        class="cancel-btn"
-                        @click.stop.prevent="cancelEditTitle(item.id)"
-                        >取消</span
-                      >
-                      <span
-                        class="save-btn"
-                        @click.stop.prevent="updateTitle(item.id)"
-                        >保存</span
-                      >
-                    </div>
-                  </div>
-                </template>
-
                 <homework-item
                   v-if="item.editType === 0"
                   :title="item.resource.title"
@@ -200,30 +159,7 @@
                 :itemid="item.id"
               >
                 <template slot="title">
-                  <div class="item-content-block">
-                    <span class="item-title word-spot">{{
-                      item.resource.title
-                    }}</span>
-                    <div class="info">
-                      <span class="datatime">
-                        <i class="iconfont icon-tubiao1"></i>
-                        {{ item.resource.updated_at }}
-                      </span>
-                      <span class="excerpt" @click.stop.prevent="excerptList">
-                        摘录：{{ item.resource.bought_num }}
-                      </span>
-                    </div>
-                    <div class="icons">
-                      <i
-                        class="iconfont icon-bianji"
-                        @click.stop.prevent="edit"
-                      ></i>
-                      <i
-                        class="iconfont icon-shanchu"
-                        @click.stop.prevent="delItem(item.id)"
-                      ></i>
-                    </div>
-                  </div>
+                           
                 </template>
                 <testing-item :iteminfo="materialItem"></testing-item>
               </el-collapse-item>
@@ -244,30 +180,6 @@
                 :name="item.id"
                 :itemid="item.id"
               >
-                <template slot="title">
-                  <div class="item-content-block">
-                    <span class="item-title word-spot">{{
-                      item.resource.title
-                    }}</span>
-                    <div class="info">
-                      <span class="datatime">
-                        <i class="iconfont icon-tubiao1"></i>
-                        {{ item.resource.updated_at }}
-                      </span>
-                      <span class="excerpt" @click.stop.prevent="excerptList">
-                        摘录：{{ item.resource.bought_num }}
-                      </span>
-                    </div>
-                    <div class="icons">
-                      <i class="iconfont icon-bianji"></i>
-                      <i
-                        class="iconfont icon-shanchu"
-                        @click.stop.prevent="delItem(item)"
-                      ></i>
-                    </div>
-                  </div>
-                </template>
-
                 <div v-loading="mLoading" style="min-height: 50px;">
                   <material-item
                     :updateContent="mFormDataContent"
@@ -294,6 +206,12 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mockMyResourceDetail } from '@/mocks/index'
 import { mockMyCourseList } from '@/mocks/index'
+import { mockMyTaskList } from '@/mocks/index'
+import { mockMyTestList } from '@/mocks/index'
+import { mockMyDatumList } from '@/mocks/index'
+
+// import { mockMyCourseList } from '@/mocks/index'
+import Sortable from 'sortablejs'
 
 @Component({
   components: {},
@@ -349,8 +267,14 @@ export default class MyResource extends Vue {
   public addResourceTitle: string = ''
   public addResourceShow: boolean = false
 
+  public dataList: any
   public courseList: Array<any> = mockMyCourseList
+  public taskList: Array<any> = mockMyTaskList
+  public testList: Array<any> = mockMyTestList
+  public datumList: Array<any> = mockMyDatumList
   public activeNames: any = ''
+
+  public loading: boolean = true
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: {
     id: number
@@ -358,6 +282,16 @@ export default class MyResource extends Vue {
   }) {
     const url = to.query
     this.navType = to.query.type
+    this.$message('一进入页面就提示this.navType===' + this.navType)
+    if (this.navType === 'course') {
+      this.dataList = this.courseList
+    } else if (this.navType === 'task') {
+      this.dataList = this.taskList
+    } else if (this.navType === 'test') {
+      this.dataList = this.testList
+    } else if (this.navType === 'datum') {
+      this.dataList = this.datumList
+    }
   }
   mounted() {}
 
@@ -373,6 +307,7 @@ export default class MyResource extends Vue {
   // 添加一条资源
   addItem() {
     this.addResourceShow = true
+    this.editTitleIndex = 0 //关闭可能打开的编辑标题框
   }
   // 取消添加item
   cancelItemTitle() {
@@ -392,6 +327,8 @@ export default class MyResource extends Vue {
   // 编辑item 标题
   editItemTitle(val: number) {
     this.editTitleIndex = val
+    this.addResourceShow = false
+    this.$message('点击了编辑标题icon')
     console.log(this.editTitleIndex)
   }
   // 删除资源
@@ -418,7 +355,9 @@ export default class MyResource extends Vue {
 
   // 取消更新标题
   cancelUpdateTitle() {
+    this.$message('取消编辑标题')
     this.editTitleIndex = 0
+    this.closeCollapse()
   }
 
   // 收起手风琴折叠效果
@@ -430,43 +369,26 @@ export default class MyResource extends Vue {
     this.activeNames = ''
   }
 
+  // 标题操作区阻止冒泡
+  stop() {
+    this.activeNames = ''
+    this.$message('阻止冒泡')
+  }
+
   // 触发手风琴
   collapseChange() {
-    this.$message('触发了手风琴' + this.activeNames)
-    console.log(this.activeNames)
-  }
-
-  stopstop() {
-    console.log('阻止冒泡')
+    if (this.activeNames) {
+      this.$message('触发了手风琴' + this.activeNames)
+      this.loading = true
+    } else {
+      this.$message('关闭手风琴')
+      this.loading = false
+    }
+    setTimeout(() => {
+      this.loading = false
+    }, 1000)
   }
 }
-
-// data() {
-//   return {
-//     loading: true,
-//     editTitleInput: '',
-//     activeAaaaa: [],
-//     editType: 0,
-//     query: '',
-//     courseList: [],
-//     homeworkList: [],
-//     testList: [],
-//     materialList: [],
-//     packageId: '',
-//     packageTitle: '', // 教学包名称
-//     packageIntro: '', // 教学包介绍
-//     packagePrice: '', // 教学包价格
-
-//     materialItem: '',
-//     materialLabel: '',
-//     materialType: '',
-//
-//     // 资料内容
-//     mLoading: true,
-//     mFormDataContent: '', // 表单内容
-//     mType: '' // 类型
-//   }
-// },
 
 // 手风琴展开详情
 // itemDetail(id) {
@@ -507,6 +429,7 @@ export default class MyResource extends Vue {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    // 左侧nav菜单
     .left-nav {
       width: 200px;
       padding: 20px;
@@ -536,8 +459,8 @@ export default class MyResource extends Vue {
           color: #4c5359;
           display: flex;
           justify-content: space-between;
-          cursor: pointer;
           line-height: 35px;
+          cursor: pointer;
           span {
             font-size: 14px;
           }
@@ -550,45 +473,7 @@ export default class MyResource extends Vue {
         }
       }
     }
-    .item-content-block {
-      display: inherit;
-      width: 100%;
-      .item-title {
-        width: 305px;
-        display: inline-block;
-        margin-right: 40px;
-      }
-      .info {
-        margin-right: 125px;
-        .datatime {
-          font-size: 12px;
-          color: #8b9199;
-          margin-right: 18px;
-          i {
-            font-size: 12px;
-            margin-right: 2px;
-          }
-        }
-        .excerpt {
-          font-size: 12px;
-          color: #8b9199;
-        }
-      }
-      .icons {
-        display: none;
 
-        i {
-          color: #8a9199;
-          margin-left: 20px;
-          font-size: 14px;
-        }
-      }
-      &:hover {
-        .icons {
-          display: inline-block !important;
-        }
-      }
-    }
     .right-package {
       width: 980px;
       margin-bottom: 240px;
@@ -620,7 +505,7 @@ export default class MyResource extends Vue {
           opacity: 0.8;
         }
       }
-
+      // 新增资源
       .add-items {
         background: #fff;
         padding: 30px;
@@ -640,9 +525,39 @@ export default class MyResource extends Vue {
             font-size: 12px;
           }
         }
+        // 添加item
         .add-item-block {
           padding: 20px 40px;
           background: #f7f9fa;
+          .el-input {
+            width: 700px;
+            margin-right: 20px;
+          }
+          span {
+            display: inline-block;
+            width: 50px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 12px;
+            color: #fff;
+          }
+          .save-btn {
+            background: $main;
+            &:hover {
+              background: $mian-bright;
+              transition: 0.3s;
+            }
+          }
+          .cancel-btn {
+            background: $grey;
+            margin-right: 10px;
+            &:hover {
+              background: $grey-bright;
+              transition: 0.3s;
+            }
+          }
         }
         ::v-deep .el-collapse {
           border-bottom: none !important;
@@ -658,6 +573,16 @@ export default class MyResource extends Vue {
               display: flex;
               width: 100%;
               justify-content: space-between;
+              .options {
+                padding: 0 15px;
+                i {
+                  color: #8a9199;
+                  margin-right: 20px;
+                }
+                i:last-of-type {
+                  margin-right: 0;
+                }
+              }
             }
             .itemtitle-edit-block {
               background: #f7f9fa;
@@ -708,36 +633,6 @@ export default class MyResource extends Vue {
           .title-item-edit.active {
             ::v-deep .el-input__inner {
               border: 1px solid $main;
-            }
-          }
-          .options {
-            i {
-              color: #8a9199;
-              margin-right: 20px;
-            }
-          }
-          .edit-title {
-            display: flex;
-            width: 100%;
-            .btns {
-              width: 20%;
-              margin-left: 40px;
-              span {
-                width: 50px;
-                height: 30px;
-                display: inline-block;
-                vertical-align: middle;
-                text-align: center;
-                color: #fff;
-                line-height: 30px;
-              }
-              .save-btn {
-                background: #ff783c;
-              }
-              .cancel-btn {
-                background: #b6babf;
-                margin-right: 15px;
-              }
             }
           }
         }
