@@ -154,18 +154,18 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { mockMyResourceDetail } from '@/mocks/index'
-import { mockMyCourseList } from '@/mocks/index'
-import { mockMyTaskList } from '@/mocks/index'
-import { mockMyTestList } from '@/mocks/index'
-import { mockMyDatumList } from '@/mocks/index'
-import Datum from './components/DatumItem.vue'
+// import { mockMyResourceDetail } from '@/mocks/index'
+// import { mockMyCourseList } from '@/mocks/index'
+// import { mockMyTaskList } from '@/mocks/index'
+// import { mockMyTestList } from '@/mocks/index'
+// import { mockMyDatumList } from '@/mocks/index'
+// import Datum from './components/DatumItem.vue'
 // import { mockMyCourseList } from '@/mocks/index'
 // import Sortable from 'sortablejs'
 
 @Component({
   components: {
-    Datum
+    // Datum
   },
   filters: {
     // 教育层级格式
@@ -194,7 +194,7 @@ import Datum from './components/DatumItem.vue'
   }
 })
 export default class MyResource extends Vue {
-  public packageDetail: any = mockMyResourceDetail //资源包详情信息
+  // public packageDetail: any = mockMyResourceDetail //资源包详情信息
   public editTitleIndex: number = 0
   link = ''
   public navTypes: Array<any> = [
@@ -221,10 +221,10 @@ export default class MyResource extends Vue {
   public addResourceShow: boolean = false
 
   public dataList: any
-  public courseList: Array<any> = mockMyCourseList
-  public taskList: Array<any> = mockMyTaskList
-  public testList: Array<any> = mockMyTestList
-  public datumList: Array<any> = mockMyDatumList
+  // public courseList: Array<any> = mockMyCourseList
+  // public taskList: Array<any> = mockMyTaskList
+  // public testList: Array<any> = mockMyTestList
+  // public datumList: Array<any> = mockMyDatumList
   public activeNames: any = ''
 
   public loading: boolean = true
