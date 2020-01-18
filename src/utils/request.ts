@@ -134,7 +134,7 @@ class Request {
               location.reload()
             })
           }
-          return Promise.reject(new Error(response.message || 'Error'))
+          return Promise.reject(new Error(response.data.message || 'Error'))
         } else {
           console.log('resbs', response)
           return response.data || response

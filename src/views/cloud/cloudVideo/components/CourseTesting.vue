@@ -76,16 +76,6 @@
       </div>
     </div>
     <div class="starTest">
-      <!-- <start-test :user_score="user_score"></start-test> -->
-
-      <!-- <start-test
-        v-if="starTest && questionData.base_resource"
-        :question-data="questionData.base_resource"
-        :resoucedId="questionData.id"
-        :options="questionData.options"
-        :mooc_issue_id="chapter[0].mooc_issue_id"
-      ></start-test> -->
-      <!-- {{ qs }} -->
       <start-test
         :question-data="qs.base_resource"
         :resoucedId="qs.id"
@@ -119,7 +109,7 @@ export default class CourseTesting extends Vue {
   @Prop({ default: () => ({}) }) user_score!: object
   @Prop({ default: 0 }) clickIndex!: number
   @Prop({ default: () => [] }) qs!: Array<object>
-  starTest: boolean = true
+  starTest: boolean = false
   resource_id: number
   @Watch('chapter')
   chapterWatcher() {
@@ -140,36 +130,6 @@ export default class CourseTesting extends Vue {
     this.$emit('starTestClick', resourceId) // 资源id传入父级HeaderNav
   }
 }
-// export default {
-//   name: 'CourseTesting',
-//   props: {
-//     chapter: {},
-//     title: {},
-//     total_score: {},
-//     survey_type: {},
-//     options: {},
-//     id: {},
-//     questionData: {}
-//   },
-//   components: {
-//     StartTest
-//   },
-//   data() {
-//     return {
-//       starTest: false
-//     }
-//   },
-//   methods: {
-//     // 开始测验
-//     starTestClick() {
-//       this.starTest = true
-//       this.resource_id = this.id // 资源id
-//       const resourceId = this.resource_id
-//       console.log(this.resource_id)
-//       this.$emit('starTestClick', resourceId) // 资源id传入父级HeaderNav
-//     }
-//   }
-// }
 </script>
 
 <style lang="scss" scoped>

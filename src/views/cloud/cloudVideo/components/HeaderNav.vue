@@ -6,28 +6,30 @@
         <el-tab-pane
           v-for="(tab, index) in chapter[0]['data']"
           :key="'tab_' + index"
-          :label="tab.label"
+          :label="tab.type.toString().concat(tab.id)"
           @mouseover="changeMask()"
           @mouseout="mouseout()"
           @mousemove="mousemove()"
         >
           <span slot="label">
-            <div v-if="tab.type === 3">
-              <i class="icon iconfont icon-ceyan" :class="tab.icon"></i>
-              {{ tab.title }}
-            </div>
-            <div v-if="tab.type === 2">
-              <i class="icon iconfont icon-zuoyelianxi" :class="tab.icon"></i>
-              {{ tab.title }}
-            </div>
-            <div v-if="tab.type === 1">
+            <template v-if="tab.type === 1">
               <i class="icon iconfont icon-ziyuan1" :class="tab.icon"></i>
               {{ tab.title }}
-            </div>
-            <div v-if="tab.type === 4">
+            </template>
+            <template v-else-if="tab.type === 2">
+              <i class="icon iconfont icon-zuoyelianxi" :class="tab.icon"></i>
+              {{ tab.title }}
+            </template>
+
+            <template v-else-if="tab.type === 3">
+              <i class="icon iconfont icon-ceyan" :class="tab.icon"></i>
+              {{ tab.title }}
+            </template>
+
+            <template v-else>
               <i class="icon iconfont icon-ziliao" :class="tab.icon"></i>
               {{ tab.title }}
-            </div>
+            </template>
           </span>
           <template v-if="tab.type === 3">
             <course-testing
@@ -50,16 +52,20 @@
           </template>
           <template v-if="tab.type === 2">
             <!-- @submitAssignment="submitAssignment" -->
-            <!-- {{ tab }} -->
             <course-assignments
               :chapter="chapter"
               :title="tab.title"
-              :content="tab.base_resource.content"
+              :contentA="tab.base_resource.content"
               :end_time="tab.base_resource.end_time"
               :options="tab.options"
               :user_score="tab.user_score"
               :id="tab.id"
               :mooc_issue_id="chapter[0].mooc_issue_id"
+              :answer_data="tab.answer_data"
+              @submitAssignment="submitAssignment"
+              :contentTxt="tab.base_resource.content"
+              :attachment="tab.base_resource.attachment"
+              :score="tab.base_resource.score"
             ></course-assignments>
             <!-- 作业 -->
           </template>
@@ -77,6 +83,7 @@
               :type="tab.base_resource.type"
               :title="tab.base_resource.title"
               :content="tab.base_resource.content"
+              :resource_id="tab.base_resource.id"
             ></course-materials>
             <!-- 资料 -->
           </template>
@@ -134,10 +141,10 @@ export default class HeaderNav extends Vue {
     this.$emit('starTestClick')
   }
   async tabClick(e: any) {
-    console.log('=========e=========', e)
+    const type = +e.label[0]
+    // console.log('!!!', type)
     let tmp = -1
     if (e.index == undefined) {
-      // e:{index:any}={index:0}
       tmp = e
     } else {
       tmp = e.index
@@ -152,8 +159,10 @@ export default class HeaderNav extends Vue {
     // if( tab.type === 3 ){
 
     // }
-    this.qs = await this.getQuestion(this.chapter[0].data[tmp].id)
-    console.log('==========questions==============', this.qs)
+    if (type == 3) {
+      this.qs = await this.getQuestion(this.chapter[0].data[tmp].id)
+      console.log('==========questions==============', this.qs)
+    }
 
     // if (e.name === 'a') { this.$message.success('弹框'); } else {
     //   this.$message.error('关闭弹框');
@@ -167,6 +176,11 @@ export default class HeaderNav extends Vue {
   // }
   getQuestion(id: number) {
     return Cloud.getQuestion(id)
+  }
+  // 提交作业
+  submitAssignment(postObj: any) {
+    // console.log('womn', postObj);
+    this.$emit('submitAssignment', postObj)
   }
 }
 // export default {

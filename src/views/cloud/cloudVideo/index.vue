@@ -22,6 +22,7 @@
           :chapter="chapter"
           @starTestClick="starTestClick"
           :questionData="temp_data"
+          @submitAssignment="submitAssignment"
         >
           <!--starTestClick 父组件接收子组件HeaderNav传过来资源id-->
         </header-nav>
@@ -50,6 +51,7 @@ export default class VideoPlayer extends Vue {
   syllabuseId: number = 0
   sub_id: number = 0
   mooc_issue_id: number = 0
+
   public temp_data: object = {}
 
   mounted() {
@@ -122,6 +124,25 @@ export default class VideoPlayer extends Vue {
   @Watch('questionData')
   onQuestionDataChange(val: object, oldVal: object) {
     this.temp_data = val
+  }
+
+  // 提交作业
+  submitAssignment(postObj: any) {
+    console.log(JSON.parse(postObj.answer_data).content)
+    const uploadContent = JSON.parse(postObj.answer_data).content
+    if (!uploadContent) {
+      // 内容不能为空
+      this.$message({
+        message: '内容不能为空',
+        type: 'error'
+      })
+      return
+    }
+    Cloud.getHomeworkSubmit(postObj).then((res: any) => {
+      // this.homeworhkData = res
+      this.getChapter()
+      console.log('提交作业数据', res)
+    })
   }
   // 点章节刷新章节下内容
   //     // 点章节刷新章节下内容

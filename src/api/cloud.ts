@@ -1,6 +1,7 @@
 import Request from '@/utils/request'
 const moocModuleBasedUrl = '/api/mooc'
 const moocSurveyBaseUrl = '/api'
+const moocModuleBasedUrlUser = '/api/user_homework'
 
 const moocPackageUrl = `${moocModuleBasedUrl}/packages` // 课程包列表
 const moocPopularity = `${moocModuleBasedUrl}/popularity` // 课程包列表【人气爆棚】
@@ -11,6 +12,8 @@ const moocRelated = `${moocModuleBasedUrl}/related` // 相关课程
 const moocChapter = `${moocModuleBasedUrl}/syllabuse` // 章节
 const moocSurveys = `${moocModuleBasedUrl}/surveys` // 测验答题
 const moocModuleCountDown = `${moocSurveyBaseUrl}/user_survey` // 测验开始时间
+const MoocHomework = `${moocModuleBasedUrlUser}/answer_submit` // 作业提交
+const moocDownLoadUrl = `${moocModuleBasedUrl}/material` //下载资料
 
 export default {
   // 课程包列表
@@ -29,7 +32,6 @@ export default {
   },
   // 单个期刊的详情接口{{host}}/api/mooc/issues/{id}
   getPeriodical(id: number) {
-    // console.log(1111111111111111111111, id);
     const url = `${moocIssues}/${id}`
     return Request.get(url)
   },
@@ -71,7 +73,6 @@ export default {
   // 章节下面小节内容
   getChapter(params: any) {
     const url = `${moocChapter}/${params.syllabuseId}/chapter_content`
-    // delete params.syllabuseId
     return Request.get(url, params)
   },
   // 测验答题
@@ -125,5 +126,14 @@ export default {
   getSupportDis(supportObj: any) {
     const url = `${moocModuleBasedUrl}/discussions/support`
     return Request.post(url, supportObj)
+  },
+  // 提交作业
+  getHomeworkSubmit(postObj: any) {
+    return Request.post(MoocHomework, postObj)
+  },
+  //下载资料http://dev.nc.com/api/mooc/material/8/download
+  getDownLoad(resource_id: number) {
+    const url = `${moocDownLoadUrl}/${resource_id}/download`
+    return Request.get(url)
   }
 }

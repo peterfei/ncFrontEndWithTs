@@ -60,8 +60,9 @@
               >
               <div v-show="submitBtn">
                 <!-- <el-button type="info">保存</el-button> -->
-                <!-- <el-button type="warning" @click="submitAssignment" -->
-                <el-button type="warning">提交作业</el-button>
+                <el-button type="warning" @click="submitAssignment"
+                  >提交作业</el-button
+                >
               </div>
             </div>
           </div>
@@ -77,8 +78,9 @@
           </div>
           <div class="down">
             <!-- <el-button type="info">保存</el-button> -->
-            <!-- <el-button type="warning" @click="submitAssignment" -->
-            <el-button type="warning">提交作业</el-button>
+            <el-button type="warning" @click="submitAssignment"
+              >提交作业</el-button
+            >
           </div>
         </div>
       </div>
@@ -97,30 +99,30 @@
     </div>
     <div class="upload">
       <div class="selected-topic">
-        {{ content1 }}<span>{{ score }}</span>
+        {{ contentTxt }}<span>({{ score }} 分)</span>
       </div>
       <div class="data">
-        {{ material }}
+        {{ attachment }}
       </div>
 
       <!-- INPUT================================================================================ -->
       <div v-if="!user_score || editArea === 1">
         <div class="textEditor">
-          <div class="textEditor">
-            <quill-editor
-              v-bind:content.sync="test"
-              height="100px"
-            ></quill-editor>
-          </div>
+          <quill-editor
+            v-bind:content.sync="test"
+            height="100px"
+            @change="onContentChange"
+          ></quill-editor>
         </div>
         <!-- 作业已提交v-if="!user_score||(user_score && user_score.status == -1) -->
         <div class="uploadBtn">
-          <!-- <el-upload @uploadSucess="uploadSucess"> </el-upload> -->
-          <upload> <el-button type="primary">上传附件</el-button></upload>
-          <!-- <el-button>点击上传</el-button>
-          <div slot="tip">
-            hahha
-          </div> -->
+          <ibd-upload
+            multiple
+            :on-success="handlerSuccess"
+            :on-error="handerError"
+          >
+            <el-button type="primary">上传附件</el-button>
+          </ibd-upload>
         </div>
       </div>
       <!-- </div> -->
@@ -132,10 +134,17 @@
           {{ answerData }}
         </div>
         <div class="submit-task" v-else v-html="answerData.content"></div>
-        <!-- {{user_score.answer_data.file}} -->
+        <!-- {{ user_score.answer_data }} -->
         <div class="file" v-if="answerData.file">
           <div class="file-list" v-for="f in answerData.file" :key="f.idx">
-            {{ f.name }}
+            <!-- <i class="el-icon-document"></i> -->
+            <i
+              class="el-icon-document"
+              v-if="f.attachment_type.indexOf('image') !== -1"
+            >
+            </i>
+            <i v-else> </i>
+            <label class="upload-text">{{ f.name }}</label>
           </div>
         </div>
       </div>
@@ -146,35 +155,31 @@
 
 <script lang="ts">
 import QuillEditor from '@/components/QuillEditor/QuillEditor.vue'
-import Upload from '@/components/Upload/index.vue'
-// import ResourseUploader from '@/util/ResourseUploader';
-// import Utils from '@/util/utils';
+import { Message, MessageBox } from 'element-ui'
+import IbdUpload from '@/components/Upload/index.vue'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
   components: {
     QuillEditor,
-    Upload
+    IbdUpload
   }
 })
 export default class CourseAssignments extends Vue {
   @Prop({ default: () => ({}) }) chapter!: object
   @Prop({ default: '' }) title!: string
-  @Prop({ default: '' }) content!: string
+  @Prop({ default: '' }) contentA!: string
   @Prop({ default: () => [] }) options!: Array<object>
-  @Prop({ default: '' }) user_score!: string
+  @Prop({ default: () => ({}) }) user_score!: { answer_data: string }
   @Prop({ default: '' }) id!: string
   @Prop({ default: 0 }) mooc_issue_id!: number
-  // @Prop({ default: () => [] }) answer_data!: any
   @Prop({ default: '' }) end_time!: string
-  answer_data: any
+  @Prop({ default: '' }) contentTxt!: string
+  @Prop({ default: () => [] }) attachment!: Array<any>
+  @Prop({ default: 0 }) score!: number
+
   fileList: Array<any> = []
   listType: string = 'text'
   postData: object = {} // 发送的参数
-  content1: string =
-    '1.选取柳永的一首慢词，分析其章法结构与情绪意脉的组织方式，写一篇小论文。'
-  score: string = '(50分)'
-  material: string =
-    '（参考资料：第一行代码Android，郭霖，人民邮电出版社，2014.docx）'
   test: string = ''
   uploadFiless: Array<any> = [] // 选择的文件
   AudioVideoList: Array<any> = [] // 文件列表
@@ -182,126 +187,64 @@ export default class CourseAssignments extends Vue {
   resubmitBtn: boolean = true // 重新提交
   editArea: number = 0 // 1显示 0不显示（是否显示编辑取）
   contentArea: number = 1 // 1显示 0不显示（是否显示内容区）
+  content: string = ''
 
-  //     // // 上传附件
-  // uploadSucess(fileData: any) {
-  //   console.log('fffff', fileData)
-  //   // for (const i in fileData) {
-  //   // this.uploadFiless[i] = { name: fileData[i].name, id: "fileData[i]['resourceId'].id" };
-  //   // }
-  //   // 1. [{A},{B},{C}] 2. [{D},{E}]
-  //   // [{D},{E},{C}]
-  //   // 1. [{D}, {E}]
-  //   this.uploadFiless = fileData.map((rec: any) => ({
-  //     name: rec.resourceId.title,
-  //     id: rec.resourceId.id
-  //   }))
-  // }
-  // mounted() {
-  //   window.test = process.env
-  // }
-  // handlerUploader() {
-  //   console.log('123')
-  // }
+  get answerData() {
+    let ret
+    try {
+      ret = JSON.parse(this.user_score.answer_data)
+    } catch {
+      ret = this.user_score.answer_data
+    }
+    return ret
+  }
+  //上传成功
+  handlerSuccess(fileData: any) {
+    // console.log('onsuccess', fileData)
+    this.uploadFiless.push({
+      name: fileData.title,
+      id: fileData._id,
+      attachment_type: fileData.attachment_type
+    })
+  }
+  // 上传错误处理
+  handerError(error: any) {
+    if (error) {
+      this.$message.error('上传文件为空喽！')
+    }
+  }
+  // 当文档内容发生变化
+  onContentChange(html: string) {
+    this.content = html
+    // console.log('hhhh==', this.content)
+  }
+  // 提交作业
+  submitAssignment() {
+    const postObj = {
+      resource_id: this.id,
+      channel: 'mooc',
+      channel_id: this.mooc_issue_id,
+      answer_data: JSON.stringify({
+        content: this.content,
+        file: this.uploadFiless
+      })
+    }
+    this.$emit('submitAssignment', postObj)
+    this.editArea = 0
+    this.contentArea = 1
+  }
+  // 重新提交
+  Resubmission() {
+    console.log('chongxintijiao')
+    this.submitBtn = true
+    this.resubmitBtn = false
+    this.contentArea = 0
+    this.editArea = 1
+
+    console.log(this.editArea, this.contentArea)
+    // this.$emit('Resubmission',Resubmission)
+  }
 }
-// export default {
-//   name: 'CourseAssignments',
-//   props: {
-//     chapter: {},
-//     title: {},
-//     content: {},
-//     options: {},
-//     user_score: {},
-//     id: {},
-//     mooc_issue_id: {},
-//     answer_data: {},
-//     end_time: {}
-//   },
-//   components: {
-//     QuillEditor
-//   },
-//   computed: {
-//     answerData() {
-//       let ret
-//       try {
-//         ret = JSON.parse(this.user_score.answer_data)
-//       } catch {
-//         ret = this.user_score.answer_data
-//       }
-//       return ret
-//     }
-//   },
-//   data() {
-//     return {
-//       fileList: [],
-//       listType: 'text',
-//       postData: {}, // 发送的参数
-//       // submit: '未提交',
-//       content1:
-//         '1.选取柳永的一首慢词，分析其章法结构与情绪意脉的组织方式，写一篇小论文。',
-//       score: '(50分)',
-//       material:
-//         '（参考资料：第一行代码Android，郭霖，人民邮电出版社，2014.docx）',
-//       test: '',
-//       uploadFiless: [], // 选择的文件
-//       AudioVideoList: [], // 文件列表
-//       submitBtn: false, // 提交按钮
-//       resubmitBtn: true, // 重新提交
-//       editArea: 0, // 1显示 0不显示（是否显示编辑取）
-//       contentArea: 1 // 1显示 0不显示（是否显示内容区）
-//     }
-//   },
-//   methods: {
-//     // // 上传附件
-//     uploadSucess(fileData) {
-//       console.log('fffff', fileData)
-//       // for (const i in fileData) {
-//       // this.uploadFiless[i] = { name: fileData[i].name, id: "fileData[i]['resourceId'].id" };
-//       // }
-//       // 1. [{A},{B},{C}] 2. [{D},{E}]
-//       // [{D},{E},{C}]
-//       // 1. [{D}, {E}]
-//       this.uploadFiless = fileData.map(rec => ({
-//         name: rec.resourceId.title,
-//         id: rec.resourceId.id
-//       }))
-//     },
-//     // 当文档内容发生变化
-//     onContentChange(html) {
-//       console.log('hhhh==', html)
-//       this.content = html
-//     },
-//     // // 提交作业
-//     // submitAssignment() {
-//     //   // this.contentArea = 1;
-//     //   console.log('期idffffffffffff', this.content)
-//     //   // console.log('jjj0',this.uploadFiless);
-//     //   const postObj = {
-//     //     resource_id: this.id,
-//     //     channel: 'mooc',
-//     //     channel_id: this.mooc_issue_id,
-//     //     answer_data: JSON.stringify({
-//     //       content: this.html,
-//     //       file: this.uploadFiless
-//     //     })
-//     //   }
-//     //   this.$emit('submitAssignment', postObj)
-//     //   this.editArea = 0
-//     //   this.contentArea = 1
-//     // },
-//     // 重新提交
-//     Resubmission() {
-//       console.log('chongxintijiao')
-//       this.submitBtn = true
-//       this.resubmitBtn = false
-//       this.contentArea = 0
-//       this.editArea = 1
-
-//       console.log(this.editArea, this.contentArea)
-//       // this.$emit('Resubmission',Resubmission)
-//     }
-//   }
-// }
 </script>
 
 <style lang="scss" scoped>
@@ -370,6 +313,15 @@ export default class CourseAssignments extends Vue {
       margin-top: 10px;
       .file-list {
         line-height: 30px;
+      }
+      .el-icon-document {
+        color: #909399;
+        font-size: 14px;
+        margin-right: 7px;
+      }
+      .upload-text {
+        color: #606266;
+        font-size: 14px;
       }
     }
     .uploadBtn {

@@ -58,7 +58,6 @@ export default class CourseList extends Vue {
   paymentType: number = 0
   moocList: Array<any> = []
   recommendList: Array<any> = []
-  // pageMeta: Array<any> = []
   popularityList: Array<any> = []
   page: Number = 1
   pageMeta: { totalPage: number; total: number; per_page: number } = {
@@ -76,14 +75,10 @@ export default class CourseList extends Vue {
     const queryinfo = Object.keys(q).length // xin
     // console.log('1212:', queryinfo);// xin
     if (queryinfo) {
-      // xin
-      // console.log('999:', this.moocStatus);// xxin
       this.moocStatus = q.status ? +q.status : 0 // xin
     } else {
-      //
       this.moocStatus = null // x
     }
-    // this.moocStatus = q.status ? +q.status : 0;
     this.paymentType = q.is_free ? +q.is_free : 0
     this.getList() // 课程包列表
     this.getRecommendList() // 大咖推荐

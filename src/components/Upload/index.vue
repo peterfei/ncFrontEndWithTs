@@ -45,6 +45,11 @@ export default class Upload extends Vue {
       params.file.name.indexOf('.') !== -1
         ? params.file.name.split('.')[1]
         : undefined
+    if (!params.file.size) {
+      console.log('the file is empty')
+      this.onError && this.onError(new Error('the file is empty.'), params.file)
+      return
+    }
     // 1. 根据文件生成MD5值 params.file
     Utils.getFileMD5(params.file)
       .then(md5 => {

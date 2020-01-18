@@ -1,6 +1,6 @@
 <template>
   <div class="videoSidebar clearfix">
-    <el-tabs
+    <!-- <el-tabs
       :tab-position="tabPosition"
       style="height: 100%"
       @tab-click="tabClick"
@@ -19,7 +19,43 @@
           <i class="icon iconfont icon-taolunqu"></i> <label>讨论</label>
         </span>
       </el-tab-pane>
-    </el-tabs>
+    </el-tabs> -->
+    <div class="syllabus-list">
+      <div class="list-ul">
+        <div
+          class="syllabus-item"
+          @click="syllabusList"
+          :class="{ is_active: isActive }"
+        >
+          <i class="icon iconfont icon-ceyan"></i>
+          <label style="margin-top:6px">大纲</label>
+        </div>
+        <div
+          class="discuss-item"
+          @click="discussList"
+          :class="{ dis_active: disActive }"
+        >
+          <i class="icon iconfont icon-taolunqu"></i>
+          <label style="margin-top:6px">讨论</label>
+        </div>
+      </div>
+      <div class="tab-content">
+        <div
+          class="syllabus-content"
+          v-if="syllabus"
+          ref="companyStyle"
+          v-bind:style="{ width: Width }"
+        >
+          <sidebar-content
+            @chapterClick="chapterClick"
+            :Syllabuses="Syllabuses"
+          ></sidebar-content>
+        </div>
+        <div class="discuss-content" v-if="disscuss">
+          aeghklegn
+        </div>
+      </div>
+    </div>
     <div
       class="mask"
       v-show="mask"
@@ -240,6 +276,10 @@ export default class VideoSidebar extends Vue {
   to_user_id: number = -1
   inputStyWidth: string = ''
   disscussPage: object = {}
+  syllabus: boolean = true //大纲
+  isActive: boolean = true
+  disscuss: boolean = false //讨论
+  disActive: boolean = false
   // Syllabuses: Array<any> = []
 
   // mounted() {
@@ -250,6 +290,24 @@ export default class VideoSidebar extends Vue {
   //       that.screenWidth = this.window.screenWidth
   //     })()
   // }
+  syllabusList() {
+    console.log('aaa')
+    this.disActive = false
+    this.disscuss = false
+    this.isActive = !this.isActive
+    this.syllabus = !this.syllabus
+
+    // this.syllabus = !this.syllabus
+  }
+  discussList() {
+    this.getListDisscussion()
+    this.isActive = false
+    // this.syllabus = false
+    this.disActive = !this.disActive
+    // this.disscuss = !this.disscuss
+    this.diolog = !this.diolog
+    this.mask = !this.mask
+  }
   // 点赞
   support(item: any) {
     // console.log('item.id', item.id);// 帖子id
@@ -441,13 +499,18 @@ export default class VideoSidebar extends Vue {
       mooc_package_id: this.mooc_issue_id,
       mooc_issue_id: this.mooc_package_id
     }
-    Cloud.getDiscussion(postObj).then(res => {
-      this.releaseData = res
-      console.log('发布数据', this.releaseData)
-      this.getListDisscussion()
-    })
-
-    this.dialogVisible = false
+    Cloud.getDiscussion(postObj).then(
+      res => {
+        this.releaseData = res
+        console.log('发布数据', this.releaseData)
+        this.getListDisscussion()
+        this.dialogVisible = false
+      },
+      err => {
+        this.dialogVisible = true
+      }
+    )
+    // if()
   }
   // 帖子列表
   getListDisscussion() {
@@ -876,6 +939,63 @@ export default class VideoSidebar extends Vue {
     height: 153px;
     resize: none;
     padding-top: 12px;
+  }
+  .syllabus-list {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    .list-ul {
+      width: 60px;
+      height: 100%;
+      background: #1c1f21;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .syllabus-item {
+        color: #fff;
+        opacity: 0.3;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        height: 74px;
+        align-items: center;
+        padding: 17px 15px;
+        width: 100%;
+      }
+      .discuss-item {
+        color: #fff;
+        opacity: 0.3;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        height: 74px;
+        align-items: center;
+        padding: 17px 15px;
+        width: 100%;
+      }
+      .is_active,
+      .dis_active {
+        background: #25282b;
+        color: rgba(255, 255, 255, 1);
+        opacity: 0.6;
+        // justify-content: center;
+        width: 100%;
+      }
+    }
+    // .syllabus-content,
+    // .discuss-content {
+    //   display: none;
+    // }
+    // .discuss-content {
+    // }
+    // .is_syllabus {
+    //   display: none;
+    // }
+    // .is_discuss {
+    //   display: none;
+    // }
   }
 }
 .commont {

@@ -21,10 +21,6 @@ export interface IMoocOptions {
 }
 @Component({})
 export default class MoocIsuueStatus extends Vue {
-  // model: {
-  //   prop: 'value'
-  //   event: 'change'
-  // }
   @Prop({ default: 0, type: Number }) value!: number
   public options: Array<IMoocOptions> = [
     { value: null, label: '全部' },
@@ -35,7 +31,6 @@ export default class MoocIsuueStatus extends Vue {
   onClick(val: any) {
     this.$emit('change', val)
   }
-  //  @Model ('change', {type: Boolean})  checked!: boolean;
   @Model('prop', { type: Number }) change!: number | null
 }
 </script>

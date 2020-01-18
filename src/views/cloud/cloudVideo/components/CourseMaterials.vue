@@ -7,26 +7,39 @@
     </div>
     <!-- type == 1 文档 -->
     <div class="clearfix" v-if="type == 1">
-      <el-button type="success"><i class="icon iconfont"></i>下载</el-button>
+      <div class="title">{{ JSON.parse(content).title }}</div>
+      <el-button type="success" @click="downLoad"
+        ><i class="icon iconfont"></i>下载</el-button
+      >
     </div>
     <!-- type == 2 链接 -->
-    <div v-if="type == 2"></div>
+    <div v-if="type == 2">{{ content }}</div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'CourseMaterials',
-  props: {
-    chapter: {},
-    type: {},
-    title: {},
-    content: {}
-  },
-  data() {
-    return {}
-  },
-  methods: {}
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import Cloud from '@/api/cloud'
+@Component({
+  components: {}
+})
+export default class CourseMaterials extends Vue {
+  @Prop({ default: () => ({}) }) chapter!: object
+  @Prop({ default: 0 }) type!: number
+  @Prop({ default: '' }) title!: string
+  @Prop({ default: () => [] }) content!: Array<any>
+  @Prop({ default: 0 }) resource_id!: number
+  downLoadUrl: string = ''
+  //文件下载
+  downLoad() {
+    Cloud.getDownLoad(this.resource_id).then((res: any) => {
+      this.downLoadUrl = res.download_url
+      console.log('下载地址', this.downLoadUrl)
+      let a = document.createElement('a')
+      a.href = this.downLoadUrl
+      a.click()
+    })
+  }
 }
 </script>
 
@@ -51,5 +64,9 @@ export default {
   text-align: center;
   float: right;
   margin-top: 30px;
+}
+.title {
+  font-size: 14px;
+  color: #242b33;
 }
 </style>
