@@ -87,13 +87,12 @@
                       </div>
                     </template>
                     <div v-loading="loading">
-                      任天堂香港有限公司官微宣布，任天堂商店现在已经支持VISA、MasterCard、
-                      Alipay、Unionpay（银联）付款。大陆版支付宝可以直接扫码支付，对于玩家来说更加便利了。
-                      游民星空笔者亲测在付款时可以从三种方式中任选一种：银联、Visa、Mster卡，大陆版支付宝，Alipay
-                      HK。连接体验也比较流畅。 游民星空 游民星空
-                      港服商店已经上架了不少Switch游戏，还有预付序号卡、NS
-                      Online会员等内容。
-                      本文由游民星空制作发布，未经允许禁止转载。
+                      <datum
+                        v-model="datumType"
+                        :link="link"
+                        @link-change="handlerLinkChange"
+                        @updateDatum="updateDatum"
+                      ></datum>
                     </div>
                   </el-collapse-item>
                 </div>
@@ -116,55 +115,6 @@
                 </div>
               </div>
             </el-collapse>
-
-            <!-- 作业列表 -->
-            <!-- <el-collapse
-              v-if="navType == 'homework'"
-              v-model="activeNames"
-              accordion
-              @change="itemDetail"
-            >
-              <el-collapse-item
-                v-for="item in homeworkList"
-                :key="item.id"
-                Consistency
-                :name="item.id"
-              >
-                <homework-item
-                  v-if="item.editType === 0"
-                  :title="item.resource.title"
-                  :itemid="item.id"
-                  @updateDetail="updateItemDetail"
-                  :neirong="materialItem.resource"
-                  :materiacontent="
-                    materialItem.resource ? materialItem.resource.content : ''
-                  "
-                  @cancelCollapse="cancelCollapse"
-                ></homework-item>
-              </el-collapse-item>
-            </el-collapse> -->
-            <!-- 作业列表end -->
-
-            <!-- 测验列表 -->
-            <!-- <el-collapse
-              v-if="navType == 'testing'"
-              v-model="activeNames"
-              accordion
-            >
-              <el-collapse-item
-                v-for="item in testList"
-                :key="item.id"
-                :title="item.resource.title"
-                :name="item.id"
-                :itemid="item.id"
-              >
-                <template slot="title">
-                           
-                </template>
-                <testing-item :iteminfo="materialItem"></testing-item>
-              </el-collapse-item>
-            </el-collapse> -->
-            <!-- 测验列表end -->
 
             <!-- 资料 -->
             <!-- <el-collapse
@@ -209,12 +159,14 @@ import { mockMyCourseList } from '@/mocks/index'
 import { mockMyTaskList } from '@/mocks/index'
 import { mockMyTestList } from '@/mocks/index'
 import { mockMyDatumList } from '@/mocks/index'
-
+import Datum from './components/DatumItem.vue'
 // import { mockMyCourseList } from '@/mocks/index'
-import Sortable from 'sortablejs'
+// import Sortable from 'sortablejs'
 
 @Component({
-  components: {},
+  components: {
+    Datum
+  },
   filters: {
     // 教育层级格式
     eduFormat(val: number) {
@@ -244,6 +196,7 @@ import Sortable from 'sortablejs'
 export default class MyResource extends Vue {
   public packageDetail: any = mockMyResourceDetail //资源包详情信息
   public editTitleIndex: number = 0
+  link = ''
   public navTypes: Array<any> = [
     {
       name: 'course',
@@ -275,6 +228,8 @@ export default class MyResource extends Vue {
   public activeNames: any = ''
 
   public loading: boolean = true
+  // 资料
+  public datumType: number = 0 //资料类型
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(to: {
     id: number
@@ -283,6 +238,7 @@ export default class MyResource extends Vue {
     const url = to.query
     this.navType = to.query.type
     this.$message('一进入页面就提示this.navType===' + this.navType)
+
     if (this.navType === 'course') {
       this.dataList = this.courseList
     } else if (this.navType === 'task') {
@@ -291,9 +247,19 @@ export default class MyResource extends Vue {
       this.dataList = this.testList
     } else if (this.navType === 'datum') {
       this.dataList = this.datumList
+    } else if (this.navType === undefined) {
+      this.$router.push({
+        query: {
+          type: 'course'
+        }
+      })
     }
   }
   mounted() {}
+  handlerLinkChange(val: string) {
+    console.log('123', this.link)
+    this.link = val
+  }
 
   // 点击左侧改变url
   changeUrl(nav: string) {
@@ -329,7 +295,6 @@ export default class MyResource extends Vue {
     this.editTitleIndex = val
     this.addResourceShow = false
     this.$message('点击了编辑标题icon')
-    console.log(this.editTitleIndex)
   }
   // 删除资源
   delItem() {
@@ -387,6 +352,11 @@ export default class MyResource extends Vue {
     setTimeout(() => {
       this.loading = false
     }, 1000)
+  }
+
+  // 点击了保存资料
+  updateDatum() {
+    // this.$message(this.datumType)
   }
 }
 
@@ -546,7 +516,7 @@ export default class MyResource extends Vue {
           .save-btn {
             background: $main;
             &:hover {
-              background: $mian-bright;
+              background: $main-bright;
               transition: 0.3s;
             }
           }
@@ -610,7 +580,7 @@ export default class MyResource extends Vue {
                 .save {
                   background: $main;
                   &:hover {
-                    background: $mian-bright;
+                    background: $main-bright;
                     transition: 0.3s;
                   }
                 }
