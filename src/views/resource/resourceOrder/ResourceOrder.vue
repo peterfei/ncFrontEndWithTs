@@ -112,16 +112,7 @@
 // import { mockResPackFilter } from '@/mocks/index'
 import { Component, Vue, Watch } from 'vue-property-decorator'
 // import { ResourcePackageList, PackageOperate } from '@/api/resource'
-// declare module 'vue/types/vue' {
-//   interface Vue {
-//     [key: string]: any
-//   }
-// return {
-//   id: '',
-//   resDetail: '',
-//   resTypes: '',
-// }
-// }
+
 @Component({
   components: {}
 })
