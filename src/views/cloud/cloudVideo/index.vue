@@ -14,6 +14,7 @@
           :mooc_issue_id="chapter[0].mooc_issue_id"
           :mooc_package_id="chapter[0].mooc_package_id"
           :Syllabuses="Syllabuses"
+          :sub_id="sub_id"
         ></video-sidebar>
       </div>
       <div class="player" v-if="{ temp_data }">
@@ -23,6 +24,7 @@
           @starTestClick="starTestClick"
           :questionData="temp_data"
           @submitAssignment="submitAssignment"
+          :aid="aid"
         >
           <!--starTestClick 父组件接收子组件HeaderNav传过来资源id-->
         </header-nav>
@@ -55,13 +57,14 @@ export default class VideoPlayer extends Vue {
   public temp_data: object = {}
 
   mounted() {
-    console.log('hhhh', this.$route.params)
+    console.log('hhhh', this.$route.query.id)
+    this.aid = this.$route.query.id
     this.temp_data = this.questionData
     // console.log('路由中获取章id', this.$route)
     this.syllabuseId = +this.$route.params.syllabuseId // 路由中获取章id
     // console.log('syllabuseId====', this.syllabuseId)
     this.sub_id = +this.$route.params.sub_id // 路由中获取节id
-    // console.log('sub_id节节节=====', this.sub_id)
+    console.log('sub_id节节节=====', this.sub_id)
     this.mooc_issue_id = +this.$route.params.mooc_issue_id // 路由种获取期id
     // console.log('mooc_issue_id=====', this.mooc_issue_id)
     this.getChapter()

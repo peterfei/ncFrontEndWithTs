@@ -49,6 +49,7 @@
           <sidebar-content
             @chapterClick="chapterClick"
             :Syllabuses="Syllabuses"
+            :sub_id="sub_id"
           ></sidebar-content>
         </div>
         <div class="discuss-content" v-if="disscuss">
@@ -254,6 +255,7 @@ export default class VideoSidebar extends Vue {
   @Prop({ default: () => [] }) Syllabuses!: Array<any>
   @Prop({ default: 0 }) mooc_package_id!: number
   @Prop({ default: 0 }) mooc_issue_id!: number
+  @Prop({ default: 0 }) sub_id!: number
   replyDiscusId: null = null
   replyDiscusContent: string = ''
   replyReplyObj: { id?: number } = {}

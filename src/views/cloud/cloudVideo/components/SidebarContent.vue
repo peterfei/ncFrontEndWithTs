@@ -1,5 +1,6 @@
 <template>
   <div class="sidebarContent" v-if="Syllabuses">
+    {{ sub_id }}
     <div v-for="item in Syllabuses" :key="item.index">
       <div class="title">{{ item.title }}</div>
       <ul>
@@ -7,8 +8,9 @@
           v-for="(sidelist, index) in item.child"
           :key="sidelist.id"
           @click="chapterClick(item, sidelist, index)"
+          :class="sidelist.id == sub_id ? 'isActive' : ''"
         >
-          <!-- {{ sidelist }} -->
+          <!-- {{ sidelist.id == sub_id }} -->
           <div class="list">
             <i class="icon iconfont icon-yixuexi"></i>
             <div class="learnCon">
@@ -60,12 +62,17 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component
 export default class SidebarContent extends Vue {
   @Prop({ default: () => [], type: Array }) Syllabuses: Array<any>
+  @Prop({ default: 0 }) sub_id!: number
+
   isActive: boolean = false
   // 点章节
-  chapterClick(aa: any, bb: any) {
+  chapterClick(zid: any, jid: any) {
+    console.log('bb', jid.id)
+    this.sub_id = jid.id
+    console.log(this.sub_id)
     const obj = {
-      zId: aa.id,
-      jId: bb.id
+      zId: zid.id,
+      jId: jid.id
     }
     this.$emit('chapterClick', obj)
   }
@@ -192,5 +199,8 @@ export default class SidebarContent extends Vue {
 .sidebarContent ul li .listIcon {
   display: none;
   margin-right: 20px;
+}
+.sidebarContent ul li.isActive .list .learnCon {
+  color: #ed8322;
 }
 </style>

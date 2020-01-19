@@ -6,11 +6,10 @@
         <el-tab-pane
           v-for="(tab, index) in chapter[0]['data']"
           :key="'tab_' + index"
-          :label="tab.type.toString().concat(tab.id)"
-          @mouseover="changeMask()"
-          @mouseout="mouseout()"
-          @mousemove="mousemove()"
+          :label="tab.type + '_' + tab.id"
+          :id="tab.id"
         >
+          {{ tab.id }}
           <span slot="label">
             <template v-if="tab.type === 1">
               <i class="icon iconfont icon-ziyuan1" :class="tab.icon"></i>
@@ -101,11 +100,12 @@ import CourseMaterials from './CourseMaterials.vue' //资料
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import Cloud from '@/api/cloud'
 
-export interface IMoocTaps {
-  type: string
-  label: string
-  icon: string
-}
+// export interface IMoocTaps {
+//   type: string
+//   label: string
+//   icon: string
+//   name: string
+// }
 @Component({
   components: {
     CourseAssignments,
@@ -117,16 +117,22 @@ export interface IMoocTaps {
 export default class HeaderNav extends Vue {
   @Prop({ default: () => {} }) chapter!: Array<any>
   @Prop({ default: () => {} }) questionData!: object
+  // @Prop({ default: 0 }) aid!: number
   clickIndex: number = 0
   testInformation: any
   qs: Array<any> = []
   // vid: string = '9f25c5058d794d68beb0216bb031f42e'
-  public tabs: Array<IMoocTaps> = [
-    { label: '课程测试', type: 'test', icon: 'icon-ceyan' },
-    { label: '课程作业', type: 'task', icon: 'icon-zuoyelianxi' },
-    { label: '课程播放', type: 'player', icon: 'icon-ziyuan1' },
-    { label: '课程资料', type: 'materials', icon: 'icon-ziliao' }
-  ]
+  // public tabs: Array<IMoocTaps> = [
+  //   { label: '课程测试', name: 'test', type: 'test', icon: 'icon-ceyan' },
+  //   { label: '课程作业', name: 'task', type: 'task', icon: 'icon-zuoyelianxi' },
+  //   { label: '课程播放', name: 'player', type: 'player', icon: 'icon-ziyuan1' },
+  //   {
+  //     label: '课程资料',
+  //     name: 'materials',
+  //     type: 'materials',
+  //     icon: 'icon-ziliao'
+  //   }
+  // ]
   @Watch('chapter')
   chapterWatcher() {
     console.log('on-chapter change:', this.chapter)
@@ -142,7 +148,15 @@ export default class HeaderNav extends Vue {
   }
   async tabClick(e: any) {
     const type = +e.label[0]
-    // console.log('!!!', type)
+    const label = e.label
+    const typeTitle = label.split('_')[1]
+    const query = {
+      ...this.$route.query,
+      id: typeTitle
+    }
+    this.$router.push({
+      query
+    })
     let tmp = -1
     if (e.index == undefined) {
       tmp = e
